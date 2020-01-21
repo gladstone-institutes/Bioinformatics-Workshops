@@ -1,2 +1,2 @@
-#intro-pathway-modeling
+# intro-pathway-modeling
 [Link to wiki page](https://github.com/gladstone-institutes/Bioinformatics-Workshops/wiki/Introduction-to-Pathway-Modeling)
