@@ -1,3 +1,0 @@
-Short blurb
-
-Long blurb
