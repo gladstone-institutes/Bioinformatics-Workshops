@@ -1,5 +1,5 @@
 ## Main Page
-Visit [https://github.com/gladstone-institutes/Bioinformatics-Presentations/wiki](https://github.com/gladstone-institutes/Bioinformatics-Presentations/wiki) for a curated set of user tutorials.
+Visit https://github.com/gladstone-institutes/Bioinformatics-Workshops/wiki for a curated set of user tutorials.
 
 ## Accessing Presentations and Materials
 Presentations are organized into directories, containing:
