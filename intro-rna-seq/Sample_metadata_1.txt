@@ -1,0 +1,11 @@
+Sample	Celltype
+A_1	A
+A_2	A
+A_3	A
+A_4	A
+A_5	A
+B_1	B
+B_2	B
+B_3	B
+B_4	B
+B_5	B
