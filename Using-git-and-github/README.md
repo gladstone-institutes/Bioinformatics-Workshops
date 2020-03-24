@@ -8,4 +8,4 @@
 Introduction to what git is and to the commands you'll use most often.
 
 * [workflows.md](https://github.com/gladstone-institutes/Bioinformatics-Workshops/blob/master/Using-git-and-github/workflows.md) 
-Higher-level tips and strategies for more effective usage of git with teams.
+Higher-level tips and strategies for more effective usage of git.
