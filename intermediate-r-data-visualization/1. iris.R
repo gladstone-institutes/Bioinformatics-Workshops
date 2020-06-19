@@ -1,5 +1,5 @@
 #Read data in.
-dat <- read.table("iris.csv", header= TRUE, sep = ",")
+dat <- iris
 
 #Plot using 'base' graphics.
 plot(x = dat$Sepal.Length, y = dat$Petal.Length,
