@@ -1,5 +1,5 @@
 #setwd()
-setwd("~/Dropbox (Gladstone)/Bioinformatics/Training_Workshops/Gladstone-internal/Intermediate_RNA-seq_Fall_2019")
+setwd("~/Dropbox (Gladstone)/Gladstone chapters/Workshops/2020/intermediate-r-rna-seq")
 
 library(magrittr)
 library(edgeR)
@@ -34,7 +34,7 @@ colnames(GenewiseCounts) %<>% substring(.,1,7)
 #Concept 1: MA plots
 #------------------------
 
-two_samples <- GenewiseCounts[, c(2, 3)] %>% #Replicate samples
+two_samples <- GenewiseCounts[, c(2, 13)] %>% #Replicate samples
   add(., 1) %>%
   log2()
 
@@ -125,7 +125,7 @@ legend("top", legend=levels(group) %>% substr(., 1, 3),
        pch=pch, col=colors, ncol=2, cex = 0.5)
 
 #PCA plot
-cpm <- cpm(y, log = TRUE, prior.count = 0.01)
+cpm <- cpm(y, log = TRUE)
 rv <- apply(cpm,1,var) 
 
 #Select genes with highest variance.
