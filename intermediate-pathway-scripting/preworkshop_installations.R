@@ -22,7 +22,6 @@ load.libs <- c(
   "clusterProfiler",
   "dplyr",
   "tidyr",
-  "ggplot2",
   "stringr",
   "RColorBrewer",
   "rWikiPathways",
