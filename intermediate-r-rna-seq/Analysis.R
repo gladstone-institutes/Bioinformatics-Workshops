@@ -1,12 +1,14 @@
 #setwd()
-setwd("~/Dropbox (Gladstone)/Bioinformatics/Training_Workshops/Gladstone-internal/Intermediate_RNA-seq_Fall_2019")
+setwd("~/Dropbox (Gladstone)/Gladstone chapters/Workshops/2020/intermediate-r-rna-seq")
 
 library(magrittr)
 library(edgeR)
 library(org.Mm.eg.db)
-library(ggplot2)
 library(tidyverse)
-library(vioplot)
+
+#----------------------------
+#Load and organize data.
+#----------------------------
 
 phenotype_info_file <- "targets.txt"
 raw_counts_file <- "GSE60450_Lactation-GenewiseCounts.txt.gz"
@@ -15,7 +17,7 @@ raw_counts_file <- "GSE60450_Lactation-GenewiseCounts.txt.gz"
 targets <- phenotype_info_file %>%
   read.delim(., stringsAsFactors=FALSE)
 
-#This is equivalent to 
+#The above statement is equivalent to 
 # targets <- read.delim(phenotype_info_file, stringsAsFactors = FALSE)
 
 group <- targets %$%
@@ -28,13 +30,11 @@ GenewiseCounts <- raw_counts_file %>%
 
 colnames(GenewiseCounts) %<>% substring(.,1,7)
 
-# colnames(GenewiseCounts)[-1] <- group
-
 #------------------------
 #Concept 1: MA plots
 #------------------------
 
-two_samples <- GenewiseCounts[, c(2, 3)] %>% #Replicate samples
+two_samples <- GenewiseCounts[, c(2, 13)] %>% #Replicate samples
   add(., 1) %>%
   log2()
 
@@ -81,6 +81,8 @@ cutoff <- y$samples$lib.size %>%
   divide_by(minimum_counts_reqd, .) %>% 
   round(., 1)
 
+#... or simply set cutoff to 0.5
+
 keep <- cpm(y) %>%
   is_greater_than(., cutoff) %>%
   rowSums() %>%
@@ -97,86 +99,15 @@ y <- y[keep, , keep.lib.sizes=FALSE]
 #-------------------------
 y <- calcNormFactors(y)
 
-#What's under the hood?
+#What has calcNormFactors got under the hood?
+#See the slides and TMM_normalization_steps.R
 
-cnts <- y$counts %>% as.matrix()
-lib.sizes <- apply(cnts, 2, sum)
-
-cnts_adjst_libsize <- map_dfc(colnames(cnts), 
-                              function(x) cnts[, x]/lib.sizes[x]) %>%
-  set_colnames(., colnames(cnts))
-
-vioplot(cnts_adjst_libsize)
 #Intuitively, we should expect similar adjustments for similar samples.
-
-f <- apply(cnts_adjst_libsize, 2, 
-           function(x) quantile(x,p=0.75))
-
-ref <- (f - mean(f)) %>% 
-  abs() %>% 
-  which.min()
-
-TMM_norm_factors <- 
-  map_dfc(colnames(cnts), 
-          function(x, logratioTrim=.3, sumTrim=0.05, 
-                   doWeighting=TRUE, Acutoff=-1e10) {
-            
-            #The following steps are excerpted from edgeR's source.
-            nO <- lib.sizes[x]
-            nR <- lib.sizes[ref]
-            
-            obs <- cnts[, x] %>% as.numeric()
-            ref <- cnts[, ref] %>% as.numeric()
-            
-            logR <- log2(obs/nO) - log2(ref/nR)         # log ratio of expression, accounting for library size
-            absE <- (log2(obs/nO) + log2(ref/nR))/2  # absolute expression
-            v <- (nO-obs)/nO/obs + (nR-ref)/nR/ref   # estimated asymptotic variance
-            
-            #	remove infinite values, cutoff based on A
-            fin <- is.finite(logR) & is.finite(absE) & (absE > Acutoff)
-            
-            logR <- logR[fin]
-            absE <- absE[fin]
-            v <- v[fin]
-            
-            if(max(abs(logR)) < 1e-6) return(1)
-            
-            #	taken from the original mean() function
-            n <- length(logR)
-            loL <- floor(n * logratioTrim) + 1
-            hiL <- n + 1 - loL
-            loS <- floor(n * sumTrim) + 1
-            hiS <- n + 1 - loS
-            
-            keep <- (rank(logR)>=loL & rank(logR)<=hiL) & 
-              (rank(absE)>=loS & rank(absE)<=hiS)
-            
-            if(doWeighting)
-              f <- sum(logR[keep]/v[keep], na.rm=TRUE) / sum(1/v[keep], na.rm=TRUE)
-            else
-              f <- mean(logR[keep], na.rm=TRUE)
-            
-            #	Results will be missing if the two libraries share no features with positive counts
-            #	In this case, return unity
-            if(is.na(f)) f <- 0
-            2^f
-          }) %>%
-  data.frame() %>% 
-  as.numeric() 
-
-#Rescale norm factors for convenience of interpretation.
-rescale <- TMM_norm_factors %>% 
-  log() %>%
-  mean() %>%
-  exp()
-
-TMM_norm_factors %<>% divide_by(., rescale)
-
 #Plot the normalization factors by sample.
 ggplot(y$samples %>% 
          cbind(., replicate = factor(1:2)), 
        aes(x = group, y = norm.factors, fill = replicate)) +
-  geom_bar(stat= "identity", position = position_dodge())
+  geom_col(position = position_dodge())
 
 #"A normalization factor below one indicates that a small number of high count genes 
 #...are monopolizing the sequencing, causing the counts for other genes to be lower 
@@ -190,11 +121,11 @@ ggplot(y$samples %>%
 pch <- c(0,1,2,15,16,17)
 colors <- rep(c("darkgreen", "red", "blue"), 2)
 plotMDS(y, col=colors[group], pch=pch[group])
-legend("top", legend=levels(group), pch=pch, col=colors, ncol=2, 
-       text.width = 0.1)
+legend("top", legend=levels(group) %>% substr(., 1, 3), 
+       pch=pch, col=colors, ncol=2, cex = 0.5)
 
 #PCA plot
-cpm <- cpm(y, log = T, prior.count = 0.01)
+cpm <- cpm(y, log = TRUE)
 rv <- apply(cpm,1,var) 
 
 #Select genes with highest variance.
