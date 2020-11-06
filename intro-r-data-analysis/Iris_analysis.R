@@ -131,3 +131,8 @@ for (item in spcs) {
   print(item)
   print(smry)
 }
+
+
+
+
+

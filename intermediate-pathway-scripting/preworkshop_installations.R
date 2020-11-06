@@ -1,6 +1,3 @@
-## Run this R script prior to the workshop. You can open it in RStudio and click "Source". 
-## These pacakges require R version 3.6.0 or later. Check by typing: R.version.string
-##
 ## Open this script in RStudio and step through it line-by-line, reading the comments as you go.
 ##
 ## Please confirm the "Success" message prior to attending the workshop.  If the script produced an "Error" 
@@ -22,7 +19,6 @@ load.libs <- c(
   "clusterProfiler",
   "dplyr",
   "tidyr",
-  "ggplot2",
   "stringr",
   "RColorBrewer",
   "rWikiPathways",
