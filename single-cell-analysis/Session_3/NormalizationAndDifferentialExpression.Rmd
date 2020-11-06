@@ -1,0 +1,398 @@
+---
+title: "Statistically rigorous normalization and differential expression analyses using scRNA-seq data"
+author: "Reuben Thomas"
+date: "5/14/2019"
+output:
+  html_document:
+    fig_width: 8
+    fig_height: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Background
+
+David went over a series of steps involved in processing scRNA-seq data in general. The aims of these steps included loading, filtering, normalizing for differences between cells, visualizing and clustering the data. He used the data from this study that aimed to understand the effects of stromal cells in developing tumors. 
+
+To further illustrate and develop the ideas, methods and steps, I will use a subset of cells from this melanoma data - cells marked by CD45- GFP+ CD31- or inferred  as cancer-associated fibroblasts at the 5 day and 11 day time-points. The main reason for choosing this subset is so that we have data of a  managable size to perform the planned analyses in this section in the alloted time. You should be able to extend the methods/code to data with larger number of cells and/or variables. 
+
+
+**Biological question:** 
+
+
+Identify a set of genes whose mean (across sampled animals, **note:** I don't say sampled cells) expression changes from the 5 day to the 11 day time-point in tumor cancer-associated fibroblast cells given the **experiment design**.
+
+
+**Experimental Design:** At each time-point (5 day or 11 day) cancer associated fibroblast cells are randomly sampled from two mice that are in turn randomly sampled from a pool of C57BL/6 mice. The expression of all genes within each of the cells are assayed using the SMART-Seq2 protocol.
+
+We are interested in the effect of time on gene expression in cancer-associated fibroblasts. However, the expression of gene in a cell is variable not just because of biological reasons like cell-to-cell (intra-animal) and animal-to-animal (inter-animal) variability but also due to technical reasons like the differences in sequencing depth from cell-to-cell, library preparation, animal handling etc. If we don't fully account for these sources of variation then our results/interpretation may be incorrect. For example, the clustering of cells may be driven by some techninal factors.
+
+Ideally, the claim we would like to make would be as generalizable as possible, i.e., if somebody else were to repeat the experiment above, go back and randomly sample animals, randomly sample cells from each of these animals at two time-points and sequence the RNA in these cells they would make similar claims. So we would like to demonstrate to a sceptical reviewer that despite all the variability in expression we can claim that the fact that we observe mean expression of a gene at day 11 is _x_ times higher than its expression at day 5 is unlikely to driven by random chance. Therefore, in arriving at our conclusions  we would formally need to account for the different sources of variation. We will do so in two steps:
+
+
+1. Normalization
+2. Differential expression
+
+The first step will be performed using an R bioconductor package called _zinbwave_ while the second will use a combination of _zinbwave_ and _edgeR_ (a package that should be familiar to someone who has performed differential expression using bulk rna-seq).
+
+Normalization is aimed at reducing the bias and amount variation of the measurement without information about the variable of interest (time in our case). It typically has been used with high-dimensional data (microarrays, bulk rna-seq, mass spec) where multiple features (genes, proteins) are assayed per sample. They are all based on the assumption that "most" features (e.g., levels of expression of genes) should not be different from one sample to another irrespective of the underlying the condition (e.g. in our case irrespective of whether a cell is taken from an animal at the 5 day time-point or the 11 day time-point).
+
+
+We will a relatively sophisticated method called _zinbwave_ for this. This method has been developed to explicitly account for an important characteristic of scRNA-seq data: a disproportionate number of zeros as compared with bulk rna-seq data. This characteristic is more formally called _zero inflation_, also called _gene dropout_ and denotes the observation that for a given gene we do not observe any counts/reads assigned to it for a relatively large proportion of cells in the experiment. This could be due to biological or technical reasons.
+
+
+
+The default _log normalization_ in _Seurat_ does not either take into account this _zero inflation_ or the underlying probability distribution of the data while _zinbwave_ jointly models the observed counts (greater than zero) and the zero counts. More formally, _zinbwave_ models the expression of a given gene across all cells in the study as coming from a mixture of two probability distributions - a bernoulli (coin-toss) distribution that models that probability that a given gene's reads dropout in a given cell and negative binomial distribution that models the counts of reads of this gene assigned to the given cell. The _zinbwave_ program has additional flexibility allowing the mean levels to modified by sample/cell level covariates (e.g., processing batch) and gene level covariates (e.g., gene length and GC content). This is particularly useful as it has been shown (see [Hicks et al](https://watermark.silverchair.com/kxx053.pdf?token=AQECAHi208BE49Ooan9kkhW_Ercy7Dm3ZL_9Cf3qfKAc485ysgAAAnwwggJ4BgkqhkiG9w0BBwagggJpMIICZQIBADCCAl4GCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMUAXCRYLzXHBn9TARAgEQgIICLzd_4rrfoqY3fuzutuvI1N2e4_JQJBM5U5hs-fWepUKt_sfHpRXmZ7E1R-Xb4T-RF3DvOrJWDSBfpmWaXsIaIFkuX2r12V43NvQ93SLcgn3FXpIHoOrZrXaMfy29d-_qJaE1ZX_7vSmoX2tPaQM2JMGRadtjGbd0-aEq44qVRK_eL43OyVJ3fidj-Fz3e4ubT9uTf8IS9o-S22FPW6Be-lKkzxSEY_b3HvPpgoc-yVpNsQ7vd0YTZcmeLXBGeY3wfbsP4bwyTnoJXj3y6BJhXxbuW3d71il-FsrEReqDyBNydAFF7LfNf5Dp_LibFydToq2QJSzRdJUh7jR2wAhuzyXt7Ud5i5xqPy2b06xcEKyMXjXx4bx5UIpoGHPGSzRdATt-LiwGAL9psM8kGRSFmUBOastXLaKG0EOKc3WOYQjXTEEjl6EPauH5oMgC5t-Ff26Cpu0jN1pvzQX41u--ag_jzks2cwZisCtp8CXoqdE-kuyHxExrLb13w2besNzUDP1GOVf4zeRhdQqOEKpIRtnMaGaJP21Ggw_BHg00IDfM_9l2_wK7CjxoepTc34MfjJsT43jFNBxxOOqEhABwM1m8xy3mHqiOxA-Plpe-lJfUiysKtYhciJVCEl-adQCUduixx3RYHU1Vgw1O5TxAfaHbS-4U2z9IS5A22_-YbhUsOLf5KELI3GpvIHXFYp7JKbc5bYC8E_DanAiB91QecDnWFLLLaNFP7lirWvqy6_U)) that proportion of genes detected per cell in a study is a good surrogate for technical variation (e.g., batch). Two additional features of the _zinbwave_ program makes its particularly useful for our purposes today:
+
+1. It computes a lower (e.g. 2) dimensional (like Principal Component Analyses (PCA) for those of you who have heard of it) of the data for each cell after accounting for the variation as accounted for the sample-level variation. This would help us visualize the data. 
+2. It computes a weight for each gene and cell combination that is intented to capture the fact whether a given gene is a dropout in a given cell or not. These weights can then be using for differential expression using _edgeR_ to allow for correct estimates of dispersion/variation of the underlying negative binomial distribution of the counts of genes in cells. The _edgeR_ framework allows to include more complicated experimental designs in the process of estimating differential expression. Specifically, we need to account for the fact that all the cells in the study are not independent, they dependent on their animal of origin. We would also like for our inference to be enhanced with information about the cluster of cells or cell-type. For example, may be certain genes are associated with time in only some clusters. 
+
+So lets get started with first loading the necessary libraries and the associated data for the subset of cells we are going to be working with.
+
+```{r}
+##remove all data: start from scratch
+rm(list = ls())
+#Load the libraries.
+require(Seurat)
+require(zinbwave)
+require(SummarizedExperiment)
+require(edgeR)
+require(hopach)
+require(pheatmap)
+require(ggplot2)
+
+raw_data <- read.csv("rawCounts.csv", header = T)
+pheno_data <- read.csv("sub_pheno_data.csv", header = T)
+print(dim(raw_data))
+print(dim(pheno_data))
+head(pheno_data)
+```
+
+Like before, we will map the ensembl ids to gene symbols and load the data as a Seurat object. Seurat provides convenient functions to filter the cells and visualize the data. We will then use the data from the filtered cells for the zinbwave/normalization and edgeR/differential expression analyses. This section of the code is mostly based on what you had seen in David's session.
+
+```{r}
+mm10_genes <- read.csv("mm10_genes.tsv", header=FALSE, sep='\t', stringsAsFactors=FALSE,
+                       col.names=c("ensembl_id", "gene_symbol"))
+
+gene_ids <- as.character(raw_data$Geneid)
+
+raw_data <- raw_data[,-1]
+row.names(raw_data) <- gene_ids
+
+# Map ENSEMBL Ids to their gene symbols
+TempIndices <- match(gene_ids, mm10_genes$ensembl_id)
+raw_data <- raw_data[!is.na(TempIndices), ]
+CheckIds <- row.names(raw_data)[1:5]
+NonUniqueGeneSymbols <-  mm10_genes$gene_symbol[TempIndices[!is.na(TempIndices)]]
+UniqueGeneSymbols <- paste(NonUniqueGeneSymbols, 1:length(NonUniqueGeneSymbols), sep="_")
+row.names(raw_data) <- UniqueGeneSymbols
+colnames(raw_data) <- pheno_data$X
+
+row.names(pheno_data) <- as.character(pheno_data$X)
+pheno_data <- pheno_data[,-1]
+
+# Finally, wrap this matrix up in a Seurat Object
+data <- CreateSeuratObject(counts=raw_data,
+                           project="basic_analysis",
+                           min.cells=3,
+                           min.features=200,
+                           names.delim=NULL,
+                           meta.data = pheno_data)
+
+# First, find all mitochondrial genes, and count them as a percentage of total reads/cell
+# In mouse, mitochondrial genes start with "mt-" so find all genes that match that pattern
+# If you were doing this in a human dataset the pattern would be "^MT-"
+data[["percent_mt"]] <- PercentageFeatureSet(object=data, pattern="^mt-")
+
+
+# Typically, you would use much lower thresholds for mitochondrial genes (< 5%)
+# This data set has lots of highly expressed mitochondrial genes though, so we'll leave them
+quantnCountRNA <- quantile(data@meta.data$nCount_RNA, 0.05)
+data <- subset(x=data, subset=nFeature_RNA > 200 & nCount_RNA > quantnCountRNA & percent_mt < 20)
+
+print(sprintf("After filtering outliers: %d cells and %d genes", ncol(data), nrow(data)))
+
+# For raw count data, we would typically do LogNormalization:
+data <- NormalizeData(object=data, normalization.method="LogNormalize", scale.factor=10000)
+# Again, these are the defaults, generate 2000 features using the "vst" feature selection method
+data <- FindVariableFeatures(object=data, selection.method="vst", nfeatures=2000)
+
+
+# Rescale all the genes
+scale_genes <- rownames(data)
+# If this takes too long, you can only rescale the variable genes
+# scale_genes <- VariableFeatures(object=data)
+data <- ScaleData(object=data, features=scale_genes)
+
+# Use the highly variable genes to find principal components
+data <- RunPCA(object=data, features=VariableFeatures(object=data))
+
+data <- RunTSNE(object=data, dims=1:15)
+data <- FindNeighbors(data, dims = 1:15)
+data <- FindClusters(object = data, resolution = 0.5)
+
+```
+
+Now let us visualize the data by time,
+```{r}
+DimPlot(object = data, reduction = "tsne", group.by = "Time")
+```
+by gene drop-out,
+```{r}
+FeaturePlot(object = data, features = "nFeature_RNA")
+FeaturePlot(object = data, features = "PC_1")
+DimPlot(object = data, reduction = "tsne")
+FeatureScatter(object=data, feature1="nFeature_RNA", feature2="PC_1")
+```
+by individual replicate,
+```{r}
+DimPlot(object = data, reduction = "tsne", group.by = "Individual")
+```
+by the identified clusters,
+```{r}
+DimPlot(object = data, reduction = "tsne")
+```
+
+Now, we get to the hero of this session, _zinbwave_.
+We will load the data in a fashion (i.e., as a _SummarizedExperiment_ object) that _zinbwave_ understands.
+```{r}
+##zinbwave analyses
+rawData <- ((as.matrix(data@assays$RNA@counts)))
+PhenoData <- data.frame(data@meta.data)
+row.names(PhenoData) <- colnames(rawData)
+demoSE <- SummarizedExperiment(assays=list(counts=rawData), colData=PhenoData)
+
+```
+So far you have filtered the cells in Seurat. Now, we are going to filter out genes that may be less informative. I am going to use a pretty stringent threshold in this session. A gene is included for further analyses if it has a count of at least 30 in at least 30 cells. This is so that things run in a reasonably fast today. Please alter this threshold when you run your own analyses. 
+```{r}
+filter <- rowSums(assay(demoSE)>30)>30
+table(filter)
+demoSE <- demoSE[filter,]
+assayNames(demoSE)[1] <- "counts"
+```
+Now we will run (or not,:)) the main analyses associated with _zinbwave_. Each of these commands takes around 15 minutes. So we will not run these today. I have provided the resulting output as an R object  that you can load for further analyses. Note, these commands can work quicker if you have multiple cores on your machine. If you don't then do not include the _BPPARAM_ option in the command. Also, it is important to note that this normalization takes into account variation is gene detection rate (as nFeature_RNA) to potentially model (out) potential technical sources of variation
+```{r}
+# ###if you have multiple cores on your machine you can run the following commands to use 4 cores
+# default <- registered()
+# register(SnowParam(workers = 4), default = TRUE)
+# names(registered())
+# 
+# ###this command provides all the model parameter estimates. It is useful when you want to estimate the model fit. This is specifically where you want to decide on the best low-dimensional representation of your data. That is, the best choice for the parameter K. We will run this only for the K=0 option during this session 
+# demoModel <- zinbFit(demoSE, X="~nFeature_RNA", K=0, BPPARAM = BiocParallel::bpparam())
+# 
+# ###This command provides a low-dimensional representation of the normalized data. We chose K=2 here. But ideally, you want to choose K based on the Akaike Information Criterion (AIC) using the above model fits for different values of K
+# demo_2 <- zinbwave(demoSE, X="~nFeature_RNA", K=2, BPPARAM = BiocParallel::bpparam())
+# 
+# ###This command will have the weights we will use in the edgeR-based gene expression analyses
+# demo_0 <- zinbwave(demoSE, X="~nFeature_RNA", K=0, BPPARAM = BiocParallel::bpparam())
+# 
+# save.image(file = "demo_Model_K_0_and_2.RData")
+load("demo_Model_K_0_and_2.RData")
+
+```
+
+We can now ask Seurat to use the normalized data from znbwave to visualize,
+```{r}
+require(Seurat)
+##Use zinb normalized/reduced-dimension data in seurat
+data <- as.Seurat(x = demo_2, counts = "counts", data = "counts")
+##reduction="zinbwave" is how we tell Seurat to work with the zinbwave data
+data <- FindNeighbors(data, reduction = "zinbwave",
+                     dims = 1:2 #this should match K
+)
+data <- FindClusters(object = data, resolution = 0.5)
+data <- RunTSNE(object=data, dims=1:2, reduction = "zinbwave")
+```
+Now again, let us visualize the normalized data by time,
+```{r}
+DimPlot(object = data, reduction = "tsne", group.by = "Time")
+```
+by individual replicate,
+```{r}
+DimPlot(object = data, reduction = "tsne", group.by = "Individual")
+```
+by the identified clusters,
+```{r}
+DimPlot(object = data, reduction = "tsne")
+```
+
+```{r}
+FeaturePlot(object = data, features = "nFeature_RNA")
+```
+
+We are now going to perform gene expression association analyses. Before, doing that we need to ensure that we have defined all the variables of interest - time, cluster, individual/replicate..
+```{r}
+Clusters <- data@active.ident
+NClusters <- length(unique(Clusters))
+
+##add cluster variable to the phenotype matrix
+PhenoData <- cbind(PhenoData, Clusters)
+print(levels(PhenoData$Clusters))
+
+##check the reference level of the time variable and we are making sure to have Day 5 as the reference level
+print(levels(PhenoData$Time))
+PhenoData$Time <- relevel(PhenoData$Time, ref = "5 day")
+print(levels(PhenoData$Time))
+
+
+###The experimental design that the researchers chose, had two replicates per time-point in these facs sorted cells. So we have a hierarchical design - for a given time-point, two individuals are chosen. We are therefore going to relabel the individuals to reflect this.
+##rename the individuals
+Individuals01 <- PhenoData$Individual
+##Day 5 individuals
+Day5Individuals <- unique(PhenoData$Individual[PhenoData$Time=="5 day"])
+for(i in 1:length(Day5Individuals)) {
+  Individuals01[PhenoData$Individual == Day5Individuals[i]] <- i-1
+}
+##Day 5 individuals
+Day11Individuals <- unique(PhenoData$Individual[PhenoData$Time=="11 day"])
+for(i in 1:length(Day11Individuals)) {
+  Individuals01[PhenoData$Individual == Day11Individuals[i]] <- i-1
+}
+
+##Add this to the PhenoData matrix
+PhenoData <- data.frame(PhenoData, Individuals01)
+
+```
+
+Let us now define our model for variation of gene expression,
+```{r}
+
+design <- model.matrix(~nFeature_RNA + Clusters +  Time:Individuals01 + Time + Clusters:Time, data = PhenoData)
+
+```
+
+We are modeling the variation of expression as a function of time, the underlying heterogenity of the cells types as captured by the cluster membership, the interaction between these two variables, the individuals from which these cells are drawn and of course potential technical sources of variation as capture by the gene detection rate.
+
+Now, we are ready to bring in our supporting hero, _edgeR_.
+```{r}
+##association analyses with DiffTime
+require(edgeR)
+##get the weights from the zinbwave model fit
+weights <- assay(demo_0, "weights")
+##get the raw counts
+FullCounts <- assay(demo_0)
+
+##define the edgeR object
+dge <- DGEList(FullCounts)
+##normalize the gene counts across cells
+dge <- calcNormFactors(dge)
+
+dge$weights <- weights
+
+##estimate dispersion (variance of expression across cells taking into account the underlying experiment design and using the weights output from zinbwave)
+dge <- estimateDisp(dge, design)
+
+##fit the linear model
+fit <- glmFit(dge, design)
+
+save(fit, dge, PhenoData, design, file = "demo_edgeR_zinbwave_data.RData")
+
+
+```
+
+Now we need to decide on a composite set of null hypothesis to test,
+```{r}
+load("demo_edgeR_zinbwave_data.RData")
+Coef <-  fit$coefficients
+head(Coef)
+UseCoefIndices <- c(6, 9, 10, 11)
+lrt <- glmWeightedF(fit, coef = UseCoefIndices)
+
+top <- (topTags(lrt, n=nrow(FullCounts)))$table
+write.csv(top, "DiffTimeAssociation_demo.csv")
+
+```
+
+We are now going to further parse out the pattern of behavior of genes that passed the statistical significance threshold (FDR < 0.05).  We will use the normalized data from _zinbwave_ and cluster these data using _hopach_.
+```{r}
+##generate heatmap of differentially expressed genes
+DiffExpResults <- read.csv("DiffTimeAssociation_demo.csv", header = T)
+
+ChooseGenes <- (DiffExpResults$FDR < 0.05)
+sum(ChooseGenes)
+##Normalized data from zinbwave
+NormData <- computeDevianceResiduals(demoModel, t(assay(demo_2)), ignoreW = TRUE)
+NormData <- t(NormData)
+TempIndices <- match((DiffExpResults$X)[ChooseGenes], row.names(NormData))
+NormData <- NormData[TempIndices, ]
+
+Time <- PhenoData$Time
+Clusters <- PhenoData$Clusters
+TimeClusters <- paste(Time, Clusters, sep="_")
+
+
+NormDataReorder <- NormData[,order(TimeClusters)]
+NormDataReorder <- NormDataReorder[complete.cases(NormDataReorder),]
+
+##Use hopach to cluster the genes
+require(hopach)
+ClusterD <- NormDataReorder
+pept.dist <- distancematrix(ClusterD,"cosangle")
+pept.hobj <- hopach(ClusterD, dmat=pept.dist, clusters="best", initord="clust")
+NClust <- pept.hobj$clust$k
+Sizes <- pept.hobj$clust$sizes
+MedoidPeps <- pept.hobj$clust$medoids
+Order <- pept.hobj$clust$order
+
+makeoutput(ClusterD,pept.hobj,file="HopachOutput_demo.txt")
+ClusterInfo <- read.table("HopachOutput_demo.txt", header = TRUE)
+
+
+```
+
+We are now to visulize the patterns in resulting clusters using _pheatmap_ and _ggplot2_.
+```{r}
+Gaps <- vector(mode = "numeric")
+Gaps[1] <- Sizes[1] + 1
+if(NClust > 2) {
+  for(i in 2:(NClust-1)) {
+    Gaps[i] <- Gaps[i-1] + Sizes[i]
+  }
+}
+
+GeneExpression2View <- ClusterD[order(ClusterInfo$Final.Level.Order), ]
+simpleredbluecols = colorRampPalette(c("blue","white","red"))(200)
+ClustersHeatMap <- Clusters[order(TimeClusters)]
+TimeHeatMap <- Time[order(TimeClusters)]
+
+df <- data.frame(Clusters=ClustersHeatMap, Time=TimeHeatMap)
+GeneExpression2View_Center <- GeneExpression2View
+row.names(df) <- colnames(GeneExpression2View_Center)
+
+require(pheatmap)
+paletteLength <- 200
+GeneExpression2View_Center_Limit <- GeneExpression2View_Center
+GeneExpression2View_Center_Limit[GeneExpression2View_Center_Limit > 3] <- 3
+GeneExpression2View_Center_Limit[GeneExpression2View_Center_Limit < -3] <- -3
+
+# myBreaks <- c(seq(min(GeneExpression2View_Center, na.rm = TRUE), 0, length.out=ceiling(paletteLength/2) + 1),
+#               seq(max(GeneExpression2View_Center, na.rm = TRUE)/paletteLength, max(GeneExpression2View_Center, na.rm=TRUE), length.out=floor(paletteLength/2)))
+
+myBreaks <- c(seq(min(GeneExpression2View_Center_Limit, na.rm = TRUE), 0, length.out=ceiling(paletteLength/2) + 1), 
+              seq(max(GeneExpression2View_Center_Limit, na.rm = TRUE)/paletteLength, max(GeneExpression2View_Center_Limit, na.rm=TRUE), length.out=floor(paletteLength/2)))
+
+##View the results using pheatmap
+# pdf("demo_heatmap_diff_exp_genes.pdf")
+pheatmap(GeneExpression2View_Center_Limit, cluster_rows=FALSE, show_rownames=FALSE, show_colnames=FALSE, cluster_cols=FALSE, annotation_col=df, color = simpleredbluecols, breaks = myBreaks, gaps_row=Gaps)
+# dev.off()
+
+# pdf("HOPACH_cluster_profiles_demo.pdf")
+for(i in 1:NClust) {
+  print(i)
+  PlotData  <- data.frame(cbind(y=(ClusterD[MedoidPeps[i],])))
+  PlotData <- cbind(TimeClusters=TimeClusters[order(TimeClusters)], PlotData)
+  p <- ggplot(PlotData, aes(TimeClusters, y)) + geom_boxplot()  + xlab("Condition") + ylab("Mediod gene expression") + ggtitle(paste("Cluster", i, "; Size = ", Sizes[i])) 
+  
+  p <- p + coord_flip()
+  print(p)
+}
+# dev.off()
+
+```
+Cd34 one of the markers of the cancer associated fibroblasts that is highlighted in the manuscript makes the list of genes whose expression is associated with time. Let us find out which cluster it belongs to.
+```{r}
+print(ClusterInfo$Cluster.Label[grep("Cd34", ClusterInfo$UID)])
+```
