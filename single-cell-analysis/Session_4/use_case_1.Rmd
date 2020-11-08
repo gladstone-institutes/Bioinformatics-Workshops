@@ -1,0 +1,65 @@
+---
+title: "scNetViz: Use case #1"
+author: "Krishna Choudhary, Alex Pico"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+In this example, we will browse a single cell expression atlas, explore a particular dataset, perform differential expression analysis based on provided categories, generate networks from the top genes from each category, and functionally characterize and visualize the networks. 
+
+##Steps 1-2: Load data
+Use the accession number of single-cell experiment to pull data from the  [Single-Cell Experiment Atlas](https://www.ebi.ac.uk/gxa/sc/experiments) of EMBL-EBI.
+
+
+```{r}
+#Load data with Accession number E-GEOD-81383
+RCy3::commandsRun('scnetviz load gxa experiment accession=E-GEOD-81383')
+```
+
+This loads the data and opens an experiment table with three tabs, named _TPM_, _Categories_, and _DiffExp_. 
+
+##Step 3a
+
+Run differential expression analysis for the row with `true` value of `sel.K` (default). 
+```{r}
+RCy3::commandsRun('scnetviz calculate diffexp accession=E-GEOD-81383')
+```
+
+##Step 3b
+
+Fetch protein-protein interaction networks from the [STRING](https://string-db.org/) database.
+
+```{r}
+RCy3::commandsRun('scnetviz create network accession=E-GEOD-81383')
+```
+
+The following command runs Steps 3a-3b simultaneously.
+```{r}
+RCy3::commandsRun('scnetviz create all experiment=E-GEOD-81383')
+```
+
+##Step 4
+
+Check the networks available in the current Cytoscape session.
+```{r}
+RCy3::commandsRun('network list')
+```
+
+Perform functional enrichment analysis for the network selected in the current session. This uses the [_stringApp_](https://www.cgl.ucsf.edu/cytoscape/stringApp/index.shtml). To view the results in the Cytoscape application, you may have to activate the _Show enrichment panel_ option under __STRING Enrichment__ sub-menu from __Apps__ from the menu bar.
+
+```{r}
+RCy3::commandsRun('string retrieve enrichment allNetSpecies=Homo sapiens')
+```
+
+Visit the [scNetViz website](https://www.cgl.ucsf.edu/cytoscape/scNetViz/#networks) for more information.
+
+
+
+
+
+
