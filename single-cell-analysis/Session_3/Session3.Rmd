@@ -1,0 +1,356 @@
+---
+title: 'single-cell RNA-seq workshop: Session 3'
+author: "Reuben Thomas"
+date: "11/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+
+Krishna went over a series of steps involved in processing scRNA-seq data in general. The aims of these steps included loading, filtering, normalizing for differences between cells, visualizing and clustering the data. He used the data from this study that aimed to understand the effects of stromal cells in developing tumors. 
+
+To further illustrate and develop the ideas, methods and steps, I will use a subset of cells from this melanoma data - cells marked by CD45- GFP+ CD31- or inferred  as cancer-associated fibroblasts at the 5 day and 11 day time-points. The main reason for choosing this subset is so that we have data of a  managable size to perform the planned analyses in this section in the alloted time. You should be able to extend the methods/code to data with larger number of cells and/or variables. 
+
+
+**Biological question:** 
+
+1. Identify the main cell-types (or clusters) in the data using marker genes
+2. Identify a set of genes whose mean (across sampled animals, **note:** I don't say sampled cells) expression changes from the 5 day to the 11 day time-point in tumor cancer-associated fibroblast cells given the **experiment design**.
+3. Identify the clusters (cell-types) for which the proportion of cells from each animal belonging to it is associated with the time-point 
+4. Assuming, the data was generated in two different batches, corrected for these effects
+
+**Experimental Design:** At each time-point (5 day or 11 day) cancer associated fibroblast cells are randomly sampled from two mice that are in turn randomly sampled from a pool of C57BL/6 mice. The expression of all genes within each of the cells are assayed using the SMART-Seq2 protocol.
+
+We are interested in the effect of time on gene expression in cancer-associated fibroblasts. However, the expression of gene in a cell is variable not just because of biological reasons like cell-to-cell (intra-animal) and animal-to-animal (inter-animal) variability but also due to technical reasons like the differences in sequencing depth from cell-to-cell, library preparation, animal handling etc. If we don't fully account for these sources of variation then our results/interpretation may be incorrect. For example, the clustering of cells may be driven by some techninal factors.
+
+Ideally, the claim we would like to make would be as generalizable as possible, i.e., if somebody else were to repeat the experiment above, go back and randomly sample animals, randomly sample cells from each of these animals at two time-points and sequence the RNA in these cells they would make similar claims. So we would like to demonstrate to a sceptical reviewer that despite all the variability in expression we can claim that the fact that we observe mean expression of a gene at day 11 is _x_ times higher than its expression at day 5 is unlikely to driven by random chance. Therefore, in arriving at our conclusions  we would formally need to account for the different sources of variation. We will do go over these four steps in the following code:
+
+
+1. Normalization
+2. Identification of marker genes
+3. Multi-sample multi-condition comparison
+4. Batch correction
+
+```{r}
+##remove all data: start from scratch
+rm(list = ls())
+#Load the libraries
+suppressMessages(library(Seurat))
+suppressMessages(library(muscat))
+suppressMessages(library(SummarizedExperiment))
+suppressMessages(library(dplyr))
+suppressMessages(library(magrittr))
+suppressMessages(library(purrr))
+suppressMessages(library(tibble))
+suppressMessages(library(gdata))
+suppressMessages(library(tidyr))
+#source a function I slightly modified from the muscat package for the within-cluster multi-sample multi-condition comparison
+source("pbDS_update.R")
+
+raw_data <- read.csv("rawCounts.csv", header = T)
+pheno_data <- read.csv("sub_pheno_data.csv", header = T)
+print(dim(raw_data))
+print(dim(pheno_data))
+
+##randomly introduce batch information for illustrating batch correction procedure
+##Individuals 1197 and 1235 are assigned to batch 1
+##Individuals 1200 and 1242 are assigned to batch 2
+batch <- rep("batch1", nrow(pheno_data))
+batch[pheno_data$Individual==1200 | pheno_data$Individual==1242] <- "batch2"
+pheno_data <- data.frame(pheno_data, batch)
+
+head(pheno_data)
+
+
+```
+
+We will map the ensembl ids to gene symbols and load the data as a Seurat object. Seurat provides convenient functions to filter the cells and visualize the data. We will then use the data from the filtered cells for the sctransform normalization and further analyses.
+
+```{r}
+
+mm10_genes <- read.csv("mm10_genes.tsv", header=FALSE, sep='\t', stringsAsFactors=FALSE,
+                       col.names=c("ensembl_id", "gene_symbol"))
+
+gene_ids <- as.character(raw_data$Geneid)
+
+raw_data <- raw_data[,-1]
+row.names(raw_data) <- gene_ids
+
+# Map ENSEMBL Ids to their gene symbols
+TempIndices <- match(gene_ids, mm10_genes$ensembl_id)
+raw_data <- raw_data[!is.na(TempIndices), ]
+CheckIds <- row.names(raw_data)[1:5]
+NonUniqueGeneSymbols <-  mm10_genes$gene_symbol[TempIndices[!is.na(TempIndices)]]
+UniqueGeneSymbols <- paste(NonUniqueGeneSymbols, 1:length(NonUniqueGeneSymbols), sep="_")
+row.names(raw_data) <- UniqueGeneSymbols
+colnames(raw_data) <- pheno_data$X
+
+row.names(pheno_data) <- as.character(pheno_data$X)
+pheno_data <- pheno_data[,-1]
+
+# Finally, wrap this matrix up in a Seurat Object
+data <- CreateSeuratObject(counts=raw_data,
+                           project="basic_analysis",
+                           min.cells=3,
+                           min.features=200,
+                           names.delim=NULL,
+                           meta.data = pheno_data)
+
+# First, find all mitochondrial genes, and count them as a percentage of total reads/cell
+# In mouse, mitochondrial genes start with "mt-" so find all genes that match that pattern
+# If you were doing this in a human dataset the pattern would be "^MT-"
+data[["percent_mt"]] <- PercentageFeatureSet(object=data, pattern="^mt-")
+
+
+# Typically, you would use much lower thresholds for mitochondrial genes (< 5%)
+# This data set has lots of highly expressed mitochondrial genes though, so we'll leave them
+quantnCountRNA <- quantile(data@meta.data$nCount_RNA, 0.05)
+data <- subset(x=data, subset=nFeature_RNA > 200 & nCount_RNA > quantnCountRNA & percent_mt < 20)
+
+print(sprintf("After filtering outliers: %d cells and %d genes", ncol(data), nrow(data)))
+
+```
+##Normalization
+Now, we will perform sctranform based normalization and visualize the results
+```{r}
+data <- SCTransform(data, method="qpoisson", vars.to.regress = NULL)
+data <- RunPCA(data, verbose = FALSE)
+data <- RunTSNE(data, dims = 1:30, verbose = FALSE)
+
+data <- FindNeighbors(data, dims = 1:30, verbose = FALSE)
+data <- FindClusters(data, verbose = FALSE)
+DimPlot(data, label = TRUE, reduction = "tsne") 
+DimPlot(data, reduction = "tsne", group.by = "Individual")
+DimPlot(data, reduction = "tsne", group.by = "Time")
+DimPlot(data, reduction = "tsne", group.by = "batch")
+
+## Note there still appears to be an association of PC1 with nFeature_RNA
+FeatureScatter(object=data, feature1="nFeature_RNA", feature2="PC_1")
+FeaturePlot(object = data, features = "nFeature_RNA")
+FeaturePlot(object = data, features = "PC_1")
+
+```
+##Find marker genes for each cluster
+We will find markers using the Wilcoxon two-sample test.
+```{r}
+## Find markers for each of the 5 clusters
+# MarkersRes <- FindAllMarkers(data, assay = "SCT", slot = "data", test.use = "wilcox", return.thresh = 1e-6)
+
+## Find markers for cluster 0
+MarkersRes1 <- FindMarkers(data, ident.1 = 0, assay = "SCT",slot = "data", test.use = "wilcox", return.thresh = 1e-6)
+head(MarkersRes1)
+
+## Find genes associated with time in cluster 0.
+## Note: this is not the recommended approach to do this since instead of individual mice being treated as replicates, the cells are being treated as such
+cluster0_data <- subset(x=data, subset=(seurat_clusters==0))
+MarkersRes0 <- FindMarkers(cluster0_data, ident.1 = "5 day", group.by = "Time", assay = "SCT",slot = "data", test.use = "wilcox", return.thresh = 1e-6)
+VlnPlot(cluster0_data, features = "Tac1-17705", group.by = "Time")
+VlnPlot(cluster0_data, features = "Gm10116-5887", group.by = "Time")
+VlnPlot(cluster0_data, features = "Hspa1l-9322", group.by = "Time")
+
+# pb@assays@data[[1]][row.names(pb@assays@data[[1]]) == "Tac1-17705",]
+# MarkersRes0[row.names(MarkersRes0)=="Tac1-17705",]
+# pb@assays@data[[1]][row.names(pb@assays@data[[1]]) == "Gm10116-5887",]
+# temp_ClusterResult <- tbl[[1]]
+# temp_topClusterResult <- temp_ClusterResult[temp_ClusterResult$p_adj.loc < 1, ]
+# temp_topClusterResult <- temp_topClusterResult[order(temp_topClusterResult$p_adj.loc),]
+# temp_topClusterResult <- data.frame(Gene=row.names(temp_topClusterResult), temp_topClusterResult)
+# temp_topClusterResult[row.names(temp_topClusterResult)=="Gm10116-5887", ]
+# 
+# pb@assays@data[[1]][row.names(pb@assays@data[[1]]) == "Hspa1l-9322",]
+# temp_ClusterResult <- tbl[[1]]
+# temp_topClusterResult <- temp_ClusterResult[temp_ClusterResult$p_adj.loc < 1, ]
+# temp_topClusterResult <- temp_topClusterResult[order(temp_topClusterResult$p_adj.loc),]
+# temp_topClusterResult <- data.frame(Gene=row.names(temp_topClusterResult), temp_topClusterResult)
+# temp_topClusterResult[row.names(temp_topClusterResult)=="Hspa1l-9322", ]
+
+
+## Find genes associated with time in cluster 1.
+## Note: this is not the recommended approach to do this since instead of individual mice being treated as replicates, the cells are being treated as such
+cluster1_data <- subset(x=data, subset=(seurat_clusters==1))
+MarkersRes1 <- FindMarkers(cluster1_data, ident.1 = "5 day", group.by = "Time", assay = "SCT",slot = "data", test.use = "wilcox", return.thresh = 1e-6)
+VlnPlot(cluster1_data, features = "Il1rl1-185", group.by = "Time")
+```
+
+## Multi-sample multi-condition comparison
+We will aggregate the counts across cells from each mouse within each cluster so that now we will be able to perform a pseudo-bulk RNA-seq differential expression separtely within each cluster. Note, we will be able to treat individual mice as replicates with this analyses. For the analyses in this section, we are moving away from Seurat. Hence we need to create a new single-cell RNA-seq object that the typical bioconductor package will recognise. 
+
+### Within -cluster comparison
+The bioconductor package **muscat** will help us with this analysis. I had to slightly modify the primary function in this package (*pbDS*) to work with this data. The modified version (that you have downloaded) is what I sourced at the start of this document. I illustrate below how to set up the design matrix to perform the differential expression analyses. I prefer this approach as opposed to typical approach to assuming a two condition comparison. This way you have a lot of flexibility in modeling more complex design with more than one variable along with interactions between variables of interest.
+
+```{r}
+## Add modified names for the Time and Individual variable to make them work "nice" with the subsequent analysis in this code
+data[["sTime"]] <- (data@meta.data$Time) %>%
+  as.character() %>%
+    gsub(" ", "_", .) %>%
+    make.names()
+data[["sIndividual"]] <- (data@meta.data$Individual) %>%
+  as.character() %>%
+  paste0("Individual_",.)
+
+## Store the meta-data for each cell in the PhenoData object
+PhenoData <- data@meta.data
+
+## For this analysis we are moving away from Seurat. Hence we need to create a new single-cell RNA-seq object that the typical bioconductor package will recognise.
+## Create SingleCellExperiment object
+sce <- SummarizedExperiment(assays=list(counts=data@assays$RNA@counts, logcounts=data@assays$RNA@data), colData=PhenoData)
+sce <- as(sce, "SingleCellExperiment")
+
+## Prep this object for subsequent aggregation analyses
+(sce <- prepSCE(sce, 
+                cluster_id = "seurat_clusters", # subpopulation assignments
+                group_id = "sTime",  # group IDs
+                sample_id = "sIndividual",   # sample IDs 
+                drop = TRUE))  # drop all other colData columns
+
+nk <- length(kids <- levels(sce$cluster_id))
+ns <- length(sids <- levels(sce$sample_id))
+names(kids) <- kids; names(sids) <- sids
+
+##keep those clusters with a median of at least 5 cells across all individual replicates
+##In a real data set you can change 5 to something more realistic (100?)
+toKeep <- table(sce$cluster_id, sce$sample_id) %>% 
+  t() %>% 
+  apply(., 2, function(x) median(x)) %>% 
+  subset(., is_greater_than(., 5)) %>% 
+  names()
+sce <- subset(sce, , cluster_id %in% toKeep)
+
+## Aggregate counts across cells for each mouse (sample_id) within each cluster (cluster_id)
+pb <- aggregateData(sce,
+                    assay = "counts", fun = "sum",
+                    by = c("cluster_id", "sample_id"))
+
+## Visualize the results in a Multi-Dimensional Scaling (MDS) plot  
+(pb_mds <- pbMDS(pb))
+
+## Set up the design matrix. 
+group_id <- colData(pb)[,1]
+mm <- model.matrix(~ group_id)
+colnames(mm) <- levels(pb$group_id)
+# run DS analysis; This is only two group/sample comparison, so we are interested in testing the significance of the seco nd coefficient (that represent the log FC of gene expression between 5 day time-point and the 11 day time-point)
+
+##Note, here I am using the modified version of the function included in the muscat package
+res <- pbDS_update(pb, design=mm, coef=c(2),method="edgeR", verbose=TRUE, min_cells = 3)
+
+##The results are going to be placed in topClusterResults object
+tbl <- res$table
+ClusterNo <- 0
+p_thresh <- 0.05
+topClusterResults <- NULL
+for(i in 1:length(tbl)) {
+  temp_ClusterResult <- tbl[[i]]
+  temp_topClusterResult <- temp_ClusterResult[temp_ClusterResult$p_adj.loc < p_thresh, ]
+  temp_topClusterResult <- temp_topClusterResult[order(temp_topClusterResult$p_adj.loc),]
+  temp_topClusterResult <- data.frame(Gene=row.names(temp_topClusterResult), temp_topClusterResult)
+  topClusterResults <- rbind(topClusterResults, temp_topClusterResult)
+}
+head(topClusterResults)
+```
+### Between -cluster comparison
+For this analyses, we will use the **lme4** package in R to fit generalized linear mixed effects models. We are going the model the change in the chance (or more formally the odds) of cells from a given mouse belonging to a given cluster from the 5 day to the 11 day time-point. The random effects part of these models captures the inherent correlation between the cells coming from the same mouse
+```{r}
+##the number of cells in each mouse in each cluster
+Ncells <- as.data.frame(metadata(pb)$n_cells)
+print(Ncells)
+
+##determine the total number of cells per mouse
+Ncells <- Ncells %>%
+  filter(Freq > 0)
+short_Ncells <- Ncells %>% 
+  spread(sample_id, Freq)
+
+TotalCells <- colSums(short_Ncells[,-1], na.rm = T)
+names(TotalCells) <- colnames(short_Ncells)[-1]
+
+##load the cluster info and the meta-data per mouse
+Clusters <- unique(Ncells$cluster_id)
+SampleInfo <- colData(pb)
+
+##function to estimate the change in the odds of cluster membership from the 5 day to the 11 day time-point
+estimateCellStateChange <- function(k, Ncells, TotalCells, SampleInfo) {
+  require(lme4)
+  require(gdata)
+  print(paste("Cluster", k))
+  Ncells_sub <- Ncells %>%
+    filter(cluster_id==k)
+  FitData <- NULL
+  TempIndices <- match(Ncells_sub$sample_id, names(TotalCells))
+  TotalCells_sub <- TotalCells[TempIndices]
+  for(i in 1:length(TotalCells_sub)) {
+    InCluster=c(rep(1, Ncells_sub$Freq[i]), rep(0, (TotalCells_sub[i]-Ncells_sub$Freq[i])))
+    Time=rep(SampleInfo$group_id, TotalCells_sub[i])
+    ID=rep(row.names(SampleInfo)[i], TotalCells_sub[i])
+    TempData <- data.frame(ID, InCluster, Time)
+    FitData <- rbind(FitData, TempData)
+  }
+  FitData$Time <- relevel(FitData$Time, ref="X5_day")
+  FitData$InCluster <- as.factor(FitData$InCluster)
+  glmerFit1 <- glmer(InCluster ~ (1|ID) + Time, data=FitData, family = "binomial")
+  sglmerFit1 <- summary(glmerFit1)
+  TempRes1 <- (sglmerFit1$coefficients[-1,])
+
+
+  return(TempRes1)
+}
+
+ClusterRes <- sapply(Clusters, estimateCellStateChange, Ncells, TotalCells, SampleInfo)
+ClusterRes %<>% 
+  as.data.frame() %>% 
+  t() 
+row.names(ClusterRes) <-  paste0("Cluster", Clusters)
+ClusterRes <- data.frame(ClusterRes)
+colnames(ClusterRes)[c(1,4)] <- c("logOddsRatio_11day_vs_5day","pvalue")
+
+##perform multiple-testing correction
+ClusterRes <- data.frame(ClusterRes, p.adjust= p.adjust(ClusterRes$pvalue, method = "BH"))
+
+##output the results
+print(ClusterRes)
+
+```
+
+## Batch correction
+Below, we will go over code to remove potential batch effects in the data using the IntegrateData function in Seurat 3. We will use the same data as before, assuming that the data was generated in two batches. It was not, :). But lets pretend anyway.
+```{r}
+## Let us visualize the uncorrected data
+DimPlot(data, reduction = "tsne", group.by = "Individual")
+DimPlot(data, reduction = "tsne", group.by = "Time")
+DimPlot(data, reduction = "tsne", group.by = "batch")
+
+## Split the cells between the two batches
+batch.list <- SplitObject(data, split.by = "batch")
+
+## Normalize the read counts across cells within the same bench
+for (i in 1:length(batch.list)) {
+  batch.list[[i]] <- SCTransform(batch.list[[i]], verbose = FALSE, method="qpoisson", vars.to.regress = NULL)
+}
+
+## Select features to identify anchors
+batch.features <- SelectIntegrationFeatures(object.list = batch.list, nfeatures = 3000)
+batch.list <- PrepSCTIntegration(object.list = batch.list, anchor.features = batch.features, 
+                                    verbose = FALSE)
+## Find the anchors
+batch.anchors <- FindIntegrationAnchors(object.list = batch.list, normalization.method = "SCT", 
+                                           anchor.features = batch.features, verbose = FALSE, k.filter  = 10)
+## Integrate the data
+batch.integrated <- IntegrateData(anchorset = batch.anchors, normalization.method = "SCT", 
+                                     verbose = FALSE)
+
+## Let us visualize the "corrected" data
+batch.integrated <- RunPCA(batch.integrated, verbose = FALSE)
+batch.integrated <- RunTSNE(batch.integrated, dims = 1:30, verbose = FALSE)
+
+batch.integrated <- FindNeighbors(batch.integrated, dims = 1:30, verbose = FALSE)
+batch.integrated <- FindClusters(batch.integrated, verbose = FALSE)
+DimPlot(batch.integrated, label = TRUE, reduction = "tsne") 
+DimPlot(batch.integrated, reduction = "tsne", group.by = "Individual")
+DimPlot(batch.integrated, reduction = "tsne", group.by = "Time")
+DimPlot(batch.integrated, reduction = "tsne", group.by = "batch")
+
+```
+
