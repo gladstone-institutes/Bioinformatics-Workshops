@@ -42,12 +42,9 @@ rm(list = ls())
 suppressMessages(library(Seurat))
 suppressMessages(library(muscat))
 suppressMessages(library(SummarizedExperiment))
-suppressMessages(library(dplyr))
+suppressMessages(library(tidyverse))
 suppressMessages(library(magrittr))
-suppressMessages(library(purrr))
-suppressMessages(library(tibble))
-suppressMessages(library(gdata))
-suppressMessages(library(tidyr))
+
 #source a function I slightly modified from the muscat package for the within-cluster multi-sample multi-condition comparison
 source("pbDS_update.R")
 
