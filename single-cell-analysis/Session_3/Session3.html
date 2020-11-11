@@ -396,12 +396,9 @@ rm(list = ls())
 suppressMessages(library(Seurat))
 suppressMessages(library(muscat))
 suppressMessages(library(SummarizedExperiment))
-suppressMessages(library(dplyr))
+suppressMessages(library(tidyverse))
 suppressMessages(library(magrittr))
-suppressMessages(library(purrr))
-suppressMessages(library(tibble))
-suppressMessages(library(gdata))
-suppressMessages(library(tidyr))
+
 #source a function I slightly modified from the muscat package for the within-cluster multi-sample multi-condition comparison
 source(&quot;pbDS_update.R&quot;)
 
@@ -631,7 +628,7 @@ print(sprintf(&quot;After filtering outliers: %d cells and %d genes&quot;, ncol(
   |                                                                            
   |======================================================================| 100%</code></pre>
 <pre><code>## Calculating gene attributes</code></pre>
-<pre><code>## Wall clock passed: Time difference of 2.525825 secs</code></pre>
+<pre><code>## Wall clock passed: Time difference of 2.565716 secs</code></pre>
 <pre><code>## Determine variable features</code></pre>
 <pre><code>## Set 3000 variable features</code></pre>
 <pre><code>## Place corrected count matrix in counts slot</code></pre>
@@ -897,6 +894,48 @@ ClusterRes &lt;- sapply(Clusters, estimateCellStateChange, Ncells, TotalCells, S
 <pre><code>## The following object is masked from 'package:S4Vectors':
 ## 
 ##     expand</code></pre>
+<pre><code>## Loading required package: gdata</code></pre>
+<pre><code>## gdata: read.xls support for 'XLS' (Excel 97-2004) files ENABLED.</code></pre>
+<pre><code>## </code></pre>
+<pre><code>## gdata: read.xls support for 'XLSX' (Excel 2007+) files ENABLED.</code></pre>
+<pre><code>## 
+## Attaching package: 'gdata'</code></pre>
+<pre><code>## The following objects are masked from 'package:dplyr':
+## 
+##     combine, first, last</code></pre>
+<pre><code>## The following object is masked from 'package:purrr':
+## 
+##     keep</code></pre>
+<pre><code>## The following object is masked from 'package:SummarizedExperiment':
+## 
+##     trim</code></pre>
+<pre><code>## The following object is masked from 'package:Biobase':
+## 
+##     combine</code></pre>
+<pre><code>## The following object is masked from 'package:GenomicRanges':
+## 
+##     trim</code></pre>
+<pre><code>## The following object is masked from 'package:IRanges':
+## 
+##     trim</code></pre>
+<pre><code>## The following objects are masked from 'package:S4Vectors':
+## 
+##     first, first&lt;-</code></pre>
+<pre><code>## The following object is masked from 'package:BiocGenerics':
+## 
+##     combine</code></pre>
+<pre><code>## The following object is masked from 'package:stats4':
+## 
+##     nobs</code></pre>
+<pre><code>## The following object is masked from 'package:stats':
+## 
+##     nobs</code></pre>
+<pre><code>## The following object is masked from 'package:utils':
+## 
+##     object.size</code></pre>
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     startsWith</code></pre>
 <pre><code>## [1] &quot;Cluster 0&quot;
 ## [1] &quot;Cluster 1&quot;
 ## [1] &quot;Cluster 3&quot;
@@ -949,7 +988,7 @@ for (i in 1:length(batch.list)) {
 <pre><code>## Second step: Get residuals using fitted parameters for 13831 genes</code></pre>
 <pre><code>## Computing corrected count matrix for 13831 genes</code></pre>
 <pre><code>## Calculating gene attributes</code></pre>
-<pre><code>## Wall clock passed: Time difference of 2.014113 secs</code></pre>
+<pre><code>## Wall clock passed: Time difference of 1.96617 secs</code></pre>
 <pre><code>## Warning: The 'show_progress' argument is deprecated as of v0.3. Use 'verbosity'
 ## instead. (in sctransform::vst)</code></pre>
 <pre><code>## Calculating cell attributes from input UMI matrix: log_umi</code></pre>
@@ -962,7 +1001,7 @@ for (i in 1:length(batch.list)) {
 <pre><code>## Second step: Get residuals using fitted parameters for 13981 genes</code></pre>
 <pre><code>## Computing corrected count matrix for 13981 genes</code></pre>
 <pre><code>## Calculating gene attributes</code></pre>
-<pre><code>## Wall clock passed: Time difference of 1.47981 secs</code></pre>
+<pre><code>## Wall clock passed: Time difference of 1.38957 secs</code></pre>
 <pre class="r"><code>## Select features to identify anchors
 batch.features &lt;- SelectIntegrationFeatures(object.list = batch.list, nfeatures = 3000)
 batch.list &lt;- PrepSCTIntegration(object.list = batch.list, anchor.features = batch.features, 
