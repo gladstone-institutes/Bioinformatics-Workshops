@@ -115,6 +115,16 @@ data <- subset(x=data, subset=nFeature_RNA > 200 & nCount_RNA > quantnCountRNA &
 
 print(sprintf("After filtering outliers: %d cells and %d genes", ncol(data), nrow(data)))
 
+data <- SCTransform(data, method="qpoisson", vars.to.regress = NULL)
+data <- RunPCA(data, verbose = FALSE)
+data <- RunTSNE(data, dims = 1:30, verbose = FALSE)
+
+data <- FindNeighbors(data, dims = 1:30, verbose = FALSE)
+data <- FindClusters(data, verbose = FALSE)
+DimPlot(data, label = TRUE, reduction = "tsne") 
+DimPlot(data, label = TRUE, reduction = "tsne") 
+
+
 # For raw count data, we would typically do LogNormalization:
 data <- NormalizeData(object=data, normalization.method="LogNormalize", scale.factor=10000)
 # Again, these are the defaults, generate 2000 features using the "vst" feature selection method
