@@ -111,7 +111,7 @@ data <- subset(x=data, subset=nFeature_RNA > 200 & nCount_RNA > quantnCountRNA &
 print(sprintf("After filtering outliers: %d cells and %d genes", ncol(data), nrow(data)))
 
 ```
-##Normalization
+## Normalization
 Now, we will perform sctranform based normalization and visualize the results
 ```{r}
 data <- SCTransform(data, method="qpoisson", vars.to.regress = NULL)
@@ -199,9 +199,9 @@ sce <- as(sce, "SingleCellExperiment")
 
 ## Prep this object for subsequent aggregation analyses
 (sce <- prepSCE(sce, 
-                cluster_id = "seurat_clusters", # subpopulation assignments
-                group_id = "sTime",  # group IDs
-                sample_id = "sIndividual",   # sample IDs 
+                kid = "seurat_clusters", # subpopulation assignments
+                gid = "sTime",  # group IDs
+                sid = "sIndividual",   # sample IDs 
                 drop = TRUE))  # drop all other colData columns
 
 nk <- length(kids <- levels(sce$cluster_id))
@@ -349,5 +349,8 @@ DimPlot(batch.integrated, reduction = "tsne", group.by = "Individual")
 DimPlot(batch.integrated, reduction = "tsne", group.by = "Time")
 DimPlot(batch.integrated, reduction = "tsne", group.by = "batch")
 
+```
+```{r}
+sessionInfo()
 ```
 
