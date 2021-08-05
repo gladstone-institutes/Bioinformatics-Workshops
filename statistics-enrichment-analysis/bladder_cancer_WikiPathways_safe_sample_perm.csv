@@ -1,0 +1,503 @@
+"set_id","name","GENE.SET","GLOB.STAT","NGLOB.STAT","PVAL"
+"WP1991","SRF and miRs in Smooth Muscle Differentiation and Proliferation","WP1991",39300,4370,0.001
+"WP2023","Cell Differentiation - Index expanded","WP2023",43100,3920,0.001
+"WP1602","Nicotine Activity on Dopaminergic Neurons","WP1602",40000,3630,0.002
+"WP2029","Cell Differentiation - Index","WP2029",25100,4180,0.007
+"WP3996","Ethanol effects on histone modifications","WP3996",86700,3100,0.008
+"WP497","Urea cycle and metabolism of amino groups","WP497",52400,3280,0.008
+"WP3944","Serotonin and anxiety-related events","WP3944",23400,3900,0.009
+"WP2361","Gastric Cancer Network 1","WP2361",83100,3780,0.011
+"WP4545","Oxysterols derived from cholesterol","WP4545",35000,3500,0.012
+"WP2848","Differentiation Pathway","WP2848",80700,3110,0.013
+"WP247","Small Ligand GPCRs","WP247",36000,3600,0.017
+"WP4300","Extracellular vesicles in the crosstalk of cardiac cells","WP4300",55600,3270,0.017
+"WP466","DNA Replication","WP466",152000,3720,0.019
+"WP289","Myometrial Relaxation and Contraction Pathways","WP289",341000,2840,0.022
+"WP236","Adipogenesis","WP236",292000,2810,0.026
+"WP179","Cell Cycle","WP179",347000,3010,0.027
+"WP2855","Dopaminergic Neurogenesis","WP2855",33200,3320,0.028
+"WP3893","Development and heterogeneity of the ILC family","WP3893",56400,3130,0.029
+"WP45","G1 to S cell cycle control","WP45",194000,3190,0.029
+"WP4337","ncRNAs involved in STAT3 signaling in hepatocellular carcinoma","WP4337",44300,3410,0.03
+"WP4222","Phosphodiesterases in neuronal function","WP4222",93100,3000,0.031
+"WP4760","PKC-gamma calcium signaling pathway in ataxia","WP4760",40100,3340,0.033
+"WP35","G Protein Signaling Pathways","WP35",220000,2900,0.035
+"WP3958","GPR40 Pathway","WP3958",40300,3100,0.035
+"WP4149","White fat cell differentiation","WP4149",87000,2900,0.036
+"WP474","Endochondral Ossification","WP474",154000,2850,0.041
+"WP2355","Corticotropin-releasing hormone signaling pathway","WP2355",199000,2730,0.043
+"WP2446","Retinoblastoma Gene in Cancer","WP2446",283000,3290,0.044
+"WP2849","Hematopoietic Stem Cell Differentiation","WP2849",124000,2880,0.046
+"WP4589","Major receptors targeted by epinephrine and norepinephrine","WP4589",36300,3300,0.046
+"WP3591","Sleep regulation","WP3591",40000,3080,0.047
+"WP4584","Biomarkers for pyrimidine metabolism disorders","WP4584",37600,3140,0.047
+"WP1992","Genes targeted by miRNAs in adipocytes","WP1992",31600,3160,0.048
+"WP2064","Neural Crest Differentiation","WP2064",178000,2770,0.048
+"WP383","Striated Muscle Contraction Pathway","WP383",76100,3310,0.049
+"WP241","One Carbon Metabolism","WP241",75100,3000,0.052
+"WP2516","ATM Signaling Pathway","WP2516",109000,2950,0.052
+"WP2815","Mammary gland development pathway - Involution (Stage 4 of 4)","WP2815",32200,3220,0.052
+"WP516","Hypertrophy Model","WP516",46500,3100,0.053
+"WP58","Monoamine GPCRs","WP58",17300,3460,0.054
+"WP4016","DNA IR-damage and cellular response via ATR","WP4016",223000,2970,0.055
+"WP2840","Hair Follicle Development: Cytodifferentiation (Part 3 of 3)","WP2840",156000,2790,0.058
+"WP1601","Fluoropyrimidine Activity","WP1601",81100,2900,0.061
+"WP706","Sudden Infant Death Syndrome (SIDS) Susceptibility Pathways","WP706",265000,2650,0.061
+"WP2406","Cardiac Progenitor Differentiation","WP2406",86600,2890,0.062
+"WP554","ACE Inhibitor Pathway","WP554",36600,3320,0.064
+"WP3959","DNA IR-Double Strand Breaks (DSBs) and cellular response via ATM","WP3959",147000,2820,0.065
+"WP531","DNA Mismatch Repair","WP531",67300,3210,0.066
+"WP4240","Regulation of sister chromatid separation at the metaphase-anaphase transition","WP4240",49900,3330,0.067
+"WP2197","Endothelin Pathways","WP2197",66300,2880,0.069
+"WP2525","Trans-sulfuration and one carbon metabolism","WP2525",80900,2890,0.069
+"WP536","Calcium Regulation in the Cardiac Cell","WP536",302000,2820,0.069
+"WP727","Monoamine Transport","WP727",49900,2930,0.07
+"WP1530","miRNA Regulation of DNA Damage Response","WP1530",179000,2800,0.072
+"WP3611","Photodynamic therapy-induced AP-1 survival signaling.","WP3611",128000,2790,0.075
+"WP1423","Ganglio Sphingolipid Metabolism","WP1423",25100,3140,0.078
+"WP707","DNA Damage Response","WP707",172000,2780,0.078
+"WP3299","let-7 inhibition of ES cell reprogramming","WP3299",16900,3380,0.085
+"WP1528","Physiological and Pathological Hypertrophy  of the Heart","WP1528",68400,2850,0.086
+"WP384","Apoptosis Modulation by HSP70","WP384",52400,2910,0.089
+"WP2431","Spinal Cord Injury","WP2431",242000,2690,0.09
+"WP3599","Transcription factor regulation in adipogenesis","WP3599",54200,2850,0.092
+"WP3947","Serotonin and anxiety","WP3947",22000,3150,0.093
+"WP558","Complement and Coagulation Cascades","WP558",114000,2910,0.099
+"WP3995","Prion disease pathway","WP3995",84900,2740,0.1
+"WP4752","Base Excision Repair","WP4752",85900,2860,0.105
+"WP4204","Tumor suppressor activity of SMARCB1","WP4204",72400,2790,0.107
+"WP4259","Disorders of Folate Metabolism and Transport","WP4259",33100,3010,0.108
+"WP2806","Human Complement System","WP2806",177000,2820,0.111
+"WP560","TGF-beta Receptor Signaling","WP560",123000,2680,0.113
+"WP2276","Glial Cell Differentiation","WP2276",16100,3220,0.119
+"WP3580","Methionine De Novo and Salvage Pathway","WP3580",52600,2770,0.119
+"WP4698","Vitamin D-sensitive calcium signaling in depression","WP4698",60500,2750,0.125
+"WP2113","Type III interferon signaling","WP2113",19400,3240,0.127
+"WP136","Phase I biotransformations, non P450","WP136",15500,3110,0.13
+"WP2814","Mammary gland development pathway - Puberty (Stage 2 of 4)","WP2814",34600,2880,0.13
+"WP3679","Cell-type Dependent Selectivity of CCK2R Signaling","WP3679",27700,3070,0.133
+"WP3892","Development of pulmonary dendritic cells and macrophage subsets","WP3892",31600,3160,0.134
+"WP3287","Overview of nanoparticle effects","WP3287",41700,2780,0.136
+"WP4225","Pyrimidine metabolism and related diseases","WP4225",35000,2910,0.136
+"WP170","Nuclear Receptors","WP170",78400,2700,0.14
+"WP2874","Liver X Receptor Pathway","WP2874",16100,3220,0.14
+"WP4571","Urea cycle and related diseases","WP4571",17900,2980,0.142
+"WP3640","Imatinib and Chronic Myeloid Leukemia","WP3640",55400,2770,0.149
+"WP2032","Human Thyroid Stimulating Hormone (TSH) signaling pathway","WP2032",162000,2610,0.15
+"WP2363","Gastric Cancer Network 2","WP2363",81200,2800,0.151
+"WP4022","Pyrimidine metabolism","WP4022",203000,2640,0.152
+"WP2369","Histone Modifications","WP2369",81700,2720,0.155
+"WP206","Fatty Acid Omega Oxidation","WP206",16400,3280,0.157
+"WP2879","Farnesoid X Receptor  Pathway","WP2879",21000,3000,0.16
+"WP3875","ATR Signaling","WP3875",23700,2960,0.16
+"WP2011","SREBF and miR33 in cholesterol and lipid homeostasis","WP2011",44700,2790,0.164
+"WP2895","Differentiation of white and brown adipocyte   ","WP2895",49400,2750,0.164
+"WP3584","MECP2 and Associated Rett Syndrome","WP3584",133000,2600,0.164
+"WP4658","Small cell lung cancer","WP4658",228000,2570,0.166
+"WP1742","TP53 Network","WP1742",49900,2770,0.167
+"WP2858","Ectoderm Differentiation","WP2858",285000,2570,0.167
+"WP4224","Purine metabolism and related disorders","WP4224",51400,2710,0.168
+"WP3613","Photodynamic therapy-induced unfolded protein response","WP3613",65000,2710,0.17
+"WP2059","Alzheimers Disease","WP2059",179000,2590,0.179
+"WP545","Complement Activation","WP545",44800,2990,0.18
+"WP2267","Synaptic Vesicle Pathway","WP2267",81500,2630,0.181
+"WP1971","Integrated Cancer Pathway","WP1971",115000,2670,0.183
+"WP3624","Lung fibrosis","WP3624",112000,2660,0.185
+"WP4754","IL-18 signaling pathway","WP4754",557000,2510,0.185
+"WP3876","BMP2-WNT4-FOXO1 Pathway in Human Primary Endometrial Stromal Cell Differentiation","WP3876",30300,2760,0.193
+"WP4756","Renin Angiotensin Aldosterone System (RAAS)","WP4756",75400,2690,0.193
+"WP2878","PPAR Alpha Pathway","WP2878",43300,2710,0.196
+"WP1434","Osteopontin Signaling","WP1434",36500,2810,0.197
+"WP698","Glucuronidation","WP698",25100,2790,0.197
+"WP176","Folate Metabolism","WP176",116000,2630,0.198
+"WP465","Tryptophan metabolism","WP465",71700,2660,0.2
+"WP186","Homologous recombination","WP186",33400,2780,0.201
+"WP3594","Circadian rhythm related genes","WP3594",349000,2530,0.202
+"WP4560","MFAP5 effect on permeability and motility of endothelial cells via cytoskeleton rearrangement","WP4560",47500,2790,0.208
+"WP4312","Rett syndrome causing genes","WP4312",96900,2620,0.215
+"WP3656","Interleukin-1 Induced Activation of NF-kappa-B","WP3656",27400,2740,0.217
+"WP4288","MTHFR deficiency","WP4288",51800,2720,0.219
+"WP4719","Eicosanoid metabolism via Cyclo Oxygenases (COX)","WP4719",56000,2670,0.222
+"WP4304","Oligodendrocyte Specification and differentiation(including remyelination), leading to Myelin Components for CNS","WP4304",43800,2740,0.223
+"WP3529","Zinc homeostasis","WP3529",63800,2660,0.224
+"WP2338","miRNA Biogenesis","WP2338",17000,2840,0.225
+"WP3585","Cytosine methylation","WP3585",21900,2730,0.225
+"WP4495","IL-10 Anti-inflammatory Signaling Pathway ","WP4495",30000,2720,0.225
+"WP2007","Iron metabolism in placenta","WP2007",22200,2770,0.227
+"WP4249","Hedgehog Signaling Pathway","WP4249",88300,2600,0.227
+"WP98","Prostaglandin Synthesis and Regulation","WP98",97200,2630,0.227
+"WP2865","IL1 and megakaryocytes in obesity","WP2865",56300,2680,0.229
+"WP1422","Sphingolipid pathway","WP1422",62800,2620,0.233
+"WP4290","Metabolic reprogramming in colon cancer","WP4290",102000,2620,0.234
+"WP4493","Cells and Molecules involved in local acute inflammatory response ","WP4493",36600,2810,0.236
+"WP117","GPCRs, Other","WP117",58000,2640,0.24
+"WP3670","Simplified Interaction Map Between LOXL4 and Oxidative Stress Pathway","WP3670",44800,2640,0.243
+"WP24","Peptide GPCRs","WP24",56100,2670,0.246
+"WP1545","miRNAs involved in DNA damage response","WP1545",37500,2680,0.248
+"WP3930","EDA Signalling in Hair Follicle Development","WP3930",24800,2760,0.248
+"WP138","Androgen receptor signaling pathway","WP138",207000,2530,0.25
+"WP34","Ovarian Infertility Genes","WP34",44700,2630,0.25
+"WP4629","Computational Model of Aerobic Glycolysis","WP4629",31700,2880,0.25
+"WP4286","Genotoxicity pathway","WP4286",125000,2560,0.255
+"WP3657","Hematopoietic Stem Cell Gene Regulation by GABP alpha/beta Complex","WP3657",50700,2670,0.256
+"WP2038","Regulation of Microtubule Cytoskeleton","WP2038",108000,2570,0.27
+"WP2507","Nanomaterial induced apoptosis","WP2507",49700,2610,0.272
+"WP3963","Mevalonate pathway","WP3963",19700,2810,0.272
+"WP3877","Simplified Depiction of MYD88 Distinct Input-Output Pathway","WP3877",36900,2640,0.273
+"WP4357","NRF2-ARE regulation","WP4357",56900,2590,0.273
+"WP530","Cytokines and Inflammatory Response","WP530",37100,2650,0.277
+"WP2817","Mammary gland development pathway - Pregnancy and lactation (Stage 3 of 4)","WP2817",64100,2570,0.278
+"WP1589","Folate-Alcohol and Cancer Pathway Hypotheses","WP1589",21700,2710,0.285
+"WP430","Statin Pathway","WP430",39400,2620,0.285
+"WP4673","Genes involved in male infertility","WP4673",212000,2490,0.286
+"WP4535","Envelope proteins and their potential roles in EDMD physiopathology","WP4535",102000,2540,0.288
+"WP4553","FBXL10 enhancement of MAP/ERK signaling in diffuse large B-cell lymphoma","WP4553",29300,2660,0.289
+"WP3941","Oxidative Damage","WP3941",94800,2560,0.29
+"WP4481","Resistin as a regulator of inflammation","WP4481",72200,2580,0.29
+"WP3942","PPAR signaling pathway","WP3942",113000,2500,0.293
+"WP428","Wnt Signaling","WP428",233000,2500,0.294
+"WP4172","PI3K-Akt Signaling Pathway","WP4172",622000,2470,0.296
+"WP1772","Apoptosis Modulation and Signaling","WP1772",197000,2500,0.298
+"WP1531","Vitamin D Metabolism","WP1531",18900,2700,0.301
+"WP1984","Integrated Breast Cancer Pathway","WP1984",355000,2490,0.301
+"WP314","Fas Ligand (FasL) pathway and Stress induction of Heat Shock Proteins (HSP) regulation","WP314",102000,2540,0.301
+"WP4341","Non-genomic actions of 1,25 dihydroxyvitamin D3","WP4341",146000,2520,0.302
+"WP4518","Gamma-Glutamyl Cycle for the biosynthesis and degradation of glutathione, including diseases","WP4518",13600,2720,0.304
+"WP1591","Heart Development","WP1591",75600,2520,0.316
+"WP3407","FTO Obesity Variant Mechanism","WP3407",18900,2700,0.319
+"WP129","Matrix Metalloproteinases","WP129",57000,2590,0.325
+"WP1455","Serotonin Transporter Activity","WP1455",21000,2630,0.325
+"WP4462","Platelet-mediated interactions with vascular and circulating cells","WP4462",39600,2640,0.329
+"WP4298","Viral Acute Myocarditis","WP4298",174000,2480,0.333
+"WP254","Apoptosis","WP254",198000,2480,0.335
+"WP2118","Arrhythmogenic Right Ventricular Cardiomyopathy","WP2118",142000,2540,0.336
+"WP3655","Hypothetical Craniofacial Development Pathway","WP3655",16200,2700,0.336
+"WP107","Translation Factors","WP107",118000,2520,0.337
+"WP167","Eicosanoid Synthesis","WP167",45600,2530,0.34
+"WP3871","Valproic acid pathway","WP3871",21100,2640,0.341
+"WP4186","Somatroph axis (GH) and its relationship to dietary restriction and aging","WP4186",15800,2630,0.341
+"WP3972","PDGFR-beta pathway","WP3972",73500,2540,0.347
+"WP4558","Overview of interferons-mediated signaling pathway","WP4558",36000,2570,0.347
+"WP2853","Endoderm Differentiation","WP2853",275000,2450,0.348
+"WP3630","NAD metabolism, sirtuins and aging","WP3630",26000,2600,0.349
+"WP3878","ATM Signaling Network in Development and Disease ","WP3878",103000,2510,0.35
+"WP3872","Regulation of Apoptosis by Parathyroid Hormone-related Protein","WP3872",50400,2520,0.352
+"WP3888","VEGFA-VEGFR2 Signaling Pathway","WP3888",986000,2450,0.358
+"WP4583","Biomarkers for urea cycle disorders","WP4583",21000,2620,0.358
+"WP197","Cholesterol Biosynthesis Pathway","WP197",35700,2550,0.36
+"WP26","Signal Transduction of S1P Receptor","WP26",60900,2540,0.361
+"WP4148","Splicing factor NOVA regulated synaptic proteins","WP4148",77400,2500,0.364
+"WP585","Interferon type I signaling pathways","WP585",129000,2480,0.364
+"WP306","Focal Adhesion","WP306",426000,2460,0.366
+"WP4320","The effect of progerin on the involved genes in Hutchinson-Gilford Progeria Syndrome","WP4320",55400,2520,0.367
+"WP734","Serotonin Receptor 4/6/7 and NR3C Signaling","WP734",40800,2550,0.368
+"WP4321","Thermogenesis","WP4321",223000,2470,0.369
+"WP3595","mir-124 predicted interactions with cell cycle and differentiation ","WP3595",15800,2630,0.371
+"WP4538","Regulatory circuits of the STAT3 signaling pathway","WP4538",166000,2480,0.371
+"WP1541","Energy Metabolism","WP1541",105000,2500,0.378
+"WP2371","Parkinsons Disease Pathway","WP2371",77000,2480,0.378
+"WP4211","Transcriptional cascade regulating adipogenesis","WP4211",32800,2530,0.38
+"WP3414","Initiation of transcription and translation elongation at the HIV-1 LTR","WP3414",67700,2510,0.381
+"WP4718","Cholesterol metabolism (includes both Bloch and Kandutsch-Russell pathways)","WP4718",102000,2490,0.382
+"WP4725","Sphingolipid Metabolism (general overview)","WP4725",49800,2490,0.382
+"WP272","Blood Clotting Cascade","WP272",30500,2540,0.383
+"WP3998","Prader-Willi and Angelman Syndrome","WP3998",74300,2480,0.383
+"WP2359","Parkin-Ubiquitin Proteasomal System pathway","WP2359",145000,2460,0.385
+"WP2864","Apoptosis-related network due to altered Notch3 in ovarian cancer","WP2864",123000,2460,0.386
+"WP411","mRNA Processing","WP411",3e+05,2460,0.386
+"WP4147","PTF1A related regulatory pathway","WP4147",12900,2580,0.387
+"WP3527","Preimplantation Embryo","WP3527",77300,2490,0.392
+"WP322","Osteoblast Signaling","WP322",18300,2610,0.393
+"WP4482","Vitamin D in inflammatory diseases","WP4482",52400,2500,0.398
+"WP4753","Nucleotide Excision Repair","WP4753",106000,2460,0.399
+"WP561","Heme Biosynthesis","WP561",20000,2500,0.4
+"WP4236","Disorders of the Krebs cycle","WP4236",17500,2500,0.406
+"WP3971","Role of Osx and miRNAs in tooth development","WP3971",24700,2470,0.408
+"WP4523","Classical pathway of steroidogenesis, including diseases","WP4523",12800,2550,0.409
+"WP410","Exercise-induced Circadian Regulation","WP410",109000,2480,0.41
+"WP4533","Transcription co-factors SKI and SKIL protein partners","WP4533",45100,2510,0.411
+"WP53","ID signaling pathway","WP53",32400,2490,0.417
+"WP3644","NAD+ metabolism","WP3644",34700,2480,0.422
+"WP3926","ApoE and miR-146 in inflammation and atherosclerosis","WP3926",20000,2500,0.422
+"WP1946","Cori Cycle","WP1946",34900,2490,0.425
+"WP262","EBV LMP1 signaling","WP262",49200,2460,0.426
+"WP500","Glycogen Synthesis and Degradation","WP500",88500,2460,0.426
+"WP3301","MFAP5-mediated ovarian cancer cell motility and invasiveness","WP3301",32500,2500,0.427
+"WP3617","Photodynamic therapy-induced NF-kB survival signaling","WP3617",72700,2420,0.428
+"WP3850","Factors and pathways affecting insulin-like growth factor (IGF1)-Akt signaling","WP3850",71500,2470,0.428
+"WP4480","Role of Altered Glycolysation of MUC1 in Tumour Microenvironment","WP4480",20100,2520,0.428
+"WP15","Selenium Micronutrient Network","WP15",121000,2430,0.431
+"WP3596","miR-517 relationship with ARCN1 and USP1","WP3596",12500,2500,0.434
+"WP183","Proteasome Degradation","WP183",141000,2440,0.436
+"WP2881","Estrogen Receptor Pathway","WP2881",24600,2460,0.439
+"WP2875","Constitutive Androstane Receptor Pathway","WP2875",41400,2440,0.443
+"WP4008","NO/cGMP/PKG mediated Neuroprotection","WP4008",61700,2470,0.444
+"WP4539","Synaptic signaling pathways associated with autism spectrum disorder","WP4539",95600,2450,0.445
+"WP4336","ncRNAs involved in Wnt signaling in hepatocellular carcinoma","WP4336",167000,2420,0.447
+"WP2291","Deregulation of Rab and Rab Effector Genes in Bladder Cancer","WP2291",36300,2420,0.451
+"WP455","GPCRs, Class A Rhodopsin-like","WP455",141000,2430,0.454
+"WP2485","NAD Biosynthesis II (from tryptophan)","WP2485",14800,2470,0.455
+"WP4767","FGFR3 signalling in chondrocyte proliferation and terminal differentiation","WP4767",58400,2430,0.461
+"WP4521","Glycosylation and related congenital defects","WP4521",60500,2420,0.479
+"WP3672","LncRNA-mediated mechanisms of therapeutic resistance","WP3672",17100,2440,0.48
+"WP2586","Aryl Hydrocarbon Receptor Netpath","WP2586",96900,2420,0.482
+"WP2583","T-Cell Receptor and Co-stimulatory Signaling","WP2583",65000,2410,0.49
+"WP4269","Ethanol metabolism resulting in production of ROS by CYP2E1","WP4269",21700,2410,0.499
+"WP4726","Sphingolipid Metabolism (integrated pathway)","WP4726",50000,2380,0.507
+"WP678","Arachidonate Epoxygenase / Epoxide Hydrolase","WP678",11900,2380,0.512
+"WP3298","Melatonin metabolism and effects","WP3298",62600,2410,0.515
+"WP1533","Vitamin B12 Metabolism","WP1533",71500,2380,0.516
+"WP3658","Wnt/beta-catenin Signaling Pathway in Leukemia","WP3658",50100,2390,0.516
+"WP3927","BMP Signaling Pathway in Eyelid Development","WP3927",38100,2380,0.516
+"WP3935","Leptin Insulin Overlap","WP3935",33600,2400,0.516
+"WP2332","Interleukin-11 Signaling Pathway","WP2332",96300,2410,0.517
+"WP524","G13 Signaling Pathway","WP524",83800,2390,0.517
+"WP4331","Neovascularisation processes","WP4331",89100,2410,0.519
+"WP4657","22q11.2 Deletion Syndrome","WP4657",140000,2410,0.52
+"WP2911","miRNA targets in ECM and membrane receptors","WP2911",51000,2320,0.521
+"WP1403","AMP-activated Protein Kinase (AMPK) Signaling","WP1403",135000,2400,0.526
+"WP2112","IL17 signaling pathway","WP2112",65000,2410,0.526
+"WP28","Selenium Metabolism and Selenoproteins","WP28",66800,2380,0.528
+"WP408","Oxidative Stress","WP408",68400,2360,0.528
+"WP4540","Pathways Regulating Hippo Signaling","WP4540",190000,2400,0.535
+"WP268","Notch Signaling","WP268",95800,2390,0.536
+"WP2857","Mesodermal Commitment Pathway","WP2857",278000,2400,0.536
+"WP4724","Omega-9 FA synthesis","WP4724",28000,2330,0.545
+"WP229","Irinotecan Pathway","WP229",16300,2330,0.55
+"WP3929","Chemokine signaling pathway","WP3929",296000,2390,0.551
+"WP4507","Molybdenum cofactor (Moco) biosynthesis","WP4507",13900,2320,0.553
+"WP3646","Hepatitis C and Hepatocellular Carcinoma","WP3646",104000,2370,0.558
+"WP501","GPCRs, Class C Metabotropic glutamate, pheromone","WP501",11600,2320,0.564
+"WP1425","Bone Morphogenic Protein (BMP) Signalling and Regulation","WP1425",23000,2300,0.57
+"WP2203","Thymic Stromal LymphoPoietin (TSLP) Signaling Pathway","WP2203",107000,2370,0.572
+"WP3","Phytochemical activity on NRF2 transcriptional activation","WP3",32700,2340,0.572
+"WP80","Nucleotide GPCRs","WP80",18600,2320,0.572
+"WP311","Synthesis and Degradation of Ketone Bodies","WP311",11400,2280,0.573
+"WP4586","Metabolism of alpha-linolenic acid","WP4586",13700,2280,0.575
+"WP2636","Common Pathways Underlying Drug Addiction","WP2636",56100,2340,0.576
+"WP2876","Pregnane X Receptor pathway","WP2876",41800,2320,0.576
+"WP4742","Ketogenesis and Ketolysis","WP4742",18400,2300,0.577
+"WP3851","TLR4 Signaling and Tolerance","WP3851",58900,2360,0.584
+"WP2916","Interactome of polycomb repressive complex 2 (PRC2) ","WP2916",37400,2330,0.586
+"WP4191","Caloric restriction and aging","WP4191",18500,2310,0.587
+"WP134","Pentose Phosphate Metabolism","WP134",15400,2200,0.589
+"WP3932","Focal Adhesion-PI3K-Akt-mTOR-signaling pathway","WP3932",581000,2390,0.589
+"WP395","IL-4 Signaling Pathway","WP395",125000,2360,0.592
+"WP2272","Pathogenic Escherichia coli infection","WP2272",110000,2330,0.594
+"WP704","Methylation Pathways","WP704",16100,2300,0.595
+"WP399","Wnt Signaling Pathway and Pluripotency","WP399",204000,2370,0.596
+"WP4541","Hippo-Merlin Signaling Dysregulation","WP4541",222000,2360,0.597
+"WP3593","MicroRNA for Targeting Cancer Growth and Vascularization in Glioblastoma","WP3593",15700,2250,0.599
+"WP47","Hedgehog Signaling Pathway Netpath","WP47",27800,2320,0.599
+"WP61","Notch Signaling Pathway Netpath","WP61",134000,2350,0.599
+"WP2036","TNF related weak inducer of apoptosis (TWEAK) Signaling Pathway","WP2036",94000,2350,0.605
+"WP3967","miR-509-3p alteration of YAP1/ECM axis","WP3967",38200,2240,0.608
+"WP2249","Metastatic brain tumor","WP2249",13300,2220,0.61
+"WP4141","PI3K/AKT/mTOR - VitD3 Signalling","WP4141",44100,2320,0.611
+"WP4537","Hippo-Yap signaling pathway","WP4537",50700,2300,0.613
+"WP4258","LncRNA involvement in canonical Wnt signaling and colorectal cancer","WP4258",179000,2360,0.614
+"WP2436","Dopamine metabolism","WP2436",20400,2260,0.616
+"WP3940","One carbon metabolism and related pathways","WP3940",91100,2340,0.617
+"WP51","Regulation of Actin Cytoskeleton","WP51",275000,2350,0.62
+"WP4595","Urea cycle and associated pathways","WP4595",37100,2320,0.625
+"WP4271","Vitamin B12 Disorders","WP4271",20500,2280,0.627
+"WP2854","Gene regulatory network modelling somitogenesis ","WP2854",13200,2200,0.628
+"WP2456","HIF1A and PPARG regulation of glycolysis","WP2456",13100,2180,0.63
+"WP3849","MAPK  and NFkB Signalling Pathways Inhibited by Yersinia YopJ","WP3849",27000,2250,0.631
+"WP404","Nucleotide Metabolism","WP404",40400,2250,0.632
+"WP3933","Kennedy pathway from Sphingolipids","WP3933",27500,2290,0.639
+"WP477","Cytoplasmic Ribosomal Proteins","WP477",167000,1960,0.64
+"WP3300","Dual hijack model of Vif in HIV infection","WP3300",13000,2160,0.644
+"WP2380","Brain-Derived Neurotrophic Factor (BDNF) signaling pathway","WP2380",290000,2360,0.65
+"WP1544","MicroRNAs in cardiomyocyte hypertrophy","WP1544",179000,2350,0.653
+"WP2533","Glycerophospholipid Biosynthetic Pathway","WP2533",56900,2270,0.653
+"WP3943","Robo4 and VEGF Signaling Pathways Crosstalk","WP3943",13100,2190,0.653
+"WP4496","Signal transduction through IL1R","WP4496",68800,2290,0.653
+"WP712","Estrogen signaling pathway","WP712",47900,2280,0.656
+"WP4566","Translation inhibitors in chronically activated PDGFRA cells","WP4566",104000,2320,0.657
+"WP4562","Canonical NF-KB pathway","WP4562",17500,2190,0.667
+"WP4389","Bile Acids synthesis and enterohepatic circulation ","WP4389",10600,2110,0.668
+"WP3664","Regulation of Wnt/B-catenin Signaling by Small Molecule Compounds","WP3664",35900,2250,0.669
+"WP4297","Thiamine metabolic pathways","WP4297",17600,2200,0.67
+"WP619","Type II interferon signaling (IFNG)","WP619",67600,2180,0.672
+"WP3668","Hypothesized Pathways in Pathogenesis of Cardiovascular Disease","WP3668",52000,2260,0.677
+"WP391","Mitochondrial Gene Expression","WP391",35700,2230,0.678
+"WP4534","Mechanoregulation and pathology of YAP/TAZ via Hippo and non-Hippo mechanisms","WP4534",97900,2280,0.678
+"WP3612","Photodynamic therapy-induced NFE2L2 (NRF2) survival signaling","WP3612",46100,2200,0.679
+"WP1424","Globo Sphingolipid Metabolism","WP1424",44700,2230,0.68
+"WP4559","Interactions between immune cells and microRNAs in tumor microenvironment","WP4559",53000,2210,0.681
+"WP2795","Cardiac Hypertrophic Response","WP2795",119000,2330,0.683
+"WP2868","TCA Cycle Nutrient Utilization and Invasiveness of Ovarian Cancer","WP2868",10200,2040,0.684
+"WP127","IL-5 Signaling Pathway","WP127",87500,2300,0.687
+"WP3925","Amino Acid metabolism","WP3925",151000,2290,0.688
+"WP231","TNF alpha Signaling Pathway","WP231",204000,2320,0.69
+"WP3865","Novel intracellular components of RIG-I-like receptor (RLR) pathway","WP3865",117000,2300,0.694
+"WP4522","Metabolic pathway of LDL, HDL and TG, including diseases","WP4522",19300,2150,0.696
+"WP2882","Nuclear Receptors Meta-Pathway","WP2882",516000,2330,0.698
+"WP4666","Hepatitis B infection","WP4666",305000,2340,0.699
+"WP78","TCA Cycle (aka Krebs or citric acid cycle)","WP78",38300,2130,0.701
+"WP4792","Purine metabolism","WP4792",23800,2160,0.706
+"WP4216","Chromosomal and microsatellite instability in colorectal cancer ","WP4216",165000,2320,0.709
+"WP2374","Oncostatin M Signaling Pathway","WP2374",147000,2300,0.71
+"WP4142","Metabolism of Spingolipids in ER and Golgi apparatus","WP4142",32300,2150,0.714
+"WP3863","T-Cell antigen Receptor (TCR) pathway during Staphylococcus aureus infection","WP3863",112000,2240,0.715
+"WP2328","Allograft Rejection","WP2328",131000,2120,0.721
+"WP3845","Canonical  and Non-canonical Notch signaling","WP3845",49200,2240,0.721
+"WP2884","NRF2 pathway","WP2884",218000,2270,0.722
+"WP4519","Cerebral Organic Acidurias, including diseases","WP4519",14500,2080,0.723
+"WP2037","Prolactin Signaling Pathway","WP2037",169000,2320,0.725
+"WP2813","Mammary gland development pathway - Embryonic development (Stage 1 of 4)","WP2813",23300,2120,0.725
+"WP3678","Amplification and Expansion of Oncogenic Pathways as Metastatic Traits","WP3678",36800,2160,0.726
+"WP3874","Canonical and Non-Canonical TGF-B signaling","WP3874",36500,2140,0.726
+"WP732","Serotonin Receptor 2 and ELK-SRF/GATA4 signaling","WP732",32600,2170,0.728
+"WP4197","The human immune response to tuberculosis","WP4197",49500,2150,0.729
+"WP1539","Angiogenesis","WP1539",53400,2220,0.73
+"WP4705","Pathways of nucleic acid metabolism and innate immune sensing","WP4705",27700,2130,0.731
+"WP4478","LTF danger signal response pathway","WP4478",30600,2180,0.732
+"WP4722","Glycerolipids and Glycerophospholipids","WP4722",39600,2200,0.735
+"WP2447","Amyotrophic lateral sclerosis (ALS)","WP2447",67500,2250,0.736
+"WP382","MAPK Signaling Pathway","WP382",457000,2350,0.739
+"WP299","Nuclear Receptors in Lipid Metabolism and Toxicity","WP299",33600,2100,0.742
+"WP2290","RalA downstream regulated genes","WP2290",23500,2130,0.747
+"WP3858","Toll-like Receptor Signaling related to MyD88","WP3858",59500,2200,0.747
+"WP2870","Extracellular vesicle-mediated signaling in recipient cells","WP2870",60200,2230,0.75
+"WP2035","Follicle Stimulating Hormone (FSH) signaling pathway","WP2035",47800,2170,0.751
+"WP2877","Vitamin D Receptor Pathway","WP2877",270000,2290,0.752
+"WP4494","Selective expression of chemokine receptors during T-cell polarization","WP4494",32100,2010,0.757
+"WP4153","Degradation pathway of sphingolipids, including diseases","WP4153",15900,1990,0.762
+"WP4564","Neural Crest Cell Migration during Development","WP4564",74600,2260,0.762
+"WP3844","PI3K-AKT-mTOR signaling pathway and therapeutic opportunities","WP3844",66900,2230,0.765
+"WP405","Eukaryotic Transcription Initiation","WP405",91000,2220,0.772
+"WP400","p38 MAPK Signaling Pathway","WP400",73700,2230,0.777
+"WP3945","TYROBP Causal Network","WP3945",118000,2080,0.779
+"WP2333","Trans-sulfuration pathway","WP2333",20800,2080,0.781
+"WP4685","Melanoma","WP4685",143000,2270,0.781
+"WP3937","Microglia Pathogen Phagocytosis Pathway","WP3937",72800,2020,0.782
+"WP364","IL-6 signaling pathway","WP364",92200,2250,0.783
+"WP4262","Breast cancer pathway","WP4262",280000,2310,0.783
+"WP4542","Overview of leukocyte-intrinsic Hippo pathway functions","WP4542",64600,2150,0.783
+"WP2805","exRNA mechanism of action and biogenesis","WP2805",9440,1890,0.785
+"WP716","Vitamin A and Carotenoid Metabolism","WP716",50300,2190,0.786
+"WP2637","Structural Pathway of Interleukin 1 (IL-1)","WP2637",109000,2230,0.787
+"WP3651","Pathways Affected in Adenoid Cystic Carcinoma","WP3651",124000,2210,0.795
+"WP3286","Copper homeostasis","WP3286",104000,2220,0.797
+"WP3853","ERK Pathway in Huntington's Disease","WP3853",26900,2070,0.808
+"WP3969","H19 action Rb-E2F1 signaling and CDK-Beta-catenin activity","WP3969",28800,2060,0.809
+"WP4241","Type 2 papillary renal cell carcinoma","WP4241",65500,2180,0.814
+"WP4292","Methionine metabolism leading to Sulphur Amino Acids and related disorders","WP4292",18000,2000,0.816
+"WP4721","Eicosanoid metabolism via Lipo Oxygenases (LOX)","WP4721",41900,2090,0.819
+"WP205","IL-7 Signaling Pathway","WP205",52600,2110,0.825
+"WP3634","Insulin signalling in human adipocytes (normal condition)","WP3634",16000,2000,0.826
+"WP3635","Insulin signalling in human adipocytes (diabetic condition)","WP3635",16000,2000,0.826
+"WP4150","Wnt Signaling in Kidney Disease","WP4150",57900,2140,0.827
+"WP4479","Supression of HMGB1 mediated inflammation by THBD","WP4479",17300,1930,0.827
+"WP22","IL-9 Signaling Pathway","WP22",30300,2020,0.828
+"WP2942","DDX1 as a regulatory component of the Drosha microprocessor","WP2942",11100,1840,0.828
+"WP313","Signaling of Hepatocyte Growth Factor Receptor","WP313",73400,2160,0.828
+"WP4223","Ras Signaling","WP4223",326000,2300,0.828
+"WP4582","Cancer immunotherapy by CTLA4 blockade","WP4582",23500,1960,0.829
+"WP2034","Leptin signaling pathway","WP2034",167000,2230,0.831
+"WP4210","Tryptophan catabolism leading to NAD+ production","WP4210",21700,1970,0.833
+"WP288","NLR Proteins","WP288",14800,1860,0.835
+"WP366","TGF-beta Signaling Pathway","WP366",290000,2270,0.835
+"WP438","Non-homologous end joining","WP438",19800,1980,0.835
+"WP2513","Nanoparticle triggered regulated necrosis","WP2513",20800,1890,0.837
+"WP4656","Joubert Syndrome","WP4656",154000,2230,0.837
+"WP4255","Non-small cell lung cancer","WP4255",150000,2240,0.838
+"WP23","B Cell Receptor Signaling Pathway","WP23",204000,2220,0.842
+"WP304","Kit receptor signaling pathway","WP304",130000,2200,0.842
+"WP1559","TFs Regulate miRNAs related to cardiac hypertrophy","WP1559",13400,1910,0.845
+"WP3645","NAD+ biosynthetic pathways","WP3645",35200,2070,0.847
+"WP437","EGF/EGFR Signaling Pathway","WP437",349000,2250,0.849
+"WP4018","Pathways in clear cell renal cell carcinoma","WP4018",177000,2240,0.85
+"WP696","Benzo(a)pyrene metabolism","WP696",11400,1630,0.85
+"WP4565","Neural Crest Cell Migration in Cancer","WP4565",79000,2200,0.851
+"WP3614","Photodynamic therapy-induced HIF-1 survival signaling","WP3614",71000,2150,0.853
+"WP69","T-Cell antigen Receptor (TCR)  Signaling Pathway","WP69",174000,2120,0.853
+"WP286","IL-3 Signaling Pathway","WP286",96100,2180,0.854
+"WP4483","Relationship between inflammation, COX-2 and EGFR","WP4483",45700,2080,0.856
+"WP4549","Fragile X Syndrome ","WP4549",209000,2230,0.859
+"WP49","IL-2 Signaling Pathway","WP49",87900,2140,0.86
+"WP4747","Netrin-UNC5B signaling Pathway","WP4747",95400,2170,0.863
+"WP2873","Aryl Hydrocarbon Receptor Pathway","WP2873",65000,2100,0.866
+"WP1584","Type II diabetes mellitus","WP1584",27400,1960,0.867
+"WP368","Mitochondrial LC-Fatty Acid Beta-Oxidation","WP368",31500,1970,0.867
+"WP3303","RAC1/PAK1/p38/MMP2 Pathway","WP3303",136000,2190,0.871
+"WP3931","ESC Pluripotency Pathways","WP3931",187000,2250,0.871
+"WP4206","Hereditary leiomyomatosis and renal cell carcinoma pathway","WP4206",38500,2030,0.873
+"WP422","MAPK Cascade","WP422",70400,2130,0.873
+"WP3982","miRNA regulation of p53 pathway in prostate cancer","WP3982",47700,2070,0.874
+"WP481","Insulin Signaling","WP481",340000,2270,0.874
+"WP3934","Leptin and adiponectin","WP3934",14900,1870,0.879
+"WP4301","Inhibition of exosome biogenesis and secretion by Manumycin A in CRPC cells","WP4301",35800,1990,0.879
+"WP4655","Cytosolic DNA-sensing pathway","WP4655",118000,2150,0.879
+"WP4159","GABA receptor Signaling","WP4159",25200,1940,0.881
+"WP2828","Bladder Cancer","WP2828",81500,2140,0.882
+"WP4263","Pancreatic adenocarcinoma pathway","WP4263",188000,2220,0.883
+"WP2018","RANKL/RANK (Receptor activator of NFKB (ligand)) Signaling Pathway","WP2018",112000,2160,0.887
+"WP75","Toll-like Receptor Signaling Pathway","WP75",170000,2180,0.889
+"WP2453","TCA Cycle and Deficiency of Pyruvate Dehydrogenase complex (PDHc)","WP2453",27800,1850,0.892
+"WP4585","Cancer immunotherapy by PD-1 blockade","WP4585",38000,1810,0.892
+"WP4561","Cell migration and invasion through p75NTR","WP4561",59200,2110,0.894
+"WP691","Tamoxifen metabolism","WP691",7830,1570,0.894
+"WP4239","Epithelial to mesenchymal transition in colorectal cancer","WP4239",278000,2190,0.895
+"WP106","Alanine and aspartate metabolism","WP106",12100,1720,0.896
+"WP4723","Omega-3/Omega-6 FA synthesis","WP4723",20000,1820,0.896
+"WP185","Integrin-mediated Cell Adhesion","WP185",188000,2160,0.899
+"WP2324","AGE/RAGE pathway","WP2324",138000,2180,0.899
+"WP3859","TGF-B Signaling in Thyroid Cells for Epithelial-Mesenchymal Transition","WP3859",32500,1910,0.899
+"WP325","Triacylglyceride Synthesis","WP325",26000,1860,0.906
+"WP363","Wnt Signaling Pathway (Netpath)","WP363",103000,2140,0.91
+"WP2572","Primary Focal Segmental Glomerulosclerosis FSGS","WP2572",123000,2110,0.911
+"WP4313","Ferroptosis","WP4313",73300,2040,0.915
+"WP2261","Signaling Pathways in Glioblastoma","WP2261",176000,2200,0.917
+"WP43","Oxidation by Cytochrome P450","WP43",58700,1960,0.917
+"WP4136","Fibrin Complement Receptor 3 Signaling Pathway","WP4136",60500,2020,0.918
+"WP673","ErbB Signaling Pathway","WP673",176000,2170,0.919
+"WP2643","Nanoparticle-mediated activation of receptor signaling","WP2643",54800,1960,0.92
+"WP4504","Cysteine and methionine catabolism","WP4504",24200,1860,0.922
+"WP453","Inflammatory Response Pathway","WP453",39800,1810,0.922
+"WP4746","Thyroid hormones production and their peripheral downstream signalling effects regarding congenital hypothyroidism","WP4746",141000,2140,0.925
+"WP1449","Regulation of toll-like receptor signaling pathway","WP1449",242000,2180,0.926
+"WP143","Fatty Acid Beta Oxidation","WP143",53400,1980,0.928
+"WP244","Alpha 6 Beta 4 signaling pathway","WP244",65500,1990,0.928
+"WP4659","Gastrin Signaling Pathway","WP4659",229000,2180,0.929
+"WP3869","Cannabinoid receptor signaling","WP3869",44600,1940,0.933
+"WP195","IL-1 signaling pathway","WP195",116000,2110,0.934
+"WP3965","Lipid Metabolism Pathway","WP3965",52000,2000,0.934
+"WP3981","miRNA regulation of prostate cancer signaling pathways","WP3981",63500,1980,0.935
+"WP12","Osteoclast Signaling","WP12",21300,1770,0.937
+"WP1982","Sterol Regulatory Element-Binding Proteins (SREBP) signalling","WP1982",138000,2120,0.937
+"WP4146","Macrophage markers","WP4146",12200,1350,0.946
+"WP100","Glutathione metabolism","WP100",27300,1700,0.949
+"WP3413","NOTCH1 regulation of human endothelial cell calcification","WP3413",28900,1810,0.952
+"WP111","Electron Transport Chain (OXPHOS system in mitochondria)","WP111",125000,1780,0.956
+"WP615","Senescence and Autophagy in Cancer","WP615",199000,2140,0.957
+"WP1433","Nucleotide-binding Oligomerization Domain (NOD) pathway","WP1433",59400,1860,0.959
+"WP4329","miRNAs involvement in the immune response in sepsis","WP4329",62200,1940,0.959
+"WP3879","4-hydroxytamoxifen, Dexamethasone, and Retinoic Acids Regulation of p27 Expression","WP3879",31300,1740,0.961
+"WP4155","Endometrial cancer","WP4155",123000,2080,0.961
+"WP3676","BDNF-TrkB Signaling","WP3676",59300,1980,0.962
+"WP4352","Ciliary landscape","WP4352",419000,2160,0.962
+"WP4536","Genes related to primary cilium development (based on CRISPR)","WP4536",180000,2020,0.968
+"WP1471","Target Of Rapamycin (TOR) Signaling","WP1471",65800,1930,0.969
+"WP357","Fatty Acid Biosynthesis","WP357",36700,1840,0.969
+"WP4396","Nonalcoholic fatty liver disease","WP4396",273000,2020,0.971
+"WP4205","MET in type 1 papillary renal cell carcinoma","WP4205",105000,2020,0.972
+"WP2509","Nanoparticle triggered autophagic cell death","WP2509",37700,1790,0.978
+"WP581","EPO Receptor Signaling","WP581",46000,1840,0.979
+"WP2526","PDGF Pathway","WP2526",75100,1920,0.98
+"WP692","Sulfation Biotransformation Reaction","WP692",6720,1120,0.983
+"WP702","Metapathway biotransformation Phase I and II","WP702",175000,1950,0.983
+"WP3915","Angiopoietin Like Protein 8 Regulatory Pathway","WP3915",242000,2070,0.984
+"WP4758","Nephrotic syndrome","WP4758",60900,1850,0.984
+"WP534","Glycolysis and Gluconeogenesis","WP534",60600,1830,0.984
+"WP4217","Ebola Virus Pathway on Host","WP4217",239000,2020,0.985
+"WP710","DNA Damage Response (only ATM dependent)","WP710",207000,2070,0.988
+"WP4674","Head and Neck Squamous Cell Carcinoma","WP4674",129000,1960,0.991
+"WP623","Oxidative phosphorylation","WP623",56200,1520,0.993
+"WP4324","Mitochondrial complex I assembly model OXPHOS system","WP4324",69700,1550,0.995
+"WP3680","Association Between Physico-Chemical Features and Toxicity Associated Pathways","WP3680",107000,1950,0.996
+"WP4577","Neurodegeneration with brain iron accumulation (NBIA) subtypes pathway","WP4577",73600,1710,0.998
+"WP697","Estrogen metabolism","WP697",7800,867,0.999
+"WP4532","Intraflagellar transport proteins binding to dynein","WP4532",30900,1410,1
