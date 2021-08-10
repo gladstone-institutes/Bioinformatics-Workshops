@@ -39,6 +39,11 @@ diff.res <- dds.bc %>%
 diff.res %>%
   plotMA(.)
 
+##output the results
+diff.res %>%
+  as.data.frame() %>%
+  rownames_to_column('Gene') %>%
+  write.csv(., "bladder_cancer_diff_exp_results.csv", row.names = FALSE)
 ##load the pathway gene set data-bases
 database_lists <- load("databases.RData")#has wp, pfocr, go
 
