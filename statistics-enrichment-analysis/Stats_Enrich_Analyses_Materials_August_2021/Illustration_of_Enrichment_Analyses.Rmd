@@ -1,0 +1,340 @@
+---
+title: "Statistics of Enrichment Analyses"
+author: "Reuben Thomas"
+date: "8/12/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Let us load the libraries requires for the various analyses described in this document
+```{r}
+##libraries for "tidy" manipulation of data 
+suppressMessages(library(tidyverse))
+
+##libraries for "tidy" manipulation of data 
+suppressMessages(library(magrittr))
+
+##library used for normalizing gene expression data and then perform statistical association of gene expression with tumor vs normal comparison of bladder cancer samples
+suppressMessages(library(DESeq2))
+
+##library used for generating a Volcano Plot
+suppressMessages(library(EnhancedVolcano))
+
+##library to illustrate the use of Over Representation Analyses (ORA) and Gene Set Enrichment Analyses (GSEA) with gene permutation
+suppressMessages(library(clusterProfiler))
+
+##library to illustrate the use of Simulataneous Enrichment Analyses (SEA)
+suppressMessages(library(rSEA))
+
+##library to illustrate the use of Significance Analysis of Function and Expression (SAFE), Pathway Analysis with Down-weighting of Overlapping Genes (PADOG) and Gene Set Enrichment Analyses (GSEA) with sample permutation
+suppressMessages(library(GSEABenchmarkeR))
+
+
+```
+# Scientific Question
+*What are the biological pathways/gene sets differerntially regulated between the tumor and normal tissues in bladder cancer patients?*
+
+# Data
+The gene expression we will work with are assayed using RNA-seq in the tumor and normal tissues drawn from 19 subjects with bladder cancer. These data are derived from [The Cancer Genome Atlas](https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga) (TCGA).
+
+# Methods
+The methods we will use to answer the scientific question are described below:
+
+1. Load the gene expression data and understand the study design
+
+2. Perform differential expression analyses
+
+3. Run six different enrichment analyses methods. 
+
+
+**Note:** In normal practice we may run only one or at most two methods to answer our question. However, our purpose here is to illustrate the use of different methods, higlight and interpret their results in the context of the associated assumptions of each method. The choice of the methods we use will depend on ...
+
+a. ... the nature of our hypothesis, i.e., are we interested in a very specific biochemical pathway? or 
+
+b. ... are we agnostic of the nature of the biochemical pathways we discover to be asssociated with what we are studying?, 
+
+c. ... if we want to interpret the resulting p-values as measures of reproducibility of our enriched pathways by other research groups using data derived from new bladder cancer patient samples?
+
+d. ... whether the assay we are using is a genome-wide assay or a very targeted assay focusing on a specific group of genes or proteins
+
+# Analyses
+## Load the data and understand the experimental data
+The gene expression data will be loaded as a [SummarizedExperiment](https://bioconductor.org/packages/release/bioc/html/SummarizedExperiment.html) object in an [RDS](https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/readRDS) file.
+```{r}
+tcga <- readRDS("bladder_cancer_tcga_summarized_experiment.rds")
+
+##short summary of tcga. Note the 12,264 rownames represent the gene names as Entrez IDs
+tcga
+
+print("Short summary of the RNA-seq samples")
+##quick summary of 38 samples. Note the variable GROUP refers to tumor vs normal assignment while the variable BLOCK refers to the patient. From each of the 19 patients, tumor and normal tissue are derived and assayed for gene expression 
+colData(tcga)
+
+##turn the GROUP and BLOCK variables to categorical variables
+tcga$GROUP <- as.factor(tcga$GROUP)
+tcga$BLOCK <- as.factor(tcga$BLOCK)
+
+print("Look at the read counts of 4 genes for a 5 samples")
+(assays(tcga))$exprs[1:4,1:5]
+
+
+```
+## Differential expression analyses
+```{r message=FALSE}
+##create a DESeq data object
+dds.bc <- DESeqDataSet(tcga, design = ~ GROUP + BLOCK)
+
+##estimate normalization/size-factors and dispersions
+dds.bc %<>% DESeq(.)
+
+
+##variance stabilizing transformation to view the normalize data
+vsd.bc <- dds.bc %>%
+  vst(., blind=TRUE)
+
+##generate the PCA plot using the normalized data. Note the clustering of the samples by the tumor versus normal comparisons
+vsd.bc %>%
+  plotPCA(., intgroup=c("GROUP"))
+
+##differential expression association for tumor versus normal differences controlling for patient specific differences
+diff.res <- dds.bc %>% 
+  results(., contrast = c("GROUP", "1", "0"), pAdjustMethod="bonferroni")
+
+##visualize the results using a Volcano Plot
+diff.res %>%
+  as.data.frame() %>%
+  EnhancedVolcano(.,
+    lab = rownames(.),
+    x = 'log2FoldChange',
+    y = 'padj',
+    xlim = c(-5, 8))
+
+##output the results
+diff.res %>%
+  as.data.frame() %>%
+  rownames_to_column('Gene') %>%
+  write.csv(., "bladder_cancer_diff_exp_results.csv", row.names = FALSE)
+
+```
+
+## Load the gene set/pathway databases of interest
+We will load the Gene Ontology and WikiPathways databases. Note, an additional database called *PFOCR* is also loaded. We will ignore this database during this workshop.
+```{r}
+##load the pathway gene set data-bases
+database_lists <- load("databases.RData")#has wp, pfocr, go
+
+##WikiPathways annotation is a data frame that links genes (in terms of their Entrez IDs) to each of the WikiPathways (annotated by their names and IDs)
+head(wp_annotation)
+
+##WikiPathways list is a list of character vectors of Entrez IDs representing genes associated with each pathway
+head(wp_list)
+
+```
+
+
+## Illustration of different enrichment analyses methods
+### Over Representation Analyses (ORA)
+The input to this analyses is a list of genes of interest (here it would be the list of genes deemed differentially expressed between the tumor and normal samples) and also the universe of genes from which the former list of genes were derived.
+
+We will use a function in the *clusterProfiler* library to perform this analysis.
+```{r}
+##Choose set of differential expressed genes
+##pick the differentially expressed genes using 0.05 threshold
+diff_genes <- diff.res %>%
+    as.data.frame() %>%
+    rownames_to_column('gene') %>%
+    filter(padj < 0.05) %>%
+    .$gene 
+##important to pick the universe of genes. We will use all genes for which we have gene counts
+universe_genes <- diff.res %>%
+  as.data.frame() %>%
+  rownames_to_column('gene') %>%
+  .$gene
+
+##run the ORA analyses
+res_ora <- enricher(
+  gene = diff_genes,
+  universe = universe_genes,
+  pAdjustMethod = "BH",
+  pvalueCutoff = 1, #p.adjust cutoff
+  qvalueCutoff = 1,
+  minGSSize = 1,
+  maxGSSize = 100000,
+  TERM2GENE = wp_annotation[,c("set_id","gene")],
+  TERM2NAME = wp_annotation[,c("set_id","name")])
+
+res_ora <- res_ora@result
+
+## view the first few rows of the results
+head(res_ora)
+
+#GeneRatio: Proportion of differentially expressed in each WikiPathway
+#BgRatio: Proportion of all genes that are association with at least WikiPathway that is associated with each WikiPathway
+
+##Estimate the odds ratio
+#k: total number of differentially expressed genes annotated to at least one WikiPathway that are also part of each gene set 
+k <- sapply(res_ora$GeneRatio, function(x) as.numeric(strsplit(x, "/")[[1]][1]))
+#n: total number of differentially expressed genes annotated to at least one WikiPathway
+n <- sapply(res_ora$GeneRatio, function(x) as.numeric(strsplit(x, "/")[[1]][2]))
+#M: total number of genes in each gene set
+M <- sapply(res_ora$BgRatio, function(x) as.numeric(strsplit(x, "/")[[1]][1]))
+#N: total number of genes assigned to at least one WikiPathway. Note, this number will be less than or equal to the total number of genes for which you have count data in the RNA-seq (gene expression) data set
+N <- sapply(res_ora$BgRatio, function(x) as.numeric(strsplit(x, "/")[[1]][2]))
+odds_ratio <- (k*(N-M-n+k))/((M-k)*(n-k))
+
+res_ora %<>% mutate(odds_ratio=odds_ratio)
+
+## view the first few rows of the results
+head(res_ora)
+
+
+res_ora %>%
+  write.csv(., "bladder_cancer_WikiPathways_ora.csv", row.names = FALSE)
+
+```
+
+### Simultaneous Enrichment Analyses (SEA)
+These analyses require as input the (unadjusted) p-values associated with differential expression for each gene.
+
+
+
+```{r}
+# ##get estimates of the overall proportion of genes asssociated with the tumor vs normal comparison
+TDPestimate_full <- setTDP(diff.res$pvalue, universe_genes, alpha = 0.05)
+
+TDPestimate_full
+
+##run rSEA method
+res_rSEA <- SEA(diff.res$pvalue, universe_genes, pathlist = wp_list)
+
+
+##add additional column named Name so that these results can be merged with the wp_annotation data frame
+res_rSEA %<>% mutate(set_id=Name)
+##get pathway names
+wp_id_2_names <- wp_annotation %>%
+  select(1,2) %>%
+  unique()
+
+res_rSEA %<>% merge(wp_id_2_names,.)
+
+##View the first few rows of the results. Note: SC.adjP represents the adjusted p-value for the significance of self-contained null hypothesis while Comp.adjP represents the adjusted p-values for the significance of the competitive null hypothesis
+res_rSEA %>% 
+  dplyr::slice(order(Comp.adjP)) %>%
+          head()
+
+res_rSEA %>% dplyr::slice(order(Comp.adjP)) %>%
+  write.csv(., "bladder_cancer_WikiPathways_rSEA.csv", row.names = FALSE)
+
+
+
+```
+
+### Significance Analyses of Function and Expression (SAFE)
+These analyses require as input the normalized expression matrix of gene expression across all genes over all the 38 samples. The estimation of the significance of the association of a given gene set with the tumor vs normal comparison is based on permutation of the sample (tumor or normal) labels per subject.
+
+```{r}
+##We will use the GSEABenchmarkeR package to run this analyses. The function requires as input a list of SummarizedExperiment objects which includes additional rowData giving the differential expression results
+
+tcga.de <- readRDS("bladder_cancer_tcga_summarized_experiment_w_de_results.rds")
+
+##Note the function runEA takes the raw data, normalizes the expression data using the vst function in DESeq2 that generates the variance stabilized transformed normalized data which is then used as input to the SAFE method
+##We will not run the analyses here because the 1000 permutations will take some time to complete
+# res_safe_sample_perm <- runEA(tcga.de, method="safe", gs=wp_list, perm=1000)
+# res_safe <- res_safe_sample_perm$safe[[1]]$ranking %>% as.data.frame()
+# res_safe %<>% mutate(set_id=GENE.SET)
+# res_safe %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
+# res_safe %>%
+#   write.csv(., "bladder_cancer_WikiPathways_safe_sample_perm.csv", row.names = FALSE)
+
+##let us just read-in the results
+res_safe <- read.csv("bladder_cancer_WikiPathways_safe_sample_perm.csv", header = TRUE)
+##View the first few rows of the results
+head(res_safe)
+```
+
+### Pathway Analysis with Down-weighting of Overlapping Genes (PADOG)
+These analyses require as input the normalized expression matrix of gene expression across all genes over all the 38 samples. The estimation of the significance of the association of a given gene set with the tumor vs normal comparison is based on permutation of the sample (tumor or normal) labels per subject. This method includes the use of weights for each gene depending on its uniqueness to the gene set under consideration. 
+
+```{r}
+tcga.de <- readRDS("bladder_cancer_tcga_summarized_experiment_w_de_results.rds")
+
+##Note the function runEA takes the raw data, normalizes the expression data using the vst function in DESeq2 that generates the variance stabilized transformed normalized data which is then used as input to the SAFE method
+##We will not run the analyses here because the 1000 permutations will take some time to complete
+
+# res_padog_sample_perm <- runEA(tcga.de, method="padog", gs=wp_list, perm=1000)
+# res_padog <- res_padog_sample_perm$padog[[1]]$ranking %>% as.data.frame()
+# res_padog %<>% mutate(set_id=GENE.SET)
+# res_padog %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
+# res_padog %>%
+#   write.csv(., "bladder_cancer_WikiPathways_padog_sample_perm.csv", row.names = FALSE)
+
+##let us just read-in the results
+res_padog <- read.csv("bladder_cancer_WikiPathways_padog_sample_perm.csv", header = TRUE)
+##View the first few rows of the results
+head(res_padog)
+
+```
+
+### Gene Set Enrichment Analyses (GSEA) with sample permutation
+These analyses require as input the normalized expression matrix of gene expression across all genes over all the 38 samples. The estimation of the significance of the association of a given gene set with the tumor vs normal comparison is based on permutation of the sample (tumor or normal) labels per subject.
+
+```{r}
+tcga.de <- readRDS("bladder_cancer_tcga_summarized_experiment_w_de_results.rds")
+
+##Note the function runEA takes the raw data, normalizes the expression data using the vst function in DESeq2 that generates the variance stabilized transformed normalized data which is then used as input to the SAFE method
+##We will not run the analyses here because the 1000 permutations will take some time to complete
+
+# res_gsea_sample_perm <- runEA(tcga.de, method="gsea", gs=wp_list, perm=1000)
+# res_gsea <- res_gsea_sample_perm$gsea[[1]]$ranking %>% as.data.frame()
+# res_gsea %<>% mutate(set_id=GENE.SET)
+# res_gsea %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
+# res_gsea %>%
+#   write.csv(., "bladder_cancer_WikiPathways_gsea_sample_perm.csv", row.names = FALSE)
+
+##let us just read-in the results
+res_gsea <- read.csv("bladder_cancer_WikiPathways_gsea_sample_perm.csv", header = TRUE)
+##View the first few rows of the results
+head(res_gsea)
+
+```
+
+### Gene Set Enrichment Analyses (GSEA) with gene permutation
+These analyses require as input a score for each gene. The larger the absolute value of the score for a gene is the more the evidence of the strength of the association of the expression of the gene with the tumor vs normal comparison. The estimation of the significance of the association of a given gene set with the tumor vs normal comparison is based on permutation of the gene labels.
+
+```{r}
+##generate a score for each gene that is equal to -log10(pvalue) in absolute value and whose sign is equal to that of the log FC - positive for up-regulated genes while negative for down-regulated genes
+gene_list <- diff.res %>%
+  as.data.frame() %>%
+  rownames_to_column('Gene') %>%
+  mutate(Score = sign(as.numeric(log2FoldChange)) * - log10(as.numeric(as.character(pvalue)))) %>%
+  select(c("Score","Gene")) %>%
+  arrange(desc(Score))
+
+gene_list <- unlist(split(gene_list[, 1], gene_list[, 2]))
+gene_list = sort(gene_list[unique(names(gene_list))], decreasing = TRUE)
+
+head(gene_list)
+tail(gene_list)
+
+##run the gene perm version of gsea
+res_gsea_gene_perm <- clusterProfiler::GSEA(
+  gene_list,
+  pAdjustMethod="BH",
+  TERM2GENE = wp_annotation[,c("set_id","gene")],
+  TERM2NAME = wp_annotation[,c("set_id","name")]    ,
+  minGSSize = 1,
+  maxGSSize = 100000,
+  pvalueCutoff = 1,
+  verbose=FALSE)
+
+res_gsea_gene_perm <- res_gsea_gene_perm@result
+
+##view the first few rows of the results
+head(res_gsea_gene_perm)
+res_gsea_gene_perm %>%
+  write.csv(., "bladder_cancer_WikiPathways_gsea_gene_perm.csv", row.names = FALSE)
+
+```
