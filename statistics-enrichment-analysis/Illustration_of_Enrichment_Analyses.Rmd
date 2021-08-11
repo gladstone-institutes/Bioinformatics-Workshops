@@ -14,7 +14,7 @@ Let us load the libraries requires for the various analyses described in this do
 ##libraries for "tidy" manipulation of data 
 suppressMessages(library(tidyverse))
 
-##libraries for "tidy" manipulation of data 
+##libraries for "tidy" manipulation of data
 suppressMessages(library(magrittr))
 
 ##library used for normalizing gene expression data and then perform statistical association of gene expression with tumor vs normal comparison of bladder cancer samples
