@@ -1,0 +1,2 @@
+Link to gslides: https://docs.google.com/presentation/d/1ll7wNyUAyfA52gj5A5w3TTA3lCw4ufcllTWCzIJLKPk/edit?usp=sharing
+Link to automation tutorials: https://github.com/cytoscape/cytoscape-automation/wiki#workshops-and-use-cases
