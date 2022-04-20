@@ -115,7 +115,7 @@ Now, we will perform sctranform based normalization and visualize the results
 ```{r}
 data <- SCTransform(data, method="qpoisson", vars.to.regress = NULL)
 data <- RunPCA(data, verbose = FALSE)
-data <- RunTSNE(data, dims = 1:30, verbose = FALSE, method="Flt-SNE", initialization="pca", learning_rate=2400, perplexity=30)
+data <- RunTSNE(data, dims = 1:30, verbose = FALSE)
 
 data <- FindNeighbors(data, dims = 1:30, verbose = FALSE)
 data <- FindClusters(data, verbose = FALSE)
@@ -124,10 +124,8 @@ DimPlot(data, reduction = "tsne", group.by = "Individual")
 DimPlot(data, reduction = "tsne", group.by = "Time")
 DimPlot(data, reduction = "tsne", group.by = "batch")
 
-## Note there still appears to be an association of PC1 with nFeature_RNA
-FeatureScatter(object=data, feature1="nFeature_RNA", feature2="PC_1")
-FeaturePlot(object = data, features = "nFeature_RNA")
-FeaturePlot(object = data, features = "PC_1")
+# ## Note there still appears to be an association of PC1 with nFeature_RNA
+# FeatureScatter(object=data, feature1="nFeature_RNA", feature2="PC_1")
 
 ```
 ##Find marker genes for each cluster
@@ -144,18 +142,55 @@ head(MarkersRes1)
 ## Note: this is not the recommended approach to do this since instead of individual mice being treated as replicates, the cells are being treated as such
 cluster0_data <- subset(x=data, subset=(seurat_clusters==0))
 MarkersRes0 <- FindMarkers(cluster0_data, ident.1 = "5 day", group.by = "Time", assay = "SCT",slot = "data", test.use = "wilcox", return.thresh = 1e-6)
-VlnPlot(cluster0_data, features = "Tac1-17705", group.by = "Time")
+cluster0_data@meta.data$Time <- as.factor(cluster0_data@meta.data$Time)
+cluster0_data@meta.data$Time <- relevel(cluster0_data@meta.data$Time, ref="11 day")
 VlnPlot(cluster0_data, features = "Gm10116-5887", group.by = "Time")
 VlnPlot(cluster0_data, features = "Hspa1l-9322", group.by = "Time")
 
 
 
-## Find genes associated with time in cluster 1.
-## Note: this is not the recommended approach to do this since instead of individual mice being treated as replicates, the cells are being treated as such
-cluster1_data <- subset(x=data, subset=(seurat_clusters==1))
-MarkersRes1 <- FindMarkers(cluster1_data, ident.1 = "5 day", group.by = "Time", assay = "SCT",slot = "data", test.use = "wilcox", return.thresh = 1e-6)
-VlnPlot(cluster1_data, features = "Il1rl1-185", group.by = "Time")
 ```
+
+## Batch correction
+Below, we will go over code to remove potential batch effects in the data using the IntegrateData function in Seurat 3. We will use the same data as before, assuming that the data was generated in two batches. It was not, :). But lets pretend anyway.
+```{r}
+## Let us visualize the uncorrected data
+DimPlot(data, reduction = "tsne", group.by = "Individual")
+DimPlot(data, reduction = "tsne", group.by = "Time")
+DimPlot(data, reduction = "tsne", group.by = "batch")
+
+## Split the cells between the two batches
+batch.list <- SplitObject(data, split.by = "batch")
+
+## Normalize the read counts across cells within the same bench
+for (i in 1:length(batch.list)) {
+  batch.list[[i]] <- SCTransform(batch.list[[i]], verbose = FALSE, method="qpoisson", vars.to.regress = NULL)
+}
+
+## Select features to identify anchors
+batch.features <- SelectIntegrationFeatures(object.list = batch.list, nfeatures = 3000)
+batch.list <- PrepSCTIntegration(object.list = batch.list, anchor.features = batch.features, 
+                                    verbose = FALSE)
+## Find the anchors
+batch.anchors <- FindIntegrationAnchors(object.list = batch.list, normalization.method = "SCT", 
+                                           anchor.features = batch.features, verbose = FALSE, k.filter  = 10)
+## Integrate the data
+batch.integrated <- IntegrateData(anchorset = batch.anchors, normalization.method = "SCT", 
+                                     verbose = FALSE)
+
+## Let us visualize the "corrected" data
+batch.integrated <- RunPCA(batch.integrated, verbose = FALSE)
+batch.integrated <- RunTSNE(batch.integrated, dims = 1:30, verbose = FALSE)
+
+batch.integrated <- FindNeighbors(batch.integrated, dims = 1:30, verbose = FALSE)
+batch.integrated <- FindClusters(batch.integrated, verbose = FALSE)
+DimPlot(batch.integrated, label = TRUE, reduction = "tsne") 
+DimPlot(batch.integrated, reduction = "tsne", group.by = "Individual")
+DimPlot(batch.integrated, reduction = "tsne", group.by = "Time")
+DimPlot(batch.integrated, reduction = "tsne", group.by = "batch")
+
+```
+
 
 ## Multi-sample multi-condition comparison
 We will aggregate the counts across cells from each mouse within each cluster so that now we will be able to perform a pseudo-bulk RNA-seq differential expression separtely within each cluster. Note, we will be able to treat individual mice as replicates with this analyses. For the analyses in this section, we are moving away from Seurat. Hence we need to create a new single-cell RNA-seq object that the typical bioconductor package will recognise. 
@@ -173,6 +208,7 @@ data[["sIndividual"]] <- (data@meta.data$Individual) %>%
   as.character() %>%
   paste0("Individual_",.)
 
+head(data@meta.data)
 ## Store the meta-data for each cell in the PhenoData object
 PhenoData <- data@meta.data
 
@@ -296,45 +332,6 @@ print(ClusterRes)
 
 ```
 
-## Batch correction
-Below, we will go over code to remove potential batch effects in the data using the IntegrateData function in Seurat 3. We will use the same data as before, assuming that the data was generated in two batches. It was not, :). But lets pretend anyway.
-```{r}
-## Let us visualize the uncorrected data
-DimPlot(data, reduction = "tsne", group.by = "Individual")
-DimPlot(data, reduction = "tsne", group.by = "Time")
-DimPlot(data, reduction = "tsne", group.by = "batch")
-
-## Split the cells between the two batches
-batch.list <- SplitObject(data, split.by = "batch")
-
-## Normalize the read counts across cells within the same bench
-for (i in 1:length(batch.list)) {
-  batch.list[[i]] <- SCTransform(batch.list[[i]], verbose = FALSE, method="qpoisson", vars.to.regress = NULL)
-}
-
-## Select features to identify anchors
-batch.features <- SelectIntegrationFeatures(object.list = batch.list, nfeatures = 3000)
-batch.list <- PrepSCTIntegration(object.list = batch.list, anchor.features = batch.features, 
-                                    verbose = FALSE)
-## Find the anchors
-batch.anchors <- FindIntegrationAnchors(object.list = batch.list, normalization.method = "SCT", 
-                                           anchor.features = batch.features, verbose = FALSE, k.filter  = 10)
-## Integrate the data
-batch.integrated <- IntegrateData(anchorset = batch.anchors, normalization.method = "SCT", 
-                                     verbose = FALSE)
-
-## Let us visualize the "corrected" data
-batch.integrated <- RunPCA(batch.integrated, verbose = FALSE)
-batch.integrated <- RunTSNE(batch.integrated, dims = 1:30, verbose = FALSE)
-
-batch.integrated <- FindNeighbors(batch.integrated, dims = 1:30, verbose = FALSE)
-batch.integrated <- FindClusters(batch.integrated, verbose = FALSE)
-DimPlot(batch.integrated, label = TRUE, reduction = "tsne") 
-DimPlot(batch.integrated, reduction = "tsne", group.by = "Individual")
-DimPlot(batch.integrated, reduction = "tsne", group.by = "Time")
-DimPlot(batch.integrated, reduction = "tsne", group.by = "batch")
-
-```
 ```{r}
 sessionInfo()
 ```
