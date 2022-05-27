@@ -29,4 +29,3 @@ git fetch
 git checkout my-new-feat
 git rebase origin/main
 ```
-See [this post](https://blog.algolia.com/main-git-rebase/).
