@@ -23,7 +23,7 @@ Check status.
 git status
 ```
 
-Create a new branch named `my-feature` and push it to GitHub. It's a good idea to keep your active development in a separate branch from master so that master is always in the last known good state. For more information, see [our git workflows document](https://github.com/gladstone-institutes/git-primer/blob/master/workflows.md).
+Create a new branch named `my-feature` and push it to GitHub. It's a good idea to keep your active development in a separate branch from main so that main is always in the last known good state. For more information, see [our git workflows document](https://github.com/gladstone-institutes/git-primer/blob/main/workflows.md).
 ```bash
 git checkout -b my-feature
 git push origin my-feature
@@ -79,17 +79,17 @@ Commit your merge (if you needed to merge) and push to GitHub:
 git push origin my-feature
 ```
 
-When your changes are production ready, merge your work into your local master branch.
+When your changes are production ready, merge your work into your local main branch.
 ```bash
-git checkout master
+git checkout main
 git diff my-feature # optional
 git merge my-feature
 ```
 
 Push to GitHub (remote).
 ```bash
-git pull origin master
-git push origin master
+git pull origin main
+git push origin main
 ```
 
 Delete feature branch both locally and at GitHub.
