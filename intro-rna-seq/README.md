@@ -2,3 +2,12 @@
 [Link to wiki page](https://github.com/gladstone-institutes/Bioinformatics-Workshops/wiki/Introduction-to-RNA-Seq-Analysis)
 
 ### Description of files
+1. Single_read.fastq (fastq file with a single read to understand the fastq file format)
+2. Bacteria_GATTACA_L001_R1_001.fastq (single-end small practice data with 100k reads for the demo in the workshop)
+3. Adapter_Sequence.fasta (fasta file with adapter sequence for demo with cutadapt)
+4. rDNA_sequence.fasta (fasta file with the reference genome sequence for demo with STAR aligner)
+5. rDNA.gtf (GTF file with the annotations for demo with featureCounts)
+6. all_steps_wynton.sh (shell script for running all the analysis steps on UCSF Wynton  command-line interface using the practice data provided)
+7. steps_on_wynton_session1.txt (text file with steps used on wynton to download/uplaod files, change directories etc in session 1)
+8. steps_on_wynton_session2.txt (text file with steps used on wynton to download/uplaod files, change directories etc in session 2)
+9. all_steps_docker_desktop.sh (shell script for running all the analysis steps using Docker Desktop and the practice data provided)
