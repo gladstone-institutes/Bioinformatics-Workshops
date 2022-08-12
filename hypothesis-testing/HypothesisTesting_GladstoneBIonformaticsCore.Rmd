@@ -1,7 +1,7 @@
 ---
 title: "Hypothesis Testing"
 author: "Reuben Thomas"
-date: "9/14/2020"
+date: "8/12/2022"
 output: html_document
 ---
 
@@ -43,19 +43,19 @@ ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
 ## One-sided, one sample t-test
 
 
-Let us now say that we are interested in the linseed feed. And we are interested in a feed that keeps the mean chick weight below 200 units. Does the linseed feed do this?
+Let us now say that we are interested in the linseed feed. And we are interested in a feed that keeps the mean chick weight above 200 units (we want healthy chickens, :)). Does the linseed feed do this?
 
 We would like to make any resulting claims generalizable to the entire chick population. This despite, we have only chosen (randomly and independently) 12 chicks to be fed with linseed. *All statistical tests* have underlying them something called a _Test statistic_, a number that typically capture what we are interested in testing. In our case, we are interested in the mean chick weight fed with linseed. We will end up using the mean weight scaled by the observed standard deviation of weights. _All Test statistics_ have something called a _sampling distribution_ - the reflects the distribution of the observed statistic over repeated experiments like we just performed. We have just performed one experiment now, sampled 12 chicks and fed them with linseed. The exact mathematical distribution is defined under certain assumptions - these _assumptions_ are important. For our question, a _t-statistic_ has been shown to be a good choice. The sampling distribution of the _t-statistic_ is called a _t distribution_.
 
 Our _null (uninteresting, skeptical) hypothesis_ is that the mean chick weight after being fed with linseed is less than 200 units. The _alternative_ (when the mean weight is greater than 200) is interesting for us.
 
-Therfore, we will use a one-sample, one-sided t-test to answer this question.
+We will use a one-sample, one-sided t-test to answer this question.
 ```{r}
 ##load the library to filter the data
 suppressMessages(library(dplyr))
 ##First we need to get the weights of the chicks fed linseed
 LinSeedWeights <- filter(chickwts, feed =="linseed")$weight
-
+print(LinSeedWeights)
 ##let us again visualize this
 boxplot(LinSeedWeights)
 ```
@@ -117,7 +117,7 @@ bf.test(weight ~ feed, SubChickWts)
 You will see that the p-value from this test is not significant, so we can assume variances are equal. Otherwise we would need to run,
 
 ```{r}
-t.test(weight ~ feed, data=SubChickWts, var.equal=F)
+t.test(weight ~ feed, data=SubChickWts, var.equal=FALSE)
 ```
 The t-test also requires the assumption of normality. This is not essential. It has been shown to be quite robust to deviations from normality. In any case, we will test for normality using the Shapiro-Wilk test.
 ```{r}
@@ -196,7 +196,7 @@ TukeyHSD(AmodelFit,ordered = TRUE)
 plot(TukeyHSD(AmodelFit,ordered = TRUE))
 ```
  
- Not the adjusted p-value for the soybean-linseed comparison is different (0.793 vs 0.199) from what we obtained using the two-sample, two-sided t-test. The resulting confidence interval of this difference is also wider.
+ Note the adjusted p-value for the soybean-linseed comparison is different (0.793 vs 0.199) from what we obtained using the two-sample, two-sided t-test. The resulting confidence interval of this difference is also wider.
  
 
 ```{r}
@@ -311,6 +311,7 @@ We will now perform a linear model version of the one-way ANOVA test we ran abov
 ```{r}
 ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
 lmFit <- lm(weight ~ feed, chickwts)
+print(levels(chickwts$feed))
 summary(lmFit)
 ```
 
