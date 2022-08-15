@@ -37,7 +37,7 @@ After looking numerically at the data, let us look at it visually. We will plot 
 ```{r}
 ## load the library to be used for plotting
 suppressMessages(library(ggplot2))
-ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
+ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot() + geom_jitter(width=0.1)
 ```
 
 ## One-sided, one sample t-test
@@ -58,6 +58,7 @@ LinSeedWeights <- filter(chickwts, feed =="linseed")$weight
 print(LinSeedWeights)
 ##let us again visualize this
 boxplot(LinSeedWeights)
+abline(h=200, lty=2, col="red")
 ```
 
 Now, we will run the one-sample, one-sided t-test. 
@@ -84,7 +85,7 @@ SubChickWts$feed <- droplevels(SubChickWts$feed)
 str(SubChickWts)
 
 ##let us plot this again
-ggplot(SubChickWts, aes(x=feed, y=weight)) + geom_boxplot()
+ggplot(SubChickWts, aes(x=feed, y=weight)) + geom_boxplot() + geom_jitter(width=0.1)
 ```
 
 The distribution of chick weights fed soybean appears to have slightly higher than those fed with linseed. We will compute the mean weights of the checks fed with each kind of feed.
@@ -137,7 +138,7 @@ wilcox.test(weight ~ feed, data=SubChickWts)
 ## Statistical power estimates or Sample Size calculations
 We were unable to reject the hypothesis that linseed and soybean feed kept the mean weights of the chicks the same. Let us visualize these data again,
 ```{r}
-ggplot(SubChickWts, aes(x=feed, y=weight)) + geom_boxplot()
+ggplot(SubChickWts, aes(x=feed, y=weight)) + geom_boxplot()+ geom_jitter(width=0.1)
 ```
 It however appears that the soybean feed does increase the mean weight over the linseed feed.
 If the increase is true then we need more samples to conclude that the soybean feed does increase the mean chick weight in a statistically significant manner.
@@ -151,7 +152,7 @@ To do that we can perform something called a statistical power analyses. We will
 
 2. The effect size that you want to have the statistical power to estimate
 
-3. At what Type I error will you be making claims of statistical significance. This is a number between 0 and 1 (typically 0.05) and represents the fraction of times (when you repeat the same experiment over and over again) when you will claim significance when in fact your null hypothesis is true (there is no differernce in the mean weights).
+3. At what Type I error will you be making claims of statistical significance. This is a number between 0 and 1 (typically 0.05) and represents the fraction of times (when you repeat the same experiment over and over again) when you will claim significance when in fact your null hypothesis is true (there is no difference in the mean weights).
 
 4. What is the desired statistical power? This is a number between 0 and 1 and represents the fraction of times (when you repeat the same experiment over and over) you want to claim significance at the chosen Type I error, when there is really a difference as captured by the effect size.
 
@@ -172,10 +173,10 @@ The results says we need to have at least 60 chicks in each feed group to have a
 We will now go back to looking at the distribution of the weights of chicks fed all the diets and not just the above two one. Our null hypothesis is that the mean chick weights is same for all the 6 feeds. Let us visualize the data again,
 
 ```{r}
-ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
+ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()+ geom_jitter(width=0.1)
 ```
 
-The appropriate test statistic to use here is called the F-statistic, its sampling distribution is called the F-distribution. While the t-distribution captures the sampling distribution of the scaled sample mean or scaled difference of sample means, the F-distribution captures the proportion of variance between all observations within a feed group due to variance in the mean chick weights between feed groups, i.e.,
+The appropriate test statistic to use here is called the F-statistic, its sampling distribution is called the F-distribution. While the t-distribution captures the sampling distribution of the scaled sample mean or scaled difference of sample means, the F-distribution captures the ratio of variance in the mean chick weights between feed groups versus variance between all observations within a feed group , i.e.,
 
 $$F = \frac{between\ feed\ group\ weight\ variance}{within\ feed\ group\ weight\ variance}$$
 So, intuitively when the mean chick weights are not different between the different feed groups, the variance between these mean weights should be similar to variances of weights within a feed group. That is, under the null hypothesis F will hover around 1. Note, when we say, "within a feed group", we don't specify which particular feed group. This should suggest to you the requirement of the assumption that within feed groups variances are same across all groups. 
@@ -187,7 +188,7 @@ summary(AmodelFit)
 ```
 
 The significance above suggests that there are feeds resulting in differing mean chick weights.
-We don't get information on which pairs are really different from each other. To get this information, we will perform multiple pairwise tests using Tukey's posthoc tests.
+We don't get information on which pairs are really different from each other. To get this information, we will perform multiple pairwise tests using Tukey's post-hoc tests.
 
 ### Multiple testing
 ```{r}
@@ -296,7 +297,7 @@ There are always assumptions to check for. We will visually attempt to test the 
 
 2. Normality of residuals (differences between observations and their predictions using the linear model).
 
-3. Homogenity of variances across the fitted/predicted values of distance
+3. Homogeneity of variances across the fitted/predicted values of distance
 
 4. Influence of outliers on slope estimates
 
@@ -309,7 +310,7 @@ plot(lmFit)
 We will now perform a linear model version of the one-way ANOVA test we ran above,
 
 ```{r}
-ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
+ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot() + geom_jitter(width = 0.1)
 lmFit <- lm(weight ~ feed, chickwts)
 print(levels(chickwts$feed))
 summary(lmFit)
@@ -334,7 +335,7 @@ Let us visualize the data now,
 
 ```{r}
 
-ggplot(ToothGrowth, aes(x=dose, y=len, color=supp)) + geom_boxplot()
+ggplot(ToothGrowth, aes(x=dose, y=len, color=supp)) + geom_boxplot() 
 ```
 
 We will formulate a linear model to estimate the effects of _dose_ and _supp_.
