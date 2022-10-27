@@ -1,0 +1,357 @@
+---
+title: "Hypothesis Testing"
+author: "Reuben Thomas"
+date: "8/12/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##Load the data
+An experiment was conducted to measure and compare the effectiveness of various feed supplements on the growth rate of chicken
+```{r chickwts}
+##read help page
+?chickwts
+##load the data.frame
+chickwts <- data.frame(chickwts)
+##Numerical summary of the chickwts data
+summary(chickwts)
+
+
+```
+
+Let us look at the data a bit more closely
+```{r}
+##look at the first few rows
+head(chickwts)
+
+##let us look at the kind of variables in the chickwts data.frame - a numerical variable, weight and a factor variable, feed with 6 levels
+str(chickwts)
+
+```
+
+After looking numerically at the data, let us look at it visually. We will plot the relationship between the weight of the chickens and the diet/feed they were on
+
+## Visualize the data
+```{r}
+## load the library to be used for plotting
+suppressMessages(library(ggplot2))
+ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
+```
+
+## One-sided, one sample t-test
+
+
+Let us now say that we are interested in the linseed feed. And we are interested in a feed that keeps the mean chick weight above 200 units (we want healthy chickens, :)). Does the linseed feed do this?
+
+We would like to make any resulting claims generalizable to the entire chick population. This despite, we have only chosen (randomly and independently) 12 chicks to be fed with linseed. *All statistical tests* have underlying them something called a _Test statistic_, a number that typically capture what we are interested in testing. In our case, we are interested in the mean chick weight fed with linseed. We will end up using the mean weight scaled by the observed standard deviation of weights. _All Test statistics_ have something called a _sampling distribution_ - the reflects the distribution of the observed statistic over repeated experiments like we just performed. We have just performed one experiment now, sampled 12 chicks and fed them with linseed. The exact mathematical distribution is defined under certain assumptions - these _assumptions_ are important. For our question, a _t-statistic_ has been shown to be a good choice. The sampling distribution of the _t-statistic_ is called a _t distribution_.
+
+Our _null (uninteresting, skeptical) hypothesis_ is that the mean chick weight after being fed with linseed is less than 200 units. The _alternative_ (when the mean weight is greater than 200) is interesting for us.
+
+We will use a one-sample, one-sided t-test to answer this question.
+```{r}
+##load the library to filter the data
+suppressMessages(library(dplyr))
+##First we need to get the weights of the chicks fed linseed
+LinSeedWeights <- filter(chickwts, feed =="linseed")$weight
+print(LinSeedWeights)
+##let us again visualize this
+boxplot(LinSeedWeights)
+```
+
+Now, we will run the one-sample, one-sided t-test. 
+```{r}
+t.test(LinSeedWeights, mu=200, alternative = "greater")
+```
+Based on the p-value and a typical statistical threshold of 0.05, we are unable to reject the hypothesis linseed keeps the mean chick weights below 200 units 
+
+
+## Two-sided, two sample t-test
+Now, let us move on and say we are interested in testing the differences between linseed and soybean on chick weight. As before, we will create a subset of the original data with the feeds of interest.
+
+```{r}
+SubChickWts <- filter(chickwts, feed=="linseed" | feed=="soybean")
+
+##let us check the variables in SubChickWts
+str(SubChickWts)
+
+##notice feed still appears to have 6 levels
+##drop unused factor levels of feed
+SubChickWts$feed <- droplevels(SubChickWts$feed)
+
+##now check again
+str(SubChickWts)
+
+##let us plot this again
+ggplot(SubChickWts, aes(x=feed, y=weight)) + geom_boxplot()
+```
+
+The distribution of chick weights fed soybean appears to have slightly higher than those fed with linseed. We will compute the mean weights of the checks fed with each kind of feed.
+```{r}
+##mean of wight with linseed feed
+print(mean(SubChickWts$weight[SubChickWts$feed == "linseed"]))
+##mean of wight with soybean feed
+print(mean(SubChickWts$weight[SubChickWts$feed == "soybean"]))
+```
+
+Can we more formally test this?
+
+Specifically, can we test how likely it is to observe the given difference in the mean weights of chicks fed the two diets when in fact they do not differ. Given the observed the variance of weights across the chicks on a given feed, may be it is quite likely that we would observe this big of a difference if we were to repeat this experiment over and over again. The two-sample t-test gives us a formal way to test for this difference. The _Test statistic_ is again the _t-statistic_ and the sampling distribution is the _t distribution_ under certain assumptions (see below).
+
+
+```{r}
+t.test(weight ~ feed, data=SubChickWts, var.equal=TRUE)
+```
+The above estimated p-value suggests that we cannot the reject the hypothesis that the mean weights of the two feeds are the same.
+
+All statistical hypothesis tests come with a bunch lot of assumptions. The version of the t-test we used above assumed that the variances of the chick weights is the same for the two feeds. The t-test has a different version if the variances of the weights are unlikely to be equal called the Welch t-test. 
+
+We will test equality of variances using the Brown-Forsythe test for equality of variances.
+```{r}
+##First we need to load the required library with this test
+suppressMessages(library(onewaytests))
+bf.test(weight ~ feed, SubChickWts)
+```
+
+You will see that the p-value from this test is not significant, so we can assume variances are equal. Otherwise we would need to run,
+
+```{r}
+t.test(weight ~ feed, data=SubChickWts, var.equal=FALSE)
+```
+The t-test also requires the assumption of normality. This is not essential. It has been shown to be quite robust to deviations from normality. In any case, we will test for normality using the Shapiro-Wilk test.
+```{r}
+shapiro.test(SubChickWts$weight[SubChickWts$feed == "linseed"])
+shapiro.test(SubChickWts$weight[SubChickWts$feed == "soybean"])
+```
+In both the cases, we are unable to reject the hypothesis that the data is normal.
+
+If however, we ended up rejecting the normality assumption, it may be better to use a non-paramteric test that does not require the normality assumption 
+
+```{r}
+##Wilcox test is a non-parametric test that can be used as an alternative to the t-test. Wilcox test does not need the assumption of normality
+wilcox.test(weight ~ feed, data=SubChickWts)
+```
+
+
+## Statistical power estimates or Sample Size calculations
+We were unable to reject the hypothesis that linseed and soybean feed kept the mean weights of the chicks the same. Let us visualize these data again,
+```{r}
+ggplot(SubChickWts, aes(x=feed, y=weight)) + geom_boxplot()
+```
+It however appears that the soybean feed does increase the mean weight over the linseed feed.
+If the increase is true then we need more samples to conclude that the soybean feed does increase the mean chick weight in a statistically significant manner.
+
+
+How many more samples would we need?
+
+To do that we can perform something called a statistical power analyses. We will use a library in R called _pwr_ that will help us with these analyses. Before doing any power analyses, you need to know a bunch of things.
+
+1. The sampling distribution of the test statistic (t-statistic)
+
+2. The effect size that you want to have the statistical power to estimate
+
+3. At what Type I error will you be making claims of statistical significance. This is a number between 0 and 1 (typically 0.05) and represents the fraction of times (when you repeat the same experiment over and over again) when you will claim significance when in fact your null hypothesis is true (there is no differernce in the mean weights).
+
+4. What is the desired statistical power? This is a number between 0 and 1 and represents the fraction of times (when you repeat the same experiment over and over) you want to claim significance at the chosen Type I error, when there is really a difference as captured by the effect size.
+
+```{r}
+suppressMessages(library(pwr))
+##Let us first compute the increase in mean chick weight from linseed to soybean feed
+(mean(SubChickWts$weight[SubChickWts$feed == "soybean"])) - (mean(SubChickWts$weight[SubChickWts$feed == "linseed"]))
+##We will now define the effect size,d as the above difference scaled by the standard deviation of the chick weights
+d <- ((mean(SubChickWts$weight[SubChickWts$feed == "soybean"])) - (mean(SubChickWts$weight[SubChickWts$feed == "linseed"])))/sd(SubChickWts$weight)
+##load the library
+##Our test statistic is the t-statistic and the relevant function is pwr.t.test
+pwr.t.test(d=d, power = 0.8, sig.level = 0.05)
+```
+The results says we need to have at least 60 chicks in each feed group to have a 80% chance to making a claim of differences in mean chick weights from linseed to soybean with a significance of 0.05, if there really is this underlying difference.
+
+
+## One-way ANOVA
+We will now go back to looking at the distribution of the weights of chicks fed all the diets and not just the above two one. Our null hypothesis is that the mean chick weights is same for all the 6 feeds. Let us visualize the data again,
+
+```{r}
+ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
+```
+
+The appropriate test statistic to use here is called the F-statistic, its sampling distribution is called the F-distribution. While the t-distribution captures the sampling distribution of the scaled sample mean or scaled difference of sample means, the F-distribution captures the proportion of variance between all observations within a feed group due to variance in the mean chick weights between feed groups, i.e.,
+
+$$F = \frac{between\ feed\ group\ weight\ variance}{within\ feed\ group\ weight\ variance}$$
+So, intuitively when the mean chick weights are not different between the different feed groups, the variance between these mean weights should be similar to variances of weights within a feed group. That is, under the null hypothesis F will hover around 1. Note, when we say, "within a feed group", we don't specify which particular feed group. This should suggest to you the requirement of the assumption that within feed groups variances are same across all groups. 
+
+We will now run the ANOVA analyses as follows:
+```{r}
+AmodelFit <- aov(weight ~ feed, data=chickwts) 
+summary(AmodelFit)
+```
+
+The significance above suggests that there are feeds resulting in differing mean chick weights.
+We don't get information on which pairs are really different from each other. To get this information, we will perform multiple pairwise tests using Tukey's posthoc tests.
+
+### Multiple testing
+```{r}
+TukeyHSD(AmodelFit,ordered = TRUE)
+##we can visualize the confidence intervals of the differences in mean chick weights
+plot(TukeyHSD(AmodelFit,ordered = TRUE))
+```
+ 
+ Note the adjusted p-value for the soybean-linseed comparison is different (0.793 vs 0.199) from what we obtained using the two-sample, two-sided t-test. The resulting confidence interval of this difference is also wider.
+ 
+
+```{r}
+t.test(weight ~ feed, data=SubChickWts, var.equal=TRUE)
+```
+Why did we have to correct for multiple testing, the fact we are interested in 15 comparisons? One way to try and justify it for yourself is to run through the following thought experiment. 
+
+1. Suppose we set the significance threshold, Type I error at 0.05 as before. 
+
+2. We will assume that of the 15 comparisons there are 8 comparisons that indicate actual difference in mean weights.
+
+3. We will also assume that the statistical power to detect true differences is 0.8.
+
+4. Then of the 8 true differences in feeds, we would expect to detect $8\times0.8\approx6$ of these findings.
+
+5. Of the 15 comparisons we would expect to see $15\times0.05\approx 1$ false-positive.
+
+6. Therefore the expected false discovery rate is $\frac{1}{1+6}=\frac{1}{7}=14\%$, higher than what we would have typically expected.
+
+7. This situation is further exacerbated if the number of true differences in the 15 comparisons is smaller. For example, if the number of true differences is 4. Then the expected number of these detected would be $4\times0.8\approx3$. The false discovery rate would then be $\frac{1}{1+3}=\frac{1}{4}=25\%$. Again, something which is generally considered unacceptable.
+
+8. Intuitively in this situation, one way to reduce the false discovery rate is to reduce Type I error, make it smaller than 0.05. This is what some of mulitple testing methods are implicitly doing.
+
+The ANOVA tests have two important assumptions that we will need to check.
+1. Normality of the responses
+2. Equality of variances of chick weights in each of the feed groups.
+
+We will now check these assumptions
+
+```{r}
+##NORMALITY
+shapiro.test(chickwts$weight[chickwts$feed == "casein"])
+shapiro.test(chickwts$weight[chickwts$feed == "horsebean"])
+shapiro.test(chickwts$weight[chickwts$feed == "linseed"])
+shapiro.test(chickwts$weight[chickwts$feed == "meatmeal"])
+shapiro.test(chickwts$weight[chickwts$feed == "soybean"])
+shapiro.test(chickwts$weight[chickwts$feed == "sunflower"])
+```
+
+The normality assumptions does not seem to be violated. Now, we will test for equality of variances,
+```{r}
+## EQUALITY OF VARIANCES
+bf.test(weight ~ feed, chickwts)
+```
+The variances are significantly different from zero. So one of the assumptions of one-way ANOVA is violated. So we need to do something different. Some of you may think we would need to take recourse to a  non-parametric test. The Kruskall-Wallis test is the non-parametric version of one-way ANOVA.
+
+```{r}
+kruskal.test(weight ~ feed, chickwts)
+```
+
+
+Unfortunately, we cannot use this test because it requires the assumption that the variances of chick weights to be same for the different feeds - this assumption is violated. So the next alternative would be to perform a bunch of pair-wise Welch t-tests
+
+```{r}
+##We will also store the resulting p-values from the resulting pair-wise tests. Just for this workshop we compare the mean chick weights of all other feeds to the casein feed estimate 
+pValueFeedComparisons <- vector(mode = "numeric")
+pValueFeedComparisons[1] <- t.test(chickwts$weight[chickwts$feed=="casein"], chickwts$weight[chickwts$feed=="horsebean"])$p.value
+pValueFeedComparisons[2] <- t.test(chickwts$weight[chickwts$feed=="casein"], chickwts$weight[chickwts$feed=="linseed"])$p.value
+pValueFeedComparisons[3] <- t.test(chickwts$weight[chickwts$feed=="casein"], chickwts$weight[chickwts$feed=="meatmeal"])$p.value
+pValueFeedComparisons[4] <- t.test(chickwts$weight[chickwts$feed=="casein"], chickwts$weight[chickwts$feed=="soybean"])$p.value
+pValueFeedComparisons[5] <- t.test(chickwts$weight[chickwts$feed=="casein"], chickwts$weight[chickwts$feed=="sunflower"])$p.value
+names(pValueFeedComparisons) <- c("horsebean", "linseed", "meatmeal", "soybean", "sunflower")
+
+print(pValueFeedComparisons)
+```
+
+
+We have performed several tests and would need correct for multiple tests. We have seen that the Tukey post hoc tests provide one way for correcting for multiple testing. There are multiple ways for correcting for multiple testing. Each has a set of assumptions and also a particular criteria it is controlling for. Here we will use two ways of correcting for multiple testing: the _Holm-Sidak_ method and the _Benjamini-Hochberg_ method. The _Holm-Sidak_ method controls for something called a family-wise error rate (similar to what the _Tukey_ method was controlling for) , or the probability on repeating these experiments over and over that you will observe at least one false positive. The _BH_ or _Benjamini-Hochberg_ method controls for False-Discovery Rate, or the expected (over repeated experiments) fraction of false positives among the rejected hypothesis. The _Holm-Sidak_ method is more conservative while the _BH_ method has more tolerance for false-positives
+
+```{r}
+##load the require library
+suppressMessages(library(multtest))
+MCor <- mt.rawp2adjp(pValueFeedComparisons, proc = c("SidakSD", "BH"))
+MCorResults <- cbind(pValueFeedComparisons[MCor$index], MCor$adjp)
+head(MCorResults)
+```
+You will the results in the SidakSD and BH columns as adjusted p-values
+
+## Linear modeling
+Linear modeling provides a really flexible approach to statistical hypothesis testing. Simple Linear Regression is a special case of linear models. In fact, the above one-way ANOVA tests could as well be performed using linear models. Let us start with an example for Simple Linear Regression.
+
+```{r}
+?cars
+summary(cars)
+ggplot(cars, aes(x=speed, y=dist)) + geom_point() + geom_smooth(method = "lm", se=F)
+```
+Now, we will estimate the slope and intercept of the best fit line to these data.
+
+```{r}
+lmFit <- lm(dist ~ speed, cars)
+summary(lmFit)
+```
+
+There are always assumptions to check for. We will visually attempt to test the assumptions of the linear regression fit. The assumptions tested visually (in order) are:
+
+1. Suitability of a linear (as opposed to some non-linear) model for these data.
+
+2. Normality of residuals (differences between observations and their predictions using the linear model).
+
+3. Homogenity of variances across the fitted/predicted values of distance
+
+4. Influence of outliers on slope estimates
+
+```{r}
+plot(lmFit)
+```
+
+
+### One-way ANOVA
+We will now perform a linear model version of the one-way ANOVA test we ran above,
+
+```{r}
+ggplot(chickwts, aes(x=feed, y=weight)) + geom_boxplot()
+lmFit <- lm(weight ~ feed, chickwts)
+print(levels(chickwts$feed))
+summary(lmFit)
+```
+
+
+### Two-way ANOVA
+We will use linear models to test hypothesis in a situation where we are assessing the association of a continuous response variable with two categorical/factor variables.
+
+```{r}
+?ToothGrowth
+##numerically summarize look at the Toothgrowth data set
+summary(ToothGrowth)
+str(ToothGrowth)
+##we change dose to a factor variable
+ToothGrowth$dose <- as.factor(ToothGrowth$dose)
+str(ToothGrowth)
+```
+
+
+Let us visualize the data now,
+
+```{r}
+
+ggplot(ToothGrowth, aes(x=dose, y=len, color=supp)) + geom_boxplot()
+```
+
+We will formulate a linear model to estimate the effects of _dose_ and _supp_.
+
+```{r}
+lmFit <- lm(len ~ dose + supp + dose:supp, ToothGrowth)
+summary(lmFit)
+
+```
+We will go over the interpretation of the estimates from this linear model fit. Note, we have estimated both the main effects and also interaction effects.
+
+
+## Clustered data
+### Paired t-test
+
+## 2x2 tables
+
+
+
+
