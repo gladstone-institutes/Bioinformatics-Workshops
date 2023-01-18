@@ -268,11 +268,8 @@ print(pValueFeedComparisons)
 We have performed several tests and would need correct for multiple tests. We have seen that the Tukey post hoc tests provide one way for correcting for multiple testing. There are multiple ways for correcting for multiple testing. Each has a set of assumptions and also a particular criteria it is controlling for. Here we will use two ways of correcting for multiple testing: the _Holm-Sidak_ method and the _Benjamini-Hochberg_ method. The _Holm-Sidak_ method controls for something called a family-wise error rate (similar to what the _Tukey_ method was controlling for) , or the probability on repeating these experiments over and over that you will observe at least one false positive. The _BH_ or _Benjamini-Hochberg_ method controls for False-Discovery Rate, or the expected (over repeated experiments) fraction of false positives among the rejected hypothesis. The _Holm-Sidak_ method is more conservative while the _BH_ method has more tolerance for false-positives
 
 ```{r}
-##load the require library
-suppressMessages(library(multtest))
-MCor <- mt.rawp2adjp(pValueFeedComparisons, proc = c("SidakSD", "BH"))
-MCorResults <- cbind(pValueFeedComparisons[MCor$index], MCor$adjp)
-head(MCorResults)
+MCor <- p.adjust(pValueFeedComparisons, method = c("holm"))
+MCorResults <- data.frame(pValueFeedComparisons, adj.p=p.adjust(pValueFeedComparisons, method = "holm"))
 ```
 You will the results in the SidakSD and BH columns as adjusted p-values
 
@@ -300,6 +297,8 @@ There are always assumptions to check for. We will visually attempt to test the 
 3. Homogeneity of variances across the fitted/predicted values of distance
 
 4. Influence of outliers on slope estimates
+
+See https://data.library.virginia.edu/diagnostic-plots/ for an elaboration of what each of these plots mean
 
 ```{r}
 plot(lmFit)
@@ -347,12 +346,6 @@ summary(lmFit)
 ```
 We will go over the interpretation of the estimates from this linear model fit. Note, we have estimated both the main effects and also interaction effects.
 
-
-## Clustered data
-### Paired t-test
-
-## 2x2 tables
-
-
+Note, per our discussion in class yesterday the variable _supp_ can be considered to moderate the influence of tooth growth on the _dose_ of vitamin C.
 
 
