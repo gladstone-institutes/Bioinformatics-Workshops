@@ -1,0 +1,55 @@
+---
+title: 'Hands-on component of Single-cell ATAC-seq workshop: Sessions 1-2'
+author: "Ayushi Agrawal"
+date: "1/31/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Introduction
+
+We'll review the current practices for some of the common steps in scATAC-seq data analysis in the Sessions 1-2. We'll discuss different practices for each step and the assumptions underlying various tools and their limitations. This document provides an exposure to one of the popular tools for such analysis. As we'll discuss, the right choice of method in any application depends on a number of factors, including the biological systems under study and the characteristics of the data in hand. For the purpose of our workshop, we'll limit the hands-on component to the ArchR package in R. In general, analysis might require multiple tools in different languages and/or novel development. For more, please see the slide deck in materials. 
+
+The following is based on [this vignette](https://www.archrproject.com//articles/Articles/tutorial.html) from the ArchR developers. Please note that ArchR is designed to be run on Unix-based operating systems such as macOS and linux. ArchR is NOT supported on Windows or other operating systems.
+
+## Setup the working environment
+
+```{r message=FALSE, warning=FALSE}
+# TODO: remove this line: internal reference: https://github.com/gladstone-institutes/atacseq_cardio_multiomics
+library(ArchR)
+
+#set threads
+addArchRThreads(threads = 16) 
+
+#load the genome
+addArchRGenome("hg19")
+```
+
+## Load the data
+
+```{r}
+#one way to get the files
+inputFiles <- getTutorialData(tutorial = "Multiome")
+
+#another way to specify files
+filesUrl <- data.frame(
+  fileUrl = c(
+    "https://jeffgranja.s3.amazonaws.com/ArchR/TestData/Multiome/pbmc_sorted_3k.fragments.tsv.gz",
+    "https://jeffgranja.s3.amazonaws.com/ArchR/TestData/Multiome/pbmc_sorted_3k.filtered_feature_bc_matrix.h5",
+    "https://jeffgranja.s3.amazonaws.com/ArchR/TestData/Multiome/pbmc_unsorted_3k.fragments.tsv.gz",
+    "https://jeffgranja.s3.amazonaws.com/ArchR/TestData/Multiome/pbmc_unsorted_3k.filtered_feature_bc_matrix.h5"
+  ),
+  md5sum = c(
+    "d49f4012ff65d9edfee86281d6afb286",
+    "e326066b51ec8975197c29a7f911a4fd",
+    "5737fbfcb85d5ebf4dab234a1592e740",
+    "bd4cc4ff040987e1438f1737be606a27"
+  ),
+  stringsAsFactors = FALSE
+)
+```
+
+
