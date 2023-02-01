@@ -1,0 +1,63 @@
+---
+title: 'Hands-on component of Single-cell ATAC-seq workshop: Sessions 1-2'
+author: "Ayushi Agrawal"
+date: "1/31/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+We'll review the current practices for some of the common steps in scATAC-seq data analysis in the Sessions 1-2. We'll discuss different practices for each step and the assumptions underlying various tools and their limitations. This document provides an exposure to one of the popular tools for such analysis. As we'll discuss, the right choice of method in any application depends on a number of factors, including the biological systems under study and the characteristics of the data in hand. For the purpose of our workshop, we'll limit the hands-on component to the ArchR package in R. In general, analysis might require multiple tools in different languages and/or novel development. For more, please see the slide deck in materials. 
+
+The following is based on [this vignette](https://www.archrproject.com//articles/Articles/tutorial.html) from the ArchR developers. Please note that ArchR is designed to be run on Unix-based operating systems such as macOS and linux. ArchR is NOT supported on Windows or other operating systems.
+
+## Setup the working environment
+
+```{r message=FALSE, warning=FALSE}
+#load the ArchR library
+library(ArchR)
+
+#set a seed to facilitate replication of operations requiring randomization
+set.seed(1)
+
+#default number of Parallel threads is 16
+# working on a local computer, 1 thread works best
+addArchRThreads(1)
+
+#Before we begin, we need add a reference genome annotation for ArchR 
+#to have access to chromosome and gene information. ArchR supports hg19, hg38, mm9, and mm10.
+addArchRGenome("hg38")
+```
+
+## Load the data
+
+```{r}
+#get the list of input file names
+inputFiles <- list.files(path = "data", pattern = "fragments.tsv.gz", full.names = TRUE)
+
+inputFiles
+```
+
+## Creating Arrow files
+Now we will create our Arrow files which will take 10-15 minutes. For each sample, this step will:
+  1. Read accessible fragments from the provided input files.
+  2. Calculate quality control information for each cell (i.e. TSS enrichment scores and nucleosome info).
+  3. Filter cells based on quality control parameters.
+  4. Create a genome-wide TileMatrix using 500-bp bins.
+  5. Create a GeneScoreMatrix using the custom geneAnnotation that was defined when we called addArchRGenome().
+By default in ArchR, pass-filter cells are identified as those cells having a TSS enrichment score greater than 4 and more than 1000 unique nuclear fragments. It is important to note that the actual numeric value of the TSS enrichment score depends on the set of TSSs used. The default values in ArchR were designed for human data and it may be important to change the default thresholds.
+
+```{r}
+ArrowFiles<- createArrowFiles(
+  inputFiles = inputFiles,
+  sampleNames = c("pbmc_sorted_3k", "pbmc_unsorted_3k"),
+  minTSS = 4, #May want to increase later
+  minFrags = 1000,
+  addTileMat = TRUE,
+  addGeneScoreMat = TRUE
+)
+```
