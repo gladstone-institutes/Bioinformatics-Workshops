@@ -1,0 +1,23 @@
+##login to a dev node on Wynton
+
+##On wynton create directory in the space you can run analyses on - You can change to whichever location on your account
+mkdir /gladstone/bioinformatics/projects/scatac_workshop
+
+##move into this directory
+cd /gladstone/bioinformatics/projects/scatac_workshop
+
+##copy arrow files for the demo
+???
+
+##download the singularity container
+singularity pull docker://ruben6um/scatac_workshop_demo_2
+
+##give the container access to the relevant directory 
+dataDir=/gladstone/bioinformatics/projects/scatac_workshop/
+export APPTAINER_BINDPATH="$dataDir"
+
+##launch the container
+singularity exec $dataDir/scatac_workshop_demo_2_latest.sif R
+
+##sequentially copy paste lines of code to run  in ArchR_demo_2_analysis.Rmd in the R session
+
