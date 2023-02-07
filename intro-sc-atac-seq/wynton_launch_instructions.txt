@@ -6,8 +6,8 @@ mkdir /gladstone/bioinformatics/projects/scatac_workshop
 ##move into this directory
 cd /gladstone/bioinformatics/projects/scatac_workshop
 
-##copy arrow files for the demo
-???
+##copy arrow files for the demo to the directory that you just created
+
 
 ##download the singularity container
 singularity pull docker://ruben6um/scatac_workshop_demo_2
