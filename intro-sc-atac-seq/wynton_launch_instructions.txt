@@ -16,6 +16,15 @@ singularity pull docker://ruben6um/scatac_workshop_demo_2
 dataDir=/gladstone/bioinformatics/projects/scatac_workshop/
 export APPTAINER_BINDPATH="$dataDir"
 
+##get the workshop data
+wget https://www.dropbox.com/s/4d4heooz0u9p721/hands-on.zip
+
+##unzip workshop data
+unzip hands-on.zip
+
+##move to the workshop directory
+cd hands-on
+
 ##launch the container
 singularity exec $dataDir/scatac_workshop_demo_2_latest.sif R
 
