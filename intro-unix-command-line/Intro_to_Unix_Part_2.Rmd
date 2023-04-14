@@ -1,0 +1,35 @@
+---
+title: "Introduction to Unix Command-line - Part 2"
+author: "Natalie Elphick"
+date: "April 18th"
+output:
+  revealjs::revealjs_presentation:
+    css: style.css
+---
+```{r, setup, include=FALSE}
+knitr::opts_knit$set(root.dir = './unix_workshop_2023')
+```
+
+## 
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+
+## Introductions
+
+**Natalie Elphick**   
+Bioinformatician I    
+
+<br>
+
+
+**Yihang Xin (TA)**    
+Software Engineer II  
+
+
+# File Compression
+
+
+
+
+

@@ -30,12 +30,6 @@ Bioinformatician I
 Software Engineer II   
 
 
-
-
-
-
-
-
 # The Unix Command-line
 
 
@@ -87,7 +81,7 @@ cd unix_workshop
 
 
 ```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
-curl -L -o unix_workshop_2023.tar.gz https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2023.tar.gz?dl=0
+curl -L -o unix_workshop_2023.tar.gz 'https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2023.tar.gz?dl=0'
 ```
 
 
