@@ -581,7 +581,6 @@ computers before graphical interfaces like Windows</li>
 <ul>
 <li>Allows for automation and batch processing of data</li>
 <li>Provides more control and flexibility over data manipulation</li>
-<li>Offers access to a wider range of powerful tools and utilities</li>
 <li>Interact with High-Performance Computing clusters (HPCs) like
 Wynton</li>
 <li>Speed</li>
@@ -608,9 +607,9 @@ each one:</li>
 </ul>
 <pre class="text"><code>mkdir unix_workshop</code></pre>
 <pre class="text"><code>cd unix_workshop</code></pre>
-<pre class="text"><code>curl -L -o workshop.tar.gz https://www.dropbox.com/s/ucyktc9c3oq4chp/test.tar.gz?dl=0</code></pre>
-<pre class="text"><code>tar -xzf workshop.tar.gz</code></pre>
-<pre class="text"><code>cd workshop</code></pre>
+<pre class="text"><code>curl -L -o unix_workshop_2023.tar.gz https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2023.tar.gz?dl=0</code></pre>
+<pre class="text"><code>tar -xzf unix_workshop_2023.tar.gz</code></pre>
+<pre class="text"><code>cd unix_workshop_2023</code></pre>
 </section>
 <section id="the-shell" class="slide level2">
 <h2>The shell</h2>
@@ -642,11 +641,11 @@ workshop.</p>
 tasks.</p>
 <p><br></p>
 <p>Basic structure of commands:<br />
-<code>command_name [option(s)] [argument(s)]</code></p>
+<code>command_name -[option(s)] [argument(s)]</code></p>
 <p>Example:</p>
 <pre class="text"><code>ls -lah part_1</code></pre>
 <p>Here we are providing multiple options to the <code>ls</code> command
-and the directory <code>part_1</code> as an argument</p>
+and the directory <strong>part_1</strong> as an argument</p>
 </section>
 <section id="man-pull-up-the-manual-page-for-a-command" class="slide level2">
 <h2>man: pull up the manual page for a command</h2>
@@ -929,6 +928,10 @@ down arrow keys</li>
 1000</li>
 </ul>
 <pre class="text"><code>history</code></pre>
+<ul>
+<li>Use the command <code>clear</code> to clear the output from the
+terminal</li>
+</ul>
 </section></section>
 <section>
 <section id="navigating-the-file-system" class="title-slide slide level1">
@@ -975,23 +978,11 @@ directory is <strong>/home/user</strong> ?
 <section id="pwd-print-working-directory" class="slide level2">
 <h2>pwd: print working directory</h2>
 <pre class="text"><code>pwd</code></pre>
-<pre><code>/Users/your_username/unix_workshop</code></pre>
+<pre><code>/Users/your_username/unix_workshop_2023</code></pre>
 <ul>
 <li>The default working directory when you log in or open a terminal is
 your user home directory <span style="background-color:#242423; color:white"> ~  </span></li>
 </ul>
-</section>
-<section id="cd-move-to-a-directory" class="slide level2">
-<h2>cd: move to a directory</h2>
-<pre class="text"><code>cd workshop/part_1
-ls -l</code></pre>
-<pre><code>total 8
--rw-r--rw-@ 1 nelphick  staff  60 Apr 12 15:40 list_numbers.tsv</code></pre>
-<pre><code>cd ..
-ls -l</code></pre>
-<pre><code>total 0
-drwx---rw-@ 4 nelphick  staff  128 Apr 14 10:19 part_1
-drwxr-xr-x@ 2 nelphick  staff   64 Apr 14 10:19 part_2</code></pre>
 </section>
 <section id="ls-list-contents-of-a-directory" class="slide level2 small-bullets">
 <h2 class="small-bullets">ls: list contents of a directory</h2>
@@ -1007,10 +998,22 @@ size)</li>
 </ul>
 <pre class="text"><code>ls -lah part_1</code></pre>
 <pre><code>total 8
-drwx---rw-@ 4 nelphick  staff   128B Apr 14 10:19 .
-drwxr-xr-x@ 5 nelphick  staff   160B Apr 14 10:19 ..
+drwx---rw-@ 4 nelphick  staff   128B Apr 14 10:21 .
+drwxr-xr-x@ 5 nelphick  staff   160B Apr 14 10:21 ..
 -rw-r--rw-@ 1 nelphick  staff     0B Apr 11 16:29 .hidden_file.txt
 -rw-r--rw-@ 1 nelphick  staff    60B Apr 12 15:40 list_numbers.tsv</code></pre>
+</section>
+<section id="cd-move-to-a-directory" class="slide level2">
+<h2>cd: move to a directory</h2>
+<pre class="text"><code>cd unix_workshop_2023/part_1
+ls -l</code></pre>
+<pre><code>total 8
+-rw-r--rw-@ 1 nelphick  staff  60 Apr 12 15:40 list_numbers.tsv</code></pre>
+<pre><code>cd ..
+ls -l</code></pre>
+<pre><code>total 0
+drwx---rw-@ 4 nelphick  staff  128 Apr 14 10:21 part_1
+drwxr-xr-x@ 2 nelphick  staff   64 Apr 14 10:21 part_2</code></pre>
 </section></section>
 <section>
 <section id="creating-and-altering-files" class="title-slide slide level1">
@@ -1249,10 +1252,10 @@ directory</li>
 </section>
 <section id="cut-get-specific-columns-from-a-file" class="slide level2">
 <h2>cut: get specific columns from a file</h2>
-<pre class="text"><code>cut -f 1-3 part_1/list_numbers.tsv</code></pre>
-<pre><code>1   3   6
-7   8   52
-13  4   9</code></pre>
+<pre class="text"><code>cut -f 1-3,6 part_1/list_numbers.tsv</code></pre>
+<pre><code>1   3   6   22
+7   8   52  42
+13  4   9   71</code></pre>
 <ul>
 <li>-f : fields that should be returned</li>
 <li>-d : delimiter - character that the columns are separated by</li>
@@ -1264,6 +1267,8 @@ characters.</p>
 <h2>Combining Commands</h2>
 <ul>
 <li>Pipes “|” connect one command to another</li>
+<li>The output of the previous command is used as the input for the next
+one</li>
 <li>Chaining commands allows you to do complex operations on text
 streams</li>
 </ul>
@@ -1327,7 +1332,7 @@ time</li>
 <section id="survey" class="slide level2">
 <h2>Survey</h2>
 <ul>
-<li>Please take the time to fill out out workshop survey: <a href="https://www.surveymonkey.com/r/DY7K5ZY" class="uri">https://www.surveymonkey.com/r/DY7K5ZY</a></li>
+<li>Please take some time to fill out the workshop survey: <a href="https://www.surveymonkey.com/r/DY7K5ZY" class="uri">https://www.surveymonkey.com/r/DY7K5ZY</a></li>
 </ul>
 </section>
 <section id="additional-learning-materials" class="slide level2">
