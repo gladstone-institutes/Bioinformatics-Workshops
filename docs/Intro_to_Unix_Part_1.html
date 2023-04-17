@@ -639,13 +639,14 @@ workshop.</p>
 <h2>Commands</h2>
 <p>Shell commands are basic instructions used to perform specific
 tasks.</p>
-<p><br></p>
-<p>Basic structure of commands:<br />
-<code>command_name -[option(s)] [argument(s)]</code></p>
+<p><code>command_name -[option(s)] [argument(s)]</code></p>
 <p>Example:</p>
 <pre class="text"><code>ls -lah part_1</code></pre>
 <p>Here we are providing multiple options to the <code>ls</code> command
 and the directory <strong>part_1</strong> as an argument</p>
+<ul>
+<li>To cancel a command press CTRL+C</li>
+</ul>
 </section>
 <section id="man-pull-up-the-manual-page-for-a-command" class="slide level2">
 <h2>man: pull up the manual page for a command</h2>
@@ -998,22 +999,22 @@ size)</li>
 </ul>
 <pre class="text"><code>ls -lah part_1</code></pre>
 <pre><code>total 8
-drwx---rw-@ 4 nelphick  staff   128B Apr 14 11:26 .
-drwxr-xr-x@ 5 nelphick  staff   160B Apr 14 11:26 ..
--rw-r--rw-@ 1 nelphick  staff     0B Apr 11 16:29 .hidden_file.txt
--rw-r--rw-@ 1 nelphick  staff    60B Apr 12 15:40 list_numbers.tsv</code></pre>
+drwx---rw-@ 4 nelphick  staff   128B Apr 16 21:10 .
+drwxr-xr-x@ 5 nelphick  staff   160B Apr 16 21:10 ..
+-rw-r--r--@ 1 nelphick  staff     0B Apr 11 16:29 .hidden_file.txt
+-rw-r--r--@ 1 nelphick  staff    60B Apr 12 15:40 list_numbers.tsv</code></pre>
 </section>
 <section id="cd-move-to-a-directory" class="slide level2">
 <h2>cd: move to a directory</h2>
 <pre class="text"><code>cd unix_workshop_2023/part_1
 ls -l</code></pre>
 <pre><code>total 8
--rw-r--rw-@ 1 nelphick  staff  60 Apr 12 15:40 list_numbers.tsv</code></pre>
+-rw-r--r--@ 1 nelphick  staff  60 Apr 12 15:40 list_numbers.tsv</code></pre>
 <pre><code>cd ..
 ls -l</code></pre>
 <pre><code>total 0
-drwx---rw-@ 4 nelphick  staff  128 Apr 14 11:26 part_1
-drwxr-xr-x@ 2 nelphick  staff   64 Apr 14 11:26 part_2</code></pre>
+drwx---rw-@ 4 nelphick  staff  128 Apr 16 21:10 part_1
+drwxr-xr-x@ 2 nelphick  staff   64 Apr 16 21:10 part_2</code></pre>
 </section></section>
 <section>
 <section id="creating-and-altering-files" class="title-slide slide level1">
@@ -1094,17 +1095,17 @@ used on <strong>cannot be recovered</strong></li>
 <h2>Check-in</h2>
 <p>If you are following along with the commands we have run so far, this
 is the file structure you should have:</p>
-<pre class="text"><code>ls ./*</code></pre>
-<pre><code>./new_directory:
+<pre class="text"><code>ls *</code></pre>
+<pre><code>new_directory:
 new_file1.txt
 
-./part_1:
+part_1:
 list_numbers.tsv
 
-./part_2:</code></pre>
+part_2:</code></pre>
 <ul>
-<li><code>*</code> is a wildcard so <code>ls</code> will list and
-directories in the current one</li>
+<li>“*” represents any number of characters, including zero characters
+so this command runs ls on all of the folders</li>
 </ul>
 </section>
 <section id="text-editors" class="slide level2">
@@ -1296,17 +1297,33 @@ cat part_1/list_numbers.csv</code></pre>
 <h2>Check-in</h2>
 <p>If you followed along with the commands we have run so far, you
 should have this directory structure:</p>
-<pre class="text"><code>ls ./*</code></pre>
-<pre><code>./new_directory:
+<pre class="text"><code>ls *</code></pre>
+<pre><code>new_directory:
 new_file1.txt
 
-./part_1:
+part_1:
 list_numbers.csv
 list_numbers.tsv
 subset_list_numbers.tsv
 
-./part_2:
+part_2:
 homo_sapiens.refseq.tsv.gz</code></pre>
+</section>
+<section id="sort-sort-values" class="slide level2">
+<h2>sort: sort values</h2>
+<pre class="text"><code>cat part_1/list_numbers.csv | cut -d &quot;,&quot; -f 1 | sort -n</code></pre>
+<pre><code>1
+7
+13</code></pre>
+<ul>
+<li>-n : sort numerically (default is alphabetical)</li>
+</ul>
+<pre class="text"><code>cat part_1/list_numbers.csv | cut -d &quot;,&quot; -f 8 | sort -nu</code></pre>
+<pre><code>1
+3</code></pre>
+<ul>
+<li>-u : sort and remove duplicates</li>
+</ul>
 </section></section>
 <section>
 <section id="end-of-part-1" class="title-slide slide level1">
@@ -1316,6 +1333,7 @@ homo_sapiens.refseq.tsv.gz</code></pre>
 <section id="other-helpful-commands" class="slide level2 small-bullets">
 <h2 class="small-bullets">Other helpful commands</h2>
 <ul>
+<li><code>wc</code> : count lines and words</li>
 <li><code>chmod</code> : Change the permissions of a file or
 directory</li>
 <li><code>chown</code> : Change the owner of a file or directory</li>

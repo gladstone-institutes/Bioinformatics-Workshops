@@ -2,6 +2,12 @@
 title: "Introduction to Unix Command-line - Part 2"
 author: "Natalie Elphick"
 date: "April 18th"
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../docs"
+    )
+  })
 output:
   revealjs::revealjs_presentation:
     css: style.css
@@ -26,10 +32,407 @@ Bioinformatician I
 **Yihang Xin (TA)**    
 Software Engineer II  
 
+<br>
+
+# Setup
+
+Run the following commands if you did not attend part 1:   
+
+
+```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+mkdir unix_workshop
+```
+
+
+```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+cd unix_workshop
+```
+
+
+```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
+curl -L -o unix_workshop_2023.tar.gz 'https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2023.tar.gz?dl=0'
+```
+
+
+```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+tar -xzf unix_workshop_2023.tar.gz
+```
+
+
+```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+cd unix_workshop_2023
+```
+
+```{r, engine='bash', eval=TRUE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
+curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.109.refseq.tsv.gz
+```
 
 # File Compression
 
+## Command-line tools for compression
+
+- Compression reduces the size of a file
+- `gzip` : compresses a file and replaces it with a compressed version (.gz)
+- `tar` : create and manipulate archive files
+
+<br>
+
+**Archive**: a single file that contains one or more files and/or folders that have been compressed
 
 
+
+## gzip/gunzip: compress/uncompress a file
+
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+gunzip part_2/homo_sapiens.refseq.tsv.gz
+du -h part_2/homo_sapiens.refseq.tsv
+```
+
+- The uncompressed file is 27 megabytes
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+gzip part_2/homo_sapiens.refseq.tsv
+du -h part_2/homo_sapiens.refseq.tsv.gz
+```
+
+- Compressing it makes it a 10th of the size
+
+## Note
+
+- The magnitude of the compression depends on type of data
+- The units for file sizes are not the same across all systems
+  - Some systems define a kilobyte as 1000 bytes, while others define it as 1024 bytes
+
+
+
+## tar: compressing folders into archives
+
+- Does not provide compression on its own, it uses gzip to create compressed archive files
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+tar -czf part_1.tar.gz part_1
+ls -l
+```
+
+- -c: create a new archive
+- -f: specify the name of the archive file
+- -z: compress the archive with gzip
+
+## Unarchiving
+
+- We did this in part 1 to unarchive the workshop folders
+
+
+```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+tar -xzf part_1.tar.gz
+```
+- -x: extract an archive
+- -z: uncompress the archive with gzip
+- -f: specify the name of the archive file
+
+
+## gunzip -c: cat compressed files
+
+- To avoid uncompressing a large file just to read its contents, we can use `gunzip -c`
+- This will output the the file to the terminal
+
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+gunzip -c part_2/homo_sapiens.refseq.tsv.gz | head
+```
+
+
+
+# System Variables
+
+## What are system variables?
+
+- Special variables that contain information about the system's configuration and state
+- Used by the OS and programs to change their behavior based on the system's state
+
+Example:
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+echo $HOME
+```
+
+
+## Common System Variables
+
+- **$PWD** : The working directory
+- **$HOME** : The current user's home directory
+- **$PS1** : the shell prompt string
+- **$TEMP** : location of temporary files
+
+
+
+## PATH:  locations of executable files
+
+- When you enter a command, the OS searches the directories in the `$PATH` to find its associated executable file
+
+```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+echo $PATH
+```
+
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/mysql/bin"
+```
+
+
+
+- The OS will check these directories in the order they appear and use the first executable it finds
+
+## export: set system variables
+
+- Useful for setting variables you want to be used across programs
+- You can add new software to your `$PATH` like this:
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo 'export PATH="/path/to/new/software:$PATH"'
+```
+
+- This will modify the `$PATH` for the current terminal session
+
+## Modifying the PATH for all future terminal sessions
+
+- Add the export line to your `~/.bashrc` or `~/.zshrc`
+- **Proceed with caution** 
+  - Make backups of these and read this [guide](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_01.html)
+  - Changing the `$PATH` incorrectly can <span style="color:#b01212;font-weight:bold">break system functionality</span>
+
+
+## which: locate the executable associated with a command
+
+- This command shows the location of the executable that the OS finds
+
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+which ls
+```
+
+- Useful to check if there are multiple versions of a software installed
+
+# Shell Scripting
+
+
+## What is a script?
+
+- Scripts are executable files for reusing code
+- By convention scripts end in `.sh`
+- This first line of the script is called the shebang
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "nano part_2/example_script.sh"
+cat ../materials/example_script.sh > part_2/example_script.sh
+```
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+cat ../materials/example_script.sh | head -n 1
+```
+
+- The text that follows `#!` tells the OS where the interpreter is 
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+which bash
+```
+
+## chmod: making a script executable
+
+- By default, files are not executable
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+ls -l part_2/example_script.sh
+```
+
+- We can set the execute bit like this
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+chmod u+x part_2/example_script.sh
+ls -l part_2/example_script.sh
+```
+
+## Example
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+cat ../materials/example_script.sh
+```
+
+## Let's run it
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+./part_2/example_script.sh part_2/homo_sapiens.refseq.tsv.gz
+```
+
+## Loops
+
+- Useful for iterating over lines of a file or lists
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+for i in {1..3}
+do
+
+echo $i
+
+done
+```
+
+## While loops
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+count=0
+
+while [ $count -lt 5 ]        # loop while count is less than 5
+do
+    echo $count
+    count=$((count+1))
+done
+```
+
+
+## If statements
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+x=5
+
+if [ $x -gt 10 ]                      # check if x is greater than 10
+then
+    echo "x is greater than 10"
+else
+    echo "x is not greater than 10"
+fi                                    # end if statement
+```
+
+# Other Useful Commands
+
+## sed : stream editor
+
+- Parses and transforms text, using a compact programming language
+- It reads and modifies text line by line from a file or input stream
+- Supports [regular expressions](https://v4.software-carpentry.org/regexp/index.html)
+- Useful for replacing text
+
+Example:
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "sed 's/search_string/replace_string/g' input.txt > output.txt"
+```
+
+## ssh : secure shell - conect to remote server
+
+- Logging in to a remote server
+- Remote desktop for the terminal
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "ssh username@remote"
+```
+- The `username` would be your user on the remote server and `remote` is the hostname or IP address of the remote server or computer
+
+## scp :  secure copy
+
+- Copy files from a remote server or computer
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "scp [options] [source] [destination]"
+```
+- Copy from local to remote
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "scp /path/to/local/file.txt username@remote:/path/to/remote/directory/"
+```
+- Copy from remote to local
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "scp username@remote:/path/to/file.txt /path/to/local/directory/"
+```
+
+- -r : copy a whole folder
+
+# AWK
+
+## awk : processing structured data
+
+- A small programming language that is designed to work with structured data
+- Has more complicated syntax but is faster at processing large files
+- Designed to read a file or input stream line by line
+- Operates on **records** (lines) and **fields** (columns)
+
+Basic command:
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+echo "awk options 'pattern {action}' input_file"
+```
+
+## Example : Sum the first 2 columns of a file
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+awk -F '\t' '{print $1+$2}' part_1/list_numbers.tsv
+```
+
+- -F : provides the field separator
+- `$1,$2` : the first and second fields
+
+## Example : Find the average of a column
+
+- For this example we only want the average if the 5th column equals "RefSeq_mRNA" 
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+gunzip -c part_2/homo_sapiens.refseq.tsv.gz | \
+awk -F '\t' '$5 == "RefSeq_mRNA" {sum += $7; count++} \
+END {print sum / count}'
+
+```
+
+## Resources for learning AWK and sed
+
+- [The GNU AWK manual](https://www.gnu.org/software/gawk/manual/gawk.html)
+- [AWK Tutorial by Bruce Barnett](https://www.grymoire.com/Unix/Awk.html)
+- [Sed Tutorial by Bruce Barnett](https://www.grymoire.com/Unix/Sed.html)
+
+
+
+# End of Part 2
+
+
+
+
+## Survey
+
+- Please take some time to fill out the workshop survey:
+https://www.surveymonkey.com/r/DY7K5ZY
+
+
+## Additional learning materials
+
+- Software carpentry provides a self paced course: 
+  - [The Unix Shell](https://swcarpentry.github.io/shell-novice/)
+
+- Free online books:
+  - [The Unix Workbench](https://seankross.com/the-unix-workbench/index.html)
+  - [The Linux Command Line](http://linuxcommand.org/tlcl.php)
+
+
+
+
+## Upcoming Data Science Training Program Workshops
+
+[Linear Mixed Effects Modeling](https://gladstone.org/index.php/events/linear-mixed-effects-modeling-0)   
+April 24-April 25, 2023 10:00am-12:00pm PDT  
+
+[Machine Learning](https://gladstone.org/index.php/events/machine-learning)  
+April 28, 2023 10:00am-12:00pm PDT  
+
+[Advanced Cytoscape Automation](https://gladstone.org/index.php/events/advanced-cytoscape-automation-2)  
+May 2, 2023 1:00-4:00pm PDT  
+
+[Introduction to RNA-Seq Analysis](https://gladstone.org/index.php/events/introduction-rna-seq-analysis-4)   
+May 15-May 16, 2023 9:00am-12:00pm PDT  
+
+
+
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo=FALSE}
+rm part_2/example_script.sh
+rm part_2/homo_sapiens.refseq.tsv*
+rm part_1.tar.gz
+```
 
 

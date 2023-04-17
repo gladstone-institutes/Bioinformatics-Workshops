@@ -2,6 +2,12 @@
 title: "Introduction to Unix Command-line - Part 1"
 author: "Natalie Elphick"
 date: "April 17th"
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../docs"
+    )
+  })
 output:
   revealjs::revealjs_presentation:
     css: style.css
@@ -119,9 +125,6 @@ Both bash and zsh should be able to run all of the commands in this workshop.
 
 Shell commands are basic instructions used to perform specific tasks.
 
-<br>
-
-Basic structure of commands:  
 `command_name -[option(s)] [argument(s)]`
 
 
@@ -131,6 +134,8 @@ ls -lah part_1
 ```
 
 Here we are providing multiple options to the `ls` command and the directory **part_1** as an argument
+
+- To cancel a command press CTRL+C
 
 ## man: pull up the manual page for a command
 
@@ -245,6 +250,9 @@ ls .
 ls -lah part_1
 ```
 
+
+
+
 ## cd: move to a directory
 
 ```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA}
@@ -344,10 +352,11 @@ du -h */*
 
 If you are following along with the commands we have run so far, this is the file structure you should have:
 ```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
-ls ./*
+ls *
 ```
 
-- `*` is a wildcard so `ls` will list and directories in the current one
+- "*" represents any number of characters, including zero characters so this command runs ls on all of the folders
+
 
 ## Text editors
 
@@ -512,13 +521,31 @@ cat part_1/list_numbers.csv
 If you followed along with the commands we have run so far, you should have this directory structure:
 
 ```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
-ls ./*
+ls *
 ```
+
+
+
+## sort: sort values
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+cat part_1/list_numbers.csv | cut -d "," -f 1 | sort -n
+```
+
+- -n : sort numerically (default is alphabetical)
+
+```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+cat part_1/list_numbers.csv | cut -d "," -f 8 | sort -nu
+```
+
+- -u :  sort and remove duplicates
+
 
 # End of Part 1
 
 ## Other helpful commands {.small-bullets}
 
+- `wc` : count lines and words
 - `chmod` : Change the permissions of a file or directory
 - `chown` : Change the owner of a file or directory
 - `df` : Display information about disk usage and available space
@@ -574,3 +601,5 @@ rm part_2/homo_sapiens.refseq.tsv.gz
 rm part_1/subset_list_numbers.tsv
 rm part_1/list_numbers.csv
 ```
+
+
