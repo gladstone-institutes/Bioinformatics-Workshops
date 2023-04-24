@@ -1,0 +1,196 @@
+---
+title: "Linear_Mixed_Effects_Models: example datasets & models"
+author: "Reuben Thomas"
+date: "2023-04-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Load the necessary libraries for this markdown
+If you don't already have these packages installed then please do so before implementing the code in the rest of this file.
+```{r}
+require(lattice)
+require(lme4)
+require(ggplot2)
+require(dplyr)
+require(magrittr)
+
+```
+## Sleepstudy
+Example of a data set modeled by random intercept and random slope mixed effects model
+
+```{r}
+require(lattice)
+require(lme4)
+require(ggplot2)
+require(dplyr)
+require(magrittr)
+
+##what is the sleepstudy
+?sleepstudy
+##load the data
+data("sleepstudy")
+
+##best fit line plot the data ignoring individual subjects
+ggplot(sleepstudy, aes(x=Days, y=Reaction)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE) +
+  ylab("reaction time in ms") +
+  theme_classic() +
+  theme(text = element_text(size = 16)) 
+
+
+##best fit line plots per individual subject
+ggplot(sleepstudy, aes(x=Days, y=Reaction, color=Subject)) +
+  geom_point() +
+  geom_smooth(method = "lm", se=FALSE) +
+  ylab("reaction time in ms") +
+  theme_classic() +
+  theme(text = element_text(size = 16)) 
+
+
+##as boxplot per subject
+ggplot(sleepstudy, aes(x=Subject, y=Reaction)) +
+  geom_boxplot() +
+  ylab("reaction time in ms") +
+  theme_classic() +
+  theme(text = element_text(size = 16)) 
+
+##as boxplot per subject coloring the days
+ggplot(sleepstudy, aes(x=Subject, y=Reaction)) +
+  geom_boxplot() +
+  geom_point(aes(color=Days)) +
+  ylab("reaction time in ms") +
+  theme_classic() +
+  theme(text = element_text(size = 16)) 
+
+##xy plot
+xyplot(Reaction ~ Days | Subject, sleepstudy, type = c("g","p","r"),
+       index = function(x,y) coef(lm(y ~ x))[1],
+       xlab = "Days of sleep deprivation",
+       ylab = "Average reaction time (ms)", aspect = "xy")
+
+##correlated random intercept and random slope
+fm1 <- lme4::lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+summary(fm1)
+
+##uncorrelated random intercept and random slope
+fm2 <- lme4::lmer(Reaction ~ Days + (Days || Subject), sleepstudy)
+summary(fm2)
+
+##ignoring the repeated measures within a subject - linear model
+lm1 <- lm(Reaction ~ Days, data = sleepstudy)
+summary(lm1)
+```
+
+## Dye stuff
+
+Example of a situation where pseudo-bulking the repeated measures per subject works
+
+```{r}
+?Dyestuff
+data("Dyestuff")
+
+#boxplot of yield by batch
+ggplot(Dyestuff, aes(x=Batch, y=Yield)) +
+  geom_boxplot() +
+  geom_point() +
+  theme_classic() +
+  theme(text = element_text(size = 16)) 
+
+#simple random intercept model
+fm1 <- lmer(Yield ~ 1|Batch, Dyestuff)
+summary(fm1)
+
+#ignore the repeated measures within a batch: linear model
+lm1 <- lm(Yield ~ 1, Dyestuff)
+summary(lm1)
+
+#pseudo-bulk yield by batch
+summ_Dyestuff <- Dyestuff %>% 
+  group_by(Batch) %>% 
+  summarise(mYield = mean(Yield))
+
+#linear model on the pseudo-bulked data
+lm2 <- lm(mYield ~ 1, summ_Dyestuff)
+summary(lm2)
+
+```
+
+## Penicillin
+Example illustrated crossed random designs
+```{r}
+data("Penicillin")
+?Penicillin
+
+#visualize the data as a boxplot
+ggplot(Penicillin, aes(x=plate, y=diameter)) +
+  geom_boxplot() +
+  geom_point(aes(color=sample)) +
+  theme(text = element_text(size = 16)) 
+
+
+#mixed effects model with two random effects
+fm1 <- lme4::lmer(diameter ~ (1|plate) + (1|sample), Penicillin)
+summary(fm1)
+
+#mixed effects model with one of them
+fm2 <- lme4::lmer(diameter ~  (1|sample), Penicillin)
+summary(fm2)
+
+#significance of the plate effect
+anova(fm1, fm2)
+
+#ignoring the repeated measures associated with plate and sample
+lm1 <- lm(diameter ~ 1, Penicillin)
+summary(lm1)
+
+#pseudo-bulk by plate
+p_summ_Penicillin <- Penicillin %>% 
+  group_by(plate) %>%
+  summarise(m_diameter = mean(diameter))
+
+#linear model with plate pseudo-bulked data
+lm2 <- lm(m_diameter ~ 1, p_summ_Penicillin)
+summary(lm2)
+
+#pseudo-bulk by sample
+s_summ_Penicillin <- Penicillin %>% 
+  group_by(sample) %>%
+  summarise(m_diameter = mean(diameter))
+
+#linear model with sample pseudo-bulked data
+lm3 <- lm(m_diameter ~ 1, s_summ_Penicillin)
+summary(lm3)
+
+
+```
+
+
+## Pastes data
+Hierarchical or nested random effects
+```{r}
+?Pastes
+data(Pastes)
+
+##dotplot visualization of the data
+dotplot(cask ~ strength | reorder(batch, strength), Pastes,
+        strip = FALSE, strip.left = TRUE, layout = c(1, 10),
+        ylab = "Cask within batch",
+        xlab = "Paste strength", jitter.y = TRUE)
+
+##linear mixed effects model implemented nested/hierarchical design
+fm1 <- lme4::lmer(strength ~ (1|batch/cask), Pastes)
+summary(fm1)
+
+##ignoring the repeated measures with a linear model
+lm1 <- lm(strength ~ 1, Pastes)
+summary(lm1)
+
+##incorrectly modeling the nested random effects as crossed ones
+fm2 <- lme4::lmer(strength ~ (1|batch) + (1|cask), Pastes)
+summary(fm2)
+
+```
