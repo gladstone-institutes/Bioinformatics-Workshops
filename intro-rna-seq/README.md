@@ -10,4 +10,5 @@
 6. all_steps_wynton.sh (shell script for running all the analysis steps on UCSF Wynton  command-line interface using the practice data provided)
 7. steps_on_wynton_part1.txt (text file with steps used on wynton to setup the folders, upload the data and create a singularity container)
 8. steps_on_wynton_part2.txt (text file with steps used on wynton to run the bulk RNA-seq analysis using the demo files)
-9. all_steps_docker_desktop.sh (shell script with commands for running all the analysis steps using Docker Desktop and the demo files)
+9. all_steps_docker_desktop_mac.sh (commands for running all the analysis steps using Docker Desktop and the demo files on MacOS)
+10. all_steps_docker_desktop_windows.sh (commands for running all the analysis steps using Docker Desktop and the demo files on Windows)
