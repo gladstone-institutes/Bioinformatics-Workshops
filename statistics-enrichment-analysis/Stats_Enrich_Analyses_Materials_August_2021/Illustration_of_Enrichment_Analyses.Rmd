@@ -1,7 +1,7 @@
 ---
 title: "Statistics of Enrichment Analyses"
 author: "Reuben Thomas"
-date: "8/12/2021"
+date: "5/24/2022"
 output: html_document
 ---
 
@@ -35,7 +35,7 @@ suppressMessages(library(GSEABenchmarkeR))
 
 ```
 # Scientific Question
-*What are the biological pathways/gene sets differerntially regulated between the tumor and normal tissues in bladder cancer patients?*
+*What are the biological pathways/gene sets differentially regulated between the tumor and normal tissues in bladder cancer patients?*
 
 # Data
 The gene expression we will work with are assayed using RNA-seq in the tumor and normal tissues drawn from 19 subjects with bladder cancer. These data are derived from [The Cancer Genome Atlas](https://www.cancer.gov/about-nci/organization/ccg/research/structural-genomics/tcga) (TCGA).
@@ -56,7 +56,7 @@ The methods we will use to answer the scientific question are described below:
 
 a. ... the nature of our hypothesis, i.e., are we interested in a very specific biochemical pathway? or 
 
-b. ... are we agnostic to the nature of the biochemical pathways we discover to be asssociated with what we are studying?, 
+b. ... are we agnostic to the nature of the biochemical pathways we discover to be associated with what we are studying?, 
 
 c. ... if we want to interpret the resulting p-values as measures of reproducibility of our enriched pathways by other research groups using data derived from new bladder cancer patient samples?
 
@@ -183,7 +183,7 @@ res_ora <- res_ora@result
 head(res_ora)
 
 #GeneRatio: Proportion of differentially expressed in each WikiPathway
-#BgRatio: Proportion of all genes that are association with at least WikiPathway that is associated with each WikiPathway
+#BgRatio: Proportion of all genes that are associated with at least one WikiPathway that is associated with each WikiPathway
 
 ##Estimate the odds ratio
 #k: total number of differentially expressed genes annotated to at least one WikiPathway that are also part of each gene set 
@@ -227,7 +227,7 @@ res_rSEA <- SEA(diff.res$pvalue, universe_genes, pathlist = wp_list)
 res_rSEA %<>% mutate(set_id=Name)
 ##get pathway names
 wp_id_2_names <- wp_annotation %>%
-  select(1,2) %>%
+  dplyr::select(1,2) %>%
   unique()
 
 res_rSEA %<>% merge(wp_id_2_names,.)
@@ -254,10 +254,10 @@ tcga.de <- readRDS("bladder_cancer_tcga_summarized_experiment_w_de_results.rds")
 
 ##Note the function runEA takes the raw data, normalizes the expression data using the vst function in DESeq2 that generates the variance stabilized transformed normalized data which is then used as input to the SAFE method
 ##We will not run the analyses here because the 1000 permutations will take some time to complete
-# res_safe_sample_perm <- runEA(tcga.de, method="safe", gs=wp_list, perm=1000)
-# res_safe <- res_safe_sample_perm$safe[[1]]$ranking %>% as.data.frame()
-# res_safe %<>% mutate(set_id=GENE.SET)
-# res_safe %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
+res_safe_sample_perm <- runEA(tcga.de, method="safe", gs=wp_list, perm=10)
+res_safe <- res_safe_sample_perm$safe[[1]]$ranking %>% as.data.frame()
+res_safe %<>% mutate(set_id=GENE.SET)
+res_safe %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
 # res_safe %>%
 #   write.csv(., "bladder_cancer_WikiPathways_safe_sample_perm.csv", row.names = FALSE)
 
@@ -276,10 +276,10 @@ tcga.de <- readRDS("bladder_cancer_tcga_summarized_experiment_w_de_results.rds")
 ##Note the function runEA takes the raw data, normalizes the expression data using the vst function in DESeq2 that generates the variance stabilized transformed normalized data which is then used as input to the SAFE method
 ##We will not run the analyses here because the 1000 permutations will take some time to complete
 
-# res_padog_sample_perm <- runEA(tcga.de, method="padog", gs=wp_list, perm=1000)
-# res_padog <- res_padog_sample_perm$padog[[1]]$ranking %>% as.data.frame()
-# res_padog %<>% mutate(set_id=GENE.SET)
-# res_padog %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
+res_padog_sample_perm <- runEA(tcga.de, method="padog", gs=wp_list, perm=10)
+res_padog <- res_padog_sample_perm$padog[[1]]$ranking %>% as.data.frame()
+res_padog %<>% mutate(set_id=GENE.SET)
+res_padog %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
 # res_padog %>%
 #   write.csv(., "bladder_cancer_WikiPathways_padog_sample_perm.csv", row.names = FALSE)
 
@@ -299,10 +299,10 @@ tcga.de <- readRDS("bladder_cancer_tcga_summarized_experiment_w_de_results.rds")
 ##Note the function runEA takes the raw data, normalizes the expression data using the vst function in DESeq2 that generates the variance stabilized transformed normalized data which is then used as input to the SAFE method
 ##We will not run the analyses here because the 1000 permutations will take some time to complete
 
-# res_gsea_sample_perm <- runEA(tcga.de, method="gsea", gs=wp_list, perm=1000)
-# res_gsea <- res_gsea_sample_perm$gsea[[1]]$ranking %>% as.data.frame()
-# res_gsea %<>% mutate(set_id=GENE.SET)
-# res_gsea %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
+res_gsea_sample_perm <- runEA(tcga.de, method="gsea", gs=wp_list, perm=10)
+res_gsea <- res_gsea_sample_perm$gsea[[1]]$ranking %>% as.data.frame()
+res_gsea %<>% mutate(set_id=GENE.SET)
+res_gsea %<>% merge(wp_id_2_names,.) %>% slice(order(PVAL))
 # res_gsea %>%
 #   write.csv(., "bladder_cancer_WikiPathways_gsea_sample_perm.csv", row.names = FALSE)
 
@@ -322,7 +322,7 @@ gene_list <- diff.res %>%
   as.data.frame() %>%
   rownames_to_column('Gene') %>%
   mutate(Score = sign(as.numeric(log2FoldChange)) * - log10(as.numeric(as.character(pvalue)))) %>%
-  select(c("Score","Gene")) %>%
+  dplyr::select(c("Score","Gene")) %>%
   arrange(desc(Score))
 
 gene_list <- unlist(split(gene_list[, 1], gene_list[, 2]))
