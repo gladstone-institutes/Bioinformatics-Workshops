@@ -3,7 +3,7 @@
 #Visualization in R
 ##################
 #manhattan plot
-install.packages("qqman")
+#install.packages("qqman")
 library(qqman)
 
 setwd("~/Desktop/handson_plink/GWAS/")
@@ -44,14 +44,21 @@ qq(gwas_BMI_sex_age_adj$P, main="quantile-quantile plot - sex, age adjusted BMI"
 qq(gwas_BMI_sex_age_PCs_adj$P, main="quantile-quantile plot - sex, age, PCs adjusted BMI")
 
 dev.off()
-#include
-#pvals <- read.table("AMH_all_FVG_rs_pvalue", header=T)
 
-#observed <- sort(pvals$pgc)
+
+#alternative to calculate x and y axes for qqplot
+
+#observed <- sort(gwas_obesity$P)
 #lobs <- -(log10(observed))
 
 #expected <- c(1:length(observed)) 
 #lexp <- -(log10(expected / (length(expected)+1)))
+
+#pdf("R_plots/obesity_qqplot.pdf", width=480, height=480)
+#plot(c(0,8), c(0,8), col="red", lwd=3, type="l", xlab="Expected (-logP)", ylab="Observed (-logP)", main="quantile-quantile plot - sex, age, PCs adjusted obesity",  xlim=c(0,8), ylim=c(0,8), las=1, xaxs="i", yaxs="i", bty="l")
+#points(lexp, lobs, pch=23, cex=.4, bg="black") 
+#dev.off()
+
 
 
 ########################################################################

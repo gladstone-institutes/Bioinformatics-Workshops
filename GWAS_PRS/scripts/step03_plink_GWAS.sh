@@ -2,6 +2,7 @@
 #GWAS 
 ########################################################################
 plink_dir=~/Desktop/handson_plink
+cd ~/Desktop/handson_plink/GWAS
 mkdir plink_results/
 #linear model --glm or --linear
 #no covariates
@@ -31,7 +32,7 @@ $plink_dir/plink2 --pfile genotypes/unrelated_hg38_auto_maf_0.05_500k_snp_filter
 #logistic model --glm or --logistic
 $plink_dir/plink2 --1 --pfile genotypes/unrelated_hg38_auto_maf_0.05_500k_snp_filtered  \
 --covar    covariates/covariates_with_10PCs.csv    --covar-variance-standardize   \
---glm omit-ref cols=+beta,+orbeta,+ci hide-covar  \
+--glm omit-ref cols=+orbeta,+ci hide-covar  \
 --pheno  phenotypes/phenofile.csv  --pheno-name obesity --ci 0.95  \
 --out plink_results/sex.age.PCs.adj
 
