@@ -13,14 +13,14 @@ phenotype <- read.csv("EUR_input_for_PRS/EUR_BMI_phenofile.csv", header=T, check
 # To make things simple, we will add the appropriate headers
 # (1:6 because there are 6 PCs)
 #colnames(pcs) <- c("FID", "IID", paste0("PC",1:6)) 
-# Read in the covariates (here, it is sex)
+# Read in the covariates (here, it is sex and age)
 covariate <- read.csv("EUR_input_for_PRS/EUR_covariates.csv", header=T,check.names=F, comment.char="")
 # Now merge the files
 pheno <- merge(phenotype, covariate, by=c("IID"))
 
 #pheno <- merge(merge(phenotype, covariate, by=c("FID", "IID")), pcs, by=c("FID","IID"))
 # We can then calculate the null model (model with PRS) using a linear regression 
-# (as height is quantitative)
+# (as bmi is quantitative)
 null.model <- lm(BMI~., data=pheno[,-1])
 # And the R2 of the null model is 
 null.r2 <- summary(null.model)$r.squared
@@ -32,7 +32,7 @@ for(i in p.threshold){
     # We only want the FID, IID and PRS from the PRS file, therefore we only select the 
     # relevant columns
     pheno.prs <- merge(pheno, prs[,c("IID", "SCORE1_AVG")], by= "IID")
-    # Now perform a linear regression on Height with PRS and the covariates
+    # Now perform a linear regression on BMI with PRS and the covariates
     # ignoring the FID and IID from our model
     model <- lm(BMI~., data=pheno.prs[,-1])
     # model R2 is obtained as 
@@ -65,5 +65,8 @@ plot(x=dat$SCORE1_AVG, y=dat$BMI, col="white",
     xlab="Polygenic Score", ylab="BMI")
 with(subset(dat, sex=="Male"), points(x=SCORE1_AVG, y=BMI, col="red", pch=19))
 with(subset(dat, sex=="Female"), points(x=SCORE1_AVG, y=BMI, col="blue", pch=19))
+
+plot(density(dat$SCORE1_AVG[dat$sex =="Male"]), col="red", lwd=3)
+lines(density(dat$SCORE1_AVG[dat$sex =="Female"]), col="blue", lwd=3) 
 dev.off()
 ####################################################
