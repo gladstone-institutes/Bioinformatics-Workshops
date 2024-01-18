@@ -1,7 +1,7 @@
 ---
 title: "Introduction to R Data Analysis - Part 1"
 author: "Natalie Elphick"
-date: "January 22nd"
+date: "January 22nd, 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -47,8 +47,8 @@ Bioinformatician I
 5.  Variables
 6.  Types & data structures
 7.  Math and logic operations
-8.  Functions and libraries
-9.  Reading data into R
+8.  Functions and packages
+
 
 # What is R?
 
@@ -142,13 +142,13 @@ to one style of names
 
 ```{r}
 # Snake case
-dog_breeds <- c("Labrador Retriever","Akita", "Bulldog")
+dog_breeds <- c("Labrador Retriever", "Akita", "Bulldog")
 
 # Period separated
-dog.breeds <- c("Labrador Retriever","Akita", "Bulldog")
+dog.breeds <- c("Labrador Retriever", "Akita", "Bulldog")
 
 # Camel case
-DogBreeds <- c("Labrador Retriever","Akita", "Bulldog")
+DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 ```
 
 ## Poll 2
@@ -328,82 +328,4 @@ packages
 2. [Intermediate RNA-Seq Analysis Using R](https://gladstone.org/index.php/events/intermediate-rna-seq-analysis-using-r-4)
     -   Feb 1, 2024 (9:30am-12:00pm)
 
-
-# ChatGPT Tips for R
-
-## General Tips
-
--   Always confirm ChatGPT's outputs are correct
--   Provide as much detail as possible about the problem in the 1st prompt
--   Use separate chats for separate tasks/projects
--   Try the 'Custom Instructions' function that adds additional information to every prompt
--   Can visit webpages (GPT 4 only), which can help get more specific answers
-
-## Code Tips
-
--   Commented R code yields better responses in my experience
--   Provide the code and error message in the same prompt
--   ChatGPT can work well to convert syntax and improve your code:
-    -   "Turn this loop into a function : [your code]"
-    -   "Is there a better way to do this : [your code]"
--   Check out the file: `example_code/1_convert_syntax_example.R` for an example use case
-
-# Finding R Packages
-
-## Key Questions
-
--   What assay was the package designed for?
--   When was the last release?
--   Is it maintained (frequent updates)?
--   Does it work on all operating systems?
--   Are other people using it? (citations)
--   Do they respond to github issues?
--   Is there a benchmarking paper?
-
-## BioConductor and CRAN
-
--   Both of these have stringent requirements for packages they host (eg. for BioConductor they have to run on all major operating systems)
-
--   Prefer BioConductor packages if available over CRAN
-
--   Prefer CRAN packages over ones only hosted on GitHub
-
-## Start with the Assay
-
--   Click [here](https://www.bioconductor.org/packages/release/BiocViews.html#___Sequencing) to go to BioC views
--   Pick the assay you want to analyse
--   Pick the type of analysis you want to do
--   Find a package that does it
--   Find benchmarking papers to narrow the list of packages down
--   Find the vignette on the package page and refer to the manual for any questions not covered by it
-
-
-# Additional Resources
-
-## R
-
--   [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/how-to-read-this-book.html) : Excellent R markdown reference
-
--   [R for Data Science](https://r4ds.hadley.nz/)
-
--   [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/)
-
--   [Advanced R](https://adv-r.hadley.nz/)
-
-## Statistics
-
--   [Data Analysis in R](https://bookdown.org/steve_midway/DAR) : This book has more statistics details than *R for Data Science*
--   [Generalized Linear Models](https://bookdown.org/steve_midway/DAR/glms-generalized-linear-models.html)\
--   [Random Effects](https://bookdown.org/steve_midway/DAR/random-effects.html)
-
-## RNA-seq Analysis
-
--   [RNA-seqlopedia](https://rnaseq.uoregon.edu/) : Everything you need to know about RNA-seq experiments
--   [RNA-seq Expression Units](https://luisvalesilva.com/datasimple/rna-seq_units.html) : Blog post on understanding common units
--   [Introduction to Single-Cell Analysis with Bioconductor](https://bioconductor.org/books/3.17/OSCA.intro/index.html) : Covers the basics of scRNA-seq analysis in R
-
-## Dimensional Reduction
-
--   [Tutorial on PCA](https://uw.pressbooks.pub/appliedmultivariatestatistics/chapter/pca/) : PCA explained with R code examples
--   [Understanding UMAP](https://pair-code.github.io/understanding-umap/) : Short explanation with great visualizations, mainly useful for scRNA-seq analysis
 
