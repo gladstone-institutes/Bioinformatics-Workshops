@@ -1,0 +1,132 @@
+
+/* Set font size and alignment for the message */
+.bottom-message {
+    font-size: 0.8em !important;
+    font-style: italic !important;
+    text-align: center;
+    position: relative;
+    bottom: 0 !important;
+    left: 0;
+    right: 0;
+}
+
+/* Background color for code chunks */
+.reveal pre code {
+    background-color: #d5d5d5 !important;
+    color: #333 !important;
+    font-size: 1.5em !important; 
+}
+/* Left-align all code outputs */
+.reveal pre code {
+  text-align: left !important;
+}
+
+
+  
+
+/* Add horizontal scrolling to all code outputs */
+.reveal pre code.output {
+    white-space: pre !important;
+    overflow-x: auto !important;
+}
+/* Change the font family used for code blocks */
+pre, code, kbd, samp {
+    font-family: "Courier New", Courier, monospace;
+}
+  
+  
+/* Add horizontal scrolling to all code chunks */
+.reveal pre code {
+    white-space: pre !important;
+    overflow-x: auto !important;
+}
+/* Bold slide titles and change color */
+.reveal h2 {
+    font-weight: bold !important;
+    color: #9c0366;
+}
+/* Bold slide titles and change color */
+.reveal h1 {
+    font-weight: bold !important;
+    color: #9c0366;
+}
+.reveal .slides>section:first-child h2 {
+    color: #333;
+    font-weight: normal !important;
+  }
+/* Custom slide title */
+.my-title-slide h1 {
+    font-weight: bold;
+    color: #9c0366;
+  }
+.my-title-slide h2 {
+color: #333;
+font-weight: normal !important;
+}
+
+
+
+.reveal .slides>section:first-child h1 {
+    font-weight: bold !important;
+    color: #9c0366;
+}
+
+/* Increase the spacing between list items */
+.reveal p {
+    text-align: left;
+    margin-left: 20px !important;
+  }
+.reveal ul {
+    display: block;
+    margin-left: 75px !important;
+    margin-right: 50px !important;
+}
+.reveal ol {
+    display: block;
+    margin-left: 75px !important;
+    margin-right: 50px !important;
+}
+/* Increase the spacing between unordered list items */
+.reveal ul li {
+    margin-bottom: 15px; 
+}
+/* Increase the spacing between ordered list items */
+.reveal ol li {
+    margin-bottom: 15px; 
+}
+
+
+/* Make images fit in the slides, remove border, shadow and center align*/
+.reveal img {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: block !important;
+    margin: 0 auto !important;
+    margin-bottom: 10px !important;
+}
+
+/* Make a class for images that should be shrunk a little*/
+.shrink {
+    max-width: 70% !important;
+    max-height: 70% !important;
+    margin: 0 auto !important;
+}
+
+small {
+    font-size: 70%;
+}
+
+.small-bullets ul {
+    font-size: 70%;
+}
+
+.less-small-bullets ul {
+    font-size: 80%;
+}
+
+.big-picture img{
+    max-width: 70%;
+    border: 1px solid black !important;
+}

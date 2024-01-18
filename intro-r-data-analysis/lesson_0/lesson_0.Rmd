@@ -1,0 +1,86 @@
+---
+title: "Pre-Workshop Setup"
+tutorial:
+  id: "intro-r-data-analysis_lesson_0"
+  version: 1.0
+output: 
+  learnr::tutorial:
+    theme: "lumen"
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: >
+  Learn how to set up R and RStudio on your machine. We will also demonstrate
+  how to install R packages from CRAN, and install the tidyverse package.
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+learnr::tutorial_options(exercise.timelimit = 10)
+```
+
+## Introduction
+
+This guide will help you get set up for <ins>Intro to R Data Analysis</ins>. There are just a few steps to make sure you'll have the necessary software installed and ready to go on day 1. **Please ensure that you've completed each step by running the validation test prior to the start of the workshop**. 
+
+This guide will walk you through how to install R, RStudio, and some additional tools that we’ll be using in the course. By rough analogy to a car, R is like the car’s engine and RStudio is like the dashboard. More precisely, R is a programming language and Rstudio is an ‘integrated development environment’ (IDE), which is basically a nice software interface for interacting with R. For our purposes, you will only ever interact directly with RStudio, but it needs to have R installed to work (like a car needing its engine). 
+
+Please complete the following steps (must be done in this order). If you already have R and Rstudio installed you can skip ahead. Make sure you complete step 5 though!
+
+1. [Install R](#install-r)
+2. [Install RStudio](#install-rstudio)
+3. [Check you have recent versions of R](#check-you-have-a-recent-version-of-r)
+4. [Install required packages](#install-required-packages)
+5. [Run verification test](#run-verification-test)
+
+Please consult the links provided for additional tips, and feel free to reach out for help by email [me](mailto:natalie.elphick@gladstone.ucsf.edu) if you get stuck.
+
+## Install R
+
+Please watch this quick video guide on how to install R, and then use the link below.
+
+**NOTE MacOS users: With the new MacOS updates, updating R might require you to re-install your packages. While not in issue for many people, you have been warned**
+![](https://vimeo.com/203516510)
+https://cloud.r-project.org/
+
+## Install RStudio
+Please watch this quick video on how to install Rstudio, and then use the link below.
+![](https://vimeo.com/203516968)
+https://www.rstudio.com/products/rstudio/download/
+
+
+## Install Required Packages
+Many of the tools we will want to use do not come prepackaged with R, but rather need to be installed as ‘packages’. There are a few key packages we will be using. Watch the following video on how to install packages in Rstudio:
+![](https://vimeo.com/203516241)
+You can also refer to [this site](https://moderndive.netlify.app/1-getting-started.html#packages) for more info on what packages are and how to install them (including a ‘GUI’ installation method if you prefer that).
+Please install the [`tidyverse`](https://www.tidyverse.org/) R package, which we’ll be relying on extensively throughout the course. No need to worry about what exactly this is yet, but you can read more [here](https://www.tidyverse.org/) if you like.
+
+## Run verification test
+Now it’s time to make sure you have everything installed properly!
+First, open Rstudio (remember, you want to open Rstudio, not R). You should see a window that looks something like this:
+
+<center>
+<img src="images/rstudio_screenshot.png" width="40%">
+</center>
+
+The pane with the ‘>’ symbol is the Console. This is where you enter R commands. 
+Copy and paste the following code into your Rstudio console and hit return.
+
+```{r, eval=F}
+R_version <- as.numeric(R.version['major']$major)
+if (R_version >= 4) {
+    library(ggplot2)
+    ggplot(iris, aes(x=Sepal.Length, y=Sepal.Width, color=Species)) + 
+        geom_point()
+} else {
+    print('R version is too old')
+}
+```
+You should see a plot that looks like this appear:
+
+<center>
+<img src="images/ggplot_output.png" width="40%">
+</center>
+
+
+If you see an error that says “R version is too old” that means you need to update your R version. The update process is the same as the installation process. It will update your R installation. If you see an error that says “There is no package called ggplot2” that means you need to install the tidyverse package (see above).
