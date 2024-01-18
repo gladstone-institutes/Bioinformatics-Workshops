@@ -10,9 +10,9 @@ knitr::opts_chunk$set(echo = TRUE)
 # Load packages
 library(dplyr)    # tidyverse data frame manipulation package
 library(tidyr)    # functions to help clean data
-library(magrittr) # this package provides the pipe operator %>%
 library(readxl)   # read excel files
 library(ggplot2)  # highly customizable plots
+library(broom)    # clean up linear model results
 ```
 
 ## R Markdown
@@ -30,11 +30,9 @@ hist(val, breaks = 20)
 
 ```{r}
 # The ggplot version of the same plot
-
 ggplot(data = tibble(values = val),
-         mapping = aes(x = values))+
-  geom_histogram(bins = 20)
-
+       mapping = aes(x = values)) +
+geom_histogram(bins = 20)
 ```
 
 
@@ -53,29 +51,21 @@ The data we will be analyzing is from the PanTHERIA database which is "a global 
 # na = "NA" tells read_xlsx how missing values appear in the data
 # the default is empty cells. Run "?read_xlsx" for more info
 
-sheet1 <- read_xlsx(path = "PanTHERIA.xlsx", sheet = 1, na = "NA")
-sheet2 <- read_xlsx(path = "PanTHERIA.xlsx", sheet = 2, na = "NA")
-sheet3 <- read_xlsx(path = "PanTHERIA.xlsx", sheet = 3, na = "NA")
-
-
-colnames(sheet1) == colnames(sheet2) & colnames(sheet2) == colnames(sheet3)
 
 # rbind (row-bind) combines data frames by row
 
-pantheria <- rbind(sheet1, sheet2, sheet3)
 ```
 
 
 ```{r}
 # How many rows and columns are there?
-nrow(pantheria)
-ncol(pantheria)
+
 ```
 
 
 ```{r}
 # What does the data look like?
-head(pantheria)
+
 ```
 
 
@@ -88,64 +78,34 @@ We will exploring adult body mass from these mammals as it relates to their trop
 
 Let's start by subsetting the data with `select()`
 ```{r}
-# Pipes (%>%) work by passing the data in front of the pipe to the first argument
+# Pipes (|>) work by passing the data in front of the pipe to the first argument
 # of the function after it, this prevents a lot of nested function calls and makes
 # code easier to read.
-
-pantheria <- pantheria %>%
-  select(Order,
-         Family,
-         Genus,
-         Species,
-         TrophicLevel,
-         AdultBodyMass_g) %>%
-  drop_na() %>%
-  distinct()
-
-pantheria <- select(pantheria,
-                    Order,
-                     Family,
-                     Genus,
-                     Species,
-                     TrophicLevel,
-                     AdultBodyMass_g)
-pantheria <- drop_na(pantheria)
-pantheria <- distinct(pantheria)
-
-
 
 
 ```
 
 Data is almost never clean, for example there should be only 3 trophic levels:
 ```{r}
-# unique elements of a vector
-unique(pantheria$TrophicLevel)
+
 ```
 
 Let's fix the TrophicLevel column using `mutate()`
 
 ```{r}
 # mutate allows us to add columns or modify existing ones
-pantheria <- mutate(pantheria,TrophicLevel = tolower(TrophicLevel))
 
-pantheria %>%
-  mutate(AdultBodyMass_g = gsub("\\.", "-",AdultBodyMass_g))
 ```
+
 
 ## Exercise 5: Summarizing data
 
 Now we can summarize the adult body mass by trophic level by computing standard metrics like mean and standard deviation.
 
 ```{r}
-pantheria %>%
-  group_by(TrophicLevel) %>%
-  summarize(Mean = mean(AdultBodyMass_g),
-            Median = median(AdultBodyMass_g),
-            `Standard Deviation` = sd(AdultBodyMass_g),
-            Min = min(AdultBodyMass_g),
-            Max = max(AdultBodyMass_g))
+
 ```
+
 
 
 ## Exercise 6: Plotting Data  
@@ -156,29 +116,13 @@ According to the table above, body masses have a really wide range across trophi
 # ggplot2 constructs graphics in layers, each layer is separated by "+"
 # x and y values are supplied in aes(), the type of plot is specified using
 # the "geom" functions
-ggplot(data = pantheria, mapping = aes(x = log10(AdultBodyMass_g))) +
-  geom_histogram(bins = 50, fill ="#CE3274") +
-  xlab(label = "log10 Adult Body Mass") +
-  ylab(label = "Frequency") +
-  ggtitle(label = "Histogram of Adult Body Mass") +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = .5, face = "bold"),
-        axis.title.x = element_text(face = "bold"))
 
 ```
 
-The data looks skewed even after log10 transformation. Let's view the distribution by trophic level.
+The data looks skewed even after log2 transformation. Let's view the distribution by trophic level.
 
 ```{r}
-pantheria %>%
-  ggplot(mapping = aes(x = log10(AdultBodyMass_g),fill = TrophicLevel)) +
-  geom_histogram(bins = 50) +
-  facet_grid(rows = vars(TrophicLevel)) +
-  xlab(label = "log10 Adult Body Mass") +
-  ylab(label = "Frequency") +
-  ggtitle(label = "Histogram of Adult Body Mass") +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = .5))
+
 ```
 
 It is clear that trophic level does have an impact on the distribution of adult body mass, carnivores tend to be smaller which makes sense because carnivores have higher metabolic demands and so there might be a selection pressure towards smaller carnivores. If we wanted to confirm this by fitting a model, we could use the `lm()` function to fit a linear model.   
@@ -189,10 +133,8 @@ An important caveat of the data is that some Orders of mammals are more biodiver
 
 ```{r}
 # Your code 
-pantheria %>%
-  group_by(Order) %>%
-  summarise(n = (n()/nrow(pantheria)) * 100) %>%
-  arrange(desc(n))
+
+
 ```
 
 
@@ -232,49 +174,47 @@ pantheria %>%
 
 *Exercise 7.1 hint: group_by + summarize(n = n()) + arrange* 
 
-## Exercise 7.2: Hands on coding   
+## Exercise 7.2: Visualize Top Orders
 
 Now that we see what the over represented Orders are, we can plot their body masses by trophic level to see if they are skewing the overall distributions.
 
 
 ```{r}
 
-# Character vector of the top 2 Orders from above
-top_orders <- c("Rodentia", "Chiroptera")
-# filter uses a conditional to select rows from the data
-
-pantheria %>%
-  filter(Order %in% top_orders) %>%
-  ggplot(mapping = aes(x = log10(AdultBodyMass_g), fill = Order)) +
-  geom_histogram(bins = ) +
-  facet_grid(rows = vars(TrophicLevel),
-             cols = vars(Order))
 
 ```
 
 It looks like one of them is mostly made up of small carnivores. Let's remove it and redo the plot of body mass distribution by trophic level.
 
 ```{r}
-pantheria %>%
-  filter(Order != "Chiroptera") %>%
-  ggplot(mapping = aes(x = log10(AdultBodyMass_g),fill = TrophicLevel)) +
-  geom_histogram(bins = 40 ) +
-  facet_grid(rows = vars(TrophicLevel))
 
-pantheria %>%
-  ggplot(mapping = aes(x = log10(AdultBodyMass_g),fill = TrophicLevel))
 ```
 
-We can see now that body mass of carnivorous mammals is much less skewed than the initial plots show. There is still an effect of trophic level on body mass, but the effect size is likely much smaller than we would estimate by including all `r sum(pantheria$Order == "Chiroptera")` *Chiroptera*. Now that we have generated these plots, we can generate a full report that contains all of the text and code, click `Knit` to render the HTML report.   
+We can see now that body mass of carnivorous mammals is much less skewed than the initial plots show. There is still an effect of trophic level on body mass, but the effect size is likely much smaller than we would estimate by including all `r sum(pantheria$Order == "Chiroptera")` *Chiroptera*.  
+
+
+## Exercise 7.3: Fit a linear model
+
+```{r}
+
+```
+
+
+```{r}
+
+```
+
+
+Now that we have generated these plots and results, we can generate a full report that contains all of the text and code, click `Knit` to render the HTML report.  
 
 ## End of workshop exercises   
 
 Hopefully this workshop has provided a good foundation for you to learn R. If you would like some additional practice, check out the resources on the [workshop wiki](https://github.com/gladstone-institutes/Bioinformatics-Workshops/wiki/Introduction-to-R-for-Data-Analysis). R also contains many built in datasets you can use for practice:
 ```{r, echo=FALSE}
 available_datasets <- data() 
-available_datasets$results %>%
-  as_tibble() %>%
-  select(-LibPath) %>% knitr::kable()
+available_datasets$results |>
+  as_tibble() |>
+  select(-LibPath) |> knitr::kable()
 ```
 
 
