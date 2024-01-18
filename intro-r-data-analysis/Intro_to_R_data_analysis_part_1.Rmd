@@ -46,9 +46,6 @@ Bioinformatician I
 4.  Error messages
 5.  Variables
 6.  Types & data structures
-
-    *10 min break*
-    
 7.  Math and logic operations
 8.  Functions and libraries
 9.  Reading data into R
