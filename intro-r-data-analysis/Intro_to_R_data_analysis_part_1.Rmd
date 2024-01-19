@@ -35,8 +35,8 @@ Senior Statistician
 
 **What is your level of experience with coding/data analysis?**
 
-1.  I am fluent in another data analysis programming language (Python, Matlab etc.)
-2.  I am use Excel to do linear regression
+1.  I know another data analysis programming language (Python, Matlab etc.)
+2.  I can use Excel to do linear regression
 3.  I know some R
 4.  All of the above
 5.  None of the above
@@ -119,6 +119,7 @@ feature rich graphical user interface (GUI)
 -   Let's create an `Rmd` file in `RStudio` to explore the basics of how they work:
 -   File -\> New File -\> R Markdown
 
+
 ## R Markdown Advanced Usage
 
 -   **Presentations:** Creating slides (like these) with [revealjs](https://github.com/rstudio/revealjs).
@@ -175,15 +176,25 @@ DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 
 ## Data Types
 - Integer
-    - Whole numbers
+    - Whole numbers (in R denote with L ex. 1L,2L)
 - Numeric
     - Decimal numbers
 - Logical
     - Boolean (TRUE, FALSE)
-    - NA
+    - NA (missing data)
 - Character
     - Letters and strings of letters
     - "A", "Labrador Retriever"
+
+## Poll 3
+
+**Which of these is not the correct data type for the value?**
+
+1.  1.5 - Numeric
+2.  "Labrador Retriever" - Character
+3.  NA - Logical
+4.  1 - Integer
+
 
 ## Data Structures
 - Vectors
@@ -197,7 +208,7 @@ DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 - Data frames
     - Columns and rows of **mixed types**
 
-##
+## 
 
 ![Data structures](assets/data structures.png)
 
@@ -242,6 +253,19 @@ x >= y  # Greater than or equal to
 x %in% y # Is x in this vector y?
 ```
 
+## Poll 4
+
+**What is the output of the following code?**
+
+```{r, eval = FALSE}
+4 %in% as.character(c(1,2,3,4))
+```
+
+1.  TRUE
+2.  FALSE
+3.  NA
+
+
 ## Logical Operators
   - Logical operators can compare TRUE or FALSE values
 ```{r, eval=FALSE}
@@ -251,8 +275,21 @@ y <- FALSE
 !x     # Not x
 x | y  # x or y
 x & y  # x and y
-
 ```
+
+## Poll 5
+
+**What is the output of the following code?**
+```{r, eval=FALSE}
+x <- TRUE
+y <- FALSE
+
+x & !y
+```
+
+1.  TRUE
+2.  FALSE
+3.  NA
 
 ## Conditional execution
 
@@ -307,6 +344,27 @@ add_dog(dog_to_add = "Akita",
 add_dog(dog_to_add = "German Shepard",
         input_vector = dog_breeds)
 ```
+
+## Poll 6
+
+**What does this function do?**
+
+```{r, eval = FALSE}
+mystery_function <- function(x) {
+  if (x > 0) {
+    return(x)
+  } else {
+    return(-x)
+  }
+}
+```
+
+1. Returns the absolute value of x
+2. Returns x
+3. Returns the square root of x
+4. Returns -x
+
+
 
 # Packages
 
