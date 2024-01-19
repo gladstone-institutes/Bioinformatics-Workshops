@@ -25,6 +25,13 @@ theme_set(theme_grey(base_size = 16))
 
 <center>*Press the ? key for tips on navigating these slides*</center>
 
+# Introductions
+**Natalie Elphick**    
+Bioinformatician I  
+
+**Yihang Xin (TA)**     
+Software Engineer III   
+
 # Schedule
 
 1. Introduction to Tidyverse
@@ -121,7 +128,7 @@ arrange(.data = mpg,
   scroll_box(width = "100%")
 ```
 ## Summarising data
--    The dplyr **summarize()**function computes a table of
+-    The dplyr **summarise()** function computes a table of
 summaries for a data frame
 -    **group_by()** groups the input data frame by the specified
 variable(s)

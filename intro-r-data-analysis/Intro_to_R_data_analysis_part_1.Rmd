@@ -26,7 +26,10 @@ library(tidyverse)
 
 **Natalie Elphick**    
 Bioinformatician I   
-*Bioinformatics Core*
+
+**Michela Traglia (TA)**     
+Senior Statistician    
+
 
 ## Poll 1
 
@@ -37,6 +40,10 @@ Bioinformatician I
 3.  I know some R
 4.  All of the above
 5.  None of the above
+
+## Target Audience
+-   No background in statistics or computing
+-   No prior experience with programming or R/RStudio
 
 ## Part 1:
 
