@@ -93,7 +93,7 @@ which(abc == "b")
 num <- 1:10
 num
 
-# Defining an unnamed list
+# Defining an unnamed list (note that here we overwrite the original contents of abc)
 abc <- list("a", "b", 3)
 
 # Accessing elements of unnamed list
@@ -110,6 +110,8 @@ abc[[2]] # Numeric index with brackets
 # Range of elements
 abc[2:3]
 
+# Numeric index to exclude elements
+abc[-3]
 
 # Defining a matrix
 numeric_matrix <- matrix(1:9, nrow = 3, ncol = 3)
@@ -154,16 +156,36 @@ mixed_df["letters"]   # Returns the column as a single column data frame
 nrow(mixed_df)
 ncol(mixed_df)
 
-# Similar to matrices, elements in a data frame can  also be accessed by 
-# combinations of numeric index and column and row names.
+# Like matrices, elements in a data frame can  also be accessed by
+# numeric index or column and row names.
+mixed_df[2, 3]
+mixed_df["B", "letters"]
+mixed_df[1:2, "letters"]
 
-# **Check your understanding**
-# Write 1 line of code that accesses only elements B, C, FALSE and NA of 
-# mixed_df
+######################## **Check your understanding** ########################
+## Data Types:
+#
+# 1) Write 2 lines of code that converts the following character vector into a
+#    numeric vector and then checks the type of that vector.
+vec <- c("1", "2", "3", "4", "5")
+
+
+## Data Structures:
+#
+# 2) Write 1 line of code that accesses only elements B, C, FALSE and NA of 
+#    mixed_df.
 #
 # Hint: line 134
 
 
+# 3) Write the two ways to access only elements "2" and 3 from the list abc.
+#
+
+
+
+
+
+ 
 
 
 
