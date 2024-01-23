@@ -166,7 +166,7 @@ DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 1.    cat_dog
 2.    CatDOG
 3.    cat.dog
-4.    catD0g
+4.    catD*g
 
 
 ## Excercise 1
@@ -370,10 +370,16 @@ mystery_function <- function(x) {
 
 ## Packages
 -    Packages are collections of functions that are specialized to a specific task (plotting, data manipulation etc.)
+
+```{r}
+library(ggplot2) # Makes all of the ggplot2 functions available
+```
+
+
 -    The tidyverse is a collection of commonly used data analysis
-packages
-    -   Learning curve is less steep
-    -   Lots of useful packages for data analysis
+packages  
+      -   Learning curve is less steep
+      -   Lots of useful packages for data analysis
 
 ##
 
