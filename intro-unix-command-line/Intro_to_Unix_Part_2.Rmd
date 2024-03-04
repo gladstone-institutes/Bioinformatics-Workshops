@@ -1,7 +1,7 @@
 ---
 title: "Introduction to Unix Command-line - Part 2"
 author: "Natalie Elphick"
-date: "April 18th"
+date: "March 12th 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -13,7 +13,7 @@ output:
     css: style.css
 ---
 ```{r, setup, include=FALSE}
-knitr::opts_knit$set(root.dir = './unix_workshop_2023')
+knitr::opts_knit$set(root.dir = './unix_workshop_2024')
 ```
 
 ## 
@@ -50,21 +50,21 @@ cd unix_workshop
 
 
 ```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
-curl -L -o unix_workshop_2023.tar.gz 'https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2023.tar.gz?dl=0'
+curl -L -o unix_workshop_2024.tar.gz 'https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2024.tar.gz?dl=0'
 ```
 
 
 ```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
-tar -xzf unix_workshop_2023.tar.gz
+tar -xzf unix_workshop_2024.tar.gz
 ```
 
 
 ```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
-cd unix_workshop_2023
+cd unix_workshop_2024
 ```
 
 ```{r, engine='bash', eval=TRUE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
-curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.109.refseq.tsv.gz
+curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.111.refseq.tsv.gz
 ```
 
 # File Compression
@@ -414,17 +414,21 @@ https://www.surveymonkey.com/r/DY7K5ZY
 
 ## Upcoming Data Science Training Program Workshops
 
-[Linear Mixed Effects Modeling](https://gladstone.org/index.php/events/linear-mixed-effects-modeling-0)   
-April 24-April 25, 2023 10:00am-12:00pm PDT  
+[Introduction to Pathway Analysis](https://gladstone.org/events/introduction-pathway-analysis-1)   
+April 2, 2024 1:00-4:00pm PDT
 
-[Machine Learning](https://gladstone.org/index.php/events/machine-learning)  
-April 28, 2023 10:00am-12:00pm PDT  
+[Statistics of Enrichment Analysis Methods](https://gladstone.org/events/statistics-enrichment-analysis-methods-0)  
+April 11-April 12, 2024 1:00-3:00pm PDT
 
-[Advanced Cytoscape Automation](https://gladstone.org/index.php/events/advanced-cytoscape-automation-2)  
-May 2, 2023 1:00-4:00pm PDT  
+[Working on Wynton](https://gladstone.org/events/working-wynton)   
+April 15, 2024 1:00-4:00pm PDT
 
-[Introduction to RNA-Seq Analysis](https://gladstone.org/index.php/events/introduction-rna-seq-analysis-4)   
-May 15-May 16, 2023 9:00am-12:00pm PDT  
+[Introduction to Linear Mixed Effects Models](https://gladstone.org/events/introduction-linear-mixed-effects-models)  
+April 25-April 26, 2024 1:00-3:00pm PDT
+
+
+
+[Complete Schedule](https://gladstone.org/events?series=data-science-training-program)
 
 
 
