@@ -32,8 +32,8 @@ Bioinformatician I
 <br>
 
 
-**Yihang Xin (TA)**    
-Software Engineer II   
+**Ayushi Agrawal (TA)**    
+Bioinformatician III   
 
 
 # The Unix Command-line
