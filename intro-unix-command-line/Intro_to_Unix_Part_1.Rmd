@@ -118,7 +118,8 @@ cd unix_workshop_2024
 echo $0
 ```
 
-Both bash and zsh should be able to run all of the commands in this workshop.
+- We will use bash since it is the most widely used shell
+- If your shell is not set to bash, type `chsh -s /bin/bash` and press enter
 
 
 ## Commands
