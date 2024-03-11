@@ -557,8 +557,8 @@ cat part_1/list_numbers.csv | cut -d "," -f 8 | sort -nu
 
 ## Survey
 
-- Please take some time to fill out the workshop survey:
-https://www.surveymonkey.com/r/DY7K5ZY
+- Please take some time to fill out the workshop survey:   
+https://www.surveymonkey.com/r/F75J6VZ
 
 
 ## Additional learning materials

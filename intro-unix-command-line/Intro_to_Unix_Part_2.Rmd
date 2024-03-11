@@ -409,7 +409,10 @@ https://www.surveymonkey.com/r/DY7K5ZY
   - [The Unix Workbench](https://seankross.com/the-unix-workbench/index.html)
   - [The Linux Command Line](http://linuxcommand.org/tlcl.php)
 
+## Survey
 
+- Please take some time to fill out the workshop survey:   
+https://www.surveymonkey.com/r/F75J6VZ
 
 
 ## Upcoming Data Science Training Program Workshops
