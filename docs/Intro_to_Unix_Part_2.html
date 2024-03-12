@@ -1903,7 +1903,8 @@ Software Engineer III</p>
 <p>Run the following commands if you did not attend part 1:</p>
 <pre class="text"><code>mkdir unix_workshop</code></pre>
 <pre class="text"><code>cd unix_workshop</code></pre>
-<pre class="text"><code>curl -L -o unix_workshop_2024.tar.gz &#39;https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2024.tar.gz?dl=0&#39;</code></pre>
+<pre class="text"><code>curl -L -o unix_workshop_2024.tar.gz &#39;https://www.dropbox.com/scl/fi/o8msrl3a1k986jvjll4mv/unix_workshop_2024.tar.gz?rlkey=m7jfkvpz0iq12zdzphq7013l5&amp;dl=0&#39;
+</code></pre>
 <pre class="text"><code>tar -xzf unix_workshop_2024.tar.gz</code></pre>
 <pre class="text"><code>cd unix_workshop_2024</code></pre>
 <pre class="text"><code>curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.111.refseq.tsv.gz</code></pre>
@@ -1962,8 +1963,8 @@ compressed archive files</li>
 ls -l</code></pre>
 <pre><code>total 8
 drwx---rw-@ 4 nelphick  staff  128 Mar 12 09:36 part_1
--rw-r--r--  1 nelphick  staff  803 Mar 12 10:00 part_1.tar.gz
-drwxr-xr-x@ 4 nelphick  staff  128 Mar 12 10:00 part_2</code></pre>
+-rw-r--r--  1 nelphick  staff  803 Mar 12 12:52 part_1.tar.gz
+drwxr-xr-x@ 4 nelphick  staff  128 Mar 12 12:52 part_2</code></pre>
 <ul>
 <li>-c: create a new archive</li>
 <li>-f: specify the name of the archive file</li>
@@ -2109,13 +2110,13 @@ interpreter is</li>
 <li>By default, files are not executable</li>
 </ul>
 <pre class="text"><code>ls -l part_2/example_script.sh</code></pre>
-<pre><code>-rw-r--r--  1 nelphick  staff  287 Mar 12 10:00 part_2/example_script.sh</code></pre>
+<pre><code>-rw-r--r--  1 nelphick  staff  287 Mar 12 12:52 part_2/example_script.sh</code></pre>
 <ul>
 <li>We can set the execute bit like this</li>
 </ul>
 <pre class="text"><code>chmod u+x part_2/example_script.sh
 ls -l part_2/example_script.sh</code></pre>
-<pre><code>-rwxr--r--  1 nelphick  staff  287 Mar 12 10:00 part_2/example_script.sh</code></pre>
+<pre><code>-rwxr--r--  1 nelphick  staff  287 Mar 12 12:52 part_2/example_script.sh</code></pre>
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>

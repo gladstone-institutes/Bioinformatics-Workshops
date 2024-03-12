@@ -50,7 +50,8 @@ cd unix_workshop
 
 
 ```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
-curl -L -o unix_workshop_2024.tar.gz 'https://www.dropbox.com/s/smb12au2y82jmvq/unix_workshop_2024.tar.gz?dl=0'
+curl -L -o unix_workshop_2024.tar.gz 'https://www.dropbox.com/scl/fi/o8msrl3a1k986jvjll4mv/unix_workshop_2024.tar.gz?rlkey=m7jfkvpz0iq12zdzphq7013l5&dl=0'
+
 ```
 
 
