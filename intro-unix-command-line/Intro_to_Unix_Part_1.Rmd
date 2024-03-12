@@ -163,7 +163,7 @@ man -P cat man | col -b
 - **Variables** : a named container that holds a value or data
 - **Strings** : sequence of characters
 ```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
-message="Hello, World!"
+message="Hello, World"
 echo $message
 ```
 
@@ -347,7 +347,7 @@ rm new_directory/new_file2.txt
 ```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
 du -h */*
 ```
--h - Displays the output in human readable format
+- h - Displays the output in human readable format
 
 ## Check-in
 
@@ -447,7 +447,7 @@ grep "7" part_1/list_numbers.tsv
 
 ## Regular Expressions
 
-- For a more extensive overview of regular expressions click [here](https://v4.software-carpentry.org/regexp/index.html)
+- For a more extensive overview of regular expressions click [here](https://regexone.com/lesson/introduction_abcs)
 - Some basic ones are:
   - " ^ "    Matches the beginning of a line
   - " . "  Matches any single character except newline

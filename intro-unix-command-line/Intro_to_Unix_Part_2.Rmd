@@ -89,7 +89,7 @@ gunzip part_2/homo_sapiens.refseq.tsv.gz
 du -h part_2/homo_sapiens.refseq.tsv
 ```
 
-- The uncompressed file is 27 megabytes
+- The uncompressed file is 33 megabytes
 
 ```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
 gzip part_2/homo_sapiens.refseq.tsv
@@ -162,7 +162,9 @@ echo $HOME
 - **$PWD** : The working directory
 - **$HOME** : The current user's home directory
 - **$PS1** : the shell prompt string
-- **$TEMP** : location of temporary files
+- **$TMPDIR** : location of temporary files
+
+These can change depending on the specific OS or program, **TMPDIR** can also be **TEMP**, **TEMPDIR** and **TMP**.
 
 
 
@@ -309,7 +311,7 @@ fi                                    # end if statement
 
 - Parses and transforms text, using a compact programming language
 - It reads and modifies text line by line from a file or input stream
-- Supports [regular expressions](https://v4.software-carpentry.org/regexp/index.html)
+- Supports [regular expressions](https://regexone.com/lesson/introduction_abcs)
 - Useful for replacing text
 
 Example:
@@ -394,10 +396,7 @@ END {print sum / count}'
 
 
 
-## Survey
 
-- Please take some time to fill out the workshop survey:
-https://www.surveymonkey.com/r/DY7K5ZY
 
 
 ## Additional learning materials
@@ -412,7 +411,7 @@ https://www.surveymonkey.com/r/DY7K5ZY
 ## Survey
 
 - Please take some time to fill out the workshop survey:   
-https://www.surveymonkey.com/r/F75J6VZ
+https://www.surveymonkey.com/r/DY7K5ZY
 
 
 ## Upcoming Data Science Training Program Workshops

@@ -1932,7 +1932,7 @@ files and/or folders that have been compressed</p>
 du -h part_2/homo_sapiens.refseq.tsv</code></pre>
 <pre><code> 33M    part_2/homo_sapiens.refseq.tsv</code></pre>
 <ul>
-<li>The uncompressed file is 27 megabytes</li>
+<li>The uncompressed file is 33 megabytes</li>
 </ul>
 <pre class="text"><code>gzip part_2/homo_sapiens.refseq.tsv
 du -h part_2/homo_sapiens.refseq.tsv.gz</code></pre>
@@ -1961,9 +1961,9 @@ compressed archive files</li>
 <pre class="text"><code>tar -czf part_1.tar.gz part_1
 ls -l</code></pre>
 <pre><code>total 8
-drwx---rw-@ 4 nelphick  staff  128 Mar 11 10:11 part_1
--rw-r--r--@ 1 nelphick  staff  800 Mar 11 10:11 part_1.tar.gz
-drwxr-xr-x@ 4 nelphick  staff  128 Mar 11 10:11 part_2</code></pre>
+drwx---rw-@ 4 nelphick  staff  128 Mar 12 09:36 part_1
+-rw-r--r--  1 nelphick  staff  803 Mar 12 10:00 part_1.tar.gz
+drwxr-xr-x@ 4 nelphick  staff  128 Mar 12 10:00 part_2</code></pre>
 <ul>
 <li>-c: create a new archive</li>
 <li>-f: specify the name of the archive file</li>
@@ -2024,8 +2024,11 @@ system’s state</li>
 <li><strong>$PWD</strong> : The working directory</li>
 <li><strong>$HOME</strong> : The current user’s home directory</li>
 <li><strong>$PS1</strong> : the shell prompt string</li>
-<li><strong>$TEMP</strong> : location of temporary files</li>
+<li><strong>$TMPDIR</strong> : location of temporary files</li>
 </ul>
+<p>These can change depending on the specific OS or program,
+<strong>TMPDIR</strong> can also be <strong>TEMP</strong>,
+<strong>TEMPDIR</strong> and <strong>TMP</strong>.</p>
 </section>
 <section id="path-locations-of-executable-files" class="slide level2">
 <h2>PATH: locations of executable files</h2>
@@ -2106,13 +2109,13 @@ interpreter is</li>
 <li>By default, files are not executable</li>
 </ul>
 <pre class="text"><code>ls -l part_2/example_script.sh</code></pre>
-<pre><code>-rw-r--r--@ 1 nelphick  staff  287 Mar 11 10:11 part_2/example_script.sh</code></pre>
+<pre><code>-rw-r--r--  1 nelphick  staff  287 Mar 12 10:00 part_2/example_script.sh</code></pre>
 <ul>
 <li>We can set the execute bit like this</li>
 </ul>
 <pre class="text"><code>chmod u+x part_2/example_script.sh
 ls -l part_2/example_script.sh</code></pre>
-<pre><code>-rwxr--r--@ 1 nelphick  staff  287 Mar 11 10:11 part_2/example_script.sh</code></pre>
+<pre><code>-rwxr--r--  1 nelphick  staff  287 Mar 12 10:00 part_2/example_script.sh</code></pre>
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
@@ -2188,7 +2191,7 @@ fi                                    # end if statement</code></pre>
 language</li>
 <li>It reads and modifies text line by line from a file or input
 stream</li>
-<li>Supports <a href="https://v4.software-carpentry.org/regexp/index.html">regular
+<li>Supports <a href="https://regexone.com/lesson/introduction_abcs">regular
 expressions</a></li>
 <li>Useful for replacing text</li>
 </ul>
@@ -2284,12 +2287,6 @@ Bruce Barnett</a></li>
 <h1>End of Part 2</h1>
 
 </section>
-<section id="survey" class="slide level2">
-<h2>Survey</h2>
-<ul>
-<li>Please take some time to fill out the workshop survey: <a href="https://www.surveymonkey.com/r/DY7K5ZY" class="uri">https://www.surveymonkey.com/r/DY7K5ZY</a></li>
-</ul>
-</section>
 <section id="additional-learning-materials" class="slide level2">
 <h2>Additional learning materials</h2>
 <ul>
@@ -2307,11 +2304,11 @@ Line</a></li>
 </ul></li>
 </ul>
 </section>
-<section id="survey-1" class="slide level2">
+<section id="survey" class="slide level2">
 <h2>Survey</h2>
 <ul>
 <li>Please take some time to fill out the workshop survey:<br />
-<a href="https://www.surveymonkey.com/r/F75J6VZ" class="uri">https://www.surveymonkey.com/r/F75J6VZ</a></li>
+<a href="https://www.surveymonkey.com/r/DY7K5ZY" class="uri">https://www.surveymonkey.com/r/DY7K5ZY</a></li>
 </ul>
 </section>
 <section id="upcoming-data-science-training-program-workshops" class="slide level2">

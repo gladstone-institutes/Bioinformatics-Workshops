@@ -2266,9 +2266,9 @@ macOS 14.1          January 9, 2021             macOS 14.1</code></pre>
 data</li>
 <li><strong>Strings</strong> : sequence of characters</li>
 </ul>
-<pre class="text"><code>message=&quot;Hello, World!&quot;
+<pre class="text"><code>message=&quot;Hello, World&quot;
 echo $message</code></pre>
-<pre><code>Hello, World!</code></pre>
+<pre><code>Hello, World</code></pre>
 <p>Here, we assign the string “Hello, World!” to the variable
 <code>message</code> and use echo to print its value.</p>
 </section>
@@ -2351,8 +2351,8 @@ size)</li>
 </ul>
 <pre class="text"><code>ls -lah part_1</code></pre>
 <pre><code>total 8
-drwx---rw-@ 4 nelphick  staff   128B Mar 11 10:11 .
-drwxr-xr-x@ 5 nelphick  staff   160B Mar 11 10:11 ..
+drwx---rw-@ 4 nelphick  staff   128B Mar 12 09:18 .
+drwxr-xr-x@ 5 nelphick  staff   160B Mar 12 09:27 ..
 -rw-r--r--@ 1 nelphick  staff     0B Apr 11  2023 .hidden_file.txt
 -rw-r--r--@ 1 nelphick  staff    60B Apr 12  2023 list_numbers.tsv</code></pre>
 </section>
@@ -2365,8 +2365,8 @@ ls -l</code></pre>
 <pre><code>cd ..
 ls -l</code></pre>
 <pre><code>total 0
-drwx---rw-@ 4 nelphick  staff  128 Mar 11 10:11 part_1
-drwxr-xr-x@ 3 nelphick  staff   96 Mar 11 10:11 part_2</code></pre>
+drwx---rw-@ 4 nelphick  staff  128 Mar 12 09:18 part_1
+drwxr-xr-x@ 3 nelphick  staff   96 Mar 12 09:27 part_2</code></pre>
 </section></section>
 <section>
 <section id="creating-and-altering-files" class="title-slide slide level1">
@@ -2441,7 +2441,9 @@ used on <strong>cannot be recovered</strong></li>
 <pre class="text"><code>du -h */*</code></pre>
 <pre><code>  0B    new_directory/new_file1.txt
 4.0K    part_1/list_numbers.tsv</code></pre>
-<p>-h - Displays the output in human readable format</p>
+<ul>
+<li>h - Displays the output in human readable format</li>
+</ul>
 </section>
 <section id="check-in" class="slide level2">
 <h2>Check-in</h2>
@@ -2573,7 +2575,7 @@ directory</li>
 <section id="regular-expressions" class="slide level2">
 <h2>Regular Expressions</h2>
 <ul>
-<li>For a more extensive overview of regular expressions click <a href="https://v4.software-carpentry.org/regexp/index.html">here</a></li>
+<li>For a more extensive overview of regular expressions click <a href="https://regexone.com/lesson/introduction_abcs">here</a></li>
 <li>Some basic ones are:
 <ul>
 <li>” ^ ” Matches the beginning of a line</li>
