@@ -1,0 +1,479 @@
+---
+title: "Working on Wynton - Part 1"
+author: "Natalie Elphick"
+date: "April 15th, 2024"
+knit: (function(input, ...) {
+    rmarkdown::render(
+      input,
+      output_dir = "../docs"
+    )
+  })
+output:
+  revealjs::revealjs_presentation:
+    theme: simple
+    highlight: default
+    css: style.css
+---
+
+```{r, setup, include=FALSE}
+
+```
+
+## 
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+## Introductions
+
+**Natalie Elphick**    
+Bioinformatician I   
+
+**Alex Pico**     
+Bioinformatics Core Director
+
+
+## Target Audience
+-   Prior experience with UNIX command-line 
+
+
+
+## Part 1:
+
+1. What is an HPC cluster? 
+2. Node Types and Loging in
+3. Storage
+4. Data Transfer
+5. Installing Software
+6. Containers
+
+
+
+# What is Wynton HPC?
+
+## High-performance Computing Cluster
+
+-   A collection of specialized computers (nodes) connected together on a fast local network   
+
+![HPC Diagram](slide_materials/HPC_diagram.png)
+
+
+
+## Wynton {.small-bullets}
+
+-   A HPC Linux environment available to all UCSF researchers for free   
+-   Uses the Rocky 8 linux OS
+-   Includes several hundred compute nodes and a large shared storage system ([Cluster specifications](https://wynton.ucsf.edu/hpc/about/specs.html))    
+-   Funded and administered cooperatively by UCSF campus IT and key research groups   
+
+[https://wynton.ucsf.edu](https://wynton.ucsf.edu)
+
+
+
+# Node Types and Logging in
+
+## Node Types {.small-bullets}
+
+-   **Login:** Submit and query jobs. SSH to development nodes. File management.
+-   **Development:** Compile and install software. Test job scripts. Submit and query jobs. Version control. File management.
+-   **Compute:** Running short and long-running job scripts.
+-   **Transfer:** Fast in- & outbound file transfers. File management.
+
+## The Login Nodes {.small-bullets}
+
+-   Only capable of basic tasks (file management, submitting and checking on jobs)
+-   Lacks access to pre-installed software tools that the development nodes have
+-   The primary method to log in is to use an SSH client application
+-   The Wynton HPC is up to date with information on logging in: [Access Cluster](https://wynton.ucsf.edu/hpc/get-started/access-cluster.html)
+
+<u>Names</u>:   
+    
+    
+log1, log2 and plog (for PHI users)
+
+## Login {.small-bullets}
+
+-   Make sure you are on the UCSF or Gladstone WiFi networks (or the respective VPN)
+-   **ssh [your-username]@[node-name].wynton.ucsf.edu**
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "{local}$ ssh alice@log1.wynton.ucsf.edu
+alice@log1.wynton.ucsf.edu's password: 
+[alice@log1 ~]$" 
+```
+
+-   There will not be any visual feedback when typing your password
+
+
+## The Development Nodes {.small-bullets}
+
+-   Has a set of [core software](https://wynton.ucsf.edu/hpc/software/core-software.html) installed
+    - e.g. git, vim, nano, make and python
+-   Also has access to [software repositories](https://wynton.ucsf.edu/hpc/software/software-repositories.htmll) some which are maintained by other users or research groups
+    - e.g. matlab, R and openjdk
+-   Cannot be logged in to directly, only from a login node
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "ssh dev1" 
+```
+
+<u>Names</u>:   
+    
+dev[1-3], gpudev1, pdev1 (PHI) and pgpudev1 (PHI)
+
+## Data Transfer Nodes {.small-bullets}
+
+-   Can be logged in to directly
+-   Fast network speed
+-   Limited software
+-   Use for transferring files to and from Wynton
+
+<u>Example</u>: 
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "{local}$ scp local_file.tsv alice@dt1.wynton.ucsf.edu:~/" 
+```
+
+<u>Names</u>:   
+    
+dt1 and dt2
+
+
+
+## Compute Nodes {.small-bullets .big-picture}
+
+-   Can **not** be logged in to directly
+-   Used to run non-interactive compute job scripts
+-   The software to run the job script is provided using a container
+
+
+![Compute Jobs](slide_materials/compute_job_workflow.svg)
+
+
+
+# Storage
+
+
+## The File System {.small-bullets}
+
+-   A file system how information is stored and retrieved on a computer
+      -   Consists of files and directories
+-   A local file system is function of the operating system and only accessible from a single computer
+-   A shared file system is accessible from multiple computers
+
+
+
+
+
+
+## BeeGFS {.small-bullets}
+
+-   Wynton uses a *parallel* shared file system called BeeGFS
+    - The files are stored as "chunks" spread across many different servers
+-   BeeGFS has multiple services that work together to manage the file system
+    - Storage (stores the chunks)
+    - Metadata (tracks the chunks and information about their file)
+    - Management (tracks all of the services)
+    - Client (provides linux access to the file system)
+    
+
+## BeeGFS - Advantages 
+-   High throughput
+-   Redundancy can be built in by mirroring services
+-   Adding new storage is fast and does not require downtime
+
+## BeeGFS - Caveats 
+-   For any client node, performance is limited by the network bandwidth of that node
+-   Network latency becomes extremely important for all metadata requests
+-   Certain input/output patterns can be problematic
+
+## BeeGFS - I/O patterns {.small-bullets}
+-   Anything that requires lots of metadata operations can feel slow 
+    -   e.g: lots of writes to the same directory and lots of file lookups and directory searches (**conda**)
+-   Keep the number of reads and writes to a single directory to a reasonable number
+-   If using conda, putting the conda application inside a Apptainer (formerly singularity) container will result in better performance
+
+## BeeGFS - Tips 
+
+-   Prefer fewer, large files over many small ones
+-   Distribute reading and writing over several directories
+    -   Including compute job output and error files
+-   Use local scratch (/scratch) when possible
+-   Don't include anything in **/wynton** in your default LD_LIBRARY_PATH
+
+
+
+
+## Storage {.small-bullets}
+
+-   **Wynton storage is not backed up**
+-   /wynton/**[group_name]**/**[user]**
+    - User home directory - limited to 500 GiB
+-   /wynton/**[group_name]**
+    - User group directory - disk quota varies by group
+    - Use this directory for any analysis you want to share with your lab
+-   [More information on disk quotas](https://wynton.ucsf.edu/hpc/howto/storage-size.html#file-sizes-and-disk-quotas)
+
+To check your group disk quota run:
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo 'beegfs-ctl --getquota --storagepoolid=12 --gid "$(id --group)"'
+```
+
+
+
+## Scratch - Temporary Storage
+-   Local **/scratch** - 0.1-1.8 TiB/node storage unique to each compute node
+    - Can only be accessed from the specific compute node
+-   **/wynton/scratch** and **/wynton/protected/scratch** (for PHI users)
+    -   703 TiB storage accessible from everywhere
+-   No quotas
+    
+<br></br>    
+    
+**Files not used for 2 weeks are automatically deleted**
+
+
+
+## Gladstone HIVE
+-   Gladstone's HIVE storage server is mounted directly to Wynton under **/gladstone**
+    -   Only certain HIVE folders are accessible directly on Wynton
+    -   Files under **/gladstone** are backed up
+-   Naming: **/gladstone/[lab]**
+    -   Directories that are shared between multiple labs can be set up by contacting Gladstone IT   
+-   For more information visit the [IT knowledge base page](https://help.gladstone.org/support/solutions/articles/14000033963)
+
+
+## Storage Advice
+
+-   Always back up anything you store under **/wynton**
+-   Use **/gladstone** if you have access to it for all of your work since it is automatically backed up
+-   Use the scratch directories to store temporary files so they do not count against your group or user quotas
+
+
+# Data Transfer
+
+
+
+## Secure Copy - scp
+
+-   Local file to Wynton
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "{local}$ scp /path/to/local_file.tsv alice@dt1.wynton.ucsf.edu:/destination/path"
+```
+
+-   Copy a directory to a folder on Wynton
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "{local}$ scp -r local_folder/ alice@dt1.wynton.ucsf.edu:/destination/path"
+```
+
+-   Copy a single file to Wynton from your local machine
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "{local}$ scp alice@dt1.wynton.ucsf.edu:/path/to/local_file.tsv /destination/path"
+```
+
+
+## GUI SFTP Clients {.small-bullets}
+
+-   These let you transfer files to and from Wynton using a GUI
+-   [2 factor authentication](https://wynton.ucsf.edu/hpc/get-started/duo-signup.html) may be required
+-   [Cyberduck](https://cyberduck.io/) 
+    -   Navigate to Preferences -> Transfers -> General
+    -   change the Transfer Files setting "Use browser connection" instead of "Open Multiple connections"
+
+-   [FileZilla](https://filezilla-project.org/) 
+    -   In the General tab, select ‘SFTP’ as the Protocol instead of ‘FTP’
+    -   For Logon Type, select ‘Interactive’ instead of ‘Ask for Password’
+    -   Under the Transfer Settings tab, you might need to click the ‘Limit number of simultaneous connections’ and make sure the ‘Maximum number of connections’ is set to 1
+
+
+## Globus
+
+-   [Globus](https://wynton.ucsf.edu/hpc/transfers/globus.html) is a service for moving, syncing, and sharing large amounts of data
+-   Wynton Accounts are not required to transfer data with Globus
+-   Useful for transferring data between institutions
+
+## Rclone
+
+-   Rclone is a command-line program to manage files on remote storage
+-   Can be used to transfer data from Wynton directly to [DropBox](https://rclone.org/dropbox/) or other storage systems (AWS, Azure, Google Drive etc.)
+    -   Do this from a data transfer node using screen/tmux
+-   Do not use rclone for transfers to Box, follow the [Wynton to UCSF Box](https://wynton.ucsf.edu/hpc/transfers/ucsf-box.html) instructions
+
+
+
+
+## Poll 1 
+
+Which of these can you **not** log in to from your computer?
+
+1.    Login Nodes
+2.    Development Nodes
+3.    Data transfer Nodes
+4.    Compute Nodes
+
+## Poll 2
+
+The **/wynton** directory is backed up on a nightly basis so do not need to back up the data you store here.
+
+1.    True
+2.    False
+
+
+
+
+# Installing Software
+
+## Basics
+
+-   Check if the tool is already available in a [module](https://wynton.ucsf.edu/hpc/software/software-repositories.html#software-repositories)
+-   Ensure the software you are trying to install is compatible with Rocky 8 linux (use a container if not)
+-   <u>Always install software in a development node</u>
+-   Download a precompiled binary or [install from source](https://wynton.ucsf.edu/hpc/howto/install-from-source.html)
+
+## Install Samtools from Source  {.small-list}
+
+1.    Download and extract source code
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ mkdir -p "/scratch/$USER"
+[alice@dev1 ~]$ cd "/scratch/$USER"
+[alice@dev1 alice]$ wget https://github.com/samtools/samtools/releases/download/1.19.2/samtools-1.19.2.tar.bz2
+[alice@dev1 alice]$ tar -x -f samtools-1.19.2.tar.bz2'
+```
+
+2.    Create install location and configure
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ mkdir -p $HOME/software/samtools-1.14'
+echo '[alice@dev1 ~]$ ./configure --prefix=$HOME/software/samtools-1.14'
+```
+3.    Build and install
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ make'
+echo '[alice@dev1 ~]$ make install'
+```
+
+## Install Nextflow
+
+-   Scientific workflow system with a community maintained set of [core bioinformatics analysis](https://nf-co.re/) pipelines
+    -   We will cover an example RNA-seq pipeline in part 2   
+-   These can be configured to use the Wynton compute job submission system 
+
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ cd ~/software'
+echo '[alice@dev1 ~]$ curl -s "https://get.sdkman.io" | bash'
+echo '[alice@dev1 ~]$ exit'
+echo '[alice@log1 ~]$ ssh dev1'
+echo '[alice@dev1 ~]$ sdk install java 17.0.6-tem'
+echo '[alice@dev1 ~]$ wget -qO- https://get.nextflow.io | bash'
+echo '[alice@dev1 ~]$ nextflow -v'
+```
+
+
+
+
+
+# Containers
+
+
+## Motivation {.small-bullets}
+
+-   Compute heavy jobs (high RAM, multiple cores) should be run on compute nodes
+-   Containers allow us to make additional software available to the compute nodes
+    -   Also allows the use of software that might be hard to install on Rocky 8 Linux
+    -   Improves reproducibility
+
+![Compute Jobs](slide_materials/compute_job_workflow.svg)
+
+
+## Definitions {.small-bullets}
+
+-   **Virtualization:** When software mimics the functions of physical hardware to run virtual machines
+-   **Containers:** Implements virtualization using an *image* as its base
+-   **Images:**  An ordered collection of root filesystem changes and the corresponding execution parameters for use within a container runtime
+
+
+## Apptainer {.small-bullets}
+
+-   Wynton supports [Apptainer](https://wynton.ucsf.edu/hpc/software/apptainer.html) (formerly singularity) containers 
+-   [Docker](https://docs.docker.com/) is a commonly used image creation software, these can be turned into apptainer image files (.sif) easily
+
+-   apptainer run <image_file>
+    -   Run predefined script within container
+-   apptainer exec <image_file> 
+    -   Execute any command within container
+-   apptainer shell <image_file>
+    -   Run bash shell within container
+
+
+## Example Container - Hello World
+
+-   Run this command to convert the public Docker image to a apptainer image file
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ apptainer pull docker://natalie23gill/hello-world:1.0'
+```
+
+- Execute the "hi" command in the container
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ apptainer exec hello-world_1.0.sif hi'
+```
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '    __  __     ____         _       __           __    __   __
+   / / / /__  / / /___     | |     / /___  _____/ /___/ /  / /
+  / /_/ / _ \/ / / __ \    | | /| / / __ \/ ___/ / __  /  / / 
+ / __  /  __/ / / /_/ /    | |/ |/ / /_/ / /  / / /_/ /  /_/  
+/_/ /_/\___/_/_/\____/     |__/|__/\____/_/  /_/\__,_/  (_) '
+```
+
+
+## Example Container
+
+-   This container has **figlet** installed which creates ASCII art from text input
+-   Try running this command to create your own using *exec*
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ apptainer exec hello-world_1.0.sif figlet your_text'
+```
+
+## Docker {.small-bullets}
+
+-   Docker uses Dockerfiles to specify image creation
+-   Preferred by the Gladstone Bioinformatics Core to create new images
+-   In part 2, we will go over how to build custom container images from DockerFiles
+    -   If you want to follow along, [install the docker engine](https://docs.docker.com/engine/install/) following the instructions for your OS
+    -   Set up a free [DockerHub](https://hub.docker.com/) account to store your images
+-   To see the Dockerfile used to create the hello-world image, run:
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ apptainer exec hello-world_1.0.sif cat /Dockerfile'
+```
+
+
+# End of Part 1
+
+## Thank You!
+
+-   Please take some time to fill out the workshop survey if you are not attending part 2:   
+[https://www.surveymonkey.com/r/F75J6VZ](https://www.surveymonkey.com/r/F75J6VZ)
+
+
+## Upcoming Data Science Training Program Workshops
+
+
+[Introduction to Linear Mixed Effects Models](https://gladstone.org/events/introduction-linear-mixed-effects-models)   
+April 25-April 26, 2024 1-3pm PDT
+
+[Single Cell RNA-Seq Data Analysis](https://gladstone.org/events/single-cell-rna-seq-data-analysis)     
+April 29-April 30, 2024 9am-4pm PDT
+
+[Single Cell ATAC-Seq Data Analysis Part 1](https://gladstone.org/events/single-cell-atac-seq-data-analysis-part-1-1)    
+May 6-May 7, 2024 1-4pm PDT
+
+
+[Complete Schedule](https://gladstone.org/events?series=189)     
+
+
