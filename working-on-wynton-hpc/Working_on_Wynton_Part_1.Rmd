@@ -367,6 +367,7 @@ echo '[alice@dev1 ~]$ exit'
 echo '[alice@log1 ~]$ ssh dev1'
 echo '[alice@dev1 ~]$ sdk install java 17.0.6-tem'
 echo '[alice@dev1 ~]$ wget -qO- https://get.nextflow.io | bash'
+echo '[alice@dev1 ~]$ nextflow -v'
 ```
 
 
