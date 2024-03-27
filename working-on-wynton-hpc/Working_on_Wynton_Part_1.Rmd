@@ -40,7 +40,7 @@ Bioinformatics Core Director
 ## Part 1:
 
 1. What is an HPC cluster? 
-2. Node Types and Loging in
+2. Node Types and Logging in
 3. Storage
 4. Data Transfer
 5. Installing Software
