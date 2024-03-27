@@ -16,7 +16,7 @@ output:
 ---
 
 ```{r, setup, include=FALSE}
-library(tidyverse)
+
 ```
 
 ## 
@@ -28,7 +28,7 @@ library(tidyverse)
 **Natalie Elphick**    
 Bioinformatician I   
 
-**Alex Pico (TA)**     
+**Alex Pico**     
 Bioinformatics Core Director
 
 
@@ -61,6 +61,7 @@ Bioinformatics Core Director
 ## Wynton {.small-bullets}
 
 -   A HPC Linux environment available to all UCSF researchers for free   
+-   Uses the Rocky 8 linux OS
 -   Includes several hundred compute nodes and a large shared storage system ([Cluster specifications](https://wynton.ucsf.edu/hpc/about/specs.html))    
 -   Funded and administered cooperatively by UCSF campus IT and key research groups   
 
@@ -136,11 +137,36 @@ echo "{local}$ scp local_file.tsv alice@dt1.wynton.ucsf.edu:~/"
 dt1 and dt2
 
 
+
+## Compute Nodes {.small-bullets .big-picture}
+
+-   Can **not** be logged in to directly
+-   Used to run non-interactive compute job scripts
+-   The software to run the job script is provided using a container
+
+
+![Compute Jobs](slide_materials/compute_job_workflow.svg)
+
+
+
 # Storage
+
+
+## The File System {.small-bullets}
+
+-   A file system how information is stored and retrieved on a computer
+      -   Consists of files and directories
+-   A local file system is function of the operating system and only accessible from a single computer
+-   A shared file system is accessible from multiple computers
+
+
+
+
+
 
 ## BeeGFS {.small-bullets}
 
--   Wynton uses a *parallel* file system called BeeGFS
+-   Wynton uses a *parallel* shared file system called BeeGFS
     - The files are stored as "chunks" spread across many different servers
 -   BeeGFS has multiple services that work together to manage the file system
     - Storage (stores the chunks)
@@ -162,12 +188,11 @@ dt1 and dt2
 ## BeeGFS - I/O patterns {.small-bullets}
 -   Anything that requires lots of metadata operations can feel slow 
     -   e.g: lots of writes to the same directory and lots of file lookups and directory searches (**conda**)
--   Users are strongly encouraged to keep the number of reads and writes to a single directory to a reasonable number
--   If using conda, putting the conda application inside a Apptainer (formerly singularity) container will result in better overall file system performance
+-   Keep the number of reads and writes to a single directory to a reasonable number
+-   If using conda, putting the conda application inside a Apptainer (formerly singularity) container will result in better performance
 
 ## BeeGFS - Tips 
 
--   Some general guidelines for optimum use of BeeGFS
 -   Prefer fewer, large files over many small ones
 -   Distribute reading and writing over several directories
     -   Including compute job output and error files
@@ -184,6 +209,7 @@ dt1 and dt2
     - User home directory - limited to 500 GiB
 -   /wynton/**[group_name]**
     - User group directory - disk quota varies by group
+    - Use this directory for any analysis you want to share with your lab
 -   [More information on disk quotas](https://wynton.ucsf.edu/hpc/howto/storage-size.html#file-sizes-and-disk-quotas)
 
 To check your group disk quota run:
@@ -211,12 +237,21 @@ echo 'beegfs-ctl --getquota --storagepoolid=12 --gid "$(id --group)"'
 -   Gladstone's HIVE storage server is mounted directly to Wynton under **/gladstone**
     -   Only certain HIVE folders are accessible directly on Wynton
     -   Files under **/gladstone** are backed up
--   Naming: **/gladstone/[lab]/[share]**
+-   Naming: **/gladstone/[lab]**
+    -   Directories that are shared between multiple labs can be set up by contacting Gladstone IT   
 -   For more information visit the [IT knowledge base page](https://help.gladstone.org/support/solutions/articles/14000033963)
 
 
+## Storage Advice
+
+-   Always back up anything you store under **/wynton**
+-   Use **/gladstone** if you have access to it for all of your work since it is automatically backed up
+-   Use the scratch directories to store temporary files so they do not count against your group or user quotas
+
 
 # Data Transfer
+
+
 
 ## Secure Copy - scp
 
@@ -252,7 +287,7 @@ echo "{local}$ scp alice@dt1.wynton.ucsf.edu:/path/to/local_file.tsv /destinatio
 
 ## Globus
 
--   [Globus](https://wynton.ucsf.edu/hpc/transfers/globus.html) is a non-profit service for moving, syncing, and sharing large amounts of data asynchronously in the background
+-   [Globus](https://wynton.ucsf.edu/hpc/transfers/globus.html) is a service for moving, syncing, and sharing large amounts of data
 -   Wynton Accounts are not required to transfer data with Globus
 -   Useful for transferring data between institutions
 
@@ -264,12 +299,33 @@ echo "{local}$ scp alice@dt1.wynton.ucsf.edu:/path/to/local_file.tsv /destinatio
 -   Do not use rclone for transfers to Box, follow the [Wynton to UCSF Box](https://wynton.ucsf.edu/hpc/transfers/ucsf-box.html) instructions
 
 
+
+
+## Poll 1 
+
+Which of these can you **not** log in to from your computer?
+
+1.    Login Nodes
+2.    Development Nodes
+3.    Data transfer Nodes
+4.    Compute Nodes
+
+## Poll 2
+
+The **/wynton** directory is backed up on a nightly basis so do not need to back up the data you store here.
+
+1.    True
+2.    False
+
+
+
+
 # Installing Software
 
 ## Basics
 
--   Ensure the software you are trying to install is compatible with Rocky linux (use a container if not)
--   Check if the tool is already available in a [module](https://wynton.ucsf.edu/hpc/software/software-modules.html)
+-   Check if the tool is already available in a [module](https://wynton.ucsf.edu/hpc/software/software-repositories.html#software-repositories)
+-   Ensure the software you are trying to install is compatible with Rocky 8 linux (use a container if not)
 -   <u>Always install software in a development node</u>
 -   Download a precompiled binary or [install from source](https://wynton.ucsf.edu/hpc/howto/install-from-source.html)
 
@@ -297,10 +353,12 @@ echo '[alice@dev1 ~]$ make'
 echo '[alice@dev1 ~]$ make install'
 ```
 
-## Install Nextflow for Part 2
+## Install Nextflow
 
--   In part 2, we will run the nextflow rna-seq pipeline
--   Run the following to install nextflow:
+-   Scientific workflow system with a community maintained set of [core bioinformatics analysis](https://nf-co.re/) pipelines
+    -   We will cover an example RNA-seq pipeline in part 2   
+-   These can be configured to use the Wynton compute job submission system 
+
 
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
 echo '[alice@dev1 ~]$ cd ~/software'
@@ -312,16 +370,25 @@ echo '[alice@dev1 ~]$ wget -qO- https://get.nextflow.io | bash'
 ```
 
 
-- Let us know if you run into any errors
+
 
 
 # Containers
 
+
+## Motivation {.small-bullets}
+
+-   Compute heavy jobs (high RAM, multiple cores) should be run on compute nodes
+-   Containers allow us to make additional software available to the compute nodes
+    -   Also allows the use of software that might be hard to install on Rocky 8 Linux
+    -   Improves reproducibility
+
+![Compute Jobs](slide_materials/compute_job_workflow.svg)
+
+
 ## Definitions {.small-bullets}
 
 -   **Virtualization:** When software mimics the functions of physical hardware to run virtual machines
-    -   Work around to use OS specific or legacy software that might be hard to install
-    -   Improves reproducibility
 -   **Containers:** Implements virtualization using an *image* as its base
 -   **Images:**  An ordered collection of root filesystem changes and the corresponding execution parameters for use within a container runtime
 
@@ -329,7 +396,7 @@ echo '[alice@dev1 ~]$ wget -qO- https://get.nextflow.io | bash'
 ## Apptainer {.small-bullets}
 
 -   Wynton supports [Apptainer](https://wynton.ucsf.edu/hpc/software/apptainer.html) (formerly singularity) containers 
--   [Docker](https://docs.docker.com/) is a commonly used container creation software, these can be turned into apptainer containers easily
+-   [Docker](https://docs.docker.com/) is a commonly used image creation software, these can be turned into apptainer image files (.sif) easily
 
 -   apptainer run <image_file>
     -   Run predefined script within container
@@ -362,7 +429,7 @@ echo '    __  __     ____         _       __           __    __   __
 ```
 
 
-## Example Container - Hello World
+## Example Container
 
 -   This container has **figlet** installed which creates ASCII art from text input
 -   Try running this command to create your own using *exec*
@@ -376,7 +443,8 @@ echo '[alice@dev1 ~]$ apptainer exec hello-world_1.0.sif figlet your_text'
 -   Docker uses Dockerfiles to specify image creation
 -   Preferred by the Gladstone Bioinformatics Core to create new images
 -   In part 2, we will go over how to build custom container images from DockerFiles
-    - If you want to follow along, [install the docker engine](https://docs.docker.com/engine/install/) following the instructions for your OS
+    -   If you want to follow along, [install the docker engine](https://docs.docker.com/engine/install/) following the instructions for your OS
+    -   Set up a free [DockerHub](https://hub.docker.com/) account to store your images
 -   To see the Dockerfile used to create the hello-world image, run:
 
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
@@ -405,8 +473,6 @@ April 29-April 30, 2024 9am-4pm PDT
 May 6-May 7, 2024 1-4pm PDT
 
 
-
-[Complete Schedule](https://gladstone.org/events)     
-Click "Data Science Training Program"
+[Complete Schedule](https://gladstone.org/events?series=189)     
 
 

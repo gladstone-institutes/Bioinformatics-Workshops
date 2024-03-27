@@ -12,17 +12,21 @@
 
 .reveal code {
     background-color: #1e1e1eef; /* Dark background for code chunks */
-    color: white !important; /* White text for code */
+    color: white; /* White text for code */
     font-size: 1.2em;
     line-height: 1.2;
 }
 
-.reveal code::selection {
-    background-color: #d97306 !important; /* Dark magenta background for selected text */
+.code-small code {
+    background-color: #1e1e1eef; /* Dark background for code chunks */
+    color: white; /* White text for code */
+    font-size: 1em;
+    line-height: 1;
 }
 
-
-
+.reveal code::selection {
+    background-color: #d97306 !important; /* Dark orange background for selected text */
+}
 
 
 /* Specific styles for code output: background */
@@ -30,10 +34,16 @@
     background-color: black; /* Black background for code outputs */
 }
 
-/* Style for text selection within code outputs */
-.reveal pre code.output::selection {
-    background-color: #9c0366 !important; /* Dark magenta background for selected text in outputs */
+/* Custom class for code alt display */
+.code-alt code {
+    background-color: #ffecd0ac; /* Dark background for code outputs */
+    max-height: 400px !important;
+    font-family: 'Menlo', sans-serif;
+    font-size: 0.8em;
+    color: rgb(76, 76, 76)
 }
+
+
 
 /* Code output text color */
 .reveal pre code.output {
@@ -63,31 +73,33 @@ pre, code, kbd, samp {
     white-space: pre !important;
     overflow-x: auto !important;
 }
+
+/* Change the font family used for all text except code */
+.reveal p, .reveal li, .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+    font-family: "Helvetica", sans-serif;
+}
+
+.reveal h3 {
+    color: black;
+    font-size: 0.7em;
+}
 /* Bold slide titles and change color */
 .reveal h2 {
     font-weight: bold !important;
     color: #9c0366;
+    font-size: 1.3em;
 }
 /* Bold slide titles and change color */
 .reveal h1 {
     font-weight: bold !important;
     color: #9c0366;
+    font-size: 2.0em;
 }
+
 .reveal .slides>section:first-child h2 {
-    color: #333;
+    color: black;
     font-weight: normal !important;
-  }
-/* Custom slide title */
-.my-title-slide h1 {
-    font-weight: bold;
-    color: #9c0366;
-  }
-.my-title-slide h2 {
-color: #333;
-font-weight: normal !important;
 }
-
-
 
 .reveal .slides>section:first-child h1 {
     font-weight: bold !important;
@@ -107,12 +119,13 @@ font-weight: normal !important;
 
 .reveal ul ul {
     font-size: 0.75em; /* Smaller font size */
-    margin-top: 5px !important;
     margin-bottom: 5px !important;
 }
 .reveal ol {
     display: block;
-    margin-bottom: 20px !important;
+    margin-bottom: 20px;
+    margin-left: 75px;
+    margin-right: 50px
 } 
 
 
@@ -147,16 +160,16 @@ small {
 }
 
 .big-picture img{
-    max-width: 70%;
-    border: 1px solid black !important;
+    max-width: 95%;
+
 }
 
-/* Chage link color to purple */
+/* Chage link color to sky blue */
 .reveal a {
-    color: #0c74dc !important;
+    color: #0c74dc;
 }
 
-/* Change link color to purple on hover */
+/* Change link color to magenta on hover */
 .reveal a:hover {
     color: #9c0366 !important;
 }
