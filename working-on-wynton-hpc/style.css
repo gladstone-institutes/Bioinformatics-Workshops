@@ -131,7 +131,7 @@ pre, code, kbd, samp {
 
 /* Decrease size of image, remove border, shadow and center align*/
 .reveal img {
-    max-width: 60%;
+    max-width: 70%;
     border: none !important;
     box-shadow: none !important;
     display: block !important;
@@ -161,6 +161,15 @@ small {
 
 .big-picture img{
     max-width: 95%;
+
+}
+
+.small-picture img{
+    max-width: 65%;
+
+}
+.smaller-picture img{
+    max-width: 60%;
 
 }
 

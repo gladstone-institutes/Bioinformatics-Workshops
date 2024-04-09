@@ -1,5 +1,6 @@
 ---
-title: "Working on Wynton - Part 1"
+title: "Working on Wynton"
+subtitle: "Part 1"
 author: "Natalie Elphick"
 date: "April 15th, 2024"
 knit: (function(input, ...) {
@@ -28,7 +29,7 @@ output:
 **Natalie Elphick**    
 Bioinformatician I   
 
-**Alex Pico**     
+**Alex Pico (TA)**     
 Bioinformatics Core Director
 
 
@@ -50,7 +51,7 @@ Bioinformatics Core Director
 
 # What is Wynton HPC?
 
-## High-performance Computing Cluster
+## High-performance Computing Cluster {.smaller-picture}
 
 -   A collection of specialized computers (nodes) connected together on a fast local network   
 
@@ -75,7 +76,7 @@ Bioinformatics Core Director
 
 -   **Login:** Submit and query jobs. SSH to development nodes. File management.
 -   **Development:** Compile and install software. Test job scripts. Submit and query jobs. Version control. File management.
--   **Compute:** Running short and long-running job scripts.
+-   **Compute:** Running job scripts.
 -   **Transfer:** Fast in- & outbound file transfers. File management.
 
 ## The Login Nodes {.small-bullets}
@@ -92,8 +93,8 @@ log1, log2 and plog (for PHI users)
 
 ## Login {.small-bullets}
 
--   Make sure you are on the UCSF or Gladstone WiFi networks (or the respective VPN)
--   **ssh [your-username]@[node-name].wynton.ucsf.edu**
+-   Connect to the UCSF or Gladstone WiFi networks (or the respective VPN) or using [2FA](https://wynton.ucsf.edu/hpc/get-started/duo-signup.html)   
+-   **ssh [your-username]@[node].wynton.ucsf.edu**
 
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
 echo "{local}$ ssh alice@log1.wynton.ucsf.edu
@@ -108,7 +109,7 @@ alice@log1.wynton.ucsf.edu's password:
 
 -   Has a set of [core software](https://wynton.ucsf.edu/hpc/software/core-software.html) installed
     - e.g. git, vim, nano, make and python
--   Also has access to [software repositories](https://wynton.ucsf.edu/hpc/software/software-repositories.htmll) some which are maintained by other users or research groups
+-   Also has access to [software repositories](https://wynton.ucsf.edu/hpc/software/software-repositories.html) some which are maintained by other users or research groups
     - e.g. matlab, R and openjdk
 -   Cannot be logged in to directly, only from a login node
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
@@ -138,14 +139,15 @@ dt1 and dt2
 
 
 
-## Compute Nodes {.small-bullets .big-picture}
+## Compute Nodes {.small-bullets}
 
 -   Can **not** be logged in to directly
+-   No internet or UCSF network access   
 -   Used to run non-interactive compute job scripts
 -   The software to run the job script is provided using a container
 
 
-![Compute Jobs](slide_materials/compute_job_workflow.svg)
+![Compute Jobs](slide_materials/compute_job_workflow.png)
 
 
 
@@ -158,9 +160,6 @@ dt1 and dt2
       -   Consists of files and directories
 -   A local file system is function of the operating system and only accessible from a single computer
 -   A shared file system is accessible from multiple computers
-
-
-
 
 
 
@@ -196,18 +195,18 @@ dt1 and dt2
 -   Prefer fewer, large files over many small ones
 -   Distribute reading and writing over several directories
     -   Including compute job output and error files
--   Use local scratch (/scratch) when possible
+-   Use local scratch (**/scratch**) when possible
 -   Don't include anything in **/wynton** in your default LD_LIBRARY_PATH
-
-
 
 
 ## Storage {.small-bullets}
 
 -   **Wynton storage is not backed up**
--   /wynton/**[group_name]**/**[user]**
+-   /wynton/home/**[group_name]**/**[user]**
+    - PHI users : /wynton/protected/home/**[group_name]**/**[user]**
     - User home directory - limited to 500 GiB
--   /wynton/**[group_name]**
+-   /wynton/group/**[group_name]**
+    - PHI users : /wynton/protected/group/**[group_name]**
     - User group directory - disk quota varies by group
     - Use this directory for any analysis you want to share with your lab
 -   [More information on disk quotas](https://wynton.ucsf.edu/hpc/howto/storage-size.html#file-sizes-and-disk-quotas)
@@ -220,9 +219,10 @@ echo 'beegfs-ctl --getquota --storagepoolid=12 --gid "$(id --group)"'
 
 
 
-## Scratch - Temporary Storage
+## Scratch - Temporary Storage {.small-bullets}
 -   Local **/scratch** - 0.1-1.8 TiB/node storage unique to each compute node
-    - Can only be accessed from the specific compute node
+    -   Can only be accessed from the specific compute node
+    -   Use this to store intermediate files only needed for a job  
 -   **/wynton/scratch** and **/wynton/protected/scratch** (for PHI users)
     -   703 TiB storage accessible from everywhere
 -   No quotas
@@ -245,8 +245,10 @@ echo 'beegfs-ctl --getquota --storagepoolid=12 --gid "$(id --group)"'
 ## Storage Advice
 
 -   Always back up anything you store under **/wynton**
--   Use **/gladstone** if you have access to it for all of your work since it is automatically backed up
--   Use the scratch directories to store temporary files so they do not count against your group or user quotas
+-   Back up your data on **/gladstone** if you have access to it
+    -   A large number of jobs reading and writing to these directories will be slower since it is NFS mounted not BeeGFS
+-   Use the scratch directories to store temporary files
+
 
 
 # Data Transfer
@@ -372,26 +374,23 @@ echo '[alice@dev1 ~]$ nextflow -v'
 
 
 
-
-
 # Containers
 
 
-## Motivation {.small-bullets}
+## Motivation {.small-bullets .small-picture}
 
 -   Compute heavy jobs (high RAM, multiple cores) should be run on compute nodes
 -   Containers allow us to make additional software available to the compute nodes
     -   Also allows the use of software that might be hard to install on Rocky 8 Linux
     -   Improves reproducibility
 
-![Compute Jobs](slide_materials/compute_job_workflow.svg)
+![Compute Jobs](slide_materials/compute_job_workflow.png)
 
 
 ## Definitions {.small-bullets}
 
--   **Virtualization:** When software mimics the functions of physical hardware to run virtual machines
--   **Containers:** Implements virtualization using an *image* as its base
--   **Images:**  An ordered collection of root filesystem changes and the corresponding execution parameters for use within a container runtime
+-   **Containers:** An isolated environment for running software that is created from an *image* file, preventing conflicts with the host system.
+-   **Images:**  An ordered collection of root filesystem changes that contain all necessary dependencies, ensuring software run identically across various computing platforms.
 
 
 ## Apptainer {.small-bullets}

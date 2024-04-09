@@ -1,5 +1,6 @@
 ---
-title: "Working on Wynton - Part 2"
+title: "Working on Wynton"
+subtitle: "Part 2"
 author: "Natalie Elphick"
 date: "April 16th, 2024"
 knit: (function(input, ...) {
@@ -28,7 +29,7 @@ output:
 **Natalie Elphick**    
 Bioinformatician I   
 
-**Alex Pico**     
+**Alex Pico (TA)**     
 Bioinformatics Core Director
 
 
@@ -53,14 +54,14 @@ Bioinformatics Core Director
 
 # Custom Containers
 
-## Motivation {.small-bullets}
+## Motivation {.small-bullets .small-picture}
 
 -   Compute heavy jobs (high RAM, multiple cores) should be run on compute nodes
 -   Containers allow us to make additional software available to the compute nodes
     -   Also allows the use of software that might be hard to install on Rocky 8 Linux
     -   Improves reproducibility
 
-![Compute Jobs](slide_materials/compute_job_workflow.svg)
+![Compute Jobs](slide_materials/compute_job_workflow.png)
 
 
 
@@ -125,13 +126,14 @@ echo "docker push docker_hub_user/seurat-harmony:1.0"
 echo "[alice@dev1 ~]$ apptainer pull docker://docker_hub_user/seurat-harmony:1.0"
 ```
 
-## Notes on Building Custom Images {.code-small}
+## Notes on Building Custom Images {.small-bullets}
 
--   Time consuming process and uses a lot of RAM on your local machine
+-   Time consuming process and can use a lot of RAM on your local machine
 -   A good base image can save you a lot of time
--   You must run `apt-get update` and `apt-get install` in the same command
+-   You must run **apt-get update** and **apt-get install** in the same command
     -   Otherwise you will encounter caching issues
--   Remember to use `apt-get install -y`
+    -   These are only for Ubuntu, for other OS run the equivalent package list retrieval and install commands together
+-   Remember to use **apt-get install -y**
     -   You will have no control over the process while it's building
 
 # Compute Jobs
