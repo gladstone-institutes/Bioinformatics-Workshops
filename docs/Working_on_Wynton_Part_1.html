@@ -585,10 +585,16 @@ document.addEventListener('DOMContentLoaded', function(e) {
 </section>
 <section id="introductions" class="slide level2">
 <h2>Introductions</h2>
-<p><strong>Natalie Elphick</strong><br />
-Bioinformatician I</p>
-<p><strong>Alex Pico (TA)</strong><br />
-Bioinformatics Core Director</p>
+<p>Instructor:</p>
+<p>      <strong>Natalie Elphick</strong><br />
+      <em>Bioinformatician I</em></p>
+<p>TAs:</p>
+<p>      <strong>Alex Pico</strong><br />
+      <em>Bioinformatics Core Director</em><br />
+      <strong>Ayushi Agrawal</strong><br />
+      <em>Bioinformatician III</em><br />
+      <strong>Min-Gyoung Shin</strong><br />
+      <em>Bioinformatician III</em></p>
 </section>
 <section id="target-audience" class="slide level2">
 <h2>Target Audience</h2>
@@ -634,7 +640,7 @@ specifications</a>)<br />
 <li>Funded and administered cooperatively by UCSF campus IT and key
 research groups</li>
 </ul>
-<p><a href="https://wynton.ucsf.edu">https://wynton.ucsf.edu</a></p>
+<p><a href="https://wynton.ucsf.edu" class="uri">https://wynton.ucsf.edu</a></p>
 </section></section>
 <section>
 <section id="node-types-and-logging-in" class="title-slide slide level1">
@@ -781,8 +787,8 @@ requests</li>
 <li>Certain input/output patterns can be problematic</li>
 </ul>
 </section>
-<section id="beegfs---io-patterns" class="slide level2 small-bullets">
-<h2 class="small-bullets">BeeGFS - I/O patterns</h2>
+<section id="beegfs---io-patterns" class="slide level2">
+<h2>BeeGFS - I/O patterns</h2>
 <ul>
 <li>Anything that requires lots of metadata operations can feel slow
 <ul>
@@ -791,21 +797,18 @@ and directory searches (<strong>conda</strong>)</li>
 </ul></li>
 <li>Keep the number of reads and writes to a single directory to a
 reasonable number</li>
-<li>If using conda, putting the conda application inside a Apptainer
-(formerly singularity) container will result in better performance</li>
 </ul>
 </section>
-<section id="beegfs---tips" class="slide level2">
-<h2>BeeGFS - Tips</h2>
+<section id="beegfs---takehome-message" class="slide level2 small-bullets">
+<h2 class="small-bullets">BeeGFS - Takehome Message</h2>
 <ul>
 <li>Prefer fewer, large files over many small ones</li>
-<li>Distribute reading and writing over several directories
-<ul>
-<li>Including compute job output and error files</li>
-</ul></li>
-<li>Use local scratch (/scratch) when possible</li>
+<li>Distribute reading and writing over several directories</li>
+<li>Use local scratch (<strong>/scratch</strong>) when possible</li>
 <li>Don’t include anything in <strong>/wynton</strong> in your default
 LD_LIBRARY_PATH</li>
+<li>If using conda, putting the conda application inside a Apptainer
+(formerly singularity) container will result in better performance</li>
 </ul>
 </section>
 <section id="storage-1" class="slide level2 small-bullets">
@@ -872,18 +875,22 @@ contacting Gladstone IT<br />
 knowledge base page</a></li>
 </ul>
 </section>
-<section id="storage-advice" class="slide level2">
-<h2>Storage Advice</h2>
+<section id="storage-advice" class="slide level2 small-bullets">
+<h2 class="small-bullets">Storage Advice</h2>
 <ul>
 <li>Always back up anything you store under
 <strong>/wynton</strong></li>
-<li>Back up your data on <strong>/gladstone</strong> if you have access
-to it
+<li>If you have access to it keep all of your data on
+<strong>/gladstone</strong>
 <ul>
-<li>A large number of jobs reading and writing to these directories will
+<li>A large number of jobs reading and writing to these directories may
 be slower since it is NFS mounted not BeeGFS</li>
 </ul></li>
-<li>Use the scratch directories to store temporary files</li>
+<li>Use the scratch directories to store temporary files
+<ul>
+<li>e.g. A large amount of .fastq that you do not need after the
+alignment step</li>
+</ul></li>
 </ul>
 </section></section>
 <section>
@@ -905,6 +912,13 @@ be slower since it is NFS mounted not BeeGFS</li>
 <li>Copy a single file to Wynton from your local machine</li>
 </ul>
 <pre><code>{local}$ scp alice@dt1.wynton.ucsf.edu:/path/to/local_file.tsv /destination/path</code></pre>
+</section>
+<section id="hands-on" class="slide level2">
+<h2>Hands-on</h2>
+<ul>
+<li>Use scp to copy this <a href="https://www.dropbox.com/scl/fi/463ymz88q89d2co90kj30/candidatus_carsonella_ruddii_complete_genome.fasta?rlkey=9x64iek2yy149sh2i1r9sse9y&amp;dl=1">file</a>
+into your home directory on Wynton</li>
+</ul>
 </section>
 <section id="gui-sftp-clients" class="slide level2 small-bullets">
 <h2 class="small-bullets">GUI SFTP Clients</h2>
@@ -955,8 +969,7 @@ UCSF Box</a> instructions</li>
 </section>
 <section id="poll-1" class="slide level2">
 <h2>Poll 1</h2>
-<p>Which of these can you <strong>not</strong> log in to from your
-computer?</p>
+<p>Poll 1 - Which of these can you <strong>not</strong> SSH in to?</p>
 <ol type="1">
 <li>Login Nodes</li>
 <li>Development Nodes</li>
@@ -967,7 +980,7 @@ computer?</p>
 <section id="poll-2" class="slide level2">
 <h2>Poll 2</h2>
 <p>The <strong>/wynton</strong> directory is backed up on a nightly
-basis so do not need to back up the data you store here.</p>
+basis, so there is no need to back up anything stored here.</p>
 <ol type="1">
 <li>True</li>
 <li>False</li>
@@ -1136,7 +1149,7 @@ run:</li>
 <ul>
 <li>Please take some time to fill out the workshop survey if you are not
 attending part 2:<br />
-<a href="https://www.surveymonkey.com/r/F75J6VZ">https://www.surveymonkey.com/r/F75J6VZ</a></li>
+<a href="https://www.surveymonkey.com/r/F75J6VZ" class="uri">https://www.surveymonkey.com/r/F75J6VZ</a></li>
 </ul>
 </section>
 <section id="upcoming-data-science-training-program-workshops" class="slide level2">

@@ -25,12 +25,18 @@ output:
 <center>*Press the ? key for tips on navigating these slides*</center>
 
 ## Introductions
+Instructor:
 
-**Natalie Elphick**    
-Bioinformatician I   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Elphick**   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician I*
 
-**Alex Pico (TA)**     
-Bioinformatics Core Director
+
+TAs:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Alex Pico**    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatics Core Director*   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Michela Traglia**    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Senior Statistician* 
 
 
 ## Target Audience
@@ -244,7 +250,7 @@ Read the [querying jobs](https://wynton.ucsf.edu/hpc/scheduler/list-jobs.html) W
 
 ## Poll 3
 
-Anything that you can run on a compute node can be run on a development node.
+Any submitted job to compute nodes can also be run on development nodes.
 
 1.    True
 2.    False
@@ -417,6 +423,8 @@ alice1@log1.wynton.ucsf.edu:s password: XXXXXXXXXXXXXXXXXXX
 
 ## Bioinformatics Questions
 
+For any bioinformatics specific questions feel free to reach out to the Gladstone Bioinformatics Core.
+
 -   Email
     -   [bioinformatics@gladstone.ucsf.edu](mailto:bioinformatics@gladstone.ucsf.edu)
 -   Slack channel #questions-about-bioinformatics
@@ -430,6 +438,9 @@ alice1@log1.wynton.ucsf.edu:s password: XXXXXXXXXXXXXXXXXXX
 
 -   Please take some time to fill out the workshop survey:   
 [https://www.surveymonkey.com/r/F75J6VZ](https://www.surveymonkey.com/r/F75J6VZ)
+
+-   Want some additional Wynton training?    
+Check out the UCSF library [Introduction to Wynton HPC Cluster](https://calendars.library.ucsf.edu/event/12197724) Workshop
 
 
 ## Upcoming Data Science Training Program Workshops
