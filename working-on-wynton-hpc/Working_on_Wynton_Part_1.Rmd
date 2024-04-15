@@ -88,7 +88,7 @@ TAs:
 
 <u>Names</u>:
 
-log1, log2 and plog (for PHI users)
+log1, log2 and plog1 (for PHI users)
 
 ## Login {.small-bullets}
 
@@ -335,6 +335,7 @@ echo '[alice@dev1 ~]$ mkdir -p "/scratch/$USER"
 
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
 echo '[alice@dev1 ~]$ mkdir -p $HOME/software/samtools-1.14'
+echo '[alice@dev1 ~]$ cd samtools-1.19.2'
 echo '[alice@dev1 ~]$ ./configure --prefix=$HOME/software/samtools-1.14'
 ```
 
