@@ -1,7 +1,8 @@
 ---
-title: "Introduction to R Data Analysis - Part 2"
+title: "Introduction to R Data Analysis"
+subtitle: "Part 2"
 author: "Natalie Elphick"
-date: "January 23rd, 2024"
+date: "May 21st, 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -19,6 +20,7 @@ library(kableExtra)
 library(tidyverse)
 library(readxl)
 theme_set(theme_grey(base_size = 16))
+knitr::opts_chunk$set(comment = "")
 ```
 
 ## 
@@ -29,7 +31,10 @@ theme_set(theme_grey(base_size = 16))
 **Natalie Elphick**    
 Bioinformatician I  
 
-**Yihang Xin (TA)**     
+**Michela Traglia (In Person TA)**    
+Senior Statistician
+
+**Yihang Xin (Online TA)**     
 Software Engineer III   
 
 # Schedule
@@ -46,11 +51,11 @@ Software Engineer III
 -   The tidyverse packages work well together because they share
 common data representations and design principles
     -   Rows = observations, columns = variables
--   [ggplot2](), for data visualization.
--   [dplyr](), for data manipulation.
--   [tidyr](), for data tidying.
--   [readr](), for data import.
--   [purrr](), for iteration.
+-   [ggplot2](https://ggplot2.tidyverse.org/), for data visualization.
+-   [dplyr](https://dplyr.tidyverse.org/), for data manipulation.
+-   [tidyr](https://tidyr.tidyverse.org/), for data tidying.
+-   [readr](https://readr.tidyverse.org/), for data import.
+-   [purrr](https://purrr.tidyverse.org/), for iteration.
 -   and more..
 
 ## dplyr
@@ -67,66 +72,38 @@ common data representations and design principles
 
 ## Example Dataframe
 -   mpg is a dataframe built into the ggplot2 package
-```{r, eval = FALSE}
+```{r}
 head(mpg)
 ```
 
-```{r, echo = FALSE}
-head(mpg) |>
-  kable() |>
-  kable_styling("striped") |>
-  scroll_box(width = "100%")
-```
 
 ## Select Columns
 
-```{r, eval = FALSE}
+```{r}
 select(.data = mpg,
        year, cty, hwy, manufacturer)
-```
-
-```{r, echo = FALSE}
-select(.data = mpg,
-       year, cty, hwy, manufacturer) |>
-  head() |>
-  kable() |>
-  kable_styling("striped") |>
-  scroll_box(width = "100%")
 ```
 
 
 ## Filter Rows
 
 
-```{r, eval = FALSE}
+```{r}
 filter(.data = mpg,
        year == 2008)
 ```
 
-```{r, echo = FALSE}
-filter(.data = mpg,
-       year == 2008) |>
-  head() |>
-  kable() |>
-  kable_styling("striped") |>
-  scroll_box(width = "100%")
-```
+
 ## Arrange Rows
 
 -   desc() is used to arrange rows in descending order, the default is ascending
-```{r, eval = FALSE}
+```{r}
 arrange(.data = mpg,
-        desc(cyl))
+        desc(cty))
 ```
 
-```{r, echo = FALSE}
-arrange(.data = mpg,
-        desc(cyl)) |>
-  head(n = 3) |>
-  kable() |>
-  kable_styling("striped") |>
-  scroll_box(width = "100%")
-```
+
+
 ## Summarising data
 -    The dplyr **summarise()** function computes a table of
 summaries for a data frame
@@ -136,6 +113,9 @@ variable(s)
 different categorical groupings
 
 ## Group and Summarise
+
+- Get the mean and median city mileage within manufacturer
+
 ```{r, eval = FALSE}
 summarise(group_by(.data = mpg,
                    manufacturer),
@@ -144,35 +124,25 @@ summarise(group_by(.data = mpg,
 ```
 
 ```{r, echo = FALSE}
-summarise(group_by(.data = mpg,
+summarise(.data = group_by(.data = mpg,
                    manufacturer),
           mean_cty = mean(cty),
           median_cty = median(cty)) |>
-  head() |>
-  kable() |>
-  kable_styling("striped") |>
-  scroll_box(width = "100%")
+  head(10)
 ```
+
+
 
 ## The pipe operator |>
 -   Allows "chaining" of function calls to make code more readable
-```{r, eval = FALSE}
-mpg |>
-  group_by(manufacturer) |>
-  summarise(mean_cty = mean(cty),
-            median_cty = median(cty))
-```
-
-```{r, echo = FALSE}
+```{r}
 mpg |>
   group_by(manufacturer) |>
   summarise(mean_cty = mean(cty),
             median_cty = median(cty)) |>
-  head(n = 4) |>
-  kable() |>
-  kable_styling("striped") |>
-  scroll_box(width = "100%")
+  head(5)
 ```
+
 
 
 # Plotting
@@ -204,11 +174,10 @@ ggplot(data = mpg,                         # Input dataframe
 ## Adding and Modifying Layers 
 
 ```{r, fig.dim=c(10,4)}
-ggplot(data = mpg,
-       mapping = aes(x = class, y = cty, fill = class)) +
-  geom_violin() +
-  geom_boxplot(width = 0.1,
-               fill = "white")
+ggplot(data = mpg,                         
+       mapping = aes(x = cty, y = hwy)) +  
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "lm")
 ```
 
 
@@ -221,6 +190,8 @@ ggplot(data = mpg,
 countdown::countdown(minutes = 10,
                      seconds = 0,
                      color_border = "black",
+                     color_running_background = "#47d193",
+                     color_finished_background = "#a3184e",
                      padding = "50px",
                      margin = "5%",
                      font_size = "5em",
@@ -234,8 +205,8 @@ countdown::countdown(minutes = 10,
 
 ## Dataset Description
 -   PanTHERIA
-    -   A global species-level data set of key life-history, ecological and geographical traits of all known extant and recently extinct mammals compiled from the literature
-    -   Macroecological and macroevolutionary research projects
+    -   A global species-level data set of key traits of all known extant and recently extinct mammals compiled from literature
+    -   Used in macroecological and macroevolutionary research projects
     -   Data is organized by taxonomic rank
 
 ## Taxonomic Rank
@@ -252,10 +223,20 @@ read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx") |>
   scroll_box(width = "100%")
 ```
 
+## Hands-on Analysis
 
+-   We will read in the data and explore if the trophic level has a significant impact on the adult body mass of mammals  
+
+
+Steps:    
+1.    Combine and clean the data   
+2.    Visualize adult body mass by trophic level  
+3.    Check for overrepresented groups  
+4.    Fit a simple linear model  
 
 ## Hands-on Analysis
 -   Open part_2.Rmd
+-   If you just want to follow along and not run code, open part2_filled_out.html
 
 
 
@@ -263,62 +244,33 @@ read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx") |>
 
 ## General Tips
 
+-   Follow any relevant institutional guidelines on using LLMs
 -   Always confirm ChatGPT's outputs are correct
 -   Provide as much detail as possible about the problem in the 1st prompt
 -   Use separate chats for separate tasks/projects
--   Try the 'Custom Instructions' function that adds additional information to every prompt
--   Can visit webpages (GPT 4 only), which can help get more specific answers
+-   Try the 'Custom Instructions' function
 
 ## Code Tips
 
--   Commented R code yields better responses in my experience
+-   Commented R code yields better responses
 -   Provide the code and error message in the same prompt
 -   ChatGPT can work well to convert syntax and improve your code:
     -   "Turn this loop into a function : [your code]"
     -   "Is there a better way to do this : [your code]"
 -   Check out the file: `example_code/1_convert_syntax_example.R` for an example use case
 
-# Finding R Packages
-
-## Key Questions
-
--   What assay was the package designed for?
--   When was the last release?
--   Is it maintained (frequent updates)?
--   Does it work on all operating systems?
--   Are other people using it? (citations)
--   Do they respond to github issues?
--   Is there a benchmarking paper?
-
-## BioConductor and CRAN
-
--   Both of these have stringent requirements for packages they host (eg. for BioConductor they have to run on all major operating systems)
-
--   Prefer BioConductor packages if available over CRAN
-
--   Prefer CRAN packages over ones only hosted on GitHub
-
-## Start with the Assay
-
--   Click [here](https://www.bioconductor.org/packages/release/BiocViews.html#___Sequencing) to go to BioC views
--   Pick the assay you want to analyse
--   Pick the type of analysis you want to do
--   Find a package that does it
--   Find benchmarking papers to narrow the list of packages down
--   Find the vignette on the package page and refer to the manual for any questions not covered by it
-
 
 # Additional Resources
 
 ## R
-
--   [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/how-to-read-this-book.html) : Excellent R markdown reference
-
 -   [R for Data Science](https://r4ds.hadley.nz/)
-
+-   [Top 10 R Errors and How to Fix them](https://statsandr.com/blog/top-10-errors-in-r/)
+-   [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/how-to-read-this-book.html) : Excellent R markdown reference
 -   [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/)
 
 -   [Advanced R](https://adv-r.hadley.nz/)
+
+
 
 ## Statistics
 
@@ -346,10 +298,9 @@ read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx") |>
 
 ## Upcoming Workshops
 
-1. [Introduction to Statistics, Experimental Design, and Hypothesis Testing](https://gladstone.org/index.php/events/introduction-statistics-experimental-design-and-hypothesis-testing-0) 
-    -   Jan 25, 2024 (Session 1 - 10am–12pm) (Session 2 - 1pm–3pm)
-    -   Jan 26, 2024 (Session 3 - 10am–12pm)
+[Single Cell ATAC-Seq Data Analysis Part 2](https://gladstone.org/events/single-cell-atac-seq-data-analysis-part-2-1)
 
-2. [Intermediate RNA-Seq Analysis Using R](https://gladstone.org/index.php/events/intermediate-rna-seq-analysis-using-r-4)
-    -   Feb 1, 2024 (9:30am-12:00pm)
+- Check [this link](https://gladstone.org/events?series=data-science-training-program) at the end of the summer for out fall workshop schedule
+
+
 

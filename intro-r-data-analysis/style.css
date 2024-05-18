@@ -130,3 +130,13 @@ small {
     max-width: 70%;
     border: 1px solid black !important;
 }
+
+/* Chage link color to sky blue */
+.reveal a {
+    color: #0c74dc;
+}
+
+/* Change link color to magenta on hover */
+.reveal a:hover {
+    color: #9c0366 !important;
+}

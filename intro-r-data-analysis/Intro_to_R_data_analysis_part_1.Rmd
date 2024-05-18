@@ -1,7 +1,8 @@
 ---
-title: "Introduction to R Data Analysis - Part 1"
+title: "Introduction to R Data Analysis"
+subtitle: "Part 1"
 author: "Natalie Elphick"
-date: "January 22nd, 2024"
+date: "May 20th, 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -16,6 +17,7 @@ output:
 
 ```{r, setup, include=FALSE}
 library(tidyverse)
+knitr::opts_chunk$set(comment = "")
 ```
 
 ## 
@@ -25,10 +27,10 @@ library(tidyverse)
 ## Introductions
 
 **Natalie Elphick**    
-Bioinformatician I   
+Bioinformatician I  
 
-**Michela Traglia (TA)**     
-Senior Statistician    
+**Yihang Xin (Online TA)**    
+Software Engineer III 
 
 
 ## Poll 1
@@ -36,7 +38,7 @@ Senior Statistician
 **What is your level of experience with coding/data analysis?**
 
 1.  I know another data analysis programming language (Python, Matlab etc.)
-2.  I can use Excel to do linear regression
+2.  I can use Excel
 3.  I know some R
 4.  All of the above
 5.  None of the above
@@ -50,8 +52,8 @@ Senior Statistician
 1.  What is R and why should you use it?
 2.  The RStudio interface
 3.  File types
-4.  Error messages
-5.  Variables
+4.  Variables
+5.  Error and warning messages
 6.  Types & data structures
 7.  Math and logic operations
 8.  Functions and packages
@@ -86,9 +88,9 @@ functionality
 # RStudio
 
 ## RStudio
-- RStudio is an integrated development
+-   RStudio is an integrated development
 environment (IDE)  
-- It makes R code easier to write by providing a
+-   It is an app that makes R code easier to write by providing a
 feature rich graphical user interface (GUI)
 
 <br>
@@ -131,8 +133,6 @@ feature rich graphical user interface (GUI)
 ## Variable definition
 -    Variables store information that is referenced and manipulated
 in a computer program
--    In contrast to the mathematical definition of a variable,
-variables in computer science are _mutable_
 -    There are 3 ways to define variables in R, but one is preferred:
 ```{r}
 x <- 1  # Preferred way
@@ -141,7 +141,59 @@ x = 1
 print(x)
 ```
 
-## Variable naming
+## Example
+-   Run the following in the R console:
+
+```{r}
+x <- 1  
+y <- 4
+z <- y
+x + y + z
+```
+
+# Error and Warning Messages
+
+## Errors
+-   **Errors**: Stop the execution of your code and must be fixed for the code to run successfully
+
+```{r, eval=FALSE}
+x <- 5
+y <- 10
+z <- x + a
+```
+
+```{r,echo=FALSE}
+message("Error: object 'a' not found")
+```
+
+
+## Common Errors
+
+- **Syntax Error:** Invalid R code syntax (e.g. misplaced parentheses)
+```{r,echo=FALSE}
+message('Error: unexpected ")"')
+```
+
+- **Object not found:** This variable is not defined (e.g. misspelled variables)
+
+```{r,echo=FALSE}
+message('Error: object "a" not found')
+```
+
+
+See this [article](https://statsandr.com/blog/top-10-errors-in-r/) for more common errors and how to fix them.
+
+## Warnings
+-   Do not stop the execution but indicate potential issues that you should be aware of and might need to address
+
+```{r}
+a <- c(1, 2, 3, 4, 5)
+b <- c(6, 7, 8, 9)
+result <- a + b
+```
+
+
+## Variable Naming
 
 -   Variables names must start with a letter and can contain
 underscores and periods
@@ -176,7 +228,7 @@ DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 
 ## Data Types
 - Integer
-    - Whole numbers (in R denote with L ex. 1L,2L)
+    - Whole numbers (in R denoted with L ex. 1L,2L)
 - Numeric
     - Decimal numbers
 - Logical
@@ -191,7 +243,7 @@ DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 **Which of these is not the correct data type for the value?**
 
 1.  1.5 - Numeric
-2.  "Labrador Retriever" - Character
+2.  "1" - Character
 3.  NA - Logical
 4.  1 - Integer
 
@@ -227,6 +279,8 @@ DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 countdown::countdown(minutes = 10,
                      seconds = 0,
                      color_border = "black",
+                     color_running_background = "#47d193",
+                     color_finished_background = "#a3184e",
                      padding = "50px",
                      margin = "5%",
                      font_size = "5em",
@@ -297,6 +351,7 @@ x & !y
 execution of code
 
 ```{r}
+dog_breeds <- c("Labrador Retriever", "Akita", "Bulldog")
 if ("Akita" %in% dog_breeds) {
   print("dog_breeds already contains Akita")
 } else {
@@ -379,11 +434,17 @@ library(ggplot2) # Makes all of the ggplot2 functions available
 -    The tidyverse is a collection of commonly used data analysis
 packages  
       -   Learning curve is less steep
-      -   Lots of useful packages for data analysis
+      -   Lots of useful packages for cleaning and "wrangling" data into the correct format
 
-##
+## Why use Tidyverse Packages?
 
-![tidyverse](assets/tidyverse.png)
+-   Most of the work in data analysis is getting data into the correct format to create outputs
+-   The tidyverse collection of packages simplifies this process
+    -   Intuitive syntax
+    -   Comprehensive (data manipulation, cleaning, modeling and graphics)
+    -   Consistent data structure
+    -   Strong community support
+    
 
 # End of Part 1
 
@@ -392,11 +453,8 @@ packages
 
 ## Upcoming Workshops
 
-1. [Introduction to Statistics, Experimental Design, and Hypothesis Testing](https://gladstone.org/index.php/events/introduction-statistics-experimental-design-and-hypothesis-testing-0) 
-    -   Jan 25, 2024 (Session 1 - 10am–12pm) (Session 2 - 1pm–3pm)
-    -   Jan 26, 2024 (Session 3 - 10am–12pm)
+[Single Cell ATAC-Seq Data Analysis Part 2](https://gladstone.org/events/single-cell-atac-seq-data-analysis-part-2-1)
 
-2. [Intermediate RNA-Seq Analysis Using R](https://gladstone.org/index.php/events/intermediate-rna-seq-analysis-using-r-4)
-    -   Feb 1, 2024 (9:30am-12:00pm)
+- Check [this link](https://gladstone.org/events?series=data-science-training-program) at the end of the summer for out fall workshop schedule
 
 
