@@ -31,7 +31,7 @@ knitr::opts_chunk$set(comment = "")
 **Natalie Elphick**    
 Bioinformatician I  
 
-**Michela Traglia (In Person TA)**    
+**Michela Traglia (Online TA)**    
 Senior Statistician
 
 **Yihang Xin (Online TA)**     
@@ -43,6 +43,9 @@ Software Engineer III
 2. Filtering and reformatting data
 3. Plotting data
 4. Hands on data analysis
+5. ChatGPT tips for R
+6. Where to get help
+
 
 # Introduction to Tidyverse
 
@@ -227,7 +230,6 @@ read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx") |>
 
 -   We will read in the data and explore if the trophic level has a significant impact on the adult body mass of mammals  
 
-
 Steps:    
 1.    Combine and clean the data   
 2.    Visualize adult body mass by trophic level  
@@ -260,17 +262,32 @@ Steps:
 -   Check out the file: `example_code/1_convert_syntax_example.R` for an example use case
 
 
+# Where to Get Help
+
+## Bioinformatics Questions
+
+For any bioinformatics specific questions feel free to reach out to the Gladstone Bioinformatics Core.
+
+-   Email
+    -   [bioinformatics@gladstone.ucsf.edu](mailto:bioinformatics@gladstone.ucsf.edu)
+-   Slack channel #questions-about-bioinformatics
+    -   Contact us at the email above to be added to the channel
+
+## Debugging Errors
+
+-   Try searching the web by pasting the error message and any relevant keywords (package or function name)
+-   Websites like [Stack Overflow](https://stackoverflow.com/) and [Posit Community Forum](https://forum.posit.co/) should have the most relevant answers
+-   If the problem is package specific, check the documentation and reach out to the authors using their preferred method 
+
 # Additional Resources
+
 
 ## R
 -   [R for Data Science](https://r4ds.hadley.nz/)
 -   [Top 10 R Errors and How to Fix them](https://statsandr.com/blog/top-10-errors-in-r/)
--   [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/how-to-read-this-book.html) : Excellent R markdown reference
+-   [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/how-to-read-this-book.html)
 -   [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/)
-
 -   [Advanced R](https://adv-r.hadley.nz/)
-
-
 
 ## Statistics
 
@@ -300,7 +317,9 @@ Steps:
 
 [Single Cell ATAC-Seq Data Analysis Part 2](https://gladstone.org/events/single-cell-atac-seq-data-analysis-part-2-1)
 
-- Check [this link](https://gladstone.org/events?series=data-science-training-program) at the end of the summer for out fall workshop schedule
+-   Check [this link](https://gladstone.org/events?series=data-science-training-program) at the end of the summer for out fall workshop schedule
+
+-   [Gladstone Bioinformatics Workshops](https://github.com/gladstone-institutes/Bioinformatics-Workshops/wiki) - workshop wiki page for all of the workshops we offer
 
 
 
