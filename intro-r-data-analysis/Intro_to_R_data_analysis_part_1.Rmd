@@ -2,7 +2,7 @@
 title: "Introduction to R Data Analysis"
 subtitle: "Part 1"
 author: "Natalie Elphick"
-date: "May 20th, 2024"
+date: "August 26th, 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -29,8 +29,8 @@ knitr::opts_chunk$set(comment = "")
 **Natalie Elphick**    
 Bioinformatician I  
 
-**Yihang Xin (Online TA)**    
-Software Engineer III 
+**Min-Gyoung Shin**    
+Bioinformatician III
 
 
 ## Poll 1
@@ -46,6 +46,24 @@ Software Engineer III
 ## Target Audience
 -   No background in statistics or computing
 -   No prior experience with programming or R/RStudio
+
+
+## Learning Objectives
+
+
+1.    Navigate the RStudio environment and understand how R works
+2.    Understand variable types and data structures
+3.    Perform data cleaning and transformation in R
+4.    Create simple visualizations using ggplot2
+
+## Learning R Takes Time!
+
+-  **Workshop Pace**: This is an intro, and it’s okay if everything doesn’t click right away.
+-   **Practice is Key**: Plan to spend extra time on practicing concepts after the workshop.
+-   **Self-Guided Learning**: Use the materials provided at the end of the workshop to continue at your own pace.
+
+Keep at it—progress comes with persistence!
+
 
 ## Part 1:
 
@@ -73,25 +91,20 @@ Software Engineer III
 - Can easily implement any statistical analysis
 - Code serves as a record which enables reproducibility
 with minimal effort
-- As of March 2023, there were over 19,000 open source packages to extend its
+- As of August 2024, there were over 21,000 open source packages to extend its
 functionality
   - Highly customizable graphics ([ggplot2](https://ggplot2-book.org/))
   - Analysis reports ([knitr](https://cran.r-project.org/web/packages/knitr/index.html))
   - RNA-seq analysis ([DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html))
 
-## How does it work? 
 
-<section class="shrink">
-![Programming](assets/R_lang_hierarchy.png)
-</section>
 
 # RStudio
 
 ## RStudio
 -   RStudio is an integrated development
 environment (IDE)  
--   It is an app that makes R code easier to write by providing a
-feature rich graphical user interface (GUI)
+-   An app that makes R code easier to write by providing a feature rich graphical user interface (GUI)
 
 <br>
 </br>
@@ -109,7 +122,7 @@ feature rich graphical user interface (GUI)
 ## File types
 
 -   **Rscript** files that end in `.R`
-    -   The most basic, a file that contains R code
+    -   The most basic, a file that contains only R code
 -   **RMarkdown** files that end in `.Rmd`
 -   Let's create a blank Rscript to see how they work, open RStudio and click:  
     -   File -\> New File -\> R Script
@@ -228,7 +241,7 @@ DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
 
 ## Data Types
 - Integer
-    - Whole numbers (in R denoted with L ex. 1L,2L)
+    - Whole numbers (denoted with L ex. 1L,2L)
 - Numeric
     - Decimal numbers
 - Logical
@@ -312,7 +325,7 @@ x %in% y # Is x in this vector y?
 **What is the output of the following code?**
 
 ```{r, eval = FALSE}
-4 %in% as.character(c(1,2,3,4))
+4 %in% c(1, 2, 3, 4)
 ```
 
 1.  TRUE
@@ -352,10 +365,15 @@ execution of code
 
 ```{r}
 dog_breeds <- c("Labrador Retriever", "Akita", "Bulldog")
+
 if ("Akita" %in% dog_breeds) {
+  
   print("dog_breeds already contains Akita")
+  
 } else {
+  
   dog_breeds <- c("Akita", dog_breeds)
+  
 }
 
 ```
@@ -372,13 +390,12 @@ perform a single action
 ![Functions](assets/functions.png)
 
 ## Defining a function
--   To define a function we use the function keyword, the output is specified with the **return** keyword:
+-   To define a function we use the function keyword, the output is specified with the **return** function:
 ```{r}
-add_dog <- function(dog_to_add,
-                    input_vector) {
+add_dog <- function(dog_to_add, input_vector) {
   if (dog_to_add %in% input_vector) {
     
-    message("Already contains this dog")
+    print("Already contains this dog")
     
   } else {
     
@@ -453,8 +470,16 @@ packages
 
 ## Upcoming Workshops
 
-[Single Cell ATAC-Seq Data Analysis Part 2](https://gladstone.org/events/single-cell-atac-seq-data-analysis-part-2-1)
+[Intermediate RNA-Seq Analysis Using R](https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-5)   
+September 10, 2024 9am-12pm PDT
 
-- Check [this link](https://gladstone.org/events?series=data-science-training-program) at the end of the summer for out fall workshop schedule
+[Introduction to Statistics, Experimental Design, and Hypothesis Testing](https://gladstone.org/events/introduction-statistics-experimental-design-and-hypothesis-testing-1)    
+September 10 - September 12, 2024 1-3pm PDT
+
+[Single Cell RNA-Seq Data Analysis](https://gladstone.org/events/single-cell-rna-seq-data-analysis-0)    
+September 16-September 17, 2024 9am-4pm PDT
+
+
+- Check [this link](https://gladstone.org/events?series=data-science-training-program) at for the full schedule
 
 

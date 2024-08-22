@@ -22,7 +22,6 @@
 }
 
 
-  
 
 /* Add horizontal scrolling to all code outputs */
 .reveal pre code.output {
@@ -43,12 +42,12 @@ pre, code, kbd, samp {
 /* Bold slide titles and change color */
 .reveal h2 {
     font-weight: bold !important;
-    color: #9c0366;
+    color: #0072B2;
 }
 /* Bold slide titles and change color */
 .reveal h1 {
     font-weight: bold !important;
-    color: #9c0366;
+    color: #0072B2;
 }
 .reveal .slides>section:first-child h2 {
     color: #333;
@@ -57,7 +56,7 @@ pre, code, kbd, samp {
 /* Custom slide title */
 .my-title-slide h1 {
     font-weight: bold;
-    color: #9c0366;
+    color: #0072B2;
   }
 .my-title-slide h2 {
 color: #333;
@@ -68,7 +67,7 @@ font-weight: normal !important;
 
 .reveal .slides>section:first-child h1 {
     font-weight: bold !important;
-    color: #9c0366;
+    color: #0072B2;
 }
 
 /* Increase the spacing between list items */
@@ -136,7 +135,7 @@ small {
     color: #0c74dc;
 }
 
-/* Change link color to magenta on hover */
+/* Change link color to darker blue on hover */
 .reveal a:hover {
-    color: #9c0366 !important;
+    color: #0072B2 !important;
 }
