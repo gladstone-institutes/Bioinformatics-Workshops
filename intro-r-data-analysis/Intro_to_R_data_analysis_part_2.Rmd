@@ -31,11 +31,8 @@ knitr::opts_chunk$set(comment = "")
 **Natalie Elphick**    
 Bioinformatician I  
 
-**Michela Traglia**    
-Senior Statistician
-
-**Ayushi Agrawal**     
-Bioinformatician III   
+**Reuben Thomas**   
+Associate Core Director
 
 # Schedule
 
@@ -281,30 +278,23 @@ For any bioinformatics specific questions feel free to reach out to the Gladston
 
 # Additional Resources
 
+## Coding Templates
 
-## R
+Code templates can be used to avoid typing the same code over and over again.
+
+-   These are templates that we are using to automate things like plot appearance and documentation:
+    -   [.Rmd Template](https://www.dropbox.com/scl/fi/a9cnyqdajgabbfcxbmm6y/RMD_template.Rmd?rlkey=yntfpo6aptw9b4pgjyzpe5ubi&dl=1)
+    -   [.R Script Template](https://www.dropbox.com/scl/fi/cy43b8b1x3nzn17esnmmt/Rscript_template.R?rlkey=zn7b0g8nn0s9213blh70fjjsx&dl=1)
+
+
+
+## R Resources
 -   [R for Data Science](https://r4ds.hadley.nz/)
 -   [Top 10 R Errors and How to Fix them](https://statsandr.com/blog/top-10-errors-in-r/)
 -   [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/how-to-read-this-book.html)
 -   [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/)
 -   [Advanced R](https://adv-r.hadley.nz/)
 
-## Statistics
-
--   [Data Analysis in R](https://bookdown.org/steve_midway/DAR) : This book has more statistics details than *R for Data Science*
--   [Generalized Linear Models](https://bookdown.org/steve_midway/DAR/glms-generalized-linear-models.html)\
--   [Random Effects](https://bookdown.org/steve_midway/DAR/random-effects.html)
-
-## RNA-seq Analysis
-
--   [RNA-seqlopedia](https://rnaseq.uoregon.edu/) : Everything you need to know about RNA-seq experiments
--   [RNA-seq Expression Units](https://luisvalesilva.com/datasimple/rna-seq_units.html) : Blog post on understanding common units
--   [Introduction to Single-Cell Analysis with Bioconductor](https://bioconductor.org/books/3.17/OSCA.intro/index.html) : Covers the basics of scRNA-seq analysis in R
-
-## Dimensional Reduction
-
--   [Tutorial on PCA](https://uw.pressbooks.pub/appliedmultivariatestatistics/chapter/pca/) : PCA explained with R code examples
--   [Understanding UMAP](https://pair-code.github.io/understanding-umap/) : Short explanation with great visualizations, mainly useful for scRNA-seq analysis
 
 
 
@@ -315,14 +305,14 @@ For any bioinformatics specific questions feel free to reach out to the Gladston
 
 ## Upcoming Workshops
 
-[Intermediate RNA-Seq Analysis Using R](https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-5)   
-September 10, 2024 9am-12pm PDT
+[Introduction to scATAC-seq Data Analysis](https://gladstone.org/events/introduction-scatac-seq-data-analysis)    
+November 14 - November 15, 2024 1:00-4:00pm PST
 
-[Introduction to Statistics, Experimental Design, and Hypothesis Testing](https://gladstone.org/events/introduction-statistics-experimental-design-and-hypothesis-testing-1)    
-September 10 - September 12, 2024 1-3pm PDT
+[Introduction to Linear Mixed Effects Models](https://gladstone.org/events/introduction-linear-mixed-effects-models-0)  
+November 18-November 19, 2024 1:00-3:00pm PST
 
-[Single Cell RNA-Seq Data Analysis](https://gladstone.org/events/single-cell-rna-seq-data-analysis-0)    
-September 16-September 17, 2024 9am-4pm PDT
+[scATAC-seq and scRNA-seq Data Integration](https://gladstone.org/events/scatac-seq-and-scrna-seq-data-integration)  
+November 22, 2024 1:00-4:00pm PST
 
 
 - Check [this link](https://gladstone.org/events?series=data-science-training-program) at for the full schedule

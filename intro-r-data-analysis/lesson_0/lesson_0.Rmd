@@ -23,7 +23,7 @@ learnr::tutorial_options(exercise.timelimit = 10)
 
 This guide will help you get set up for <ins>Intro to R Data Analysis</ins>. There are just a few steps to make sure you'll have the necessary software installed and ready to go on day 1. **Please ensure that you've completed each step by running the validation test prior to the start of the workshop**. 
 
-This guide will walk you through how to install R, RStudio, and some additional tools that we’ll be using in the course. By rough analogy to a car, R is like the car’s engine and RStudio is like the dashboard. More precisely, R is a programming language and Rstudio is an ‘integrated development environment’ (IDE), which is basically a nice software interface for interacting with R. For our purposes, you will only ever interact directly with RStudio, but it needs to have R installed to work (like a car needing its engine). 
+This guide will help you set up R, RStudio, and a few extra tools we'll use in this course. You can think of R as the engine that powers everything, while RStudio is like the dashboard that makes it easy to control. R is a programming language, and RStudio is a tool that helps you work with it. Even though you'll mainly use RStudio, it needs R to be installed to work, just like a car needs an engine to run.
 
 Please complete the following steps (must be done in this order). If you already have R and Rstudio installed you can skip ahead. Make sure you complete step 5 though!
 
@@ -83,4 +83,4 @@ You should see a plot that looks like this appear:
 </center>
 
 
-If you see an error that says “R version is too old” that means you need to update your R version. The update process is the same as the installation process. It will update your R installation. If you see an error that says “There is no package called ggplot2” that means you need to install the tidyverse package (see above).
+If you see an error that says “R version is too old” that means you need to update your R version. The update process is the same as the installation process. It will update your R installation. If you see an error that says “There is no package called ggplot2” that means you need to install the tidyverse package (see the *Install Required Packages* section).
