@@ -2,7 +2,7 @@
 title: "Introduction to R Data Analysis"
 subtitle: "Part 2"
 author: "Natalie Elphick"
-date: "August 27th, 2024"
+date: "November 12th, 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -31,8 +31,8 @@ knitr::opts_chunk$set(comment = "")
 **Natalie Elphick**    
 Bioinformatician I  
 
-**Reuben Thomas**   
-Associate Core Director
+**Min-Gyoung Shin**   
+Bioinformatician III
 
 # Schedule
 
