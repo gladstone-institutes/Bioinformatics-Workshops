@@ -1,0 +1,27 @@
+ArchR demo
+
+
+Error:
+Warnings/errors during plotting
+
+Resolution:
+require(devtools)
+install_version("ggplot2", version = "3.4.4", repos = "http://cran.us.r-project.org") 
+
+-------------------------------------------------------------------------------------------
+
+Error: 
+I get the following error message while installing ArchR-> ERROR: dependency ‘chromVAR’ is not available for package ‘ArchR’
+* removing ‘/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/ArchR’
+Warning messages:
+1: In i.p(...) :
+  installation of package ‘chromVAR’ had non-zero exit status
+2: In i.p(...) :
+  installation of package ‘/var/folders/hl/b2_4yd491xzfzk8_dt0nm1140000gn/T//RtmpMLZpiv/file7b8448c4f5f8/ArchR_1.0.2.tar.gz’ had non-zero exit status
+
+Resolution:
+1. You would need to install chromVar and then re-run ArchR installation: https://bioconductor.org/packages/release/bioc/html/chromVAR.html
+2. One of the participants had another issue. chromVar isntllation complained about gfortan. If so, please follow the resolution here: I found this issue that might help: https://www.biostars.org/p/9579258/
+
+
+-------------------------------------------------------------------------------------------
