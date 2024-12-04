@@ -2,7 +2,7 @@
 title: "Working on Wynton"
 subtitle: "Part 2"
 author: "Natalie Elphick"
-date: "April 16th, 2024"
+date: "December 6th, 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -17,7 +17,7 @@ output:
 ---
 
 ```{r, setup, include=FALSE}
-
+knitr::opts_chunk$set(comment = "")
 ```
 
 ## 
@@ -36,8 +36,7 @@ TAs:
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Alex Pico**    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatics Core Director*   
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Michela Traglia**    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Senior Statistician* 
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Senior Statistician*
 
 ## Target Audience
 -   Prior experience with UNIX command-line 
@@ -46,101 +45,18 @@ TAs:
 
 ## Part 2:
 
-1.    Custom Containers
-2.    Submitting Compute Jobs
-3.    Array Jobs
-4.    GPU Jobs
-5.    Running Pipelines
-6.    Jupyter Notebooks 
-7.    RStudio Server
+1.    Submitting Compute Jobs
+2.    Array Jobs
+3.    GPU Jobs
+4.    Running Pipelines
+5.    Jupyter Notebooks 
+6.    RStudio Server
+7.    Advanced Tips and Tricks
 8.    How to get help
 
 
 
 
-# Custom Containers
-
-## Motivation {.small-bullets .small-picture}
-
--   Compute heavy jobs (high RAM, multiple cores) should be run on compute nodes
--   Containers allow us to make additional software available to the compute nodes
-    -   Also allows the use of software that might be hard to install on Rocky 8 Linux
-    -   Improves reproducibility
-
-![Compute Jobs](slide_materials/compute_job_workflow.png)
-
-
-
-
-## Dockerfile Basics
-
--   Dockerfiles contain instructions to build an image in **layers**
--   Layers are added using Dockerfile instruction syntax
--   Images are built by navigating to the directory that contains the Dockerfile and running:
-
-```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
-echo 'docker build .'
-```
-
-## Dockerfile Instructions {.small-bullets}
--   First instruction is always **FROM** which specifies the base image
-    -   Base images are a starting point with some basics already installed like the OS and build tools, find them on [DockerHub](https://hub.docker.com/)
--   **RUN** : Use before running any shell commands
--   **SHELL** : Set the shell
--   **USER** : Set the user (within the image)
--   **CMD** : Set the default instruction to be run by the image
--   **COPY** : COPY files into the image
-
-
-See the [Dockerfile documentation](https://docs.docker.com/reference/dockerfile/) for a full list of instructions
-
-## Example Dockerfile {.code-alt}
-
--   Click [here](https://www.dropbox.com/scl/fi/mdbefp3h8ahdvxtgjypqo/Dockerfile?rlkey=7d4zd9ge1m3wwszlfy78712ky&dl=1) to download the example Dockerfile
--   Open in your preffered text editor
-
-
-```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
-curl -s -L -o Dockerfile 'https://www.dropbox.com/scl/fi/mdbefp3h8ahdvxtgjypqo/Dockerfile?rlkey=7d4zd9ge1m3wwszlfy78712ky&dl=0'
-cat Dockerfile
-rm Dockerfile
-```
-
-## Building Example Image
-
--   Do not run this during the workshop
-    -   It requires a lot of RAM
--   On macOS, make sure you have the Docker Desktop App running
--   We can provide an additional argument to the **build** command, -t, to set the name of the docker image
-      -   We can add version tags after the name using ":" 
-```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
-echo "docker build -t docker_hub_user/seurat-harmony:1.0 ."
-```
-
-
-## Pushing Images to DockerHub  {.small-bullets}
-
--   Make sure you are signed in to your DockerHub account locally (Docker Desktop for macOS)
--   The image name must start with your user name
-
-```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
-echo "docker push docker_hub_user/seurat-harmony:1.0"
-```
-
--   These can then be "pulled" on to Wynton as apptainer image files (image must be public)
-```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
-echo "[alice@dev1 ~]$ apptainer pull docker://docker_hub_user/seurat-harmony:1.0"
-```
-
-## Notes on Building Custom Images {.small-bullets}
-
--   Time consuming process and can use a lot of RAM on your local machine
--   A good base image can save you a lot of time
--   You must run **apt-get update** and **apt-get install** in the same command
-    -   Otherwise you will encounter caching issues
-    -   These are only for Ubuntu, for other OS run the equivalent package list retrieval and install commands together
--   Remember to use **apt-get install -y**
-    -   You will have no control over the process while it's building
 
 # Compute Jobs
 
@@ -159,9 +75,15 @@ cat submission.sh
 rm submission.sh
 ```
 
+## Submission Script - Apptainer
+
+-   Download the example job submission script that uses a container
+```{r,engine='bash', eval=FALSE, echo=TRUE}
+curl -s -L -o apptainer_submission_script.sh 'https://www.dropbox.com/scl/fi/zzl9fnfcoxu3pyrx5ffd1/apptainer_submission_script.sh?rlkey=w05e18ahw4hvbvaucac379za9&dl=1'
+```
+
 ## Submission Script - Apptainer {.small-bullets .code-alt}
 
--   [Download](https://www.dropbox.com/scl/fi/zzl9fnfcoxu3pyrx5ffd1/apptainer_submission_script.sh?rlkey=w05e18ahw4hvbvaucac379za9&dl=1) this example job submission script that uses a container
 -   Paths that the container needs read/write access to need to be mounted with APPTAINER_BINDPATH
 
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
@@ -194,17 +116,26 @@ rm submission.sh
 ```
 
 
-## Array Jobs {.small-bullets .code-alt}
+## Array Jobs {.small-bullets}
 
 -   This is a good option if the script you want to run operates on discrete sets of data
     - e.g. sample or chromosome
--   [Download](https://www.dropbox.com/scl/fi/upl71jeny62fxfzkxao1f/array_job_submission_script.sh?rlkey=ggkyjxx8nz400e1t96mif5t34&dl=1) this example array job submission script
+-   Array jobs allow one file to create multiple jobs that are indexed by a task ID
+-   Download the example array job submission folder
 
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
-curl -s -L -o submission.sh 'https://www.dropbox.com/scl/fi/upl71jeny62fxfzkxao1f/array_job_submission_script.sh?rlkey=ggkyjxx8nz400e1t96mif5t34&dl=0'
-cat submission.sh
-rm submission.sh
+echo 'curl -L -o array_job_example.zip https://www.dropbox.com/scl/fo/j0muxevls22ylwxqe76ws/ANFEeLzPH4D_GmHpldiVCTg?rlkey=h6y0ginsrtlsc02beb65zbysh&dl=1'
 ```
+
+## Array Jobs {.small-bullets}
+
+-   Unzip it 
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo 'unzip array_job_example.zip -d array_job_example'
+```
+
+- Follow along with the demo
+
 
 ## GPU Jobs  {.small-bullets}
 
@@ -430,33 +361,144 @@ For any bioinformatics specific questions feel free to reach out to the Gladston
 -   Slack channel #questions-about-bioinformatics
     -   Contact us at the email above to be added to the channel
 
+# Advanced Tips and Tricks
+
+
+## BeeGFS {.small-bullets}
+
+-   Wynton uses a *parallel* shared file system called BeeGFS
+    -   The files are stored as "chunks" spread across many different servers
+-   BeeGFS has multiple services that work together to manage the file system
+    -   Storage (stores the chunks)
+    -   Metadata (tracks the chunks and information about their file)
+    -   Management (tracks all of the services)
+    -   Client (provides linux access to the file system)
+
+## BeeGFS - Advantages
+
+-   High throughput
+-   Redundancy can be built in by mirroring services
+-   Adding new storage is fast and does not require downtime
+
+## BeeGFS - Caveats
+
+-   For any client node, performance is limited by the network bandwidth of that node
+-   Network latency becomes extremely important for all metadata requests
+-   Certain input/output patterns can be problematic
+
+## BeeGFS - I/O patterns 
+
+-   Anything that requires lots of metadata operations can feel slow
+    -   e.g: lots of writes to the same directory and lots of file lookups and directory searches (**conda**)
+-   Keep the number of reads and writes to a single directory to a reasonable number
+
+## BeeGFS - Takehome Message {.small-bullets}
+
+-   Prefer fewer, large files over many small ones
+-   Distribute reading and writing over several directories
+-   Use local scratch (**/scratch**) when possible
+-   Don't include anything in **/wynton** in your default LD_LIBRARY_PATH
+-   If using conda, putting the conda application inside a Apptainer (formerly singularity) container will result in better performance
+
+## Custom Containers
+
+## Motivation {.small-bullets .small-picture}
+
+-   Compute heavy jobs (high RAM, multiple cores) should be run on compute nodes
+-   Containers allow us to make additional software available to the compute nodes
+    -   Also allows the use of software that might be hard to install on Rocky 8 Linux
+    -   Improves reproducibility
+
+![Compute Jobs](slide_materials/compute_job_workflow.png)
+
+
+
+
+## Dockerfile Basics
+
+-   Dockerfiles contain instructions to build an image in **layers**
+-   Layers are added using Dockerfile instruction syntax
+-   Images are built by navigating to the directory that contains the Dockerfile and running:
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo 'docker build .'
+```
+
+## Dockerfile Instructions {.small-bullets}
+-   First instruction is always **FROM** which specifies the base image
+    -   Base images are a starting point with some basics already installed like the OS and build tools, find them on [DockerHub](https://hub.docker.com/)
+-   **RUN** : Use before running any shell commands
+-   **SHELL** : Set the shell
+-   **USER** : Set the user (within the image)
+-   **CMD** : Set the default instruction to be run by the image
+-   **COPY** : COPY files into the image
+
+
+See the [Dockerfile documentation](https://docs.docker.com/reference/dockerfile/) for a full list of instructions
+
+## Example Dockerfile {.code-alt}
+
+-   Click [here](https://www.dropbox.com/scl/fi/mdbefp3h8ahdvxtgjypqo/Dockerfile?rlkey=7d4zd9ge1m3wwszlfy78712ky&dl=1) to download the example Dockerfile
+-   Open in your preffered text editor
+
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+curl -s -L -o Dockerfile 'https://www.dropbox.com/scl/fi/mdbefp3h8ahdvxtgjypqo/Dockerfile?rlkey=7d4zd9ge1m3wwszlfy78712ky&dl=0'
+cat Dockerfile
+rm Dockerfile
+```
+
+## Building Example Image
+
+-   Do not run this during the workshop
+    -   It requires a lot of RAM
+-   On macOS, make sure you have the Docker Desktop App running
+-   We can provide an additional argument to the **build** command, -t, to set the name of the docker image
+      -   We can add version tags after the name using ":" 
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "docker build -t docker_hub_user/seurat-harmony:1.0 ."
+```
+
+
+## Pushing Images to DockerHub  {.small-bullets}
+
+-   Make sure you are signed in to your DockerHub account locally (Docker Desktop for macOS)
+-   The image name must start with your user name
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "docker push docker_hub_user/seurat-harmony:1.0"
+```
+
+-   These can then be "pulled" on to Wynton as apptainer image files (image must be public)
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo "[alice@dev1 ~]$ apptainer pull docker://docker_hub_user/seurat-harmony:1.0"
+```
+
+## Notes on Building Custom Images {.small-bullets}
+
+-   Time consuming process and can use a lot of RAM on your local machine
+-   A good base image can save you a lot of time
+-   You must run **apt-get update** and **apt-get install** in the same command
+    -   Otherwise you will encounter caching issues
+    -   These are only for Ubuntu, for other OS run the equivalent package list retrieval and install commands together
+-   Remember to use **apt-get install -y**
+    -   You will have no control over the process while it's building
 
 
 # End of Part 2
 
 ## Thank You!
 
+
 -   Please take some time to fill out the workshop survey:   
-[https://www.surveymonkey.com/r/F75J6VZ](https://www.surveymonkey.com/r/F75J6VZ)
-
--   Want some additional Wynton training?    
-Check out the UCSF library [Introduction to Wynton HPC Cluster](https://calendars.library.ucsf.edu/event/12197724) Workshop
-
+    <https://www.surveymonkey.com/r/bioinfo-training>
 
 ## Upcoming Data Science Training Program Workshops
 
+This is our last workshop for 2024, please check the link below for future workshop dates.
 
-[Introduction to Linear Mixed Effects Models](https://gladstone.org/events/introduction-linear-mixed-effects-models)   
-April 25-April 26, 2024 1-3pm PDT
-
-[Single Cell RNA-Seq Data Analysis](https://gladstone.org/events/single-cell-rna-seq-data-analysis)     
-April 29-April 30, 2024 9am-4pm PDT
-
-[Single Cell ATAC-Seq Data Analysis Part 1](https://gladstone.org/events/single-cell-atac-seq-data-analysis-part-1-1)    
-May 6-May 7, 2024 1-4pm PDT
-
-
-[Complete Schedule](https://gladstone.org/events?series=189)     
+[Complete Schedule](https://gladstone.org/events?series=189)
+ 
 
 
 

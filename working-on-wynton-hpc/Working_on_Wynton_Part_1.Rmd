@@ -2,7 +2,7 @@
 title: "Working on Wynton"
 subtitle: "Part 1"
 author: "Natalie Elphick"
-date: "April 15th, 2024"
+date: "December 5th, 2024"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -17,7 +17,7 @@ output:
 ---
 
 ```{r, setup, include=FALSE}
-
+knitr::opts_chunk$set(comment = "")
 ```
 
 ## 
@@ -35,10 +35,8 @@ TAs:
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Alex Pico**    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatics Core Director*   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Ayushi Agrawal**    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician III*   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Min-Gyoung Shin**    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician III*
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Michela Traglia**    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Senior Statistician*
 
 ## Target Audience
 
@@ -60,6 +58,13 @@ TAs:
 -   A collection of specialized computers (nodes) connected together on a fast local network
 
 ![HPC Diagram](slide_materials/HPC_diagram.png)
+
+
+## HPC File System {.smaller-picture}
+
+![HPC File System](slide_materials/file_system_node_relationship.png)
+
+
 
 ## Wynton {.small-bullets}
 
@@ -84,7 +89,6 @@ TAs:
 -   Only capable of basic tasks (file management, submitting and checking on jobs)
 -   Lacks access to pre-installed software tools that the development nodes have
 -   The primary method to log in is to use an SSH client application
--   The Wynton HPC is up to date with information on logging in: [Access Cluster](https://wynton.ucsf.edu/hpc/get-started/access-cluster.html)
 
 <u>Names</u>:
 
@@ -147,49 +151,6 @@ dt1 and dt2
 
 # Storage
 
-## The File System {.small-bullets}
-
--   A file system how information is stored and retrieved on a computer
-    -   Consists of files and directories
--   A local file system is function of the operating system and only accessible from a single computer
--   A shared file system is accessible from multiple computers
-
-## BeeGFS {.small-bullets}
-
--   Wynton uses a *parallel* shared file system called BeeGFS
-    -   The files are stored as "chunks" spread across many different servers
--   BeeGFS has multiple services that work together to manage the file system
-    -   Storage (stores the chunks)
-    -   Metadata (tracks the chunks and information about their file)
-    -   Management (tracks all of the services)
-    -   Client (provides linux access to the file system)
-
-## BeeGFS - Advantages
-
--   High throughput
--   Redundancy can be built in by mirroring services
--   Adding new storage is fast and does not require downtime
-
-## BeeGFS - Caveats
-
--   For any client node, performance is limited by the network bandwidth of that node
--   Network latency becomes extremely important for all metadata requests
--   Certain input/output patterns can be problematic
-
-## BeeGFS - I/O patterns 
-
--   Anything that requires lots of metadata operations can feel slow
-    -   e.g: lots of writes to the same directory and lots of file lookups and directory searches (**conda**)
--   Keep the number of reads and writes to a single directory to a reasonable number
-
-
-## BeeGFS - Takehome Message {.small-bullets}
-
--   Prefer fewer, large files over many small ones
--   Distribute reading and writing over several directories
--   Use local scratch (**/scratch**) when possible
--   Don't include anything in **/wynton** in your default LD_LIBRARY_PATH
--   If using conda, putting the conda application inside a Apptainer (formerly singularity) container will result in better performance
 
 ## Storage {.small-bullets}
 
@@ -327,16 +288,16 @@ The **/wynton** directory is backed up on a nightly basis, so there is no need t
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
 echo '[alice@dev1 ~]$ mkdir -p "/scratch/$USER"
 [alice@dev1 ~]$ cd "/scratch/$USER"
-[alice@dev1 alice]$ wget https://github.com/samtools/samtools/releases/download/1.19.2/samtools-1.19.2.tar.bz2
-[alice@dev1 alice]$ tar -x -f samtools-1.19.2.tar.bz2'
+[alice@dev1 alice]$ wget https://github.com/samtools/samtools/releases/download/1.21/samtools-1.21.tar.bz2
+[alice@dev1 alice]$ tar -x -f samtools-1.21.tar.bz2'
 ```
 
 2.  Create install location and configure
 
 ```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
-echo '[alice@dev1 ~]$ mkdir -p $HOME/software/samtools-1.14'
-echo '[alice@dev1 ~]$ cd samtools-1.19.2'
-echo '[alice@dev1 ~]$ ./configure --prefix=$HOME/software/samtools-1.14'
+echo '[alice@dev1 ~]$ mkdir -p $HOME/software/samtools-1.21'
+echo '[alice@dev1 ~]$ cd samtools-1.21'
+echo '[alice@dev1 ~]$ ./configure --prefix=$HOME/software/samtools-1.21'
 ```
 
 3.  Build and install
@@ -345,6 +306,29 @@ echo '[alice@dev1 ~]$ ./configure --prefix=$HOME/software/samtools-1.14'
 echo '[alice@dev1 ~]$ make'
 echo '[alice@dev1 ~]$ make install'
 ```
+
+## Install Samtools from Source {.small-list}
+
+4. Add to PATH
+
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ echo "export PATH=$HOME/software/samtools-1.21/bin:\$PATH" >> $HOME/.bashrc'
+echo '[alice@dev1 ~]$ source $HOME/.bashrc'
+```
+
+5. Test Installation
+```{r, engine='bash', eval=TRUE, results='markup',comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@dev1 ~]$ samtools --help'
+```
+
+```{r, engine='bash', echo=FALSE}
+echo 'Program: samtools (Tools for alignments in the SAM format)
+Version: 1.21 (using htslib 1.21)
+
+Usage:   samtools <command> [options]'
+```
+
+
 
 ## Install Nextflow
 
@@ -375,8 +359,8 @@ echo '[alice@dev1 ~]$ nextflow -v'
 
 ## Definitions {.small-bullets}
 
--   **Containers:** An isolated environment for running software that is created from an *image* file, preventing conflicts with the host system.
--   **Images:** An ordered collection of root filesystem changes that contain all necessary dependencies, ensuring software run identically across various computing platforms.
+-   **Containers**: An isolated environment for running software that avoids conflicts with the host system. Containers are stored, shared and executed as **image files** with a .sif extension. 
+-   **Images:** are built from definition files (or Dockerfiles) which are a set of instruction you specify for your environment.
 
 ## Apptainer {.small-bullets}
 
@@ -444,18 +428,11 @@ echo '[alice@dev1 ~]$ apptainer exec hello-world_1.0.sif cat /Dockerfile'
 
 ## Thank You!
 
--   Please take some time to fill out the workshop survey if you are not attending part 2:\
-    <https://www.surveymonkey.com/r/F75J6VZ>
+-   Please take some time to fill out the workshop survey if you are not attending part 2:   
+    <https://www.surveymonkey.com/r/bioinfo-training>
 
 ## Upcoming Data Science Training Program Workshops
 
-[Introduction to Linear Mixed Effects Models](https://gladstone.org/events/introduction-linear-mixed-effects-models)\
-April 25-April 26, 2024 1-3pm PDT
-
-[Single Cell RNA-Seq Data Analysis](https://gladstone.org/events/single-cell-rna-seq-data-analysis)\
-April 29-April 30, 2024 9am-4pm PDT
-
-[Single Cell ATAC-Seq Data Analysis Part 1](https://gladstone.org/events/single-cell-atac-seq-data-analysis-part-1-1)\
-May 6-May 7, 2024 1-4pm PDT
+This is our last workshop for 2024, please check the link below for future workshop dates.
 
 [Complete Schedule](https://gladstone.org/events?series=189)
