@@ -2,7 +2,7 @@
 title: "Introduction to R Data Analysis"
 subtitle: "Part 1"
 author: "Natalie Elphick"
-date: "November 11th, 2024"
+date: "January 27th, 2025"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -27,8 +27,10 @@ knitr::opts_chunk$set(comment = "")
 ## Introductions
 
 **Natalie Elphick**    
-Bioinformatician I  
+Bioinformatician II  
 
+**Michela Traglia**  
+Senior Statistician
 
 
 
@@ -464,7 +466,7 @@ packages
 
 ## Why use Tidyverse Packages?
 
--   Most of the work in data analysis is getting data into the correct format to create outputs
+-   Most of the work in data analysis is getting data into the correct format to create outputs (plots and tables)
 -   The tidyverse collection of packages simplifies this process
     -   Intuitive syntax
     -   Comprehensive (data manipulation, cleaning, modeling and graphics)
@@ -475,19 +477,18 @@ packages
 # End of Part 1
 
 ## Workshop survey
-- Please fill out our [workshop survey](https://www.surveymonkey.com/r/F75J6VZ) so we can continue to improve these workshops
+- Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training) so we can continue to improve these workshops
 
 ## Upcoming Workshops
 
-[Introduction to scATAC-seq Data Analysis](https://gladstone.org/events/introduction-scatac-seq-data-analysis)    
-November 14 - November 15, 2024 1:00-4:00pm PST
+[Introduction to Unix Command Line](https://gladstone.org/events/introduction-unix-command-line-2)  
+February 10-February 11, 2025 1:00-3:00pm PST   
 
-[Introduction to Linear Mixed Effects Models](https://gladstone.org/events/introduction-linear-mixed-effects-models-0)  
-November 18-November 19, 2024 1:00-3:00pm PST
+[Introduction to RNA-Seq Analysis](https://gladstone.org/events/introduction-rna-seq-analysis-8)  
+February 13-February 14, 2025 1:00-4:00pm PST  
 
-[scATAC-seq and scRNA-seq Data Integration](https://gladstone.org/events/scatac-seq-and-scrna-seq-data-integration)  
-November 22, 2024 1:00-4:00pm PST
-
+[Intermediate RNA-Seq Analysis Using R](https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-6)  
+February 20, 2025 9:00am-12:00pm PST  
 
 - Check [this link](https://gladstone.org/events?series=data-science-training-program) at for the full schedule
 
