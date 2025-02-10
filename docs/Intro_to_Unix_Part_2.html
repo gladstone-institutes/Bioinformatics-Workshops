@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="author" content="Natalie Elphick" />
-  <title>Introduction to Unix Command-line - Part 2</title>
+  <title>Introduction to Unix Command-line</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -1878,9 +1878,10 @@ document.addEventListener('DOMContentLoaded', function(e) {
     <div class="slides">
 
 <section>
-    <h1 class="title">Introduction to Unix Command-line - Part 2</h1>
+    <h1 class="title">Introduction to Unix Command-line</h1>
+  <h1 class="subtitle">Part 2</h1>
     <h2 class="author">Natalie Elphick</h2>
-    <h3 class="date">March 12th 2024</h3>
+    <h3 class="date">February 11th 2025</h3>
 </section>
 
 <section id="section" class="slide level2">
@@ -1892,7 +1893,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
 <section id="introductions" class="slide level2">
 <h2>Introductions</h2>
 <p><strong>Natalie Elphick</strong><br />
-Bioinformatician I</p>
+Bioinformatician II</p>
 <p><br></p>
 <p><strong>Yihang Xin (TA)</strong><br />
 Software Engineer III</p>
@@ -1903,11 +1904,11 @@ Software Engineer III</p>
 <p>Run the following commands if you did not attend part 1:</p>
 <pre class="text"><code>mkdir unix_workshop</code></pre>
 <pre class="text"><code>cd unix_workshop</code></pre>
-<pre class="text"><code>curl -L -o unix_workshop_2024.tar.gz &#39;https://www.dropbox.com/scl/fi/o8msrl3a1k986jvjll4mv/unix_workshop_2024.tar.gz?rlkey=m7jfkvpz0iq12zdzphq7013l5&amp;dl=0&#39;
+<pre class="text"><code>curl -L -o unix_workshop.tar.gz &#39;https://www.dropbox.com/scl/fi/tdzpoivf7mienlenunqhf/unix_workshop.tar.gz?rlkey=6bfxnqgc5n4lgc9mc80ld75z4&amp;dl=0&#39;
 </code></pre>
-<pre class="text"><code>tar -xzf unix_workshop_2024.tar.gz</code></pre>
-<pre class="text"><code>cd unix_workshop_2024</code></pre>
-<pre class="text"><code>curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.111.refseq.tsv.gz</code></pre>
+<pre class="text"><code>tar -xzf unix_workshop.tar.gz</code></pre>
+<pre class="text"><code>cd unix_workshop</code></pre>
+<pre class="text"><code>curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.113.refseq.tsv.gz</code></pre>
 </section>
 
 <section>
@@ -1937,7 +1938,7 @@ du -h part_2/homo_sapiens.refseq.tsv</code></pre>
 </ul>
 <pre class="text"><code>gzip part_2/homo_sapiens.refseq.tsv
 du -h part_2/homo_sapiens.refseq.tsv.gz</code></pre>
-<pre><code>3.2M    part_2/homo_sapiens.refseq.tsv.gz</code></pre>
+<pre><code>3.3M    part_2/homo_sapiens.refseq.tsv.gz</code></pre>
 <ul>
 <li>Compressing it makes it a 10th of the size</li>
 </ul>
@@ -1962,9 +1963,9 @@ compressed archive files</li>
 <pre class="text"><code>tar -czf part_1.tar.gz part_1
 ls -l</code></pre>
 <pre><code>total 8
-drwx---rw-@ 4 nelphick  staff  128 Mar 12 09:36 part_1
--rw-r--r--  1 nelphick  staff  803 Mar 12 12:52 part_1.tar.gz
-drwxr-xr-x@ 4 nelphick  staff  128 Mar 12 12:52 part_2</code></pre>
+drwx---rw-@ 4 nelphick  staff  128 Feb 10 11:16 part_1
+-rw-r--r--  1 nelphick  staff  801 Feb 10 11:16 part_1.tar.gz
+drwxr-xr-x@ 4 nelphick  staff  128 Feb 10 11:16 part_2</code></pre>
 <ul>
 <li>-c: create a new archive</li>
 <li>-f: specify the name of the archive file</li>
@@ -1992,7 +1993,6 @@ can use <code>gunzip -c</code></li>
 </ul>
 <pre class="text"><code>gunzip -c part_2/homo_sapiens.refseq.tsv.gz | head</code></pre>
 <pre><code>gene_stable_id  transcript_stable_id    protein_stable_id   xref    db_name info_type   source_identity xref_identity   linkage_type
-ENSG00000228037 ENST00000424215 -   NR_121638   RefSeq_ncRNA    DIRECT  -   -   -
 ENSG00000142611 ENST00000378391 ENSP00000367643 NP_955533   RefSeq_peptide  DIRECT  100 100 -
 ENSG00000142611 ENST00000378391 ENSP00000367643 NM_199454   RefSeq_mRNA DIRECT  99  62  -
 ENSG00000142611 ENST00000270722 ENSP00000270722 NP_071397   RefSeq_peptide  DIRECT  100 100 -
@@ -2000,7 +2000,8 @@ ENSG00000142611 ENST00000270722 ENSP00000270722 NM_022114   RefSeq_mRNA DIRECT  
 ENSG00000157911 ENST00000288774 ENSP00000288774 NP_001361354    RefSeq_peptide  INFERRED_PAIR   -   -   -
 ENSG00000157911 ENST00000288774 ENSP00000288774 NP_001361355    RefSeq_peptide  INFERRED_PAIR   -   -   -
 ENSG00000157911 ENST00000288774 ENSP00000288774 NP_722540   RefSeq_peptide  DIRECT  100 100 -
-ENSG00000157911 ENST00000288774 ENSP00000288774 NM_001374425    RefSeq_mRNA DIRECT  99  100 -</code></pre>
+ENSG00000157911 ENST00000288774 ENSP00000288774 NM_001374425    RefSeq_mRNA DIRECT  99  100 -
+ENSG00000157911 ENST00000288774 ENSP00000288774 NM_001374426    RefSeq_mRNA DIRECT  94  92  -</code></pre>
 </section></section>
 <section>
 <section id="system-variables" class="title-slide slide level1">
@@ -2110,13 +2111,13 @@ interpreter is</li>
 <li>By default, files are not executable</li>
 </ul>
 <pre class="text"><code>ls -l part_2/example_script.sh</code></pre>
-<pre><code>-rw-r--r--  1 nelphick  staff  287 Mar 12 12:52 part_2/example_script.sh</code></pre>
+<pre><code>-rw-r--r--  1 nelphick  staff  287 Feb 10 11:16 part_2/example_script.sh</code></pre>
 <ul>
 <li>We can set the execute bit like this</li>
 </ul>
 <pre class="text"><code>chmod u+x part_2/example_script.sh
 ls -l part_2/example_script.sh</code></pre>
-<pre><code>-rwxr--r--  1 nelphick  staff  287 Mar 12 12:52 part_2/example_script.sh</code></pre>
+<pre><code>-rwxr--r--  1 nelphick  staff  287 Feb 10 11:16 part_2/example_script.sh</code></pre>
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
@@ -2136,7 +2137,7 @@ echo &quot;There are $u_genes unique genes in $1&quot;</code></pre>
 <h2>Let’s run it</h2>
 <pre class="text"><code>./part_2/example_script.sh part_2/homo_sapiens.refseq.tsv.gz</code></pre>
 <pre><code>Counting the genes in part_2/homo_sapiens.refseq.tsv.gz
-There are    33338 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre>
+There are    36353 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre>
 </section>
 <section id="loops" class="slide level2">
 <h2>Loops</h2>
@@ -2270,7 +2271,7 @@ files</li>
 awk -F &#39;\t&#39; &#39;$5 == &quot;RefSeq_mRNA&quot; {sum += $7; count++} \
 END {print sum / count}&#39;
 </code></pre>
-<pre><code>64.1533</code></pre>
+<pre><code>64.2653</code></pre>
 </section>
 <section id="resources-for-learning-awk-and-sed" class="slide level2">
 <h2>Resources for learning AWK and sed</h2>
@@ -2314,18 +2315,15 @@ Line</a></li>
 </section>
 <section id="upcoming-data-science-training-program-workshops" class="slide level2">
 <h2>Upcoming Data Science Training Program Workshops</h2>
-<p><a href="https://gladstone.org/events/introduction-pathway-analysis-1">Introduction
-to Pathway Analysis</a><br />
-April 2, 2024 1:00-4:00pm PDT</p>
-<p><a href="https://gladstone.org/events/statistics-enrichment-analysis-methods-0">Statistics
-of Enrichment Analysis Methods</a><br />
-April 11-April 12, 2024 1:00-3:00pm PDT</p>
-<p><a href="https://gladstone.org/events/working-wynton">Working on
-Wynton</a><br />
-April 15, 2024 1:00-4:00pm PDT</p>
-<p><a href="https://gladstone.org/events/introduction-linear-mixed-effects-models">Introduction
-to Linear Mixed Effects Models</a><br />
-April 25-April 26, 2024 1:00-3:00pm PDT</p>
+<p><a href="https://gladstone.org/events/introduction-rna-seq-analysis-8">Introduction
+to RNA-Seq Analysis</a><br />
+February 13-February 14, 2025 1:00-4:00pm PST</p>
+<p><a href="https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-6">Intermediate
+RNA-Seq Analysis Using R</a><br />
+February 20, 2025 9:00am-12:00pm PST</p>
+<p><a href="https://gladstone.org/events/introduction-statistics-experimental-design-and-hypothesis-testing-2">Introduction
+to Statistics, Experimental Design and Hypothesis Testing</a><br />
+February 24-February 25, 2025 1:00-3:00pm PST</p>
 <p><a href="https://gladstone.org/events?series=data-science-training-program">Complete
 Schedule</a></p>
 </section></section>
