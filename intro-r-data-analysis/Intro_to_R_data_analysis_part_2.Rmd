@@ -1,8 +1,8 @@
 ---
 title: "Introduction to R Data Analysis"
 subtitle: "Part 2"
-author: "Natalie Elphick"
-date: "January 28th, 2025"
+author: "Natalie Gill"
+date: "May 6th, 2025"
 knit: (function(input, ...) {
     rmarkdown::render(
       input,
@@ -28,11 +28,9 @@ knitr::opts_chunk$set(comment = "")
 <center>*Press the ? key for tips on navigating these slides*</center>
 
 # Introductions
-**Natalie Elphick**    
+**Natalie Gill**    
 Bioinformatician II  
 
-**Min-Gyoung Shin**   
-Bioinformatician III
 
 # Schedule
 
@@ -40,7 +38,7 @@ Bioinformatician III
 2. Filtering and reformatting data
 3. Plotting data
 4. Hands on data analysis
-5. ChatGPT tips for R
+5. AI tips for R
 6. Where to get help
 
 
@@ -239,12 +237,13 @@ Steps:
 
 
 
-# ChatGPT Tips for R
+# AI Tips for R
+
 
 ## General Tips
 
 -   Follow any relevant institutional guidelines on using LLMs
--   Always confirm ChatGPT's outputs are correct
+-   Always confirm the outputs are correct
 -   Provide as much detail as possible about the problem in the 1st prompt
 -   Use separate chats for separate tasks/projects
 -   Try the 'Custom Instructions' function
@@ -253,7 +252,7 @@ Steps:
 
 -   Commented R code yields better responses
 -   Provide the code and error message in the same prompt
--   ChatGPT can work well to convert syntax and improve your code:
+-   LLMs can work well to convert syntax and improve your code:
     -   "Turn this loop into a function : [your code]"
     -   "Is there a better way to do this : [your code]"
 -   Check out the file: `example_code/1_convert_syntax_example.R` for an example use case
@@ -306,14 +305,12 @@ Code templates can be used to avoid typing the same code over and over again.
 
 ## Upcoming Workshops
 
-[Introduction to Unix Command Line](https://gladstone.org/events/introduction-unix-command-line-2)  
-February 10-February 11, 2025 1:00-3:00pm PST   
+[Introduction to RNA-Seq](https://gladstone.org/events/introduction-rna-seq-0)   
+May 12-May 13, 2025 1:00-4:00pm PDT    
 
-[Introduction to RNA-Seq Analysis](https://gladstone.org/events/introduction-rna-seq-analysis-8)  
-February 13-February 14, 2025 1:00-4:00pm PST  
+[Intermediate RNA-Seq Analysis Using R](https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-7)  
+May 19, 2025 1:00-4:00pm PDT
 
-[Intermediate RNA-Seq Analysis Using R](https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-6)  
-February 20, 2025 9:00am-12:00pm PST  
 
 - Check [this link](https://gladstone.org/events?series=data-science-training-program) at for the full schedule
 
