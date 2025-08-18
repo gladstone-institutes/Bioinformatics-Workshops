@@ -37,23 +37,63 @@ Please consult the links provided for additional tips, and feel free to reach ou
 
 ## Install R
 
-Please watch this quick video guide on how to install R, and then use the link below.
+1. Go to the R project website: https://cloud.r-project.org/
+2. At the top of the page click the download link for your operating system
 
-**NOTE MacOS users: With the new MacOS updates, updating R might require you to re-install your packages. While not in issue for many people, you have been warned**
-![](https://vimeo.com/203516510)
-https://cloud.r-project.org/
+**MacOS**  
+
+- There are separate links for M-series macs and older intel ones
+- Click the link to download the .pkg file for your system
+- If you are not sure which CPU your Mac has, check the System Information app
+
+**Windows** 
+
+- Click "base", then the "Download R-4.X.X for Windows"
+- Run the .exe file, you might need admin permissions for the installation
+
+
 
 ## Install RStudio
-Please watch this quick video on how to install Rstudio, and then use the link below.
-![](https://vimeo.com/203516968)
-https://www.rstudio.com/products/rstudio/download/
+
+1. Go to the Posit RStudio download page: https://posit.co/download/rstudio-desktop/
+2. Skip step 1 on this page since we already installed R
+3. It should automatically detect your OS, click the Download RStuido button
+4. If it did not detect your OS scroll down and pick yours from the list
+
+**MacOS**   
+
+-  Download the .dmg file
+-  Double-click to mount the disk image
+-  Drag RStudio to your Applications folder
+-  Launch RStudio from Applications 
+
+**Windows**
+
+-  Download and run the .exe installer
+-  Follow installation prompts (defaults are typically fine)
+-  You may need administrator privileges
+-  RStudio will appear in your Start menu once installed
 
 
 ## Install Required Packages
-Many of the tools we will want to use do not come prepackaged with R, but rather need to be installed as ‘packages’. There are a few key packages we will be using. Watch the following video on how to install packages in Rstudio:
-![](https://vimeo.com/203516241)
-You can also refer to [this site](https://moderndive.netlify.app/1-getting-started.html#packages) for more info on what packages are and how to install them (including a ‘GUI’ installation method if you prefer that).
-Please install the [`tidyverse`](https://www.tidyverse.org/) R package, which we’ll be relying on extensively throughout the course. No need to worry about what exactly this is yet, but you can read more [here](https://www.tidyverse.org/) if you like.
+Many of the tools we will want to use do not come prepackaged with R, but rather need to be installed as ‘packages’. There are a few key packages we will be using. Please install the [`tidyverse`](https://www.tidyverse.org/) R package, which we’ll be relying on extensively throughout the workshop.
+
+1. Open RStudio
+2. In the Console (the pane with the > symbol), type the following and hit enter:
+
+```
+install.packages("tidyverse")
+```
+
+3. Double check the installation was successful by running this in the console, it should not throw an error:
+
+```
+library(tidyverse)
+```
+
+
+
+No need to worry about what exactly this is yet, but you can read more [here](https://www.tidyverse.org/) if you like.
 
 ## Run verification test
 Now it’s time to make sure you have everything installed properly!
