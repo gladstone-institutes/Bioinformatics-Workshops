@@ -33,7 +33,7 @@ Please complete the following steps (must be done in this order). If you already
 4. [Install required packages](#install-required-packages)
 5. [Run verification test](#run-verification-test)
 
-Please consult the links provided for additional tips, and feel free to reach out for help by email [me](mailto:natalie.elphick@gladstone.ucsf.edu) if you get stuck.
+Please consult the links provided for additional tips, and feel free to reach out for help by email [me](mailto:natalie.gill@gladstone.ucsf.edu) if you get stuck.
 
 ## Install R
 

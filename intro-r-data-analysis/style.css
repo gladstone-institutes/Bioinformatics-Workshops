@@ -1,4 +1,3 @@
-
 /* Set font size and alignment for the message */
 .bottom-message {
     font-size: 0.8em !important;
@@ -21,8 +20,6 @@
   text-align: left !important;
 }
 
-
-
 /* Add horizontal scrolling to all code outputs */
 .reveal pre code.output {
     white-space: pre !important;
@@ -33,67 +30,108 @@ pre, code, kbd, samp {
     font-family: "Courier New", Courier, monospace;
 }
   
-  
 /* Add horizontal scrolling to all code chunks */
 .reveal pre code {
     white-space: pre !important;
     overflow-x: auto !important;
 }
-/* Bold slide titles and change color */
-.reveal h2 {
-    font-weight: bold !important;
-    color: #0072B2;
-}
-/* Bold slide titles and change color */
+
+/* Bold slide titles and change color - H1 */
 .reveal h1 {
     font-weight: bold !important;
     color: #0072B2;
+    font-size: 2em !important;  /* Reduced from default ~2.5em */
 }
+
+/* Bold slide titles and change color - H2 */
+.reveal h2 {
+    font-weight: bold !important;
+    color: #0072B2;
+    font-size: 1.3em !important;  /* Reduced from default ~2em */
+}
+
+/* Additional header sizes for consistency */
+.reveal h3 {
+    font-size: 1.5em !important;  /* Reduced from default ~1.55em */
+}
+
+.reveal h4 {
+    font-size: 1em !important;  /* Reduced from default ~1.3em */
+}
+
+.reveal h5 {
+    font-size: 1em !important;  /* Reduced from default ~1.15em */
+}
+
+.reveal h6 {
+    font-size: 0.9em !important;  /* Reduced from default ~1em */
+}
+
+/* First slide specific styles */
+.reveal .slides>section:first-child h1 {
+    font-weight: bold !important;
+    color: #0072B2;
+    font-size: 1.5em !important;  /* Keep consistent with new H1 size */
+}
+
 .reveal .slides>section:first-child h2 {
     color: #333;
     font-weight: normal !important;
-  }
+    font-size: 1em !important;  /* Keep consistent with new H2 size */
+}
+
+.reveal .slides>section:first-child h3 {
+    color: #333;
+    font-weight: normal !important;
+    font-size: 1em !important;  /* Keep consistent with new H2 size */
+}
+.reveal .slides>section:first-child h4 {
+    color: #333;
+    font-weight: normal !important;
+    font-size: 1em !important;  /* Keep consistent with new H2 size */
+}
+
+
 /* Custom slide title */
 .my-title-slide h1 {
     font-weight: bold;
     color: #0072B2;
-  }
-.my-title-slide h2 {
-color: #333;
-font-weight: normal !important;
+    font-size: 2em !important;  /* Keep consistent with new H1 size */
 }
 
-
-
-.reveal .slides>section:first-child h1 {
-    font-weight: bold !important;
-    color: #0072B2;
+.my-title-slide h2 {
+    color: #333;
+    font-weight: normal !important;
+    font-size: 1.6em !important;  /* Keep consistent with new H2 size */
 }
 
 /* Increase the spacing between list items */
 .reveal p {
     text-align: left;
     margin-left: 20px !important;
-  }
+}
+
 .reveal ul {
     display: block;
     margin-left: 75px !important;
     margin-right: 50px !important;
 }
+
 .reveal ol {
     display: block;
     margin-left: 75px !important;
     margin-right: 50px !important;
 }
+
 /* Increase the spacing between unordered list items */
 .reveal ul li {
     margin-bottom: 15px; 
 }
+
 /* Increase the spacing between ordered list items */
 .reveal ol li {
     margin-bottom: 15px; 
 }
-
 
 /* Make images fit in the slides, remove border, shadow and center align*/
 .reveal img {
@@ -130,7 +168,7 @@ small {
     border: 1px solid black !important;
 }
 
-/* Chage link color to sky blue */
+/* Change link color to sky blue */
 .reveal a {
     color: #0c74dc;
 }
@@ -138,4 +176,8 @@ small {
 /* Change link color to darker blue on hover */
 .reveal a:hover {
     color: #0072B2 !important;
+}
+
+.small {
+    font-size: 70%;
 }
