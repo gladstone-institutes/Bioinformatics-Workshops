@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Working_on_Wynton_Part_2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Working_on_Wynton_Part_2_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Working_on_Wynton_Part_2_files/libs/quarto-html/popper.min.js"></script>
+<script src="Working_on_Wynton_Part_2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Working_on_Wynton_Part_2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Working_on_Wynton_Part_2_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Working_on_Wynton_Part_2_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
+
+  <meta name="author" content="Natalie Gill">
+  <meta name="dcterms.date" content="2025-10-03">
+  <title>Working on Wynton</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Working_on_Wynton_Part_2_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Working_on_Wynton_Part_2_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="Working_on_Wynton_Part_2_files/libs/revealjs/dist/theme/quarto-d8318e711f4a58823ce0655c10f13ae5.css">
+  <link href="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<!-- Logo slide -->
+<section class="slide level2" data-background-image="slide_materials/gladstone_logo_slide.png" data-background-size="contain">
+</section>
+
+<!-- Title slide -->
+<section class="quarto-title-block center">
+  <h1 class="title">Working on Wynton</h1>
+  <p class="subtitle">Part 2</p>
+  <div class="quarto-title-authors">
+    <div class="quarto-title-author">
+      <div class="quarto-title-author-name">Natalie Gill</div>
+      <div class="quarto-title-affiliation">Gladstone Bioinformatics Core</div>
+    </div>
+  </div>
+  <div class="quarto-title-meta">
+    <div class="quarto-title-meta-contents">
+      <p class="date">October 03, 2025</p>
+    </div>
+  </div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<center>
+<em>Press the ? key for tips on navigating these slides</em>
+</center>
+</section>
+<section id="introductions" class="slide level2">
+<h2>Introductions</h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Natalie Gill</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>Bioinformatician II</em></p>
+</section>
+<section id="target-audience" class="slide level2">
+<h2>Target Audience</h2>
+<ul>
+<li>Prior experience with UNIX command-line</li>
+</ul>
+</section>
+<section id="part-2" class="slide level2">
+<h2>Part 2:</h2>
+<ol type="1">
+<li>Submitting Compute Jobs</li>
+<li>Array Jobs</li>
+<li>GPU Jobs</li>
+<li>Running Pipelines</li>
+<li>Jupyter Notebooks</li>
+<li>RStudio Server</li>
+<li>Advanced Tips and Tricks</li>
+<li>How to get help</li>
+</ol>
+</section>
+<section>
+<section id="compute-jobs" class="title-slide slide level1 center">
+<h1>Compute Jobs</h1>
+
+</section>
+<section id="submission-script---basics" class="slide level2 small-bullets">
+<h2>Submission Script - Basics</h2>
+<ul>
+<li><a href="https://www.dropbox.com/scl/fi/fzp33y1ojslw005q8epuz/simple_submission_script.sh?rlkey=xmg3lqec962y3i57a1bkriosx&amp;dl=1">Download</a> this example job submission script</li>
+<li>Read the full Wynton <a href="https://wynton.ucsf.edu/hpc/scheduler/submit-jobs.html">job submission guide</a></li>
+<li>Wynton uses the <a href="https://web.archive.org/web/20210826212738/https://arc.liv.ac.uk/SGE/howto/howto.html">Sun Grid Engine</a> job scheduler</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>#!/bin/bash           # the shell language when run outside of the job scheduler
+#                     # lines starting with #$ is an instruction to the job scheduler
+#$ -S /bin/bash       # the shell language when run via the job scheduler [IMPORTANT]
+#$ -cwd               # job should run in the current working directory
+#$ -j y               # STDERR and STDOUT should be joined
+#$ -l mem_free=1G     # job requires up to 1 GiB of RAM per slot (core)
+#$ -l scratch=2G      # job requires up to 2 GiB of local /scratch space
+#$ -l h_rt=1:00:00   # job requires up to 1 hour of runtime 
+#$ -r y               # if job crashes, it should be restarted
+
+date
+hostname
+
+## End-of-job summary, if running as a job
+[[ -n "$JOB_ID" ]] &amp;&amp; qstat -j "$JOB_ID"  # This is useful for debugging and usage purposes,
+                                          # e.g. "did my job exceed its memory request?"</code></pre>
+</div>
+</div>
+</section>
+<section id="submission-script---apptainer" class="slide level2">
+<h2>Submission Script - Apptainer</h2>
+<ul>
+<li>Download the example job submission script that uses a container</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>curl -s -L -o apptainer_submission_script.sh 'https://www.dropbox.com/scl/fi/zzl9fnfcoxu3pyrx5ffd1/apptainer_submission_script.sh?rlkey=w05e18ahw4hvbvaucac379za9&amp;dl=1'</code></pre>
+</div>
+</div>
+</section>
+<section id="submission-script---apptainer-1" class="slide level2 small-bullets">
+<h2>Submission Script - Apptainer</h2>
+<ul>
+<li>Paths that the container needs read/write access to need to be mounted with APPTAINER_BINDPATH</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>#!/bin/bash
+#$ -S /bin/bash       # the shell language when run via the job scheduler
+#$ -cwd               # job should run in the current working directory
+#$ -j y               # STDERR and STDOUT should be joined
+#$ -l mem_free=1G     # job requires up to 1 GiB of RAM per slot
+#$ -l scratch=2G      # job requires up to 2 GiB of local /scratch space
+#$ -l h_rt=1:00:00    # job requires up to 1 hour of runtime
+
+
+# Mount the current directory to the container
+# Any directroy that needs to be accessed by the container should be mounted
+directory=$(pwd)
+export APPTAINER_BINDPATH="$directory"
+
+h=$(hostname)
+
+singularity run hello-world_1.0.sif figlet $h &gt; $directory/hello.txt
+
+[[ -n "$JOB_ID" ]] &amp;&amp; qstat -j "$JOB_ID"</code></pre>
+</div>
+</div>
+</section>
+<section id="parallel-processing-jobs" class="slide level2 small-bullets">
+<h2>Parallel Processing Jobs</h2>
+<ul>
+<li><p>By default jobs run on a single core</p></li>
+<li><p>Multicore jobs must run in a SGE parallel environment (PE) and tell SGE how many cores the job will use</p></li>
+<li><p><strong>Do not use more cores than requested</strong></p></li>
+<li><p>There are four parallel environments on Wynton:</p>
+<ul>
+<li><strong>smp</strong>: for single-host parallel jobs using <a href="https://en.wikipedia.org/wiki/Symmetric_multiprocessing">Symmetric multiprocessing</a> (SMP)</li>
+<li><strong>mpi</strong>: for multiple-host parallel jobs based on <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI parallelization</a></li>
+<li><strong>mpi_onehost</strong>: for single-host parallel jobs based on MPI parallelization</li>
+<li><strong>mpi-8</strong>: for multi-threaded multi-host jobs based on MPI parallelization</li>
+</ul></li>
+</ul>
+</section>
+<section id="example-parallel-job" class="slide level2 small-bullets">
+<h2>Example Parallel Job</h2>
+<ul>
+<li>The simplest parallel environment on Wynton is <strong>smp</strong>, a single node with <em>n</em> cores</li>
+<li><a href="https://www.dropbox.com/scl/fi/71xo0cioh266pj3uwcdps/smp_submission_script.sh?rlkey=kw7qaz8pip6jveqv317b5swqr&amp;dl=1">Download</a> this example smp job submission script</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>#!/bin/bash
+#$ -S /bin/bash 
+#$ -cwd
+#$ -j y
+#$ -pe smp 4                    # 4 cores on a single node
+#$ -l mem_free=2G               # 2 GiB of RAM per slot (core), so 8 GiB total
+#$ -l scratch=5G                # 5 GiB of local /scratch space
+#$ -l h_rt=08:00:00
+
+
+# Code that requires 4 cores
+# **Specify the number of cores as ${NSLOTS}**
+
+
+
+[[ -n "$JOB_ID" ]] &amp;&amp; qstat -j "$JOB_ID"</code></pre>
+</div>
+</div>
+</section>
+<section id="array-jobs" class="slide level2 small-bullets">
+<h2>Array Jobs</h2>
+<ul>
+<li>This is a good option if the script you want to run operates on discrete sets of data
+<ul>
+<li>e.g.&nbsp;sample or chromosome</li>
+</ul></li>
+<li>Array jobs allow one file to create multiple jobs that are indexed by a task ID</li>
+<li>Download the example array job submission folder</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>curl -L -o array_job_example.zip https://www.dropbox.com/scl/fo/j0muxevls22ylwxqe76ws/ANFEeLzPH4D_GmHpldiVCTg?rlkey=h6y0ginsrtlsc02beb65zbysh&amp;dl=1</code></pre>
+</div>
+</div>
+</section>
+<section id="array-jobs-1" class="slide level2 small-bullets">
+<h2>Array Jobs</h2>
+<ul>
+<li>Unzip it</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>unzip array_job_example.zip -d array_job_example</code></pre>
+</div>
+</div>
+<ul>
+<li>Follow along with the demo</li>
+</ul>
+</section>
+<section id="gpu-jobs" class="slide level2 small-bullets">
+<h2>GPU Jobs</h2>
+<ul>
+<li>To run a <a href="https://wynton.ucsf.edu/hpc/scheduler/gpu.html">GPU job</a>, specify <strong>-q gpu.q</strong> (queue) as a GPU queue
+<ul>
+<li>Other GPU queues may be available to you depending on your lab</li>
+</ul></li>
+<li>It is important to specify the GPU using the <strong>SGE_GPU</strong> variable so that your job uses its assigned GPU
+<ul>
+<li>For CUDA based tools, add <strong>export CUDA_VISIBLE_DEVICES=$SGE_GPU</strong> to your submission script</li>
+</ul></li>
+<li>GPU jobs must include a runtime request or they will be removed from the queue</li>
+</ul>
+</section>
+<section id="submitting-and-querying-jobs" class="slide level2">
+<h2>Submitting and Querying jobs</h2>
+<ul>
+<li>Use <strong>qsub</strong> to submit jobs</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[alice@dev1 ~]$ qsub job1.sh
+Your job 714888 ("job1.sh") has been submitted</code></pre>
+</div>
+</div>
+<ul>
+<li>Use <strong>qstat</strong> to check the status of your jobs</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[alice@dev1 ~]$ qstat
+job-ID  prior   name       user         state submit/start at     queue                          slots ja-task-ID
+-----------------------------------------------------------------------------------------------------------------
+ 714888 0.06532 job1 alice     r     03/25/2024 19:54:18 member.q@msg-hmio1                 1
+ 714889 0.06532 job2 alice     r     03/25/2024 19:54:19 member.q@msg-hmio1                 1</code></pre>
+</div>
+</div>
+<p>Read the <a href="https://wynton.ucsf.edu/hpc/scheduler/list-jobs.html">querying jobs</a> Wynton documentation for more information.</p>
+</section>
+<section id="estimating-job-resources" class="slide level2">
+<h2>Estimating Job Resources</h2>
+<ul>
+<li>Try to estimate the amount of RAM needed using a small test dataset</li>
+<li>Request a little more RAM than you need to avoid having your job cancelled</li>
+<li>Check on jobs you are running for the first time with <strong>qstat -j <job-id></job-id></strong> to make sure they are not going over</li>
+</ul>
+</section>
+<section id="poll-3" class="slide level2">
+<h2>Poll 3</h2>
+<p>Any submitted job to compute nodes can also be run on development nodes.</p>
+<ol type="1">
+<li>True</li>
+<li>False</li>
+</ol>
+</section></section>
+<section>
+<section id="running-pipelines" class="title-slide slide level1 center">
+<h1>Running Pipelines</h1>
+
+</section>
+<section id="nextflow-rna-seq" class="slide level2 small-bullets big-picture">
+<h2>Nextflow RNA-seq</h2>
+<ul>
+<li>Scientific workflow system with a community maintained set of core bioinformatics <a href="https://nf-co.re/">analysis pipelines</a></li>
+<li>The most commonly used one is the <a href="https://nf-co.re/rnaseq/3.14.0">RNA-seq pipeline</a></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide_materials/nf-core-rnaseq_metro_map_grey.png" class="quarto-figure quarto-figure-center" style="width:70.0%" alt="RNA-seq workflow diagram showing nf-core pipeline steps"></p>
+</figure>
+</div>
+</section>
+<section id="example---rna-seq-pipeline" class="slide level2 small-bullets">
+<h2>Example - RNA-seq Pipeline</h2>
+<p><strong>Do not run this during the workshop as it will fill up the Wynton SGE queue</strong></p>
+<ul>
+<li>Download the <a href="https://www.dropbox.com/scl/fi/3c9qdmnwg8vw9x517mo05/nextflow_example.sh?rlkey=e9nxbvpcdtdyi5w0y16z9k7bq&amp;dl=0">testing script</a>
+<ul>
+<li>Runs a minimal test on the RNA-seq pipeline</li>
+</ul></li>
+<li>Download the <a href="https://www.dropbox.com/scl/fi/befhl3z6nipn1fqcxpqth/nextflow.config?rlkey=pd8d9vup6pnvb7bbrmekayn2j&amp;dl=0">config file</a>
+<ul>
+<li>Configures nextflow to use the SGE job scheduler and sets limits on compute job resources for each process</li>
+</ul></li>
+<li>Put these in the same directory (do not use your user home directory for this) and run the script in a screen/tmux session</li>
+<li>When not running the test, the <strong>-profile</strong> should be apptainer</li>
+</ul>
+</section></section>
+<section>
+<section id="jupyter-notebooks" class="title-slide slide level1 center">
+<h1>Jupyter Notebooks</h1>
+
+</section>
+<section id="installing-jupyter-notebooks" class="slide level2">
+<h2>Installing Jupyter Notebooks</h2>
+<ul>
+<li>The preferred way to install and use <a href="https://wynton.ucsf.edu/hpc/howto/jupyter.html">Jupyter notebooks</a> on Wynton is though pip, not conda</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>python3 -m pip install --user notebook</code></pre>
+</div>
+</div>
+<ul>
+<li>Jupyter notebooks can only be run on development nodes</li>
+<li>See the Wynton <a href="https://wynton.ucsf.edu/hpc/howto/python.html">python documentation</a> for more info on managing python environments on Wynton</li>
+</ul>
+</section>
+<section id="running-jupyter-notebooks---step-1" class="slide level2">
+<h2>Running Jupyter Notebooks - Step 1</h2>
+<ul>
+<li>You cannot connect from outside Wynton HPC directly to a development node
+<ul>
+<li>Instead we need to use SSH port forwarding to establish the connection with a local web browser</li>
+</ul></li>
+<li>Find an available TCP port:</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[alice@dev1 ~]$ module load CBI port4me
+[alice@dev1 ~]$ port4me --tool=jupyter
+47467</code></pre>
+</div>
+</div>
+<p>Note the port number returned by port4me, you will need this later.</p>
+</section>
+<section id="running-jupyter-notebooks---step-2" class="slide level2">
+<h2>Running Jupyter Notebooks - Step 2</h2>
+<ul>
+<li>Launch Jupyter notebook using the port numer from step 1</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[alice@dev1]$ jupyter notebook --no-browser --port 47467
+[I 2024-03-20 14:48:45.693 ServerApp] jupyter_lsp | extension was successfully linked.
+[I 2024-03-20 14:48:45.698 ServerApp] jupyter_server_terminals | extension was successfully linked.
+[I 2024-03-20 14:48:45.703 ServerApp] jupyterlab | extension was successfully linked.
+[I 2024-03-20 14:48:45.708 ServerApp] notebook | extension was successfully linked.
+[I 2024-03-20 14:48:46.577 ServerApp] notebook_shim | extension was successfully linked.
+[I 2024-03-20 14:48:46.666 ServerApp] notebook_shim | extension was successfully loaded.
+[I 2024-03-20 14:48:46.668 ServerApp] jupyter_lsp | extension was successfully loaded.
+[I 2024-03-20 14:48:46.669 ServerApp] jupyter_server_terminals | extension was successfully loaded.
+[I 2024-03-20 14:48:46.675 LabApp] JupyterLab extension loaded from /wynton/home/boblab/alice/.local/lib/python3.11/site-packages/jupyterlab
+[I 2024-03-20 14:48:46.675 LabApp] JupyterLab application directory is /wynton/home/boblab/alice/.local/share/jupyter/lab
+[I 2024-03-20 14:48:46.677 LabApp] Extension Manager is pypi.
+[I 2024-03-20 14:48:46.707 ServerApp] jupyterlab | extension was successfully loaded.
+[I 2024-03-20 14:48:46.711 ServerApp] notebook | extension was successfully loaded.
+[I 2024-03-20 14:48:46.712 ServerApp] Serving notebooks from local directory: /wynton/home/boblab/alice
+[I 2024-03-20 14:48:46.712 ServerApp] Jupyter Server 2.13.0 is running at:
+[I 2024-03-20 14:48:46.712 ServerApp] http://localhost:44214/tree?token=8e37f8d62fca6a1c9b2da429f27df5ebcec706a808c3a8f2
+[I 2024-03-20 14:48:46.712 ServerApp]     http://127.0.0.1:44214/tree?token=8e37f8d62fca6a1c9b2da429f27df5ebcec706a808c3a8f2
+[I 2024-03-20 14:48:46.712 ServerApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 2024-03-20 14:48:46.725 ServerApp]
+
+    To access the server, open this file in a browser:
+        file:///wynton/home/boblab/alice/.local/share/jupyter/runtime/jpserver-2853162-open.html
+    Or copy and paste one of these URLs:
+        http://localhost:44214/tree?token=8e37f8d62fca6a1c9b2da429f27df5ebcec706a808c3a8f2
+        http://127.0.0.1:44214/tree?token=8e37f8d62fca6a1c9b2da429f27df5ebcec706a808c3a8f2</code></pre>
+</div>
+</div>
+</section>
+<section id="running-jupyter-notebooks---step-3" class="slide level2">
+<h2>Running Jupyter Notebooks - Step 3</h2>
+<ul>
+<li>Set up SSH port forwarding on your local machine in a separate terminal, leave both terminals open</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>{local}$ ssh -J alice@log1.wynton.ucsf.edu -L 47467:localhost:47467 alice@dev1
+...
+[alice@dev1 ~]$ </code></pre>
+</div>
+</div>
+<p>The notebook should now be available at the URL from step 2</p>
+</section></section>
+<section>
+<section id="rstudio-server" class="title-slide slide level1 center">
+<h1>RStudio Server</h1>
+
+</section>
+<section id="rstudio-server-1" class="slide level2">
+<h2>RStudio Server</h2>
+<ul>
+<li><a href="https://wynton.ucsf.edu/hpc/howto/rstudio.html">RStudio server</a> is already available in the CBI module</li>
+<li>This allows you to set up a personal RStudio instance that only you can access</li>
+<li>Requires two separate SSH connections to the cluster:<br>
+
+<ul>
+<li>One to launch RStudio Server</li>
+<li>One to connect to it</li>
+</ul></li>
+</ul>
+</section>
+<section id="rstudio-server---step-1" class="slide level2">
+<h2>RStudio Server - Step 1</h2>
+<ul>
+<li>Launch your own RStudio Server instance</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[alice@dev1 ~]$ module load CBI rstudio-server-controller
+[alice@dev1 ~]$ rsc start
+alice, your personal RStudio Server 2023.09.1-494 running R 4.3.2 is available on:
+
+  &lt;http://127.0.0.1:20612&gt;
+
+Importantly, if you are running from a remote machine without direct access
+to dev1, you need to set up SSH port forwarding first, which you can do by
+running:
+
+  ssh -L 20612:dev1:20612 alice@log1.wynton.ucsf.edu
+
+in a second terminal from your local computer.
+
+Any R session started times out after being idle for 120 minutes.
+WARNING: You now have 10 minutes, until 2023-11-15 17:06:50-08:00, to
+connect and log in to the RStudio Server before everything times out.
+Your one-time random password for RStudio Server is: y+IWo7rfl7Z7MRCPI3Z4</code></pre>
+</div>
+</div>
+<p>Note the password and URL, they will be needed to log in to the server instance.</p>
+</section>
+<section id="rstudio-server---step-2" class="slide level2">
+<h2>RStudio Server - Step 2</h2>
+<ul>
+<li>Connect to your personal RStudio Server instance from your local machine in a separate terminal</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>{local}$ ssh -L 20612:dev1:20612 alice@log1.wynton.ucsf.edu
+alice1@log1.wynton.ucsf.edu:s password: XXXXXXXXXXXXXXXXXXX
+[alice@log1 ~]$ </code></pre>
+</div>
+</div>
+</section>
+<section id="rstudio-server---step-3" class="slide level2">
+<h2>RStudio Server - Step 3</h2>
+<ul>
+<li>Open RStudio Server in your local web browser</li>
+<li>Open the link from step 1</li>
+<li>Enter your Wynton user name</li>
+<li>Enter the password from step 1</li>
+</ul>
+</section></section>
+<section>
+<section id="how-to-get-help" class="title-slide slide level1 center">
+<h1>How to Get Help</h1>
+
+</section>
+<section id="wynton-questions" class="slide level2">
+<h2>Wynton Questions</h2>
+<ul>
+<li>Follow the Wynton <a href="https://wynton.ucsf.edu/hpc/support/index.html">question checklist</a></li>
+<li>Email
+<ul>
+<li><a href="mailto:support@wynton.ucsf.edu">support@wynton.ucsf.edu</a></li>
+</ul></li>
+<li>Slack
+<ul>
+<li><a href="https://join.slack.com/t/ucsf-wynton/signup">ucsf-wynton</a></li>
+<li>Sign-up using a UCSF email address</li>
+<li>Email support if that does not work</li>
+</ul></li>
+<li>Zoom office hours every <strong>Tuesday at 11-12pm</strong>
+<ul>
+<li>Zoom URL in the message-of-the-day (MOTD) that you get when you log into Wynton</li>
+</ul></li>
+</ul>
+</section>
+<section id="bioinformatics-questions" class="slide level2">
+<h2>Bioinformatics Questions</h2>
+<p>For any bioinformatics specific questions feel free to reach out to the Gladstone Bioinformatics Core.</p>
+<ul>
+<li>Email
+<ul>
+<li><a href="mailto:bioinformatics@gladstone.ucsf.edu">bioinformatics@gladstone.ucsf.edu</a></li>
+</ul></li>
+<li>Slack channel #questions-about-bioinformatics
+<ul>
+<li>Contact us at the email above to be added to the channel</li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="advanced-tips-and-tricks" class="title-slide slide level1 center">
+<h1>Advanced Tips and Tricks</h1>
+
+</section>
+<section id="beegfs" class="slide level2 small-bullets">
+<h2>BeeGFS</h2>
+<ul>
+<li>Wynton uses a <em>parallel</em> shared file system called BeeGFS
+<ul>
+<li>The files are stored as “chunks” spread across many different servers</li>
+</ul></li>
+<li>BeeGFS has multiple services that work together to manage the file system
+<ul>
+<li>Storage (stores the chunks)</li>
+<li>Metadata (tracks the chunks and information about their file)</li>
+<li>Management (tracks all of the services)</li>
+<li>Client (provides linux access to the file system)</li>
+</ul></li>
+</ul>
+</section>
+<section id="beegfs---advantages" class="slide level2">
+<h2>BeeGFS - Advantages</h2>
+<ul>
+<li>High throughput</li>
+<li>Redundancy can be built in by mirroring services</li>
+<li>Adding new storage is fast and does not require downtime</li>
+</ul>
+</section>
+<section id="beegfs---caveats" class="slide level2">
+<h2>BeeGFS - Caveats</h2>
+<ul>
+<li>For any client node, performance is limited by the network bandwidth of that node</li>
+<li>Network latency becomes extremely important for all metadata requests</li>
+<li>Certain input/output patterns can be problematic</li>
+</ul>
+</section>
+<section id="beegfs---io-patterns" class="slide level2">
+<h2>BeeGFS - I/O patterns</h2>
+<ul>
+<li>Anything that requires lots of metadata operations can feel slow
+<ul>
+<li>e.g: lots of writes to the same directory and lots of file lookups and directory searches (<strong>conda</strong>)</li>
+</ul></li>
+<li>Keep the number of reads and writes to a single directory to a reasonable number</li>
+</ul>
+</section>
+<section id="beegfs---takehome-message" class="slide level2 small-bullets">
+<h2>BeeGFS - Takehome Message</h2>
+<ul>
+<li>Prefer fewer, large files over many small ones</li>
+<li>Distribute reading and writing over several directories</li>
+<li>Use local scratch (<strong>/scratch</strong>) when possible</li>
+<li>Don’t include anything in <strong>/wynton</strong> in your default LD_LIBRARY_PATH</li>
+<li>If using conda, putting the conda application inside a Apptainer (formerly singularity) container will result in better performance</li>
+</ul>
+</section></section>
+<section>
+<section id="custom-containers" class="title-slide slide level1 center">
+<h1>Custom Containers</h1>
+
+</section>
+<section id="motivation" class="slide level2 small-bullets small-picture">
+<h2>Motivation</h2>
+<ul>
+<li>Compute heavy jobs (high RAM, multiple cores) should be run on compute nodes</li>
+<li>Containers allow us to make additional software available to the compute nodes
+<ul>
+<li>Also allows the use of software that might be hard to install on Rocky 8 Linux</li>
+<li>Improves reproducibility</li>
+</ul></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="slide_materials/compute_job_workflow.png" class="quarto-figure quarto-figure-center" style="width:60.0%" alt="Compute Jobs workflow diagram"></p>
+</figure>
+</div>
+</section>
+<section id="dockerfile-basics" class="slide level2">
+<h2>Dockerfile Basics</h2>
+<ul>
+<li>Dockerfiles contain instructions to build an image in <strong>layers</strong></li>
+<li>Layers are added using Dockerfile instruction syntax</li>
+<li>Images are built by navigating to the directory that contains the Dockerfile and running:</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>docker build .</code></pre>
+</div>
+</div>
+</section>
+<section id="dockerfile-instructions" class="slide level2 small-bullets">
+<h2>Dockerfile Instructions</h2>
+<ul>
+<li>First instruction is always <strong>FROM</strong> which specifies the base image
+<ul>
+<li>Base images are a starting point with some basics already installed like the OS and build tools, find them on <a href="https://hub.docker.com/">DockerHub</a></li>
+</ul></li>
+<li><strong>RUN</strong> : Use before running any shell commands</li>
+<li><strong>SHELL</strong> : Set the shell</li>
+<li><strong>USER</strong> : Set the user (within the image)</li>
+<li><strong>CMD</strong> : Set the default instruction to be run by the image</li>
+<li><strong>COPY</strong> : COPY files into the image</li>
+</ul>
+<p>See the <a href="https://docs.docker.com/reference/dockerfile/">Dockerfile documentation</a> for a full list of instructions</p>
+</section>
+<section id="example-dockerfile" class="slide level2">
+<h2>Example Dockerfile</h2>
+<ul>
+<li>Click <a href="https://www.dropbox.com/scl/fi/mdbefp3h8ahdvxtgjypqo/Dockerfile?rlkey=7d4zd9ge1m3wwszlfy78712ky&amp;dl=1">here</a> to download the example Dockerfile</li>
+<li>Open in your preffered text editor</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># Bioconductor base image gives us access to a lot of bioinformatics tools and R packages.
+FROM bioconductor/bioconductor_docker:RELEASE_3_17
+
+# Shell options, we want to exit if any command fails
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Root permissions are required to install packages
+USER root
+
+
+# Install any UNIX packages you need
+# First we update the package list and then install GNU make
+# We clean up after ourselves to reduce the image size
+RUN apt-get update &amp;&amp; apt-get upgrade -y \
+    &amp;&amp; apt-get install -y --no-install-recommends make \
+    &amp;&amp; apt-get clean \
+    &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+# Install Seurat and harmony
+RUN Rscript -e 'install.packages(c("Seurat","harmony"))'
+# Check if installs worked
+RUN Rscript -e 'lapply(c("Seurat","harmony"), library, character.only = TRUE)'
+
+
+# Run container as non-root to avoid permission issues
+RUN groupadd -g 10001 notroot &amp;&amp; \
+   useradd -u 10000 -g notroot notroot 
+
+# Switch to the non-root user
+USER notroot:notroot
+
+# Default command to run when the container starts
+CMD ["/bin/bash"]
+
+# Copy dockerfile into the image (optional, but can be useful for reproducibility)
+COPY Dockerfile /Dockerfile</code></pre>
+</div>
+</div>
+</section>
+<section id="building-example-image" class="slide level2">
+<h2>Building Example Image</h2>
+<ul>
+<li>Do not run this during the workshop
+<ul>
+<li>It requires a lot of RAM</li>
+</ul></li>
+<li>On macOS, make sure you have the Docker Desktop App running</li>
+<li>We can provide an additional argument to the <strong>build</strong> command, -t, to set the name of the docker image
+<ul>
+<li>We can add version tags after the name using “:”</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>docker build -t docker_hub_user/seurat-harmony:1.0 .</code></pre>
+</div>
+</div>
+</section>
+<section id="pushing-images-to-dockerhub" class="slide level2 small-bullets">
+<h2>Pushing Images to DockerHub</h2>
+<ul>
+<li>Make sure you are signed in to your DockerHub account locally (Docker Desktop for macOS)</li>
+<li>The image name must start with your user name</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>docker push docker_hub_user/seurat-harmony:1.0</code></pre>
+</div>
+</div>
+<ul>
+<li>These can then be “pulled” on to Wynton as apptainer image files (image must be public)</li>
+</ul>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[alice@dev1 ~]$ apptainer pull docker://docker_hub_user/seurat-harmony:1.0</code></pre>
+</div>
+</div>
+</section>
+<section id="notes-on-building-custom-images" class="slide level2 small-bullets">
+<h2>Notes on Building Custom Images</h2>
+<ul>
+<li>Time consuming process and can use a lot of RAM on your local machine</li>
+<li>A good base image can save you a lot of time</li>
+<li>You must run <strong>apt-get update</strong> and <strong>apt-get install</strong> in the same command
+<ul>
+<li>Otherwise you will encounter caching issues</li>
+<li>These are only for Ubuntu, for other OS run the equivalent package list retrieval and install commands together</li>
+</ul></li>
+<li>Remember to use <strong>apt-get install -y</strong>
+<ul>
+<li>You will have no control over the process while it’s building</li>
+</ul></li>
+</ul>
+</section></section>
+<section>
+<section id="end-of-part-2" class="title-slide slide level1 center">
+<h1>End of Part 2</h1>
+
+</section>
+<section id="thank-you" class="slide level2">
+<h2>Thank You!</h2>
+<ul>
+<li>Please take some time to fill out the workshop survey:</li>
+</ul>
+<p><a href="https://www.surveymonkey.com/r/bioinfo-training" class="uri">https://www.surveymonkey.com/r/bioinfo-training</a></p>
+</section>
+<section id="upcoming-data-science-training-program-workshops" class="slide level2">
+<h2>Upcoming Data Science Training Program Workshops</h2>
+<p><strong>Intermediate RNA-Seq Analysis Using R</strong><br>
+October 6, 2025 1:00-4:00pm PDT</p>
+<p><strong>Introduction to Pathway Analysis</strong><br>
+October 16, 2025 1:00-4:00pm PDT</p>
+<p><strong>Statistics of Enrichment Analysis Methods </strong><br>
+October 20-October 21, 2025 1:00-3:00pm PDT</p>
+<p><strong>Single Cell RNA-Seq Analysis</strong><br>
+October 27-October 28, 2025 9:00-4:00pm PDT</p>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Working_on_Wynton_Part_2_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

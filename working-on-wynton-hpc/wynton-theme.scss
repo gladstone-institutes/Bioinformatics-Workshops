@@ -1,0 +1,214 @@
+/**
+ * Wynton HPC Training Theme for reveal.js presentations
+ *
+ * Adapted from the original style.css for the Working on Wynton training materials
+ * Converted to SCSS format for better maintainability and theming capabilities
+ */
+
+/*-- scss:defaults --*/
+
+// Custom color palette
+$primary-color: #9c0366;
+$secondary-color: #BB3E03;
+$link-color: #0c74dc;
+$link-hover-color: #9c0366;
+$code-bg: #333333;
+$code-block-bg: #333333;
+$code-color: white;
+$code-block-font-size: 0.8em;
+
+// Typography
+$font-family-sans-serif: "Helvetica", sans-serif !default;
+$font-family-monospace: "Menlo", sans-serif !default;
+
+// Override Quarto reveal.js defaults
+$presentation-heading-font: $font-family-sans-serif !default;
+$presentation-heading-color: $primary-color !default;
+$presentation-heading-text-transform: none !default;
+$presentation-heading-text-shadow: none !default;
+$link-color-default: $link-color !default;
+$presentation-list-bullet-color: $secondary-color !default;
+
+/*-- scss:rules --*/
+
+// Define CSS custom properties for dynamic theming
+:root {
+  --r-list-bullet-color: #{$presentation-list-bullet-color};
+}
+
+// Font family overrides
+pre, code, kbd, samp {
+  font-family: $font-family-monospace;
+}
+
+.reveal {
+  // Typography
+  p, li, h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family-sans-serif;
+  }
+
+  // Heading styles
+  h1 {
+    font-weight: bold !important;
+    color: $primary-color;
+    font-size: 2.0em;
+  }
+
+  h2 {
+    font-weight: bold !important;
+    color: $primary-color;
+    font-size: 1.3em;
+  }
+
+  h3 {
+    color: black;
+    font-size: 0.7em;
+  }
+
+  // Special handling for first slide
+  .slides > section:first-child {
+    h1 {
+      font-weight: bold !important;
+      color: $primary-color;
+    }
+
+    h2 {
+      color: black;
+      color: $primary-color;
+      font-weight: normal !important;
+    }
+  }
+
+  // Custom colored list bullets
+  ul,
+  ol {
+    li::marker {
+      color: var(--r-list-bullet-color);
+    }
+  }
+}
+
+// Slide content styling - using .reveal .slide prefix for best practices
+.reveal .slide {
+  // Ensure slide titles remain centered
+  h1, h2 {
+    text-align: center;
+  }
+
+  // Paragraph styling for slide content only (not titles)
+  p:not(.subtitle) {
+    text-align: left;
+    margin-left: 20px;
+  }
+
+  // List styling for slide content only
+  ul {
+    display: block;
+    margin-left: 75px;
+    margin-right: 50px;
+
+    ul {
+      font-size: 0.75em;
+      margin-bottom: 5px;
+    }
+  }
+
+  ol {
+    display: block;
+    margin-bottom: 20px;
+    margin-left: 75px;
+    margin-right: 50px;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  // Custom colored list bullets for slide content
+  ul,
+  ol {
+    li::marker {
+      color: var(--r-list-bullet-color);
+    }
+  }
+}
+
+// Code styling - applies to all reveal content with higher specificity
+.reveal pre,
+.reveal code {
+  background-color: $code-block-bg !important;
+  color: white !important;
+  font-family: $font-family-monospace !important;
+  font-size: $code-block-font-size !important;
+  line-height: 1.2 !important;
+}
+
+.reveal pre code {
+  background-color: transparent !important;  // inherit from pre
+  color: inherit !important;  // inherit from pre
+  text-align: left !important;
+  white-space: pre !important;
+  overflow-x: auto !important;
+}
+
+
+// Image and link styling - applies to all reveal content
+.reveal {
+  img {
+    max-width: 70%;
+    border: none;
+    box-shadow: none;
+    display: block;
+    margin: 0 auto;
+  }
+
+  a {
+    color: $link-color;
+
+    &:hover {
+      color: $link-hover-color;
+    }
+  }
+}
+
+// Custom utility classes
+.bottom-message {
+  font-size: 0.8em !important;
+  font-style: italic !important;
+  text-align: center;
+  position: relative;
+  bottom: 0 !important;
+  left: 0;
+  right: 0;
+}
+
+
+// Size utility classes
+small {
+  font-size: 70%;
+}
+
+.small-bullets ul {
+  font-size: 85%;
+}
+
+.less-small-bullets ul {
+  font-size: 80%;
+}
+
+.small-list ol {
+  font-size: 80%;
+}
+
+// Image size classes
+.big-picture img {
+  max-width: 95%;
+}
+
+.small-picture img {
+  max-width: 65%;
+}
+
+.smaller-picture img {
+  max-width: 60%;
+}

@@ -1304,14 +1304,14 @@
     },
     "revealjs": {
       "Package": "revealjs",
-      "Version": "0.9",
+      "Version": "0.10.0",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "R",
         "rmarkdown"
       ],
-      "Hash": "08e30caa337e6d335d83df1a05d5b9f3"
+      "Hash": "adc5bfeaad8d81f019adffad9a08e54a"
     },
     "rlang": {
       "Package": "rlang",
