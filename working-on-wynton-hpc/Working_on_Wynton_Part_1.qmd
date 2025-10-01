@@ -33,12 +33,22 @@ knitr::opts_chunk$set(comment = "")
 
 ## Part 1:
 
-1.  What is an HPC cluster?
-2.  Node Types and Logging in
-3.  Storage
-4.  Data Transfer
-5.  Installing Software
-6.  Containers
+1.  Upcoming Changes to Wynton
+2.  What is an HPC cluster?
+3.  Node Types and Logging in
+4.  Storage
+5.  Data Transfer
+6.  Installing Software
+7.  Containers
+
+
+## Upcoming Changes to Wynton
+
+-   Wynton is in the process of transitioning to and integrating with CoreHPC (UCSF)  
+    - Scheduled to conclude in spring 2027
+-   This is a separate HPC from the currently in development CoreHPC (Gladstone)
+-   Both of these will use the SLURM job scheduler system and serve a different set of users
+
 
 # What is Wynton HPC?
 
