@@ -324,6 +324,9 @@
 <p>Shell commands are basic instructions used to perform specific tasks.</p>
 <p><code>command_name -[option(s)] [argument(s)]</code></p>
 <p>Example:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lah</span> part_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>Here we are providing multiple options to the <code>ls</code> command and the directory <strong>part_1</strong> as an argument</p>
 <ul>
 <li>To cancel a command press CTRL+C</li>
@@ -331,6 +334,9 @@
 </section>
 <section id="man-pull-up-the-manual-page-for-a-command" class="slide level2">
 <h2>man: pull up the manual page for a command</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">man</span> echo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>ECHO(1)             General Commands Manual            ECHO(1)
@@ -601,6 +607,8 @@ macOS 14.4          January 9, 2021             macOS 14.4</code></pre>
 <li><strong>Strings</strong> : sequence of characters</li>
 </ul>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="va">message</span><span class="op">=</span><span class="st">"Hello, World"</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$message</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Hello, World</code></pre>
 </div>
@@ -613,6 +621,9 @@ macOS 14.4          January 9, 2021             macOS 14.4</code></pre>
 <li>You can also cycle through previously run commands using the up and down arrow keys</li>
 <li>By default bash stores the last 500 commands, zsh stores the last 1000</li>
 </ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">history</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Use the command <code>clear</code> to clear the output from the terminal</li>
 </ul>
@@ -660,7 +671,7 @@ What is the realative path to <strong>file1.txt</strong> if the working director
 <section id="pwd-print-working-directory" class="slide level2">
 <h2>pwd: print working directory</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -674,7 +685,7 @@ What is the realative path to <strong>file1.txt</strong> if the working director
 <section id="ls-list-contents-of-a-directory" class="slide level2 small-bullets">
 <h2>ls: list contents of a directory</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>part_1
 part_2
@@ -687,11 +698,11 @@ unix_workshop.tar.gz</code></pre>
 <li><code>-h</code> file sizes in human readable format (e.g., 1K, 2G)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lah</span> part_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lah</span> part_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 8
-drwx---r--@ 4 nelphick  staff   128B Nov 11 10:58 .
-drwxr-xr-x@ 6 nelphick  staff   192B Nov 11 10:58 ..
+drwx---r--@ 4 nelphick  staff   128B Nov 11 11:00 .
+drwxr-xr-x@ 6 nelphick  staff   192B Nov 11 11:00 ..
 -rw-r--r--@ 1 nelphick  staff     0B Apr 11  2023 .hidden_file.txt
 -rw-r--r--@ 1 nelphick  staff    60B Apr 12  2023 list_numbers.tsv</code></pre>
 </div>
@@ -700,8 +711,8 @@ drwxr-xr-x@ 6 nelphick  staff   192B Nov 11 10:58 ..
 <section id="cd-move-to-a-directory" class="slide level2">
 <h2>cd: move to a directory</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> unix_workshop/part_1</span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> unix_workshop/part_1</span>
+<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -710,14 +721,14 @@ drwxr-xr-x@ 6 nelphick  staff   192B Nov 11 10:58 ..
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
-<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> ..</span>
+<span id="cb23-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 8
-drwx---r--@ 4 nelphick  staff   128 Nov 11 10:58 part_1
-drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
+drwx---r--@ 4 nelphick  staff   128 Nov 11 11:00 part_1
+drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 11:00 part_2
 -rw-r--r--  1 nelphick  staff  1790 Nov 11 10:43 unix_workshop.tar.gz</code></pre>
 </div>
 </div>
@@ -755,7 +766,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="touch-create-an-empty-file" class="slide level2">
 <h2>touch: create an empty file</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> new_file.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">touch</span> new_file.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>If the file exists, it will update the time stamp</li>
@@ -764,7 +775,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="mkdir-make-a-directory" class="slide level2">
 <h2>mkdir: make a directory</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> new_directory</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> new_directory</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>-p</code> make parent directories if they don’t exist</li>
@@ -773,19 +784,19 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="mv-move-a-file-or-folder" class="slide level2">
 <h2>mv: move a file or folder</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> new_file.txt new_directory</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> new_file.txt new_directory</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Also used to rename files/folders</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> new_directory/new_file.txt new_directory/new_file1.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> new_directory/new_file.txt new_directory/new_file1.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="cp-copy-a-file-or-folder" class="slide level2">
 <h2>cp: copy a file or folder</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> new_directory/new_file1.txt new_directory/new_file2.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> new_directory/new_file1.txt new_directory/new_file2.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>-r</code> to copy a folder (recursive)</li>
@@ -797,13 +808,13 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <li>This command should always be used with care since the files it is used on <strong>cannot be recovered</strong></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> new_directory/new_file2.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> new_directory/new_file2.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="du-check-the-size-of-a-file-or-folder" class="slide level2">
 <h2>du: check the size of a file or folder</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> <span class="pp">*</span>/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> <span class="pp">*</span>/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  0B    new_directory/new_file1.txt
 4.0K    part_1/list_numbers.tsv</code></pre>
@@ -827,7 +838,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="nano" class="slide level2 big-picture">
 <h2>nano</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> new_directory/new_file1.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> new_directory/new_file1.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 <img data-src="materials/nano.png" class="r-stretch"></section>
@@ -876,7 +887,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <li>curl supports multiple protocols but the most commonly used one is HTTPS</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.115.refseq.tsv.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.115.refseq.tsv.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>-o</code> gives the output file name and location</li>
@@ -892,7 +903,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> /path/to/local/file user@remote.host:/path/to/remote/directory</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> /path/to/local/file user@remote.host:/path/to/remote/directory</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section></section>
 <section>
@@ -907,7 +918,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <li><p><strong>Regular Expressions</strong> : sequence of characters that forms a search pattern</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"7"</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"7"</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>7   8   52  13  6   42  79  1
 13  4   9   82  67  71  93  3</code></pre>
@@ -935,7 +946,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"3$"</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"3$"</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1   3   6   10  11  22  0   3
 13  4   9   82  67  71  93  3</code></pre>
@@ -945,13 +956,13 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="headtail-view-the-first-or-last-n-lines-of-a-file" class="slide level2">
 <h2>head/tail: view the first or last n lines of a file</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> <span class="at">-n</span> 1 part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1   3   6   10  11  22  0   3</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 1 part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span> <span class="at">-n</span> 1 part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>13  4   9   82  67  71  93  3</code></pre>
 </div>
@@ -964,7 +975,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="cat-print-the-contents-of-a-file" class="slide level2">
 <h2>cat: print the contents of a file</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1   3   6   10  11  22  0   3
 7   8   52  13  6   42  79  1
@@ -975,7 +986,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="cut-get-specific-columns-from-a-file" class="slide level2">
 <h2>cut: get specific columns from a file</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f</span> 1-3,6 part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cut</span> <span class="at">-f</span> 1-3,6 part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1   3   6   22
 7   8   52  42
@@ -996,7 +1007,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <li>Chaining commands allows you to do complex operations on text streams</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"3$"</span> part_1/list_numbers.tsv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 1-3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"3$"</span> part_1/list_numbers.tsv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 1-3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1   3   6
 13  4   9</code></pre>
@@ -1009,14 +1020,14 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <li>The output of any command can be written to a file with the ” &gt; ” character</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"3$"</span> part_1/list_numbers.tsv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 1-3 <span class="op">&gt;</span> part_1/subset_list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb50-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="st">"3$"</span> part_1/list_numbers.tsv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 1-3 <span class="op">&gt;</span> part_1/subset_list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="tr-translate-or-substitute-characters" class="slide level2">
 <h2>tr: translate or substitute characters</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.tsv <span class="kw">|</span> <span class="fu">tr</span> <span class="st">"\t"</span> <span class="st">","</span> <span class="op">&gt;</span> part_1/list_numbers.csv</span>
-<span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.tsv <span class="kw">|</span> <span class="fu">tr</span> <span class="st">"\t"</span> <span class="st">","</span> <span class="op">&gt;</span> part_1/list_numbers.csv</span>
+<span id="cb51-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1,3,6,10,11,22,0,3
 7,8,52,13,6,42,79,1
@@ -1027,7 +1038,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <section id="sort-sort-values" class="slide level2">
 <h2>sort: sort values</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 1 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 1 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1
 7
@@ -1038,7 +1049,7 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 10:58 part_2
 <li>-n : sort numerically (default is alphabetical)</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 8 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-nu</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> part_1/list_numbers.csv <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">","</span> <span class="at">-f</span> 8 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-nu</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1
 3</code></pre>

@@ -142,6 +142,7 @@ Shell commands are basic instructions used to perform specific tasks.
 Example:
 ```{bash}
 #| eval: false
+#| echo: true
 ls -lah part_1
 ```
 
@@ -151,6 +152,11 @@ Here we are providing multiple options to the `ls` command and the directory **p
 
 ## man: pull up the manual page for a command
 
+```{bash}
+#| echo: true
+#| eval: false
+man echo
+```
 
 
 ```{bash}
@@ -172,6 +178,7 @@ man -P cat man | col -b
 - **Variables** : a named container that holds a value or data
 - **Strings** : sequence of characters
 ```{bash}
+#| echo: true
 message="Hello, World"
 echo $message
 ```
@@ -183,6 +190,8 @@ Here, we assign the string "Hello, World!" to the variable `message` and use ech
 - By default bash stores the last 500 commands, zsh stores the last 1000
 
 ```{bash}
+#| echo: true
+#| eval: false
 history
 ```
 
