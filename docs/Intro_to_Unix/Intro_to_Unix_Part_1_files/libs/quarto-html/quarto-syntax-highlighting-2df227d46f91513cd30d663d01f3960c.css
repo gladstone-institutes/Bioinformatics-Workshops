@@ -1,0 +1,247 @@
+/* quarto syntax highlight colors */
+:root {
+  --quarto-hl-ot-color: #000000;
+  --quarto-hl-at-color: #000000;
+  --quarto-hl-ss-color: #000000;
+  --quarto-hl-an-color: #000000;
+  --quarto-hl-re-color: #000000;
+  --quarto-hl-fu-color: #000000;
+  --quarto-hl-st-color: #000000;
+  --quarto-hl-cf-color: #000000;
+  --quarto-hl-op-color: #000000;
+  --quarto-hl-er-color: #000000;
+  --quarto-hl-bn-color: #000000;
+  --quarto-hl-al-color: #000000;
+  --quarto-hl-va-color: #000000;
+  --quarto-hl-bu-color: #000000;
+  --quarto-hl-ex-color: #000000;
+  --quarto-hl-pp-color: #000000;
+  --quarto-hl-in-color: #000000;
+  --quarto-hl-vs-color: #000000;
+  --quarto-hl-wa-color: #000000;
+  --quarto-hl-do-color: #000000;
+  --quarto-hl-im-color: #000000;
+  --quarto-hl-ch-color: #000000;
+  --quarto-hl-dt-color: #000000;
+  --quarto-hl-fl-color: #000000;
+  --quarto-hl-co-color: #000000;
+  --quarto-hl-cv-color: #000000;
+  --quarto-hl-cn-color: #000000;
+  --quarto-hl-sc-color: #000000;
+  --quarto-hl-dv-color: #000000;
+  --quarto-hl-kw-color: #000000;
+}
+
+/* other quarto variables */
+:root {
+  --quarto-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* syntax highlight based on Pandoc's rules */
+pre > code.sourceCode > span {
+  color: #000000;
+  font-style: inherit;
+}
+
+code.sourceCode > span {
+  color: #000000;
+  font-style: inherit;
+}
+
+div.sourceCode,
+div.sourceCode pre.sourceCode {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Normal */
+code span {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Alert */
+code span.al {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Annotation */
+code span.an {
+  color: #000000;
+  font-style: italic;
+}
+
+/* Attribute */
+code span.at {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* BaseN */
+code span.bn {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* BuiltIn */
+code span.bu {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* ControlFlow */
+code span.cf {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Char */
+code span.ch {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Constant */
+code span.cn {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Comment */
+code span.co {
+  color: #000000;
+  font-style: italic;
+}
+
+/* CommentVar */
+code span.cv {
+  color: #000000;
+  font-style: italic;
+}
+
+/* Documentation */
+code span.do {
+  color: #000000;
+  font-style: italic;
+}
+
+/* DataType */
+code span.dt {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* DecVal */
+code span.dv {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Error */
+code span.er {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Extension */
+code span.ex {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Float */
+code span.fl {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Function */
+code span.fu {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Import */
+code span.im {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Information */
+code span.in {
+  color: #000000;
+  font-style: italic;
+}
+
+/* Keyword */
+code span.kw {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Operator */
+code span.op {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Other */
+code span.ot {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Preprocessor */
+code span.pp {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* RegionMarker */
+code span.re {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* SpecialChar */
+code span.sc {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* SpecialString */
+code span.ss {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* String */
+code span.st {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Variable */
+code span.va {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* VerbatimString */
+code span.vs {
+  color: #000000;
+  font-style: inherit;
+}
+
+/* Warning */
+code span.wa {
+  color: #000000;
+  font-style: italic;
+}
+
+.prevent-inlining {
+  content: "</";
+}
+
+/*# sourceMappingURL=dd8ef773c4c640654837b0b098bfc07a.css.map */

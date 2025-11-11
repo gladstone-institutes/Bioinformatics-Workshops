@@ -1,73 +1,87 @@
 ---
 title: "Introduction to Unix Command-line"
 subtitle: "Part 2"
-author: "Natalie Elphick"
-date: "February 11th 2025"
-knit: (function(input, ...) {
-    rmarkdown::render(
-      input,
-      output_dir = "../docs"
-    )
-  })
-output:
-  revealjs::revealjs_presentation:
-    css: style.css
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "November 12, 2025"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: unix-theme.scss
+    highlight-style: arrow
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
 ---
+
 ```{r, setup, include=FALSE}
+knitr::opts_chunk$set(comment = "")
 knitr::opts_knit$set(root.dir = './unix_workshop')
 ```
 
-## 
+##
 
 <center>*Press the ? key for tips on navigating these slides*</center>
 
 
 ## Introductions
 
-**Natalie Elphick**   
-Bioinformatician II    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*
 
 <br>
 
-
-**Yihang Xin (TA)**    
-Software Engineer III
-
-<br>
 
 # Setup
 
-Run the following commands if you did not attend part 1:   
+- If you did not attend part 1
+- Copy and paste each of these into your terminal, press enter after each one:
 
+```{bash}
+#| eval: false
+#| echo: true
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
 mkdir unix_workshop
 ```
 
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+
 cd unix_workshop
 ```
 
+```{bash}
+#| eval: false
+#| echo: true
 
-```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
 curl -L -o unix_workshop.tar.gz 'https://www.dropbox.com/scl/fi/tdzpoivf7mienlenunqhf/unix_workshop.tar.gz?rlkey=6bfxnqgc5n4lgc9mc80ld75z4&dl=0'
-
 ```
 
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+
 tar -xzf unix_workshop.tar.gz
 ```
 
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+
 cd unix_workshop
 ```
 
-```{r, engine='bash', eval=TRUE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
-curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.113.refseq.tsv.gz
+```{bash}
+#| eval: true
+#| echo: false
+#| output: false
+curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.115.refseq.tsv.gz
 ```
+
 
 # File Compression
 
@@ -86,14 +100,16 @@ curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_ts
 ## gzip/gunzip: compress/uncompress a file
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 gunzip part_2/homo_sapiens.refseq.tsv.gz
 du -h part_2/homo_sapiens.refseq.tsv
 ```
 
 - The uncompressed file is 33 megabytes
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 gzip part_2/homo_sapiens.refseq.tsv
 du -h part_2/homo_sapiens.refseq.tsv.gz
 ```
@@ -112,7 +128,8 @@ du -h part_2/homo_sapiens.refseq.tsv.gz
 
 - Does not provide compression on its own, it uses gzip to create compressed archive files
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 tar -czf part_1.tar.gz part_1
 ls -l
 ```
@@ -126,7 +143,9 @@ ls -l
 - We did this in part 1 to unarchive the workshop folders
 
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
 tar -xzf part_1.tar.gz
 ```
 - -x: extract an archive
@@ -140,7 +159,8 @@ tar -xzf part_1.tar.gz
 - This will output the the file to the terminal
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 gunzip -c part_2/homo_sapiens.refseq.tsv.gz | head
 ```
 
@@ -154,7 +174,8 @@ gunzip -c part_2/homo_sapiens.refseq.tsv.gz | head
 - Used by the OS and programs to change their behavior based on the system's state
 
 Example:
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 echo $HOME
 ```
 
@@ -174,13 +195,14 @@ These can change depending on the specific OS or program, **TMPDIR** can also be
 
 - When you enter a command, the OS searches the directories in the `$PATH` to find its associated executable file
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
 echo $PATH
 ```
 
-
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/mysql/bin"
+```
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/mysql/bin
 ```
 
 
@@ -192,8 +214,10 @@ echo "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/
 - Useful for setting variables you want to be used across programs
 - You can add new software to your `$PATH` like this:
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo 'export PATH="/path/to/new/software:$PATH"'
+```{bash}
+#| eval: false
+#| echo: true
+export PATH="/path/to/new/software:$PATH"
 ```
 
 - This will modify the `$PATH` for the current terminal session
@@ -201,7 +225,7 @@ echo 'export PATH="/path/to/new/software:$PATH"'
 ## Modifying the PATH for all future terminal sessions
 
 - Add the export line to your `~/.bashrc` or `~/.zshrc`
-- **Proceed with caution** 
+- **Proceed with caution**
   - Make backups of these and read this [guide](https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_01.html)
   - Changing the `$PATH` incorrectly can <span style="color:#b01212;font-weight:bold">break system functionality</span>
 
@@ -211,7 +235,8 @@ echo 'export PATH="/path/to/new/software:$PATH"'
 - This command shows the location of the executable that the OS finds
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 which ls
 ```
 
@@ -226,18 +251,26 @@ which ls
 - By convention scripts end in `.sh`
 - This first line of the script is called the shebang
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "nano part_2/example_script.sh"
+```{bash}
+#| eval: false
+#| echo: true
+nano part_2/example_script.sh
+```
+
+```{bash}
+#| echo: false
 cat ../materials/example_script.sh > part_2/example_script.sh
 ```
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+```{bash}
+#| echo: false
 cat ../materials/example_script.sh | head -n 1
 ```
 
-- The text that follows `#!` tells the OS where the interpreter is 
+- The text that follows `#!` tells the OS where the interpreter is
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 which bash
 ```
 
@@ -245,26 +278,33 @@ which bash
 
 - By default, files are not executable
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 ls -l part_2/example_script.sh
 ```
 
 - We can set the execute bit like this
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 chmod u+x part_2/example_script.sh
 ls -l part_2/example_script.sh
 ```
 
 ## Example
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-cat ../materials/example_script.sh
+```{r}
+#| echo: false
+#| output: asis
+cat("```bash\n")
+cat(paste(readLines("../materials/example_script.sh"), collapse = "\n"))
+cat("\n```\n")
 ```
 
 ## Let's run it
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 ./part_2/example_script.sh part_2/homo_sapiens.refseq.tsv.gz
 ```
 
@@ -272,7 +312,8 @@ cat ../materials/example_script.sh
 
 - Useful for iterating over lines of a file or lists
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 for i in {1..3}
 do
 
@@ -283,7 +324,8 @@ done
 
 ## While loops
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 count=0
 
 while [ $count -lt 5 ]        # loop while count is less than 5
@@ -296,7 +338,8 @@ done
 
 ## If statements
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 x=5
 
 if [ $x -gt 10 ]                      # check if x is greater than 10
@@ -317,16 +360,20 @@ fi                                    # end if statement
 - Useful for replacing text
 
 Example:
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "sed 's/search_string/replace_string/g' input.txt > output.txt"
+```{bash}
+#| echo: true
+#| eval: false
+sed 's/search_string/replace_string/g' input.txt > output.txt
 ```
 
 ## ssh : secure shell - conect to remote server
 
 - Logging in to a remote server
 - Remote desktop for the terminal
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "ssh username@remote"
+```{bash}
+#| echo: true
+#| eval: false
+ssh username@remote
 ```
 - The `username` would be your user on the remote server and `remote` is the hostname or IP address of the remote server or computer
 
@@ -334,18 +381,24 @@ echo "ssh username@remote"
 
 - Copy files from a remote server or computer
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "scp [options] [source] [destination]"
+```{bash}
+#| echo: true
+#| eval: false
+scp [options] [source] [destination]
 ```
 - Copy from local to remote
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "scp /path/to/local/file.txt username@remote:/path/to/remote/directory/"
+```{bash}
+#| echo: true
+#| eval: false
+scp /path/to/local/file.txt username@remote:/path/to/remote/directory/
 ```
 - Copy from remote to local
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "scp username@remote:/path/to/file.txt /path/to/local/directory/"
+```{bash}
+#| echo: true
+#| eval: false
+scp username@remote:/path/to/file.txt /path/to/local/directory/
 ```
 
 - -r : copy a whole folder
@@ -361,14 +414,17 @@ echo "scp username@remote:/path/to/file.txt /path/to/local/directory/"
 
 Basic command:
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "awk options 'pattern {action}' input_file"
+```{bash}
+#| echo: true
+#| eval: false
+awk options 'pattern {action}' input_file
 ```
 
 ## Example : Sum the first 2 columns of a file
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
-awk -F '\t' '{print $1+$2}' part_1/list_numbers.tsv
+```{bash}
+#| echo: true
+ awk -F '\t' '{print $1+$2}' part_1/list_numbers.tsv
 ```
 
 - -F : provides the field separator
@@ -376,9 +432,10 @@ awk -F '\t' '{print $1+$2}' part_1/list_numbers.tsv
 
 ## Example : Find the average of a column
 
-- For this example we only want the average if the 5th column equals "RefSeq_mRNA" 
+- For this example we only want the average if the 5th column equals "RefSeq_mRNA"
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 gunzip -c part_2/homo_sapiens.refseq.tsv.gz | \
 awk -F '\t' '$5 == "RefSeq_mRNA" {sum += $7; count++} \
 END {print sum / count}'
@@ -403,7 +460,7 @@ END {print sum / count}'
 
 ## Additional learning materials
 
-- Software carpentry provides a self paced course: 
+- Software carpentry provides a self paced course:
   - [The Unix Shell](https://swcarpentry.github.io/shell-novice/)
 
 - Free online books:
@@ -412,30 +469,35 @@ END {print sum / count}'
 
 ## Survey
 
-- Please take some time to fill out the workshop survey:   
-https://www.surveymonkey.com/r/DY7K5ZY
+- Please take some time to fill out the workshop survey:
+[https://www.surveymonkey.com/r/bioinfo-training](https://www.surveymonkey.com/r/bioinfo-training)
 
 
-## Upcoming Data Science Training Program Workshops
-[Introduction to RNA-Seq Analysis](https://gladstone.org/events/introduction-rna-seq-analysis-8)   
-February 13-February 14, 2025 1:00-4:00pm PST  
+## Upcoming Data Science Training Program Workshops {.smaller}
 
-[Intermediate RNA-Seq Analysis Using R](https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-6)     
-February 20, 2025 9:00am-12:00pm PST   
+**Introduction to scATAC-seq Data Analysis**   
+November 17-November 18, 2025 9:00am-12:00pm PST   
 
-[Introduction to Statistics, Experimental Design and Hypothesis   Testing](https://gladstone.org/events/introduction-statistics-experimental-design-and-hypothesis-testing-2)   
-February 24-February 25, 2025 1:00-3:00pm PST  
+**scATAC-seq and scRNA-seq Data Integration**   
+December 1, 2025 1:00-4:00pm PST   
 
-[Complete Schedule](https://gladstone.org/events?series=data-science-training-program)
+**Machine Learning Using R**   
+January 15, 2026 1:00-4:00pm PST   
+
+**Introduction to R Data Analysis**   
+January 26-January 27, 2026 1:00-4:00pm PST   
+
+**Experimental Design and Hypothesis Testing Using R**   
+February 2-February 3, 2026 1:00-3:00pm PST   
 
 
 
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo=FALSE}
+```{bash}
+#| echo: false
 rm part_2/example_script.sh
 rm part_2/homo_sapiens.refseq.tsv*
 rm part_1.tar.gz
 ```
-
 

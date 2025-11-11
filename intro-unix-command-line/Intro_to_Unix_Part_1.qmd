@@ -1,40 +1,34 @@
 ---
 title: "Introduction to Unix Command-line"
 subtitle: "Part 1"
-author: "Natalie Elphick"
-date: "February 10th 2025"
-knit: (function(input, ...) {
-    rmarkdown::render(
-      input,
-      output_dir = "../docs"
-    )
-  })
-output:
-  revealjs::revealjs_presentation:
-    css: style.css
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "November 11, 2025"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: [default, unix-theme.scss]
+    highlight-style: arrow
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
 ---
 
-
 ```{r, setup, include=FALSE}
+knitr::opts_chunk$set(comment = "")
 knitr::opts_knit$set(root.dir = './unix_workshop')
+
 ```
 
-
-## 
+##
 
 <center>*Press the ? key for tips on navigating these slides*</center>
 
 
 ## Introductions
 
-**Natalie Elphick**   
-Bioinformatician I    
-
-<br>
-
-
-**Reuben Thomas**    
-Associate Core Director 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*
 
 
 # The Unix Command-line
@@ -70,34 +64,47 @@ Associate Core Director
 - Open your terminal
 
   - Mac: press Cmd + Space and type "terminal"
-  - Linux: press Ctrl+Alt+T  
+  - Linux: press Ctrl+Alt+T
   - Windows: open the Ubuntu app
 
 ## Download the workshop materials
 
 - Copy and paste each of these into your terminal, press enter after each one:
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+
 mkdir unix_workshop
 ```
 
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+
 cd unix_workshop
 ```
 
-
-```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
 curl -L -o unix_workshop.tar.gz 'https://www.dropbox.com/scl/fi/tdzpoivf7mienlenunqhf/unix_workshop.tar.gz?rlkey=6bfxnqgc5n4lgc9mc80ld75z4&dl=0'
 ```
 
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+
 tar -xzf unix_workshop.tar.gz
 ```
 
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+
 cd unix_workshop
 ```
 
@@ -110,12 +117,14 @@ cd unix_workshop
 - There are several different Unix shells
   - Bash : The most widely used and the default shell on most Linux systems
   - Zsh : an extended version of Bash and is now the default on newer versions of macOS
-  
+
 ## The shell
 
 - Check which shell you are using by typing:
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
+
 echo $0
 ```
 
@@ -131,7 +140,8 @@ Shell commands are basic instructions used to perform specific tasks.
 
 
 Example:
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
 ls -lah part_1
 ```
 
@@ -143,11 +153,8 @@ Here we are providing multiple options to the `ls` command and the directory **p
 
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-echo "man echo"
-```
-
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+```{bash}
+#| echo: false
 man -P cat echo | col -b
 ```
 
@@ -155,7 +162,8 @@ man -P cat echo | col -b
 
 Use the arrow keys to navigate the manual and press `q` to close it
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
+```{bash}
+#| echo: false
 man -P cat man | col -b
 ```
 
@@ -163,7 +171,7 @@ man -P cat man | col -b
 
 - **Variables** : a named container that holds a value or data
 - **Strings** : sequence of characters
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
 message="Hello, World"
 echo $message
 ```
@@ -174,7 +182,7 @@ Here, we assign the string "Hello, World!" to the variable `message` and use ech
 - You can also cycle through previously run commands using the up and down arrow keys
 - By default bash stores the last 500 commands, zsh stores the last 1000
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
 history
 ```
 
@@ -183,62 +191,54 @@ history
 
 # Navigating the File System
 
-## The File System  
+## The File System
 
-![Unix File system](materials/UNIX_filesystem.png)
+![](materials/UNIX_filesystem.png)
 
 
 ## Paths
 
 
-* Root directory  <span style="background-color:#242423; color:white"> &nbsp;/&nbsp; </span>
-* Current working directory <span style="background-color:#242423; color:white"> &nbsp;.&nbsp; </span>  
-* Directory above the current one <span style="background-color:#242423; color:white"> &nbsp;..&nbsp; </span>
-*  User home directory <span style="background-color:#242423; color:white">&nbsp;~&nbsp; </span>
-* Absolute: The path starting from root
+- Root directory  `/`
+- Current working directory `.`
+- Directory above the current one `..`
+- User home directory `~`
+- Absolute: The path starting from root
+  - `/data/file1.txt`
+- Relative: Path from the current directory
+  - `./file1.txt`
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-
-echo "/data/file1.txt"
-
-```
-
-* Relative: Path from the current directory
-
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = FALSE}
-
-echo "file1.txt"
-echo "./file1.txt"
-
-```
-
-
-## 
+##
 <center>What is the absolute path to **file2.txt**?</center>
 
-![Unix File system](materials/UNIX_filesystem.png)
+![](materials/UNIX_filesystem.png)
 
-## 
+##
 <center>What is the realative path to **file1.txt** if the working directory is **/home/user** ?</center>
-![Unix File system](materials/UNIX_filesystem.png)
+![](materials/UNIX_filesystem.png)
 
 ## pwd: print working directory
 
-```{r, engine='bash', eval=TRUE, results="hide", highlight=FALSE, comment=NA}
+```{bash}
+#| eval: false
+#| echo: true
 pwd
 ```
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo=FALSE}
+```{bash}
+#| eval: true
+#| echo: false
 echo "/Users/your_username/unix_workshop"
 ```
 
-- The default working directory when you log in or open a terminal is your user home directory <span style="background-color:#242423; color:white">&nbsp;~&nbsp; </span>
+- The default working directory when you log in or open a terminal is your user home directory `~`
 
 
 ## ls: list contents of a directory {.small-bullets}
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 ls .
 ```
 
@@ -248,7 +248,8 @@ ls .
 - `-h ` file sizes in human readable format (e.g., 1K, 2G)
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 ls -lah part_1
 ```
 
@@ -257,23 +258,29 @@ ls -lah part_1
 
 ## cd: move to a directory
 
-```{r, engine='bash', eval=FALSE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| eval: false
+#| echo: true
 cd unix_workshop/part_1
 ls -l
 ```
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA,echo=FALSE}
+```{bash}
+#| echo: false
 cd part_1
 ls -l
 ```
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo=FALSE}
-echo "cd .."
-echo "ls -l"
+```{bash}
+#| eval: false
+#| echo: true
+cd ..
+ls -l
 ```
 
-
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo=FALSE}
+```{bash}
+#| echo: false
+#| eval: true
 ls -l
 ```
 
@@ -285,25 +292,26 @@ ls -l
 
 ## File Permissions
 
-![File Permissions](materials/File permissions.png)
+![](materials/File permissions.png)
 
 - Permissions for a file or folder are represented by 10 characters
 - Each group of 3 represents the permissions for different users:
   - Owner of the file/folder
   - Group the owns the file
   - Others - everyone else
-  
+
 ## File Permissions
 
-![File Permissions](materials/File permissions.png)
+![](materials/File permissions.png)
 
 - There are three types of permissions:
   - r - read/view the contents of a file/folder
   - w - write
   - x - execute the file or access a directory
-  
+
 ## touch: create an empty file
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 touch new_file.txt
 ```
 
@@ -311,24 +319,29 @@ touch new_file.txt
 
 
 ## mkdir: make a directory
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 mkdir new_directory
 ```
+
 - `-p ` make parent directories if they don't exist
 
 ## mv: move a file or folder
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 mv new_file.txt new_directory
 ```
 
 - Also used to rename files/folders
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 mv new_directory/new_file.txt new_directory/new_file1.txt
 ```
 
 ## cp: copy a file or folder
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 cp new_directory/new_file1.txt new_directory/new_file2.txt
 ```
 * `-r ` to copy a folder (recursive)
@@ -339,26 +352,18 @@ cp new_directory/new_file1.txt new_directory/new_file2.txt
 
 - This command should always be used with care since the files it is used on **cannot be recovered**
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 rm new_directory/new_file2.txt
 ```
 
 ## du: check the size of a file or folder
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
 du -h */*
 ```
 - h - Displays the output in human readable format
-
-## Check-in
-
-If you are following along with the commands we have run so far, this is the file structure you should have:
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
-ls *
-```
-
-- "*" represents any number of characters, including zero characters so this command runs ls on all of the folders
-
 
 ## Text editors
 
@@ -369,10 +374,13 @@ ls *
 
 ## nano {.big-picture}
 
-```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA}
+```{bash}
+#| echo: true
+#| eval: false
+#| output: false
 nano new_directory/new_file1.txt
 ```
-![nano](materials/nano.png)
+![](materials/nano.png)
 
 ## Shortcuts for nano {.less-small-bullets}
 
@@ -388,7 +396,7 @@ nano new_directory/new_file1.txt
 
 # Installing Software
 
-## Package managers 
+## Package managers
 
 - Used to install and manage software
 
@@ -397,7 +405,7 @@ nano new_directory/new_file1.txt
 - WSL/Linux
   - [apt-get](https://help.ubuntu.com/community/AptGet/Howto) - included with Ubuntu
 
-We will not install any software in this workshop but these are how you would 
+We will not install any software in this workshop but these are how you would
 access additional software/commands.
 
 
@@ -410,8 +418,11 @@ access additional software/commands.
 - We used curl at the begining download the materials
 - curl supports multiple protocols but the most commonly used one is HTTPS
 
-```{r, engine='bash', eval=TRUE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
-curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.113.refseq.tsv.gz
+```{bash}
+#| eval: true
+#| echo: true
+#| output: false
+curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.115.refseq.tsv.gz
 ```
 
 - `-o` gives the output file name and location
@@ -421,9 +432,12 @@ curl -o part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_ts
 - wget : like curl, supports fewer protocols and is not always installed
 - scp (secure copy) : used to encrypt and transfer files using SSH protocol
   - Commonly used to transfer files on HPCs (Wynton)
-Example:  
+Example:
 
-```{r, engine='bash', eval=FALSE, results="hide", highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| eval: false
+#| echo: true
+#| output: false
 scp /path/to/local/file user@remote.host:/path/to/remote/directory
 ```
 
@@ -435,7 +449,8 @@ scp /path/to/local/file user@remote.host:/path/to/remote/directory
 
 - **Regular Expressions** : sequence of characters that forms a search pattern
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 grep "7" part_1/list_numbers.tsv
 ```
 
@@ -455,17 +470,20 @@ grep "7" part_1/list_numbers.tsv
   - " $ "    Matches the end of a line
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 grep "3$" part_1/list_numbers.tsv
 ```
 
 ## head/tail: view the first or last n lines of a file
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 head -n 1 part_1/list_numbers.tsv
 ```
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 tail -n 1 part_1/list_numbers.tsv
 ```
 
@@ -474,19 +492,21 @@ tail -n 1 part_1/list_numbers.tsv
 
 ## cat: print the contents of a file
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 cat part_1/list_numbers.tsv
 ```
 
 
 ## cut: get specific columns from a file
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 cut -f 1-3,6 part_1/list_numbers.tsv
 ```
 
 - -f : fields that should be returned
-- -d : delimiter - character that the columns are separated by  
+- -d : delimiter - character that the columns are separated by
 
 By default `cut` expects columns to be separated by tab characters.
 
@@ -497,7 +517,8 @@ By default `cut` expects columns to be separated by tab characters.
 - The output of the previous command is used as the input for the next one
 - Chaining commands allows you to do complex operations on text streams
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 grep "3$" part_1/list_numbers.tsv | cut -f 1-3
 ```
 
@@ -505,7 +526,8 @@ grep "3$" part_1/list_numbers.tsv | cut -f 1-3
 
 - The output of any command can be written to a file with the " > " character
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 grep "3$" part_1/list_numbers.tsv | cut -f 1-3 > part_1/subset_list_numbers.tsv
 ```
 
@@ -513,30 +535,25 @@ grep "3$" part_1/list_numbers.tsv | cut -f 1-3 > part_1/subset_list_numbers.tsv
 
 ## tr: translate or substitute characters
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 cat part_1/list_numbers.tsv | tr "\t" "," > part_1/list_numbers.csv
 cat part_1/list_numbers.csv
-```
-
-## Check-in
-
-If you followed along with the commands we have run so far, you should have this directory structure:
-
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA}
-ls *
 ```
 
 
 
 ## sort: sort values
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 cat part_1/list_numbers.csv | cut -d "," -f 1 | sort -n
 ```
 
 - -n : sort numerically (default is alphabetical)
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo = TRUE}
+```{bash}
+#| echo: true
 cat part_1/list_numbers.csv | cut -d "," -f 8 | sort -nu
 ```
 
@@ -559,13 +576,13 @@ cat part_1/list_numbers.csv | cut -d "," -f 8 | sort -nu
 
 ## Survey
 
-- Please take some time to fill out the workshop survey:   
-https://www.surveymonkey.com/r/F75J6VZ
+- If you are not attending part 2, please take some time to fill out the workshop survey:
+[https://www.surveymonkey.com/r/bioinfo-training](https://www.surveymonkey.com/r/bioinfo-training)
 
 
 ## Additional learning materials
 
-- Software carpentry provides a self paced course: 
+- Software carpentry provides a self paced course:
   - [The Unix Shell](https://swcarpentry.github.io/shell-novice/)
 
 - Free online books:
@@ -575,25 +592,31 @@ https://www.surveymonkey.com/r/F75J6VZ
 
 
 
-## Upcoming Data Science Training Program Workshops
-[Introduction to RNA-Seq Analysis](https://gladstone.org/events/introduction-rna-seq-analysis-8)   
-February 13-February 14, 2025 1:00-4:00pm PST  
+## Upcoming Data Science Training Program Workshops {.smaller}
 
-[Intermediate RNA-Seq Analysis Using R](https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-6)     
-February 20, 2025 9:00am-12:00pm PST   
+**Introduction to scATAC-seq Data Analysis**   
+November 17-November 18, 2025 9:00am-12:00pm PST   
 
-[Introduction to Statistics, Experimental Design and Hypothesis   Testing](https://gladstone.org/events/introduction-statistics-experimental-design-and-hypothesis-testing-2)   
-February 24-February 25, 2025 1:00-3:00pm PST  
+**scATAC-seq and scRNA-seq Data Integration**   
+December 1, 2025 1:00-4:00pm PST   
 
-[Complete Schedule](https://gladstone.org/events?series=data-science-training-program)
+**Machine Learning Using R**   
+January 15, 2026 1:00-4:00pm PST   
+
+**Introduction to R Data Analysis**   
+January 26-January 27, 2026 1:00-4:00pm PST   
+
+**Experimental Design and Hypothesis Testing Using R**   
+February 2-February 3, 2026 1:00-3:00pm PST   
 
 
 
-```{r, engine='bash', eval=TRUE, results='markup', highlight=FALSE, comment=NA, echo=FALSE}
+
+```{bash}
+#| echo: false
 rm -r new_directory
 rm part_2/homo_sapiens.refseq.tsv.gz
 rm part_1/subset_list_numbers.tsv
 rm part_1/list_numbers.csv
 ```
-
 

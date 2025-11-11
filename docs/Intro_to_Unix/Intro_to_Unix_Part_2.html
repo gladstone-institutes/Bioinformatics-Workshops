@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="Natalie Gill">
-  <meta name="dcterms.date" content="2025-02-11">
+  <meta name="dcterms.date" content="2025-11-12">
   <title>Introduction to Unix Command-line</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -96,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Intro_to_Unix_Part_2_files/libs/revealjs/dist/theme/quarto-6c8c41b566cd0945fab0e326a1382dae.css">
+  <link rel="stylesheet" href="Intro_to_Unix_Part_2_files/libs/revealjs/dist/theme/quarto-8710dd8f503be20627ef172d4b1e750b.css">
   <link href="Intro_to_Unix_Part_2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Intro_to_Unix_Part_2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Intro_to_Unix_Part_2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -209,7 +209,7 @@
   </div>
   <div class="quarto-title-meta">
     <div class="quarto-title-meta-contents">
-      <p class="date">February 11, 2025</p>
+      <p class="date">November 12, 2025</p>
     </div>
   </div>
 </section>
@@ -221,29 +221,30 @@
 </section>
 <section id="introductions" class="slide level2">
 <h2>Introductions</h2>
-<p><strong>Natalie Gill</strong> Bioinformatician II</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Natalie Gill</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>Bioinformatician II</em></p>
 <p><br></p>
 </section>
 <section id="setup" class="title-slide slide level1 center">
 <h1>Setup</h1>
-<p>Run the following commands if you did not attend part 1:</p>
+<ul>
+<li>If you did not attend part 1</li>
+<li>Copy and paste each of these into your terminal, press enter after each one:</li>
+</ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href=""></a><span class="fu">mkdir</span> unix_workshop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> unix_workshop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href=""></a><span class="bu">cd</span> unix_workshop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> unix_workshop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href=""></a><span class="ex">curl</span> <span class="at">-L</span> <span class="at">-o</span> unix_workshop.tar.gz <span class="st">'https://www.dropbox.com/scl/fi/tdzpoivf7mienlenunqhf/unix_workshop.tar.gz?rlkey=6bfxnqgc5n4lgc9mc80ld75z4&amp;dl=0'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-L</span> <span class="at">-o</span> unix_workshop.tar.gz <span class="st">'https://www.dropbox.com/scl/fi/tdzpoivf7mienlenunqhf/unix_workshop.tar.gz?rlkey=6bfxnqgc5n4lgc9mc80ld75z4&amp;dl=0'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href=""></a><span class="fu">tar</span> <span class="at">-xzf</span> unix_workshop.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> unix_workshop.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href=""></a><span class="bu">cd</span> unix_workshop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href=""></a><span class="ex">curl</span> <span class="at">-o</span> part_2/homo_sapiens.refseq.tsv.gz https://ftp.ensembl.org/pub/current_tsv/homo_sapiens/Homo_sapiens.GRCh38.115.refseq.tsv.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> unix_workshop</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 
@@ -265,8 +266,8 @@
 <section id="gzipgunzip-compressuncompress-a-file" class="slide level2">
 <h2>gzip/gunzip: compress/uncompress a file</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href=""></a><span class="fu">gunzip</span> part_2/homo_sapiens.refseq.tsv.gz</span>
-<span id="cb7-2"><a href=""></a><span class="fu">du</span> <span class="at">-h</span> part_2/homo_sapiens.refseq.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> part_2/homo_sapiens.refseq.tsv.gz</span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> part_2/homo_sapiens.refseq.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> 39M    part_2/homo_sapiens.refseq.tsv</code></pre>
 </div>
@@ -275,8 +276,8 @@
 <li>The uncompressed file is 33 megabytes</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href=""></a><span class="fu">gzip</span> part_2/homo_sapiens.refseq.tsv</span>
-<span id="cb9-2"><a href=""></a><span class="fu">du</span> <span class="at">-h</span> part_2/homo_sapiens.refseq.tsv.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">gzip</span> part_2/homo_sapiens.refseq.tsv</span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">du</span> <span class="at">-h</span> part_2/homo_sapiens.refseq.tsv.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3.7M    part_2/homo_sapiens.refseq.tsv.gz</code></pre>
 </div>
@@ -301,13 +302,14 @@
 <li>Does not provide compression on its own, it uses gzip to create compressed archive files</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href=""></a><span class="fu">tar</span> <span class="at">-czf</span> part_1.tar.gz part_1</span>
-<span id="cb11-2"><a href=""></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-czf</span> part_1.tar.gz part_1</span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>total 8
-drwx---r--@ 4 nelphick  staff  128 Nov 10 15:00 part_1
--rw-r--r--  1 nelphick  staff  801 Nov 10 15:00 part_1.tar.gz
-drwxr-xr-x@ 4 nelphick  staff  128 Nov 10 15:00 part_2</code></pre>
+<pre><code>total 16
+drwx---r--@ 4 nelphick  staff   128 Nov 11 11:00 part_1
+-rw-r--r--  1 nelphick  staff   800 Nov 11 11:00 part_1.tar.gz
+drwxr-xr-x@ 4 nelphick  staff   128 Nov 11 11:00 part_2
+-rw-r--r--  1 nelphick  staff  1790 Nov 11 10:43 unix_workshop.tar.gz</code></pre>
 </div>
 </div>
 <ul>
@@ -322,7 +324,7 @@ drwxr-xr-x@ 4 nelphick  staff  128 Nov 10 15:00 part_2</code></pre>
 <li>We did this in part 1 to unarchive the workshop folders</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href=""></a><span class="fu">tar</span> <span class="at">-xzf</span> part_1.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">tar</span> <span class="at">-xzf</span> part_1.tar.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>-x: extract an archive</li>
@@ -337,7 +339,7 @@ drwxr-xr-x@ 4 nelphick  staff  128 Nov 10 15:00 part_2</code></pre>
 <li>This will output the the file to the terminal</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href=""></a><span class="fu">gunzip</span> <span class="at">-c</span> part_2/homo_sapiens.refseq.tsv.gz <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> part_2/homo_sapiens.refseq.tsv.gz <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>gene_stable_id  transcript_stable_id    protein_stable_id   xref    db_name info_type   source_identity xref_identity   linkage_type
 ENSG00000142611 ENST00000378391 ENSP00000367643 NP_955533   RefSeq_peptide  DIRECT  100 100 -
@@ -365,7 +367,7 @@ ENSG00000149527 ENST00000449969 ENSP00000397289 XM_047435038    RefSeq_mRNA_pred
 </ul>
 <p>Example:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href=""></a><span class="bu">echo</span> <span class="va">$HOME</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$HOME</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/Users/nelphick</code></pre>
 </div>
@@ -387,13 +389,9 @@ ENSG00000149527 ENST00000449969 ENSP00000397289 XM_047435038    RefSeq_mRNA_pred
 <li>When you enter a command, the OS searches the directories in the <code>$PATH</code> to find its associated executable file</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href=""></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
 <pre><code>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/mysql/bin</code></pre>
-</div>
-</div>
 <ul>
 <li>The OS will check these directories in the order they appear and use the first executable it finds</li>
 </ul>
@@ -405,9 +403,7 @@ ENSG00000149527 ENST00000449969 ENSP00000397289 XM_047435038    RefSeq_mRNA_pred
 <li>You can add new software to your <code>$PATH</code> like this:</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>export PATH="/path/to/new/software:$PATH"</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">PATH</span><span class="op">=</span><span class="st">"/path/to/new/software:</span><span class="va">$PATH</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>This will modify the <code>$PATH</code> for the current terminal session</li>
@@ -430,7 +426,7 @@ ENSG00000149527 ENST00000449969 ENSP00000397289 XM_047435038    RefSeq_mRNA_pred
 <li>This command shows the location of the executable that the OS finds</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href=""></a><span class="fu">which</span> ls</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> ls</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/bin/ls</code></pre>
 </div>
@@ -452,9 +448,7 @@ ENSG00000149527 ENST00000449969 ENSP00000397289 XM_047435038    RefSeq_mRNA_pred
 <li>This first line of the script is called the shebang</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>nano part_2/example_script.sh</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nano</span> part_2/example_script.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -465,7 +459,7 @@ ENSG00000149527 ENST00000449969 ENSP00000397289 XM_047435038    RefSeq_mRNA_pred
 <li>The text that follows <code>#!</code> tells the OS where the interpreter is</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a href=""></a><span class="fu">which</span> bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/bin/bash</code></pre>
 </div>
@@ -477,44 +471,40 @@ ENSG00000149527 ENST00000449969 ENSP00000397289 XM_047435038    RefSeq_mRNA_pred
 <li>By default, files are not executable</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a href=""></a><span class="fu">ls</span> <span class="at">-l</span> part_2/example_script.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> part_2/example_script.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>-rw-r--r--  1 nelphick  staff  287 Nov 10 15:00 part_2/example_script.sh</code></pre>
+<pre><code>-rw-r--r--  1 nelphick  staff  287 Nov 11 11:00 part_2/example_script.sh</code></pre>
 </div>
 </div>
 <ul>
 <li>We can set the execute bit like this</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a href=""></a><span class="fu">chmod</span> u+x part_2/example_script.sh</span>
-<span id="cb29-2"><a href=""></a><span class="fu">ls</span> <span class="at">-l</span> part_2/example_script.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> u+x part_2/example_script.sh</span>
+<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> part_2/example_script.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>-rwxr--r--  1 nelphick  staff  287 Nov 10 15:00 part_2/example_script.sh</code></pre>
+<pre><code>-rwxr--r--  1 nelphick  staff  287 Nov 11 11:00 part_2/example_script.sh</code></pre>
 </div>
 </div>
 </section>
 <section id="example" class="slide level2">
 <h2>Example</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>#!/bin/bash
-
-# This is a comment. Comments are ignored by the shell.
-
-# $1 is the first argument passed to the script
-echo "Counting the genes in $1"
-
-# count the unique genes in the file
-u_genes=$(gunzip -c $1 | cut -f 1 | sort -u | wc -l)
-
-echo "There are $u_genes unique genes in $1"</code></pre>
-</div>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a comment. Comments are ignored by the shell.</span></span>
+<span id="cb30-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># $1 is the first argument passed to the script</span></span>
+<span id="cb30-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Counting the genes in </span><span class="va">$1</span><span class="st">"</span></span>
+<span id="cb30-7"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># count the unique genes in the file</span></span>
+<span id="cb30-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="va">u_genes</span><span class="op">=</span><span class="va">$(</span><span class="fu">gunzip</span> <span class="at">-c</span> <span class="va">$1</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f</span> 1 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-u</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="va">)</span></span>
+<span id="cb30-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"There are </span><span class="va">$u_genes</span><span class="st"> unique genes in </span><span class="va">$1</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="lets-run-it" class="slide level2">
 <h2>Let’s run it</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a href=""></a><span class="ex">./part_2/example_script.sh</span> part_2/homo_sapiens.refseq.tsv.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">./part_2/example_script.sh</span> part_2/homo_sapiens.refseq.tsv.gz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Counting the genes in part_2/homo_sapiens.refseq.tsv.gz
 There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre>
@@ -527,12 +517,12 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 <li>Useful for iterating over lines of a file or lists</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a href=""></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">3</span><span class="dt">}</span></span>
-<span id="cb34-2"><a href=""></a><span class="cf">do</span></span>
-<span id="cb34-3"><a href=""></a></span>
-<span id="cb34-4"><a href=""></a><span class="bu">echo</span> <span class="va">$i</span></span>
-<span id="cb34-5"><a href=""></a></span>
-<span id="cb34-6"><a href=""></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">3</span><span class="dt">}</span></span>
+<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb33-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$i</span></span>
+<span id="cb33-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>1
 2
@@ -543,13 +533,13 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 <section id="while-loops" class="slide level2">
 <h2>While loops</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a href=""></a><span class="va">count</span><span class="op">=</span>0</span>
-<span id="cb36-2"><a href=""></a></span>
-<span id="cb36-3"><a href=""></a><span class="cf">while</span> <span class="bu">[</span> <span class="va">$count</span> <span class="ot">-lt</span> 5 <span class="bu">]</span>        <span class="co"># loop while count is less than 5</span></span>
-<span id="cb36-4"><a href=""></a><span class="cf">do</span></span>
-<span id="cb36-5"><a href=""></a>    <span class="bu">echo</span> <span class="va">$count</span></span>
-<span id="cb36-6"><a href=""></a>    <span class="va">count</span><span class="op">=</span><span class="va">$((count</span><span class="op">+</span><span class="dv">1</span><span class="va">))</span></span>
-<span id="cb36-7"><a href=""></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="va">count</span><span class="op">=</span>0</span>
+<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">[</span> <span class="va">$count</span> <span class="ot">-lt</span> 5 <span class="bu">]</span>        <span class="co"># loop while count is less than 5</span></span>
+<span id="cb35-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb35-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="va">$count</span></span>
+<span id="cb35-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="va">count</span><span class="op">=</span><span class="va">$((count</span><span class="op">+</span><span class="dv">1</span><span class="va">))</span></span>
+<span id="cb35-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0
 1
@@ -562,14 +552,14 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 <section id="if-statements" class="slide level2">
 <h2>If statements</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a href=""></a><span class="va">x</span><span class="op">=</span>5</span>
-<span id="cb38-2"><a href=""></a></span>
-<span id="cb38-3"><a href=""></a><span class="cf">if</span> <span class="bu">[</span> <span class="va">$x</span> <span class="ot">-gt</span> 10 <span class="bu">]</span>                      <span class="co"># check if x is greater than 10</span></span>
-<span id="cb38-4"><a href=""></a><span class="cf">then</span></span>
-<span id="cb38-5"><a href=""></a>    <span class="bu">echo</span> <span class="st">"x is greater than 10"</span></span>
-<span id="cb38-6"><a href=""></a><span class="cf">else</span></span>
-<span id="cb38-7"><a href=""></a>    <span class="bu">echo</span> <span class="st">"x is not greater than 10"</span></span>
-<span id="cb38-8"><a href=""></a><span class="cf">fi</span>                                    <span class="co"># end if statement</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="va">x</span><span class="op">=</span>5</span>
+<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="va">$x</span> <span class="ot">-gt</span> 10 <span class="bu">]</span>                      <span class="co"># check if x is greater than 10</span></span>
+<span id="cb37-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">then</span></span>
+<span id="cb37-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"x is greater than 10"</span></span>
+<span id="cb37-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb37-7"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"x is not greater than 10"</span></span>
+<span id="cb37-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span>                                    <span class="co"># end if statement</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>x is not greater than 10</code></pre>
 </div>
@@ -590,9 +580,7 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 </ul>
 <p>Example:</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>sed 's/search_string/replace_string/g' input.txt &gt; output.txt</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s/search_string/replace_string/g'</span> input.txt <span class="op">&gt;</span> output.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="ssh-secure-shell---conect-to-remote-server" class="slide level2">
@@ -602,9 +590,7 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 <li>Remote desktop for the terminal</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>ssh username@remote</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> username@remote</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>The <code>username</code> would be your user on the remote server and <code>remote</code> is the hostname or IP address of the remote server or computer</li>
@@ -616,25 +602,19 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 <li>Copy files from a remote server or computer</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>scp [options] [source] [destination]</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> <span class="pp">[</span><span class="ss">options</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">source</span><span class="pp">]</span> <span class="pp">[</span><span class="ss">destination</span><span class="pp">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Copy from local to remote</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>scp /path/to/local/file.txt username@remote:/path/to/remote/directory/</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> /path/to/local/file.txt username@remote:/path/to/remote/directory/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Copy from remote to local</li>
 </ul>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>scp username@remote:/path/to/file.txt /path/to/local/directory/</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">scp</span> username@remote:/path/to/file.txt /path/to/local/directory/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>-r : copy a whole folder</li>
@@ -655,15 +635,13 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 </ul>
 <p>Basic command:</p>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>awk options 'pattern {action}' input_file</code></pre>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> options <span class="st">'pattern {action}'</span> input_file</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="example-sum-the-first-2-columns-of-a-file" class="slide level2">
 <h2>Example : Sum the first 2 columns of a file</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href=""></a> <span class="fu">awk</span> <span class="at">-F</span> <span class="st">'\t'</span> <span class="st">'{print $1+$2}'</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">awk</span> <span class="at">-F</span> <span class="st">'\t'</span> <span class="st">'{print $1+$2}'</span> part_1/list_numbers.tsv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>4
 15
@@ -681,9 +659,9 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 <li>For this example we only want the average if the 5th column equals “RefSeq_mRNA”</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href=""></a><span class="fu">gunzip</span> <span class="at">-c</span> part_2/homo_sapiens.refseq.tsv.gz <span class="kw">|</span> <span class="dt">\</span></span>
-<span id="cb48-2"><a href=""></a><span class="fu">awk</span> <span class="at">-F</span> <span class="st">'\t'</span> <span class="st">'$5 == "RefSeq_mRNA" {sum += $7; count++} \</span></span>
-<span id="cb48-3"><a href=""></a><span class="st">END {print sum / count}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">gunzip</span> <span class="at">-c</span> part_2/homo_sapiens.refseq.tsv.gz <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">awk</span> <span class="at">-F</span> <span class="st">'\t'</span> <span class="st">'$5 == "RefSeq_mRNA" {sum += $7; count++} \</span></span>
+<span id="cb47-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="st">END {print sum / count}'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>60.5871</code></pre>
 </div>
@@ -719,15 +697,21 @@ There are    36406 unique genes in part_2/homo_sapiens.refseq.tsv.gz</code></pre
 <section id="survey" class="slide level2">
 <h2>Survey</h2>
 <ul>
-<li>Please take some time to fill out the workshop survey: https://www.surveymonkey.com/r/DY7K5ZY</li>
+<li>Please take some time to fill out the workshop survey: <a href="https://www.surveymonkey.com/r/bioinfo-training">https://www.surveymonkey.com/r/bioinfo-training</a></li>
 </ul>
 </section>
-<section id="upcoming-data-science-training-program-workshops" class="slide level2">
+<section id="upcoming-data-science-training-program-workshops" class="slide level2 smaller">
 <h2>Upcoming Data Science Training Program Workshops</h2>
-<p><a href="https://gladstone.org/events/introduction-rna-seq-analysis-8">Introduction to RNA-Seq Analysis</a> February 13-February 14, 2025 1:00-4:00pm PST</p>
-<p><a href="https://gladstone.org/events/intermediate-rna-seq-analysis-using-r-6">Intermediate RNA-Seq Analysis Using R</a> February 20, 2025 9:00am-12:00pm PST</p>
-<p><a href="https://gladstone.org/events/introduction-statistics-experimental-design-and-hypothesis-testing-2">Introduction to Statistics, Experimental Design and Hypothesis Testing</a> February 24-February 25, 2025 1:00-3:00pm PST</p>
-<p><a href="https://gladstone.org/events?series=data-science-training-program">Complete Schedule</a></p>
+<p><strong>Introduction to scATAC-seq Data Analysis</strong><br>
+November 17-November 18, 2025 9:00am-12:00pm PST</p>
+<p><strong>scATAC-seq and scRNA-seq Data Integration</strong><br>
+December 1, 2025 1:00-4:00pm PST</p>
+<p><strong>Machine Learning Using R</strong><br>
+January 15, 2026 1:00-4:00pm PST</p>
+<p><strong>Introduction to R Data Analysis</strong><br>
+January 26-January 27, 2026 1:00-4:00pm PST</p>
+<p><strong>Experimental Design and Hypothesis Testing Using R</strong><br>
+February 2-February 3, 2026 1:00-3:00pm PST</p>
 
 </section></section>
     </div>
