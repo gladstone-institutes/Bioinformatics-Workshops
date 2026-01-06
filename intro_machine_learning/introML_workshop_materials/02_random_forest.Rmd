@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Machine Learning - Part 3"
+title: "Introduction to Machine Learning - Part 2"
 subtitle: "Random Forest"
 author: "Gladstone Bioinformatics Core"
 date: "`r Sys.Date()`"
@@ -87,24 +87,16 @@ cat("Dataset dimensions:", dim(covid_ml), "\n")
 
 ---
 
-# Why Random Forest?
-
-## Advantages over KNN
-
-| Feature | KNN | Random Forest |
-|---------|-----|---------------|
-| Handles categorical data | ⚠️ Needs encoding | ✅ Native support |
-| Handles missing data | ❌ No | ⚠️ Some implementations |
-| Feature scaling required | ✅ Yes | ❌ No |
-| Feature importance | ❌ Limited | ✅ Built-in |
-| Speed at prediction | ❌ Slow | ✅ Fast |
-| Handles high dimensions | ❌ Poor | ✅ Good |
-
----
-
 # Prepare Data
 
 ## Train-Test Split
+
+**Why split the data?**
+
+- **Training set**: Used to train/fit the model
+- **Test set**: Used to evaluate model performance on unseen data
+
+This helps us estimate how well our model will generalize to new data!
 
 ```{r train-test-split}
 # Split data: 70% training, 30% testing
@@ -119,7 +111,7 @@ cat("Training set size:", nrow(train_data), "\n")
 cat("Test set size:", nrow(test_data), "\n")
 ```
 
-**Note:** Unlike KNN, we don't need to scale features for Random Forest! Tree-based methods are invariant to monotonic transformations of features.
+**Note:** Unlike some other algorithms, we don't need to scale features for Random Forest! Tree-based methods are invariant to monotonic transformations of features.
 
 ---
 
@@ -217,7 +209,9 @@ cat("Best mtry:", rf_cv$bestTune$mtry, "\n")
 
 One of the best features of Random Forest is built-in variable importance!
 
-## Two Types of Importance
+## Mean Decrease Gini
+
+This measures how much each variable contributes to the purity of nodes in the trees. Higher values = more important.
 
 ```{r var-importance}
 # Get variable importance from our simple RF model
@@ -228,19 +222,10 @@ importance_df$Variable <- rownames(importance_df)
 head(importance_df)
 ```
 
-### Mean Decrease Accuracy (MDA)
-
-How much does accuracy decrease when we permute (shuffle) this variable?
-Higher = more important
-
-### Mean Decrease Gini
-
-How much does this variable contribute to the purity of nodes?
-Higher = more important
-
 ```{r importance-plot}
 # Plot variable importance
 varImpPlot(rf_simple, 
+           type = 2,  # Mean Decrease Gini
            main = "Variable Importance - Random Forest",
            n.var = 15)
 ```
@@ -248,14 +233,14 @@ varImpPlot(rf_simple,
 ```{r importance-ggplot}
 # Create a nicer ggplot version
 importance_df %>%
-  arrange(desc(MeanDecreaseAccuracy)) %>%
+  arrange(desc(MeanDecreaseGini)) %>%
   head(15) %>%
-  ggplot(aes(x = reorder(Variable, MeanDecreaseAccuracy), 
-             y = MeanDecreaseAccuracy)) +
+  ggplot(aes(x = reorder(Variable, MeanDecreaseGini), 
+             y = MeanDecreaseGini)) +
   geom_bar(stat = "identity", fill = "#3498db") +
   coord_flip() +
   labs(title = "Top 15 Important Features",
-       subtitle = "Based on Mean Decrease in Accuracy",
+       subtitle = "Based on Mean Decrease in Gini",
        x = "Variable",
        y = "Importance") +
   theme_minimal()
@@ -285,6 +270,20 @@ head(rf_proba)
 
 ## Confusion Matrix
 
+A confusion matrix shows how well the model classified each class:
+
+```
+                    Predicted
+                 Negative  Positive
+Actual Negative    TN        FP
+       Positive    FN        TP
+
+TN = True Negative  (correctly predicted negative)
+TP = True Positive  (correctly predicted positive)
+FN = False Negative (missed positive case)
+FP = False Positive (false alarm)
+```
+
 ```{r confusion-matrix}
 # Create confusion matrix
 cm_rf <- confusionMatrix(rf_predictions, test_data$covid19_test_results, 
@@ -292,21 +291,25 @@ cm_rf <- confusionMatrix(rf_predictions, test_data$covid19_test_results,
 print(cm_rf)
 ```
 
-## Compare with KNN
+## Understanding the Metrics
 
-Let's compare our Random Forest results with what we might get from KNN:
+```{r metrics-explanation}
+# Extract key metrics
+accuracy <- cm_rf$overall["Accuracy"]
+sensitivity <- cm_rf$byClass["Sensitivity"]
+specificity <- cm_rf$byClass["Specificity"]
 
-```{r metrics-comparison}
-# Extract RF metrics
-rf_accuracy <- cm_rf$overall["Accuracy"]
-rf_sensitivity <- cm_rf$byClass["Sensitivity"]
-rf_specificity <- cm_rf$byClass["Specificity"]
+cat("KEY METRICS:\n")
+cat("============\n")
+cat("Accuracy:", round(accuracy * 100, 2), "%\n")
+cat("  - Overall correct predictions\n\n")
 
-cat("RANDOM FOREST PERFORMANCE:\n")
-cat("=========================\n")
-cat("Accuracy:", round(rf_accuracy * 100, 2), "%\n")
-cat("Sensitivity:", round(rf_sensitivity * 100, 2), "%\n")
-cat("Specificity:", round(rf_specificity * 100, 2), "%\n")
+cat("Sensitivity (Recall):", round(sensitivity * 100, 2), "%\n")
+cat("  - Of all actual positives, how many did we catch?\n")
+cat("  - Important when missing a positive case is costly\n\n")
+
+cat("Specificity:", round(specificity * 100, 2), "%\n")
+cat("  - Of all actual negatives, how many did we correctly identify?\n")
 ```
 
 ## Visualize Confusion Matrix
@@ -328,105 +331,28 @@ ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
 
 ---
 
-# Understanding Random Forest Predictions
-
-## Partial Dependence
-
-How does a single feature affect predictions?
-
-```{r partial-dependence}
-# Partial dependence for temperature
-library(pdp)
-
-pd_temp <- partial(rf_simple, pred.var = "temperature", 
-                   prob = TRUE, which.class = "Positive")
-
-ggplot(pd_temp, aes(x = temperature, y = yhat)) +
-  geom_line(color = "#e74c3c", size = 1.5) +
-  labs(title = "Partial Dependence Plot: Temperature",
-       subtitle = "Effect of temperature on probability of positive test",
-       x = "Temperature",
-       y = "Predicted Probability (Positive)") +
-  theme_minimal()
-```
-
----
-
-# Handling Imbalanced Data
-
-If your classes are imbalanced (many more negatives than positives), Random Forest can be biased toward the majority class.
-
-## Strategies for Imbalanced Data
-
-```{r class-weights}
-# Check class distribution
-table(train_data$covid19_test_results)
-
-# Option 1: Class weights
-# Give more weight to the minority class
-rf_weighted <- randomForest(
-  covid19_test_results ~ .,
-  data = train_data,
-  ntree = 200,
-  classwt = c("Negative" = 1, "Positive" = 5),  # Upweight positive class
-  importance = TRUE
-)
-```
-
-```{r sampling-strategies}
-# Option 2: Downsampling (in caret)
-cv_down <- trainControl(
-  method = "cv",
-  number = 5,
-  sampling = "down"  # Downsample majority class
-)
-
-# Option 3: Upsampling
-cv_up <- trainControl(
-  method = "cv",
-  number = 5,
-  sampling = "up"  # Upsample minority class
-)
-
-# Option 4: SMOTE (Synthetic Minority Over-sampling)
-# Requires the DMwR or smotefamily package
-```
-
----
-
 # Summary
 
 ## What We Learned
 
 1. ✅ **Random Forest** builds many decision trees and combines their predictions
-2. ✅ **Bootstrap + feature sampling** creates diverse trees
+2. ✅ **Bootstrap + feature sampling** creates diverse trees that reduce overfitting
 3. ✅ **No scaling required** - trees are scale-invariant
-4. ✅ **Variable importance** helps understand which features matter
-5. ✅ **OOB error** provides built-in validation
-6. ✅ **Handles mixed data types** better than KNN
-
-## Random Forest vs KNN
-
-| Aspect | KNN | Random Forest |
-|--------|-----|---------------|
-| Interpretability | Low | Medium (via importance) |
-| Training speed | Fast (no training) | Slow |
-| Prediction speed | Slow | Fast |
-| Handles high dimensions | Poor | Good |
-| Feature importance | Limited | Built-in |
-| Overfitting tendency | Medium | Low (ensemble) |
+4. ✅ **Variable importance** helps understand which features matter most
+5. ✅ **OOB error** provides built-in validation estimate
+6. ✅ **Cross-validation** helps tune hyperparameters like mtry
 
 ## When to Use Random Forest
 
 - ✅ Mixed numeric and categorical features
-- ✅ Want feature importance
+- ✅ Want to understand feature importance
 - ✅ Large datasets
 - ✅ Don't want to tune many hyperparameters
-- ✅ Need robust baseline model
+- ✅ Need a robust baseline model
 
 ## What's Next?
 
-In **Part 4**, we'll explore **K-means clustering** - an unsupervised learning method for finding patterns without labels!
+In **Part 3**, we'll explore **K-means clustering** - an unsupervised learning method for finding patterns without labels!
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Machine Learning - Part 4"
+title: "Introduction to Machine Learning - Part 3"
 subtitle: "K-means Clustering"
 author: "Gladstone Bioinformatics Core"
 date: "`r Sys.Date()`"
@@ -21,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 ## Supervised vs Unsupervised Learning
 
-So far, we've worked with **supervised learning** (KNN, Random Forest):
+In **Part 2**, we worked with **supervised learning** (Random Forest):
 - We had labeled data (COVID positive/negative)
 - Goal: Predict labels for new data
 
@@ -99,15 +99,15 @@ head(covid_ml)
 
 ## Important Considerations
 
-⚠️ **K-means limitations:**
+⚠️ **K-means requirements:**
 
-1. **Cannot handle missing values** - must impute or remove first
-2. **Euclidean distance** - assumes numeric, continuous data
+1. **Cannot handle missing values** - must impute or remove first (we did this in Part 1!)
+2. **Uses Euclidean distance** - works best with numeric data
 3. **Sensitive to scale** - must standardize features
 
 ## Select Features for Clustering
 
-Since our data is mostly binary (0/1) symptoms, let's discuss the implications:
+Since K-means is unsupervised, we'll exclude the target variable:
 
 ```{r feature-selection}
 # For K-means, we'll use only numeric features
@@ -119,25 +119,6 @@ cluster_data <- covid_ml %>%
 cat("Features for clustering:\n")
 names(cluster_data)
 ```
-
-```{r data-types}
-# Check data types
-cat("\nData types:\n")
-sapply(cluster_data, class)
-```
-
-## Discussion: K-means with Binary Data
-
-K-means uses **Euclidean distance**, which treats:
-- 0 → 1 as distance = 1
-- 1 → 0 as distance = 1
-
-For binary data, this is mathematically valid but may not capture the best similarity. Alternatives include:
-- **K-modes**: Designed for categorical data
-- **Gower distance**: Handles mixed data types
-- **Jaccard distance**: For binary presence/absence data
-
-For this workshop, we'll proceed with K-means on our binary + numeric data, but keep these limitations in mind!
 
 ## Scale the Data
 
@@ -184,20 +165,6 @@ Another approach: measure how similar points are to their own cluster vs other c
 fviz_nbclust(cluster_scaled, kmeans, method = "silhouette", k.max = 10) +
   labs(title = "Silhouette Method for Optimal K",
        subtitle = "Higher silhouette = better-defined clusters") +
-  theme_minimal()
-```
-
-## Gap Statistic
-
-Compares within-cluster variation to a null reference distribution.
-
-```{r gap-statistic}
-# Gap statistic (this takes a bit longer)
-set.seed(123)
-gap_stat <- clusGap(cluster_scaled, FUN = kmeans, nstart = 25, K.max = 10, B = 50)
-
-fviz_gap_stat(gap_stat) +
-  labs(title = "Gap Statistic for Optimal K") +
   theme_minimal()
 ```
 
@@ -321,34 +288,6 @@ ggplot(covid_clustered, aes(x = cluster, fill = covid19_test_results)) +
 
 ---
 
-# Alternative: Gower Distance for Mixed Data
-
-For datasets with mixed types (numeric + categorical), Gower distance is more appropriate:
-
-```{r gower-demo}
-# Gower distance can handle mixed data types
-library(cluster)
-
-# Calculate Gower distance matrix
-# Note: This can be slow for large datasets
-gower_dist <- daisy(cluster_data, metric = "gower")
-
-# Run PAM (Partitioning Around Medoids) - like K-means but uses medoids
-pam_result <- pam(gower_dist, k = 3)
-
-cat("PAM with Gower Distance:\n")
-cat("Cluster sizes:", pam_result$clusinfo[, "size"], "\n")
-```
-
-```{r gower-silhouette}
-# Silhouette plot for PAM
-fviz_silhouette(pam_result) +
-  labs(title = "Silhouette Plot - PAM with Gower Distance") +
-  theme_minimal()
-```
-
----
-
 # Evaluating Cluster Quality
 
 ## Silhouette Analysis
@@ -378,34 +317,17 @@ fviz_silhouette(sil) +
 ## What We Learned
 
 1. ✅ **K-means** is an unsupervised algorithm that groups data into K clusters
-2. ✅ **Choosing K** - use elbow method, silhouette, or gap statistic
+2. ✅ **Choosing K** - use elbow method or silhouette analysis
 3. ✅ **Data preparation** - must handle missing values and scale features
-4. ✅ **Limitations** - Euclidean distance may not be ideal for categorical/binary data
-5. ✅ **Alternatives** - Gower distance + PAM for mixed data types
-6. ✅ **Evaluation** - use silhouette scores to assess cluster quality
-
-## K-means vs Other Methods
-
-| Method | Distance | Data Type | Finds |
-|--------|----------|-----------|-------|
-| K-means | Euclidean | Numeric | Spherical clusters |
-| K-medoids (PAM) | Any | Any | Robust to outliers |
-| Hierarchical | Any | Any | Nested clusters |
-| DBSCAN | Euclidean | Numeric | Arbitrary shapes |
+4. ✅ **Visualization** - PCA helps visualize high-dimensional clusters
+5. ✅ **Evaluation** - use silhouette scores to assess cluster quality
 
 ## When to Use K-means
 
 - ✅ Numeric, continuous features
 - ✅ Expected spherical/compact clusters
-- ✅ Large datasets (efficient)
+- ✅ Large datasets (efficient algorithm)
 - ✅ Know approximate number of clusters
-
-## When NOT to Use K-means
-
-- ❌ Categorical features (use K-modes or Gower)
-- ❌ Missing data (must handle first)
-- ❌ Clusters of varying sizes/densities
-- ❌ Non-spherical cluster shapes
 
 ---
 
@@ -416,15 +338,14 @@ fviz_silhouette(sil) +
 | Part | Topic | Type | Key Concepts |
 |------|-------|------|--------------|
 | 1 | Data Preprocessing | Preparation | Missing values, encoding, scaling |
-| 2 | KNN | Supervised | Distance, K selection, cross-validation |
-| 3 | Random Forest | Supervised | Ensemble, feature importance, OOB |
-| 4 | K-means | Unsupervised | Clustering, elbow method, silhouette |
+| 2 | Random Forest | Supervised | Ensemble, feature importance, OOB |
+| 3 | K-means | Unsupervised | Clustering, elbow method, silhouette |
 
 ## Key Takeaways
 
 1. **Always explore and clean your data first!**
 2. **Understand your algorithm's requirements** (scaling, missing data, data types)
-3. **Use cross-validation** to avoid overfitting
+3. **Use cross-validation** to avoid overfitting (supervised learning)
 4. **Evaluate appropriately** - accuracy isn't everything!
 5. **No algorithm is universally best** - choose based on your data and goals
 

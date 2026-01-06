@@ -25,11 +25,9 @@ Welcome to the Introduction to Machine Learning workshop! In this first part, we
 
 Before applying any machine learning algorithm, it's crucial to understand and prepare your data. Different ML algorithms have different requirements:
 
-| Algorithm | Handles Missing Data? | Handles Categorical Data? | Needs Scaling? |
-|-----------|----------------------|--------------------------|----------------|
-| KNN | ❌ No | ⚠️ Needs encoding | ✅ Yes |
-| K-means | ❌ No | ⚠️ Limited | ✅ Yes |
-| Random Forest | ⚠️ Some implementations | ✅ Yes | ❌ No |
+- **Missing data**: Most algorithms cannot handle missing values
+- **Categorical variables**: May need to be encoded as numbers
+- **Feature scaling**: Some algorithms are sensitive to the scale of features
 
 **Key takeaway:** Always clean and preprocess your data before applying ML algorithms!
 
@@ -167,9 +165,9 @@ vis_miss(covid_data) +
 
 ## Why Missing Data is a Problem
 
-- **KNN**: Cannot calculate distances when values are missing
-- **K-means**: Cannot calculate cluster centroids with missing values
-- **Random Forest**: Some implementations can handle missing data, but it's still best practice to address it
+Most machine learning algorithms cannot handle missing values. We need to either:
+1. Remove rows with missing values
+2. Impute (fill in) the missing values
 
 ## Strategies for Handling Missing Data
 
@@ -232,7 +230,7 @@ table(covid_data$cough_severity, useNA = "ifany")
 
 For machine learning algorithms that require numeric input, we need to encode categorical variables.
 
-### Option 1: Label Encoding (for ordinal data)
+### Label Encoding (for ordinal data)
 
 ```{r label-encoding}
 # cough_severity has a natural order: None < Mild < Moderate < Severe
@@ -247,32 +245,13 @@ covid_imputed$cough_severity_encoded <- case_when(
 table(covid_imputed$cough_severity_encoded)
 ```
 
-### Option 2: One-Hot Encoding (for nominal data)
-
-```{r one-hot-encoding}
-# Example: One-hot encoding for cough_severity
-# This creates separate binary columns for each category
-
-covid_onehot <- covid_imputed %>%
-  mutate(
-    cough_mild = ifelse(cough_severity == "Mild", 1, 0),
-    cough_moderate = ifelse(cough_severity == "Moderate", 1, 0),
-    cough_severe = ifelse(cough_severity == "Severe", 1, 0)
-  )
-
-# Preview the new columns
-covid_onehot %>%
-  select(cough_severity, cough_mild, cough_moderate, cough_severe) %>%
-  head(10)
-```
-
 ---
 
 # Feature Scaling
 
 ## Why Scale Features?
 
-Distance-based algorithms (KNN, K-means) are sensitive to the scale of features.
+Some algorithms (like K-means clustering) are sensitive to the scale of features.
 
 ```{r scale-demo}
 # Compare scales
@@ -280,7 +259,7 @@ cat("Temperature range:", range(covid_imputed$temperature, na.rm = TRUE), "\n")
 cat("Binary symptom range: 0 to 1\n")
 ```
 
-If temperature ranges from 36-40 and symptoms are 0-1, temperature will dominate distance calculations!
+If temperature ranges from 36-40 and symptoms are 0-1, temperature will dominate distance calculations in algorithms like K-means!
 
 ## Standardization (Z-score scaling)
 
@@ -357,16 +336,15 @@ In this part, we learned:
 
 1. ✅ **Explore your data** before applying ML algorithms
 2. ✅ **Handle missing values** - remove or impute
-3. ✅ **Encode categorical variables** - label or one-hot encoding
-4. ✅ **Scale features** when using distance-based algorithms (KNN, K-means)
+3. ✅ **Encode categorical variables** - convert to numeric
+4. ✅ **Scale features** when using distance-based algorithms (like K-means)
 
 ## What's Next?
 
 In the following parts, we'll use this cleaned dataset to:
 
-- **Part 2:** Apply K-Nearest Neighbors (KNN) for classification
-- **Part 3:** Apply Random Forest for classification
-- **Part 4:** Apply K-means for clustering
+- **Part 2:** Apply Random Forest for classification
+- **Part 3:** Apply K-means for clustering
 
 ---
 
@@ -375,4 +353,3 @@ In the following parts, we'll use this cleaned dataset to:
 ```{r session-info}
 sessionInfo()
 ```
-

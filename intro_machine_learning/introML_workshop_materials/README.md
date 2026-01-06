@@ -14,9 +14,8 @@ Machine learning is becoming increasingly important, not only in data science, b
 
 ### Algorithms
 
-- K-Nearest Neighbors (KNN)
-- K-means clustering
 - Random Forest
+- K-means clustering
 
 ---
 
@@ -25,9 +24,8 @@ Machine learning is becoming increasingly important, not only in data science, b
 | File | Description |
 |------|-------------|
 | `01_data_exploration_preprocessing.Rmd` | Data exploration, handling missing values, encoding, scaling |
-| `02_knn.Rmd` | K-Nearest Neighbors classification |
-| `03_random_forest.Rmd` | Random Forest classification |
-| `04_kmeans.Rmd` | K-means unsupervised clustering |
+| `02_random_forest.Rmd` | Random Forest classification (supervised learning) |
+| `03_kmeans.Rmd` | K-means unsupervised clustering |
 
 ---
 
@@ -93,13 +91,11 @@ install.packages(c(
   "tidyverse",
   "ggplot2", 
   "caret",
-  "class",
   "randomForest",
   "cluster",
   "factoextra",
   "skimr",
-  "naniar",
-  "pdp"
+  "naniar"
 ))
 ```
 
@@ -117,5 +113,4 @@ Gladstone Bioinformatics Core
 
 ---
 
-*Last updated: `r Sys.Date()`*
-
+*Last updated: January 2026*
