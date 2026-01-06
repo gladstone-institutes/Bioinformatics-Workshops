@@ -1,0 +1,438 @@
+---
+title: "Introduction to Machine Learning - Part 3"
+subtitle: "Random Forest"
+author: "Gladstone Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Introduction to Random Forest
+
+## From Decision Trees to Random Forests
+
+### What is a Decision Tree?
+
+A decision tree makes predictions by learning simple decision rules from the data:
+
+```
+                    [Temperature > 37.5?]
+                    /                    \
+                  Yes                     No
+                  /                        \
+        [Has Cough?]                  [Loss of Smell?]
+         /       \                      /         \
+       Yes       No                   Yes          No
+        |         |                    |            |
+    Positive  Negative             Positive     Negative
+```
+
+### What is Random Forest?
+
+Random Forest is an **ensemble method** that builds many decision trees and combines their predictions!
+
+```
+   Tree 1      Tree 2      Tree 3     ...    Tree N
+     |           |           |                  |
+  Positive   Negative    Positive           Positive
+     \           |           /                  /
+      \          |          /                  /
+       ========= VOTE ======================= 
+                  |
+              POSITIVE (majority wins!)
+```
+
+### Why "Random"?
+
+Two sources of randomness make trees diverse:
+1. **Bootstrap sampling**: Each tree trained on random subset of data
+2. **Feature sampling**: Each split considers random subset of features
+
+This diversity reduces overfitting and improves predictions!
+
+---
+
+# Load Libraries and Data
+
+```{r libraries}
+# Core libraries
+library(tidyverse)
+library(caret)
+library(randomForest)
+library(ggplot2)
+
+# Set seed for reproducibility
+set.seed(123)
+```
+
+```{r load-data}
+# Load the cleaned dataset from Part 1
+covid_ml <- read.csv("data/covid_ml_clean.csv")
+
+# Convert target to factor
+covid_ml$covid19_test_results <- as.factor(covid_ml$covid19_test_results)
+
+cat("Dataset dimensions:", dim(covid_ml), "\n")
+```
+
+---
+
+# Why Random Forest?
+
+## Advantages over KNN
+
+| Feature | KNN | Random Forest |
+|---------|-----|---------------|
+| Handles categorical data | ⚠️ Needs encoding | ✅ Native support |
+| Handles missing data | ❌ No | ⚠️ Some implementations |
+| Feature scaling required | ✅ Yes | ❌ No |
+| Feature importance | ❌ Limited | ✅ Built-in |
+| Speed at prediction | ❌ Slow | ✅ Fast |
+| Handles high dimensions | ❌ Poor | ✅ Good |
+
+---
+
+# Prepare Data
+
+## Train-Test Split
+
+```{r train-test-split}
+# Split data: 70% training, 30% testing
+train_index <- createDataPartition(covid_ml$covid19_test_results, 
+                                   p = 0.7, 
+                                   list = FALSE)
+
+train_data <- covid_ml[train_index, ]
+test_data <- covid_ml[-train_index, ]
+
+cat("Training set size:", nrow(train_data), "\n")
+cat("Test set size:", nrow(test_data), "\n")
+```
+
+**Note:** Unlike KNN, we don't need to scale features for Random Forest! Tree-based methods are invariant to monotonic transformations of features.
+
+---
+
+# Train a Simple Random Forest
+
+Let's start with a basic Random Forest to understand the output:
+
+```{r simple-rf}
+# Train a simple random forest
+rf_simple <- randomForest(
+  covid19_test_results ~ .,  # Predict target using all features
+  data = train_data,
+  ntree = 100,               # Number of trees
+  importance = TRUE          # Calculate variable importance
+)
+
+# View the model summary
+print(rf_simple)
+```
+
+## Understanding the Output
+
+```{r rf-output-explanation}
+# OOB (Out-of-Bag) Error
+cat("OUT-OF-BAG (OOB) ERROR EXPLAINED:\n")
+cat("================================\n")
+cat("Random Forest uses bootstrap sampling, so ~37% of data is left out for each tree.\n")
+cat("These 'out-of-bag' samples are used to estimate error without needing a separate validation set!\n\n")
+
+cat("OOB Error Rate:", round(rf_simple$err.rate[nrow(rf_simple$err.rate), "OOB"] * 100, 2), "%\n")
+```
+
+## Plot Error vs Number of Trees
+
+```{r error-plot}
+# Plot OOB error as more trees are added
+plot(rf_simple, main = "Random Forest Error vs Number of Trees")
+legend("topright", 
+       legend = colnames(rf_simple$err.rate),
+       col = 1:3, 
+       lty = 1:3)
+```
+
+The error typically stabilizes after a certain number of trees. More trees rarely hurt (except for computation time)!
+
+---
+
+# Tune Random Forest with Cross-Validation
+
+## Key Hyperparameters
+
+- **ntree**: Number of trees (more is usually better, but diminishing returns)
+- **mtry**: Number of features to consider at each split
+  - Default for classification: sqrt(number of features)
+
+```{r tune-rf}
+# Set up cross-validation
+cv_control <- trainControl(
+  method = "cv",
+  number = 10,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary
+)
+
+# Grid of mtry values to try
+mtry_grid <- expand.grid(mtry = c(2, 4, 6, 8, 10))
+
+# Train with cross-validation
+rf_cv <- train(
+  covid19_test_results ~ .,
+  data = train_data,
+  method = "rf",
+  trControl = cv_control,
+  tuneGrid = mtry_grid,
+  ntree = 200,
+  metric = "ROC"
+)
+
+# View results
+rf_cv
+```
+
+```{r plot-tune}
+# Plot mtry vs performance
+plot(rf_cv, main = "Random Forest: Tuning mtry")
+```
+
+```{r best-mtry}
+cat("Best mtry:", rf_cv$bestTune$mtry, "\n")
+```
+
+---
+
+# Variable Importance
+
+One of the best features of Random Forest is built-in variable importance!
+
+## Two Types of Importance
+
+```{r var-importance}
+# Get variable importance from our simple RF model
+importance_df <- as.data.frame(importance(rf_simple))
+importance_df$Variable <- rownames(importance_df)
+
+# View importance metrics
+head(importance_df)
+```
+
+### Mean Decrease Accuracy (MDA)
+
+How much does accuracy decrease when we permute (shuffle) this variable?
+Higher = more important
+
+### Mean Decrease Gini
+
+How much does this variable contribute to the purity of nodes?
+Higher = more important
+
+```{r importance-plot}
+# Plot variable importance
+varImpPlot(rf_simple, 
+           main = "Variable Importance - Random Forest",
+           n.var = 15)
+```
+
+```{r importance-ggplot}
+# Create a nicer ggplot version
+importance_df %>%
+  arrange(desc(MeanDecreaseAccuracy)) %>%
+  head(15) %>%
+  ggplot(aes(x = reorder(Variable, MeanDecreaseAccuracy), 
+             y = MeanDecreaseAccuracy)) +
+  geom_bar(stat = "identity", fill = "#3498db") +
+  coord_flip() +
+  labs(title = "Top 15 Important Features",
+       subtitle = "Based on Mean Decrease in Accuracy",
+       x = "Variable",
+       y = "Importance") +
+  theme_minimal()
+```
+
+---
+
+# Make Predictions
+
+```{r predictions}
+# Predict on test set
+rf_predictions <- predict(rf_cv, newdata = test_data)
+
+# View predictions
+head(rf_predictions)
+```
+
+```{r predict-proba}
+# Get prediction probabilities
+rf_proba <- predict(rf_cv, newdata = test_data, type = "prob")
+head(rf_proba)
+```
+
+---
+
+# Evaluate Model Performance
+
+## Confusion Matrix
+
+```{r confusion-matrix}
+# Create confusion matrix
+cm_rf <- confusionMatrix(rf_predictions, test_data$covid19_test_results, 
+                         positive = "Positive")
+print(cm_rf)
+```
+
+## Compare with KNN
+
+Let's compare our Random Forest results with what we might get from KNN:
+
+```{r metrics-comparison}
+# Extract RF metrics
+rf_accuracy <- cm_rf$overall["Accuracy"]
+rf_sensitivity <- cm_rf$byClass["Sensitivity"]
+rf_specificity <- cm_rf$byClass["Specificity"]
+
+cat("RANDOM FOREST PERFORMANCE:\n")
+cat("=========================\n")
+cat("Accuracy:", round(rf_accuracy * 100, 2), "%\n")
+cat("Sensitivity:", round(rf_sensitivity * 100, 2), "%\n")
+cat("Specificity:", round(rf_specificity * 100, 2), "%\n")
+```
+
+## Visualize Confusion Matrix
+
+```{r cm-plot}
+# Convert confusion matrix to data frame for plotting
+cm_df <- as.data.frame(cm_rf$table)
+
+ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), size = 8, color = "white") +
+  scale_fill_gradient(low = "#27ae60", high = "#c0392b") +
+  labs(title = "Confusion Matrix - Random Forest",
+       x = "Actual",
+       y = "Predicted") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12))
+```
+
+---
+
+# Understanding Random Forest Predictions
+
+## Partial Dependence
+
+How does a single feature affect predictions?
+
+```{r partial-dependence}
+# Partial dependence for temperature
+library(pdp)
+
+pd_temp <- partial(rf_simple, pred.var = "temperature", 
+                   prob = TRUE, which.class = "Positive")
+
+ggplot(pd_temp, aes(x = temperature, y = yhat)) +
+  geom_line(color = "#e74c3c", size = 1.5) +
+  labs(title = "Partial Dependence Plot: Temperature",
+       subtitle = "Effect of temperature on probability of positive test",
+       x = "Temperature",
+       y = "Predicted Probability (Positive)") +
+  theme_minimal()
+```
+
+---
+
+# Handling Imbalanced Data
+
+If your classes are imbalanced (many more negatives than positives), Random Forest can be biased toward the majority class.
+
+## Strategies for Imbalanced Data
+
+```{r class-weights}
+# Check class distribution
+table(train_data$covid19_test_results)
+
+# Option 1: Class weights
+# Give more weight to the minority class
+rf_weighted <- randomForest(
+  covid19_test_results ~ .,
+  data = train_data,
+  ntree = 200,
+  classwt = c("Negative" = 1, "Positive" = 5),  # Upweight positive class
+  importance = TRUE
+)
+```
+
+```{r sampling-strategies}
+# Option 2: Downsampling (in caret)
+cv_down <- trainControl(
+  method = "cv",
+  number = 5,
+  sampling = "down"  # Downsample majority class
+)
+
+# Option 3: Upsampling
+cv_up <- trainControl(
+  method = "cv",
+  number = 5,
+  sampling = "up"  # Upsample minority class
+)
+
+# Option 4: SMOTE (Synthetic Minority Over-sampling)
+# Requires the DMwR or smotefamily package
+```
+
+---
+
+# Summary
+
+## What We Learned
+
+1. ✅ **Random Forest** builds many decision trees and combines their predictions
+2. ✅ **Bootstrap + feature sampling** creates diverse trees
+3. ✅ **No scaling required** - trees are scale-invariant
+4. ✅ **Variable importance** helps understand which features matter
+5. ✅ **OOB error** provides built-in validation
+6. ✅ **Handles mixed data types** better than KNN
+
+## Random Forest vs KNN
+
+| Aspect | KNN | Random Forest |
+|--------|-----|---------------|
+| Interpretability | Low | Medium (via importance) |
+| Training speed | Fast (no training) | Slow |
+| Prediction speed | Slow | Fast |
+| Handles high dimensions | Poor | Good |
+| Feature importance | Limited | Built-in |
+| Overfitting tendency | Medium | Low (ensemble) |
+
+## When to Use Random Forest
+
+- ✅ Mixed numeric and categorical features
+- ✅ Want feature importance
+- ✅ Large datasets
+- ✅ Don't want to tune many hyperparameters
+- ✅ Need robust baseline model
+
+## What's Next?
+
+In **Part 4**, we'll explore **K-means clustering** - an unsupervised learning method for finding patterns without labels!
+
+---
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```
+

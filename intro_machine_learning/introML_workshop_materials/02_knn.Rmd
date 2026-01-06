@@ -1,0 +1,342 @@
+---
+title: "Introduction to Machine Learning - Part 2"
+subtitle: "K-Nearest Neighbors (KNN)"
+author: "Gladstone Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Introduction to KNN
+
+## What is K-Nearest Neighbors?
+
+K-Nearest Neighbors (KNN) is a **supervised learning** algorithm used for classification and regression. It's one of the simplest ML algorithms to understand!
+
+### How KNN Works
+
+1. **Store** all training data
+2. For a new data point, **find the K closest** training examples (neighbors)
+3. **Vote**: Assign the most common class among the K neighbors
+
+```
+        🔴 🔴
+      🔴   ❓  🔵
+        🔵 🔵 🔵
+
+If K=3: The 3 nearest neighbors are 2 blue and 1 red
+Result: ❓ is classified as 🔵 (blue wins by vote!)
+```
+
+### Key Concepts
+
+- **K**: The number of neighbors to consider (hyperparameter)
+- **Distance**: Usually Euclidean distance (hence why scaling matters!)
+- **Lazy learner**: No model is built; all computation happens at prediction time
+
+---
+
+# Load Libraries and Data
+
+```{r libraries}
+# Core libraries
+library(tidyverse)
+library(caret)      # For ML workflows, cross-validation
+library(class)      # For knn function
+library(ggplot2)
+
+# Set seed for reproducibility
+set.seed(123)
+```
+
+```{r load-data}
+# Load the cleaned dataset from Part 1
+covid_ml <- read.csv("data/covid_ml_clean.csv")
+
+# Quick check
+cat("Dataset dimensions:", dim(covid_ml), "\n")
+head(covid_ml)
+```
+
+---
+
+# Prepare Data for KNN
+
+## Convert Target to Factor
+
+```{r target-factor}
+# KNN in caret requires the target to be a factor
+covid_ml$covid19_test_results <- as.factor(covid_ml$covid19_test_results)
+
+# Check levels
+levels(covid_ml$covid19_test_results)
+```
+
+## Train-Test Split
+
+**Why split the data?**
+
+- **Training set**: Used to train/fit the model
+- **Test set**: Used to evaluate model performance on unseen data
+
+This helps us estimate how well our model will generalize to new data!
+
+```{r train-test-split}
+# Split data: 70% training, 30% testing
+train_index <- createDataPartition(covid_ml$covid19_test_results, 
+                                   p = 0.7, 
+                                   list = FALSE)
+
+train_data <- covid_ml[train_index, ]
+test_data <- covid_ml[-train_index, ]
+
+cat("Training set size:", nrow(train_data), "\n")
+cat("Test set size:", nrow(test_data), "\n")
+```
+
+```{r check-balance}
+# Check if target classes are balanced in both sets
+cat("\nTraining set distribution:\n")
+prop.table(table(train_data$covid19_test_results))
+
+cat("\nTest set distribution:\n")
+prop.table(table(test_data$covid19_test_results))
+```
+
+## Feature Scaling
+
+KNN uses distance calculations, so we need to scale our features!
+
+```{r scale-features}
+# Separate features and target
+train_features <- train_data %>% select(-covid19_test_results)
+train_labels <- train_data$covid19_test_results
+
+test_features <- test_data %>% select(-covid19_test_results)
+test_labels <- test_data$covid19_test_results
+
+# Scale features using training data parameters
+# Important: Use training data mean/sd to scale both train and test!
+preprocess_params <- preProcess(train_features, method = c("center", "scale"))
+
+train_scaled <- predict(preprocess_params, train_features)
+test_scaled <- predict(preprocess_params, test_features)
+
+cat("Features scaled successfully!\n")
+```
+
+---
+
+# Finding the Best K with Cross-Validation
+
+## What is Cross-Validation?
+
+Cross-validation helps us:
+1. Choose the best hyperparameters (like K)
+2. Get a more reliable estimate of model performance
+3. Avoid overfitting to the training data
+
+### K-Fold Cross-Validation
+
+```
+Training Data split into K folds:
+┌─────┬─────┬─────┬─────┬─────┐
+│Fold1│Fold2│Fold3│Fold4│Fold5│  <- 5-fold CV
+└─────┴─────┴─────┴─────┴─────┘
+
+Round 1: Train on Folds 2-5, Test on Fold 1
+Round 2: Train on Folds 1,3-5, Test on Fold 2
+... and so on
+
+Final score = Average of all rounds
+```
+
+## Use caret for Cross-Validation
+
+```{r cv-setup}
+# Set up 10-fold cross-validation
+cv_control <- trainControl(
+  method = "cv",           # Cross-validation
+  number = 10,             # 10 folds
+  classProbs = TRUE,       # Compute class probabilities
+  summaryFunction = twoClassSummary  # For binary classification metrics
+)
+```
+
+```{r train-knn-cv}
+# Train KNN with different K values using cross-validation
+# caret will automatically try different values of K
+
+knn_cv <- train(
+  x = train_scaled,
+  y = train_labels,
+  method = "knn",
+  trControl = cv_control,
+  tuneGrid = data.frame(k = seq(1, 21, by = 2)),  # Try K = 1, 3, 5, ..., 21
+  metric = "ROC"  # Optimize for AUC-ROC
+)
+
+# View results
+knn_cv
+```
+
+## Visualize K vs Performance
+
+```{r plot-k}
+# Plot accuracy vs K
+plot(knn_cv, main = "KNN: Finding the Optimal K")
+```
+
+```{r best-k}
+# What's the best K?
+cat("Best K:", knn_cv$bestTune$k, "\n")
+```
+
+### Understanding Bias-Variance Tradeoff
+
+- **Small K (e.g., K=1)**: 
+  - Low bias, high variance
+  - Model is very flexible, may overfit
+  - Sensitive to noise in the data
+
+- **Large K (e.g., K=21)**:
+  - High bias, low variance  
+  - Model is more stable but may underfit
+  - Decision boundaries become smoother
+
+---
+
+# Make Predictions
+
+```{r predictions}
+# Predict on test set using the best model
+predictions <- predict(knn_cv, newdata = test_scaled)
+
+# View first few predictions
+head(predictions)
+```
+
+---
+
+# Evaluate Model Performance
+
+## Confusion Matrix
+
+A confusion matrix shows how well the model classified each class:
+
+```
+                    Predicted
+                 Negative  Positive
+Actual Negative    TN        FP
+       Positive    FN        TP
+
+TN = True Negative  (correctly predicted negative)
+TP = True Positive  (correctly predicted positive)
+FN = False Negative (missed positive case)
+FP = False Positive (false alarm)
+```
+
+```{r confusion-matrix}
+# Create confusion matrix
+cm <- confusionMatrix(predictions, test_labels, positive = "Positive")
+print(cm)
+```
+
+## Understanding the Metrics
+
+```{r metrics-explanation}
+# Extract key metrics
+accuracy <- cm$overall["Accuracy"]
+sensitivity <- cm$byClass["Sensitivity"]  # True Positive Rate / Recall
+specificity <- cm$byClass["Specificity"]  # True Negative Rate
+precision <- cm$byClass["Pos Pred Value"] # Precision
+
+cat("KEY METRICS:\n")
+cat("============\n")
+cat("Accuracy:", round(accuracy * 100, 2), "%\n")
+cat("  - Overall correct predictions\n\n")
+
+cat("Sensitivity (Recall):", round(sensitivity * 100, 2), "%\n")
+cat("  - Of all actual positives, how many did we catch?\n")
+cat("  - Important when missing a positive case is costly\n\n")
+
+cat("Specificity:", round(specificity * 100, 2), "%\n")
+cat("  - Of all actual negatives, how many did we correctly identify?\n\n")
+
+cat("Precision:", round(precision * 100, 2), "%\n")
+cat("  - Of all predicted positives, how many are actually positive?\n")
+cat("  - Important when false alarms are costly\n")
+```
+
+## Visualize Confusion Matrix
+
+```{r cm-plot}
+# Convert confusion matrix to data frame for plotting
+cm_df <- as.data.frame(cm$table)
+
+ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), size = 8, color = "white") +
+  scale_fill_gradient(low = "#3498db", high = "#e74c3c") +
+  labs(title = "Confusion Matrix - KNN",
+       x = "Actual",
+       y = "Predicted") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12))
+```
+
+---
+
+# Feature Importance in KNN
+
+KNN doesn't have built-in feature importance like tree-based methods, but we can estimate it using permutation importance or by examining which features contribute most to distances.
+
+```{r variable-importance}
+# caret provides variable importance estimates
+var_imp <- varImp(knn_cv, scale = TRUE)
+plot(var_imp, top = 15, main = "Variable Importance - KNN")
+```
+
+---
+
+# Summary
+
+## What We Learned
+
+1. ✅ **KNN is a distance-based classifier** - finds K nearest neighbors and votes
+2. ✅ **Scaling is essential** - features should be on the same scale
+3. ✅ **Cross-validation** helps find the optimal K and avoid overfitting
+4. ✅ **Bias-variance tradeoff** - small K = overfit, large K = underfit
+5. ✅ **Evaluation metrics** - accuracy, sensitivity, specificity, precision
+
+## Pros and Cons of KNN
+
+| Pros | Cons |
+|------|------|
+| Simple to understand | Slow for large datasets |
+| No training phase | Sensitive to irrelevant features |
+| Naturally handles multi-class | Requires feature scaling |
+| Non-parametric | Doesn't handle missing data |
+
+## What's Next?
+
+In **Part 3**, we'll explore **Random Forest** - a powerful ensemble method that handles many of KNN's limitations!
+
+---
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```
+

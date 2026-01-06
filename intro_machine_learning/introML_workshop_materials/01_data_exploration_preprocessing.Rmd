@@ -1,0 +1,378 @@
+---
+title: "Introduction to Machine Learning - Part 1"
+subtitle: "Data Exploration & Preprocessing"
+author: "Gladstone Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Introduction
+
+Welcome to the Introduction to Machine Learning workshop! In this first part, we'll explore our dataset and prepare it for machine learning algorithms.
+
+## Why Data Preprocessing Matters
+
+Before applying any machine learning algorithm, it's crucial to understand and prepare your data. Different ML algorithms have different requirements:
+
+| Algorithm | Handles Missing Data? | Handles Categorical Data? | Needs Scaling? |
+|-----------|----------------------|--------------------------|----------------|
+| KNN | ❌ No | ⚠️ Needs encoding | ✅ Yes |
+| K-means | ❌ No | ⚠️ Limited | ✅ Yes |
+| Random Forest | ⚠️ Some implementations | ✅ Yes | ❌ No |
+
+**Key takeaway:** Always clean and preprocess your data before applying ML algorithms!
+
+---
+
+# Load Required Libraries
+
+```{r libraries}
+# Data manipulation
+library(tidyverse)
+
+# Visualization
+library(ggplot2)
+
+# For summary statistics
+library(skimr)
+
+# For missing data visualization
+library(naniar)
+```
+
+---
+
+# Load the Data
+
+We'll be using a COVID-19 symptoms dataset. This dataset contains patient symptoms and their COVID test results.
+
+```{r load-data}
+# Set the path to your data file
+# Modify this path if needed
+data_path <- "data/covid-symptoms.csv"
+
+# Load the data
+covid_data <- read.csv(data_path)
+
+# Quick look at the data
+head(covid_data)
+```
+
+```{r data-dimensions}
+# Check dimensions
+cat("Number of rows:", nrow(covid_data), "\n")
+cat("Number of columns:", ncol(covid_data), "\n")
+```
+
+---
+
+# Explore the Data Structure
+
+## Column Types and Summary
+
+```{r structure}
+# View structure
+str(covid_data)
+```
+
+```{r summary}
+# Summary statistics
+summary(covid_data)
+```
+
+## Using skimr for a Better Overview
+
+```{r skim}
+# Comprehensive summary with skimr
+skim(covid_data)
+```
+
+---
+
+# Understanding Our Variables
+
+Let's categorize our variables:
+
+```{r variable-types}
+# Target variable
+cat("TARGET VARIABLE:\n")
+cat("- covid19_test_results: The outcome we want to predict\n\n")
+
+# Check target distribution
+table(covid_data$covid19_test_results)
+```
+
+```{r target-plot}
+# Visualize target distribution
+ggplot(covid_data, aes(x = covid19_test_results, fill = covid19_test_results)) +
+  geom_bar() +
+  scale_fill_manual(values = c("Negative" = "#2ecc71", "Positive" = "#e74c3c")) +
+  labs(title = "Distribution of COVID Test Results",
+       x = "Test Result",
+       y = "Count") +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## Feature Variables
+
+```{r feature-overview}
+# List all features
+features <- setdiff(names(covid_data), "covid19_test_results")
+cat("FEATURE VARIABLES:\n")
+cat(paste("-", features), sep = "\n")
+```
+
+---
+
+# Handling Missing Data
+
+## Visualize Missing Data
+
+This is a crucial step! Let's see how much data is missing.
+
+```{r missing-summary}
+# Count missing values per column
+missing_counts <- colSums(is.na(covid_data))
+missing_pct <- round(100 * missing_counts / nrow(covid_data), 2)
+
+missing_df <- data.frame(
+  Variable = names(missing_counts),
+  Missing_Count = missing_counts,
+  Missing_Percent = missing_pct
+) %>%
+  arrange(desc(Missing_Count))
+
+# Show variables with missing data
+missing_df %>% filter(Missing_Count > 0)
+```
+
+```{r missing-viz}
+# Visualize missing data pattern
+vis_miss(covid_data) +
+  labs(title = "Missing Data Pattern") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Why Missing Data is a Problem
+
+- **KNN**: Cannot calculate distances when values are missing
+- **K-means**: Cannot calculate cluster centroids with missing values
+- **Random Forest**: Some implementations can handle missing data, but it's still best practice to address it
+
+## Strategies for Handling Missing Data
+
+### Strategy 1: Remove rows with missing values (Complete Case Analysis)
+
+```{r remove-missing}
+# Remove all rows with any missing values
+covid_complete <- covid_data %>%
+  drop_na()
+
+cat("Original rows:", nrow(covid_data), "\n")
+cat("After removing missing:", nrow(covid_complete), "\n")
+cat("Rows removed:", nrow(covid_data) - nrow(covid_complete), "\n")
+cat("Percentage retained:", round(100 * nrow(covid_complete) / nrow(covid_data), 1), "%\n")
+```
+
+**Pros:** Simple, no assumptions  
+**Cons:** May lose a lot of data, may introduce bias if missingness is not random
+
+### Strategy 2: Imputation (Replace with a value)
+
+For numeric variables, common approaches:
+- **Mean imputation**: Replace with column mean
+- **Median imputation**: Replace with column median (better for skewed data)
+- **Mode imputation**: Replace with most common value (for categorical)
+
+```{r imputation}
+# Create a copy for imputation
+covid_imputed <- covid_data
+
+# Identify numeric columns (excluding target)
+numeric_cols <- names(covid_imputed)[sapply(covid_imputed, is.numeric)]
+
+# Impute numeric columns with median
+for (col in numeric_cols) {
+  if (sum(is.na(covid_imputed[[col]])) > 0) {
+    median_val <- median(covid_imputed[[col]], na.rm = TRUE)
+    covid_imputed[[col]][is.na(covid_imputed[[col]])] <- median_val
+    cat("Imputed", col, "with median:", median_val, "\n")
+  }
+}
+
+# Check if any missing values remain
+cat("\nRemaining missing values:", sum(is.na(covid_imputed)), "\n")
+```
+
+---
+
+# Handling Categorical Variables
+
+## Identify Categorical Variables
+
+```{r categorical-check}
+# Check for categorical variables
+cat("Checking 'cough_severity' column:\n")
+table(covid_data$cough_severity, useNA = "ifany")
+```
+
+## Encode Categorical Variables
+
+For machine learning algorithms that require numeric input, we need to encode categorical variables.
+
+### Option 1: Label Encoding (for ordinal data)
+
+```{r label-encoding}
+# cough_severity has a natural order: None < Mild < Moderate < Severe
+covid_imputed$cough_severity_encoded <- case_when(
+  is.na(covid_imputed$cough_severity) | covid_imputed$cough_severity == "" ~ 0,  # No cough
+  covid_imputed$cough_severity == "Mild" ~ 1,
+  covid_imputed$cough_severity == "Moderate" ~ 2,
+  covid_imputed$cough_severity == "Severe" ~ 3,
+  TRUE ~ 0
+)
+
+table(covid_imputed$cough_severity_encoded)
+```
+
+### Option 2: One-Hot Encoding (for nominal data)
+
+```{r one-hot-encoding}
+# Example: One-hot encoding for cough_severity
+# This creates separate binary columns for each category
+
+covid_onehot <- covid_imputed %>%
+  mutate(
+    cough_mild = ifelse(cough_severity == "Mild", 1, 0),
+    cough_moderate = ifelse(cough_severity == "Moderate", 1, 0),
+    cough_severe = ifelse(cough_severity == "Severe", 1, 0)
+  )
+
+# Preview the new columns
+covid_onehot %>%
+  select(cough_severity, cough_mild, cough_moderate, cough_severe) %>%
+  head(10)
+```
+
+---
+
+# Feature Scaling
+
+## Why Scale Features?
+
+Distance-based algorithms (KNN, K-means) are sensitive to the scale of features.
+
+```{r scale-demo}
+# Compare scales
+cat("Temperature range:", range(covid_imputed$temperature, na.rm = TRUE), "\n")
+cat("Binary symptom range: 0 to 1\n")
+```
+
+If temperature ranges from 36-40 and symptoms are 0-1, temperature will dominate distance calculations!
+
+## Standardization (Z-score scaling)
+
+```{r standardization}
+# Standardize numeric features
+# Formula: (x - mean) / sd
+
+# Select numeric columns for scaling (exclude target and encoded categorical)
+cols_to_scale <- c("temperature")
+
+covid_scaled <- covid_imputed
+for (col in cols_to_scale) {
+  if (col %in% names(covid_scaled)) {
+    covid_scaled[[paste0(col, "_scaled")]] <- scale(covid_scaled[[col]])
+  }
+}
+
+# Compare original vs scaled
+cat("Original temperature - Mean:", mean(covid_imputed$temperature, na.rm = TRUE), 
+    "SD:", sd(covid_imputed$temperature, na.rm = TRUE), "\n")
+cat("Scaled temperature - Mean:", round(mean(covid_scaled$temperature_scaled), 4), 
+    "SD:", round(sd(covid_scaled$temperature_scaled), 4), "\n")
+```
+
+---
+
+# Prepare Final Dataset for ML
+
+```{r final-dataset}
+# Create the final clean dataset for machine learning
+covid_ml <- covid_imputed %>%
+  select(
+    # Target
+    covid19_test_results,
+    # Numeric features
+    temperature,
+    # Binary features
+    high_risk_exposure_occupation,
+    high_risk_interactions,
+    labored_respiration,
+    rhonchi,
+    cough,
+    fever,
+    sob,
+    diarrhea,
+    fatigue,
+    headache,
+    loss_of_smell,
+    loss_of_taste,
+    runny_nose,
+    muscle_sore,
+    sore_throat,
+    wheezes,
+    # Encoded categorical
+    cough_severity_encoded
+  )
+
+# Final check
+cat("Final dataset dimensions:", dim(covid_ml), "\n")
+cat("Missing values:", sum(is.na(covid_ml)), "\n")
+```
+
+```{r save-cleaned-data}
+# Save the cleaned dataset for use in subsequent parts
+write.csv(covid_ml, "data/covid_ml_clean.csv", row.names = FALSE)
+cat("Cleaned dataset saved to 'data/covid_ml_clean.csv'\n")
+```
+
+---
+
+# Summary
+
+In this part, we learned:
+
+1. ✅ **Explore your data** before applying ML algorithms
+2. ✅ **Handle missing values** - remove or impute
+3. ✅ **Encode categorical variables** - label or one-hot encoding
+4. ✅ **Scale features** when using distance-based algorithms (KNN, K-means)
+
+## What's Next?
+
+In the following parts, we'll use this cleaned dataset to:
+
+- **Part 2:** Apply K-Nearest Neighbors (KNN) for classification
+- **Part 3:** Apply Random Forest for classification
+- **Part 4:** Apply K-means for clustering
+
+---
+
+# Session Info
+
+```{r session-info}
+sessionInfo()
+```
+
