@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Machine Learning - Part 2"
+title: "Introduction to Machine Learning - Part 3"
 subtitle: "Random Forest"
 author: "Gladstone Bioinformatics Core"
 date: "`r Sys.Date()`"
@@ -19,40 +19,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 # Introduction to Random Forest
 
-## From Decision Trees to Random Forests
-
-### What is a Decision Tree?
-
-A decision tree makes predictions by learning simple decision rules from the data:
-
-```
-                    [Temperature > 37.5?]
-                    /                    \
-                  Yes                     No
-                  /                        \
-        [Has Cough?]                  [Loss of Smell?]
-         /       \                      /         \
-       Yes       No                   Yes          No
-        |         |                    |            |
-    Positive  Negative             Positive     Negative
-```
-
-### What is Random Forest?
-
-Random Forest is an **ensemble method** that builds many decision trees and combines their predictions!
-
-```
-   Tree 1      Tree 2      Tree 3     ...    Tree N
-     |           |           |                  |
-  Positive   Negative    Positive           Positive
-     \           |           /                  /
-      \          |          /                  /
-       ========= VOTE ======================= 
-                  |
-              POSITIVE (majority wins!)
-```
-
-### Why "Random"?
+Random Forest is an **ensemble method** that builds many decision trees (models that make predictions using if-then rules) and combines their predictions.
 
 Two sources of randomness make trees diverse:
 1. **Bootstrap sampling**: Each tree trained on random subset of data
@@ -81,8 +48,6 @@ covid_ml <- read.csv("data/covid_ml_clean.csv")
 
 # Convert target to factor
 covid_ml$covid19_test_results <- as.factor(covid_ml$covid19_test_results)
-
-cat("Dataset dimensions:", dim(covid_ml), "\n")
 ```
 
 ---
@@ -92,7 +57,6 @@ cat("Dataset dimensions:", dim(covid_ml), "\n")
 ## Train-Test Split
 
 **Why split the data?**
-
 - **Training set**: Used to train/fit the model
 - **Test set**: Used to evaluate model performance on unseen data
 
@@ -107,8 +71,8 @@ train_index <- createDataPartition(covid_ml$covid19_test_results,
 train_data <- covid_ml[train_index, ]
 test_data <- covid_ml[-train_index, ]
 
-cat("Training set size:", nrow(train_data), "\n")
-cat("Test set size:", nrow(test_data), "\n")
+cat("Training set size:", nrow(train_data), "\n",
+    "Test set size:", nrow(test_data), "\n")
 ```
 
 **Note:** Unlike some other algorithms, we don't need to scale features for Random Forest! Tree-based methods are invariant to monotonic transformations of features.
@@ -116,8 +80,6 @@ cat("Test set size:", nrow(test_data), "\n")
 ---
 
 # Train a Simple Random Forest
-
-Let's start with a basic Random Forest to understand the output:
 
 ```{r simple-rf}
 # Train a simple random forest
@@ -132,30 +94,7 @@ rf_simple <- randomForest(
 print(rf_simple)
 ```
 
-## Understanding the Output
-
-```{r rf-output-explanation}
-# OOB (Out-of-Bag) Error
-cat("OUT-OF-BAG (OOB) ERROR EXPLAINED:\n")
-cat("================================\n")
-cat("Random Forest uses bootstrap sampling, so ~37% of data is left out for each tree.\n")
-cat("These 'out-of-bag' samples are used to estimate error without needing a separate validation set!\n\n")
-
-cat("OOB Error Rate:", round(rf_simple$err.rate[nrow(rf_simple$err.rate), "OOB"] * 100, 2), "%\n")
-```
-
-## Plot Error vs Number of Trees
-
-```{r error-plot}
-# Plot OOB error as more trees are added
-plot(rf_simple, main = "Random Forest Error vs Number of Trees")
-legend("topright", 
-       legend = colnames(rf_simple$err.rate),
-       col = 1:3, 
-       lty = 1:3)
-```
-
-The error typically stabilizes after a certain number of trees. More trees rarely hurt (except for computation time)!
+**Out-of-Bag (OOB) Error:** Random Forest uses bootstrap sampling, so ~37% of data is left out for each tree. These "out-of-bag" samples are used to estimate error without needing a separate validation set!
 
 ---
 
@@ -230,22 +169,6 @@ varImpPlot(rf_simple,
            n.var = 15)
 ```
 
-```{r importance-ggplot}
-# Create a nicer ggplot version
-importance_df %>%
-  arrange(desc(MeanDecreaseGini)) %>%
-  head(15) %>%
-  ggplot(aes(x = reorder(Variable, MeanDecreaseGini), 
-             y = MeanDecreaseGini)) +
-  geom_bar(stat = "identity", fill = "#3498db") +
-  coord_flip() +
-  labs(title = "Top 15 Important Features",
-       subtitle = "Based on Mean Decrease in Gini",
-       x = "Variable",
-       y = "Importance") +
-  theme_minimal()
-```
-
 ---
 
 # Make Predictions
@@ -262,6 +185,25 @@ head(rf_predictions)
 # Get prediction probabilities
 rf_proba <- predict(rf_cv, newdata = test_data, type = "prob")
 head(rf_proba)
+```
+
+## Custom Threshold
+
+By default, the class with probability > 0.5 is selected. You can adjust this threshold based on your needs (e.g., lower threshold to catch more positives):
+
+```{r custom-threshold}
+# Default threshold is 0.5
+# Lower threshold = more sensitive (catch more positives, but more false alarms)
+# Higher threshold = more specific (fewer false alarms, but may miss positives)
+
+threshold <- 0.3  # Example: classify as Positive if probability > 0.3
+
+rf_predictions_custom <- ifelse(rf_proba$Positive > threshold, "Positive", "Negative")
+rf_predictions_custom <- factor(rf_predictions_custom, levels = c("Negative", "Positive"))
+
+# Compare default vs custom threshold
+cat("Default (0.5) - Positive predictions:", sum(rf_predictions == "Positive"), "\n",
+    "Custom  (0.3) - Positive predictions:", sum(rf_predictions_custom == "Positive"), "\n")
 ```
 
 ---
@@ -299,17 +241,15 @@ accuracy <- cm_rf$overall["Accuracy"]
 sensitivity <- cm_rf$byClass["Sensitivity"]
 specificity <- cm_rf$byClass["Specificity"]
 
-cat("KEY METRICS:\n")
-cat("============\n")
-cat("Accuracy:", round(accuracy * 100, 2), "%\n")
-cat("  - Overall correct predictions\n\n")
-
-cat("Sensitivity (Recall):", round(sensitivity * 100, 2), "%\n")
-cat("  - Of all actual positives, how many did we catch?\n")
-cat("  - Important when missing a positive case is costly\n\n")
-
-cat("Specificity:", round(specificity * 100, 2), "%\n")
-cat("  - Of all actual negatives, how many did we correctly identify?\n")
+cat("KEY METRICS:\n",
+    "============\n",
+    "Accuracy:", round(accuracy * 100, 2), "%\n",
+    "  - Overall correct predictions\n\n",
+    "Sensitivity (Recall):", round(sensitivity * 100, 2), "%\n",
+    "  - Of all actual positives, how many did we catch?\n",
+    "  - Important when missing a positive case is costly\n\n",
+    "Specificity:", round(specificity * 100, 2), "%\n",
+    "  - Of all actual negatives, how many did we correctly identify?\n")
 ```
 
 ## Visualize Confusion Matrix
@@ -350,9 +290,9 @@ ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
 - ✅ Don't want to tune many hyperparameters
 - ✅ Need a robust baseline model
 
-## What's Next?
+## Workshop Complete!
 
-In **Part 3**, we'll explore **K-means clustering** - an unsupervised learning method for finding patterns without labels!
+You've now learned preprocessing, unsupervised learning (K-means), and supervised learning (Random Forest)!
 
 ---
 
