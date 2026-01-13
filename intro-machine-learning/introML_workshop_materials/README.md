@@ -21,11 +21,29 @@ Machine learning is becoming increasingly important, not only in data science, b
 
 ## Workshop Materials
 
+This folder contains organized workshop materials:
+
+### Hands-on Exercises
+
+The `hands-on/` folder contains the following R Markdown files:
+
 | File | Description |
 |------|-------------|
-| `01_data_exploration_preprocessing.Rmd` | Data exploration, handling missing values, encoding, scaling |
-| `02_random_forest.Rmd` | Random Forest classification (supervised learning) |
-| `03_kmeans.Rmd` | K-means unsupervised clustering |
+| `hands-on/01_data_exploration_preprocessing.Rmd` | Data exploration, handling missing values, encoding, scaling |
+| `hands-on/02_kmeans.Rmd` | K-means unsupervised clustering |
+| `hands-on/03_random_forest.Rmd` | Random Forest classification (supervised learning) |
+
+### Data Files
+
+The `hands-on/data/` folder contains:
+- `covid-symptoms.csv` - Original COVID-19 symptoms dataset (input for Part 1)
+
+**Note:** Part 1 (`01_data_exploration_preprocessing.Rmd`) creates `covid_ml_clean.csv` as output, which is then used in Parts 2 and 3.
+
+### Slides
+
+The `slides/` folder contains:
+- `IntroML_workshop_011526.pptx` - Workshop presentation slides
 
 ---
 
