@@ -56,19 +56,22 @@ head(covid_ml)
 
 ## Select Features for Clustering
 
-Since K-means is unsupervised, we'll exclude the target variable:
+Since K-means is unsupervised, we'll exclude the target variable. Also, K-means requires numeric input, so we'll use `cough_severity_encoded` instead of the original `cough_severity`:
 
 ```{r feature-selection}
 # For K-means, we'll use only numeric features
 # We'll exclude the target variable (since it's unsupervised!)
+# We'll also exclude cough_severity (categorical) and use cough_severity_encoded (numeric) instead
 
 cluster_data <- covid_ml %>%
-  select(-covid19_test_results) %>% # Remove target
+  select(-covid19_test_results, -cough_severity) %>% # Remove target and categorical version
   as.data.frame()  
 
 cat("Features for clustering:\n")
 names(cluster_data)
 ```
+
+**Note:** K-means requires numeric input, so we use `cough_severity_encoded` (numeric) rather than `cough_severity` (categorical). Random Forest in Part 3 can handle categorical variables directly, so it will use the original `cough_severity`.
 
 ## Scale the Data
 
@@ -99,7 +102,10 @@ We plot **within-cluster sum of squares (WSS)** vs K:
 
 ```{r choose-k}
 # Calculate WSS for different K values
-fviz.p <- fviz_nbclust(x = cluster_scaled, FUNcluster = kmeans, method = "wss", k.max = 10) +
+fviz.p <- fviz_nbclust(x = cluster_scaled, 
+                       FUNcluster = kmeans, 
+                       method = "wss", 
+                       k.max = 10) +
   labs(title = "Elbow Method for Optimal K",
        subtitle = "Look for the 'elbow' where WSS decrease slows") +
   theme_minimal()

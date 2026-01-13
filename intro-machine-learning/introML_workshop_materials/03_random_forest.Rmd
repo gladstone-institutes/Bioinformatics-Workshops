@@ -21,9 +21,9 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 Random Forest is an **ensemble method** that builds many decision trees (models that make predictions using if-then rules) and combines their predictions.
 
-Two sources of randomness make trees diverse:
-1. **Bootstrap sampling**: Each tree trained on random subset of data
-2. **Feature sampling**: Each split considers random subset of features
+Two sources of randomness make trees diverse:  
+1. **Bootstrap sampling**: Each tree trained on random subset of data  
+2. **Feature sampling**: Each split considers random subset of features  
 
 This diversity reduces overfitting and improves predictions!
 
@@ -39,7 +39,7 @@ library(randomForest)
 library(ggplot2)
 
 # Set seed for reproducibility
-set.seed(123)
+set.seed(321)
 ```
 
 ```{r load-data}
@@ -48,34 +48,87 @@ covid_ml <- read.csv("data/covid_ml_clean.csv")
 
 # Convert target to factor
 covid_ml$covid19_test_results <- as.factor(covid_ml$covid19_test_results)
+
+# Remove cough_severity_encoded - Random Forest can handle categorical variables directly
+# We'll use the original cough_severity (categorical) instead
+covid_ml <- covid_ml %>%
+  select(-cough_severity_encoded)
+
+# Ensure cough_severity is a factor
+covid_ml$cough_severity <- as.factor(covid_ml$cough_severity)
 ```
+
+**Note:** Random Forest can handle categorical variables directly, so we use the original `cough_severity` (categorical) rather than `cough_severity_encoded` (numeric). This is one advantage of tree-based methods - they can work with mixed data types without encoding!
 
 ---
 
 # Prepare Data
 
-## Train-Test Split
+## Check Class Distribution
 
-**Why split the data?**
-- **Training set**: Used to train/fit the model
-- **Test set**: Used to evaluate model performance on unseen data
+First, let's examine the class distribution to identify any imbalance:
 
-This helps us estimate how well our model will generalize to new data!
+```{r check-class-distribution}
+# Check class distribution
+class_dist <- table(covid_ml$covid19_test_results)
+print(class_dist)
+
+cat("\nClass proportions:\n")
+prop.table(class_dist)
+```
+
+**Class Imbalance Problem:**  
+With only 68 positives out of 3045 rows (~2.2%), the model might learn to always predict "Negative" and still achieve high accuracy. This is problematic because we care about correctly identifying positive cases!
+
+## Balanced Train-Test Split
+
+To handle class imbalance, we'll use **balanced sampling** for training:  
+- **Training set**: Randomly select 50 positive and 50 negative cases (balanced)  
+- **Test set**: Use all remaining data (maintains original class distribution)  
+
+This approach helps the model learn from both classes equally during training.
 
 ```{r train-test-split}
-# Split data: 70% training, 30% testing
-train_index <- createDataPartition(covid_ml$covid19_test_results, 
-                                   p = 0.7, 
-                                   list = FALSE)
+# Separate data by class
+positive_indices <- which(covid_ml$covid19_test_results == "Positive")
+negative_indices <- which(covid_ml$covid19_test_results == "Negative")
 
-train_data <- covid_ml[train_index, ]
-test_data <- covid_ml[-train_index, ]
+cat("Total positive cases:", length(positive_indices), "\n")
+cat("Total negative cases:", length(negative_indices), "\n")
 
-cat("Training set size:", nrow(train_data), "\n",
+# Randomly sample 50 from each class for training
+set.seed(123)  # For reproducibility
+train_positive_indices <- sample(positive_indices, min(50, length(positive_indices)))
+train_negative_indices <- sample(negative_indices, 50)
+
+# Combine training indices
+train_indices <- c(train_positive_indices, train_negative_indices)
+
+# Create balanced training set
+train_data <- covid_ml[train_indices, ]
+
+# Create test set with remaining data
+test_data <- covid_ml[-train_indices, ]
+
+# Shuffle training data (optional, but good practice)
+train_data <- train_data[sample(nrow(train_data)), ]
+
+cat("\nTraining set:")
+print(table(train_data$covid19_test_results))
+
+cat("\nTest set:")
+print(table(test_data$covid19_test_results))
+
+cat("\nTraining set size:", nrow(train_data), "\n",
     "Test set size:", nrow(test_data), "\n")
 ```
 
-**Note:** Unlike some other algorithms, we don't need to scale features for Random Forest! Tree-based methods are invariant to monotonic transformations of features.
+**Why Balanced Training?**  
+- Prevents the model from being biased toward the majority class  
+- Forces the model to learn patterns from both classes  
+- Test set maintains original distribution, giving realistic performance estimates  
+
+**Note:** Unlike some other algorithms, we don't need to scale features for Random Forest! Tree-based methods are invariant to monotonic transformations of features. Additionally, Random Forest can handle categorical variables directly (like `cough_severity`) without needing to encode them as numbers.  
 
 ---
 
@@ -95,52 +148,6 @@ print(rf_simple)
 ```
 
 **Out-of-Bag (OOB) Error:** Random Forest uses bootstrap sampling, so ~37% of data is left out for each tree. These "out-of-bag" samples are used to estimate error without needing a separate validation set!
-
----
-
-# Tune Random Forest with Cross-Validation
-
-## Key Hyperparameters
-
-- **ntree**: Number of trees (more is usually better, but diminishing returns)
-- **mtry**: Number of features to consider at each split
-  - Default for classification: sqrt(number of features)
-
-```{r tune-rf}
-# Set up cross-validation
-cv_control <- trainControl(
-  method = "cv",
-  number = 10,
-  classProbs = TRUE,
-  summaryFunction = twoClassSummary
-)
-
-# Grid of mtry values to try
-mtry_grid <- expand.grid(mtry = c(2, 4, 6, 8, 10))
-
-# Train with cross-validation
-rf_cv <- train(
-  covid19_test_results ~ .,
-  data = train_data,
-  method = "rf",
-  trControl = cv_control,
-  tuneGrid = mtry_grid,
-  ntree = 200,
-  metric = "ROC"
-)
-
-# View results
-rf_cv
-```
-
-```{r plot-tune}
-# Plot mtry vs performance
-plot(rf_cv, main = "Random Forest: Tuning mtry")
-```
-
-```{r best-mtry}
-cat("Best mtry:", rf_cv$bestTune$mtry, "\n")
-```
 
 ---
 
@@ -173,38 +180,37 @@ varImpPlot(rf_simple,
 
 # Make Predictions
 
-```{r predictions}
-# Predict on test set
-rf_predictions <- predict(rf_cv, newdata = test_data)
-
-# View predictions
-head(rf_predictions)
-```
-
 ```{r predict-proba}
-# Get prediction probabilities
-rf_proba <- predict(rf_cv, newdata = test_data, type = "prob")
+# Get prediction probabilities first
+rf_proba <- predict(rf_simple, newdata = test_data, type = "prob")
 head(rf_proba)
 ```
 
-## Custom Threshold
+## Adjust Prediction Threshold
 
-By default, the class with probability > 0.5 is selected. You can adjust this threshold based on your needs (e.g., lower threshold to catch more positives):
+With severe class imbalance, the default threshold (0.5) often leads to too many false positives. We'll use a **higher threshold** to be more conservative about positive predictions:
 
 ```{r custom-threshold}
-# Default threshold is 0.5
+# Higher threshold = more specific (fewer false positives, but may miss some positives)
 # Lower threshold = more sensitive (catch more positives, but more false alarms)
-# Higher threshold = more specific (fewer false alarms, but may miss positives)
 
-threshold <- 0.3  # Example: classify as Positive if probability > 0.3
+# For imbalanced data, use a higher threshold to reduce false positives
+threshold <- 0.7  # Classify as Positive only if probability > 0.7
 
-rf_predictions_custom <- ifelse(rf_proba$Positive > threshold, "Positive", "Negative")
-rf_predictions_custom <- factor(rf_predictions_custom, levels = c("Negative", "Positive"))
+rf_proba <- as.data.frame(rf_proba)
+rf_predictions <- ifelse(rf_proba$Positive > threshold, "Positive", "Negative")
+rf_predictions <- factor(rf_predictions, levels = c("Negative", "Positive"))
 
-# Compare default vs custom threshold
-cat("Default (0.5) - Positive predictions:", sum(rf_predictions == "Positive"), "\n",
-    "Custom  (0.3) - Positive predictions:", sum(rf_predictions_custom == "Positive"), "\n")
+# Compare different thresholds
+rf_predictions_default <- ifelse(rf_proba$Positive > 0.5, "Positive", "Negative")
+rf_predictions_default <- factor(rf_predictions_default, levels = c("Negative", "Positive"))
+
+cat("Default (0.5) - Positive predictions:", sum(rf_predictions_default == "Positive"), "\n",
+    "Conservative (0.7) - Positive predictions:", sum(rf_predictions == "Positive"), "\n")
 ```
+
+**Why Higher Threshold?**  
+With only 18 actual positives in the test set, we want to be very confident before predicting "Positive". A threshold of 0.7 means we only predict positive when the model is 70%+ confident, reducing false positives.
 
 ---
 
@@ -240,6 +246,7 @@ print(cm_rf)
 accuracy <- cm_rf$overall["Accuracy"]
 sensitivity <- cm_rf$byClass["Sensitivity"]
 specificity <- cm_rf$byClass["Specificity"]
+precision <- cm_rf$byClass["Precision"]  # Positive Predictive Value
 
 cat("KEY METRICS:\n",
     "============\n",
@@ -249,7 +256,10 @@ cat("KEY METRICS:\n",
     "  - Of all actual positives, how many did we catch?\n",
     "  - Important when missing a positive case is costly\n\n",
     "Specificity:", round(specificity * 100, 2), "%\n",
-    "  - Of all actual negatives, how many did we correctly identify?\n")
+    "  - Of all actual negatives, how many did we correctly identify?\n\n",
+    "Precision (Positive Predictive Value):", round(precision * 100, 2), "%\n",
+    "  - Of all predicted positives, how many were actually positive?\n",
+    "  - Important when false positives are costly\n")
 ```
 
 ## Visualize Confusion Matrix
@@ -261,12 +271,61 @@ cm_df <- as.data.frame(cm_rf$table)
 ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
   geom_tile() +
   geom_text(aes(label = Freq), size = 8, color = "white") +
-  scale_fill_gradient(low = "#27ae60", high = "#c0392b") +
+  scale_fill_gradient(low = "#3498db", high = "#9b59b6") +
   labs(title = "Confusion Matrix - Random Forest",
        x = "Actual",
        y = "Predicted") +
   theme_minimal() +
   theme(axis.text = element_text(size = 12))
+```
+
+---
+
+# Tune Hyperparameters
+
+## Key Hyperparameters
+
+- **ntree**: Number of trees (more is usually better, but diminishing returns)  
+  - We'll keep this fixed at 200 for tuning  
+- **mtry**: Number of features to consider at each split  
+  - Default for classification: sqrt(number of features)  
+  - **This is what we'll tune** - we'll test different values to find the optimal one  
+
+```{r tune-rf}
+# Set up cross-validation
+cv_control <- trainControl(
+  method = "cv",
+  number = 10,
+  classProbs = TRUE,
+  summaryFunction = twoClassSummary
+)
+
+# Grid of mtry values to try
+mtry_grid <- expand.grid(mtry = c(2, 4, 6, 8, 10))
+
+# Train with cross-validation
+# Note: ntree is fixed at 200; we're only tuning mtry
+rf_cv <- train(
+  covid19_test_results ~ .,
+  data = train_data,
+  method = "rf",
+  trControl = cv_control,
+  tuneGrid = mtry_grid,
+  ntree = 200,
+  metric = "ROC"
+)
+
+# View results
+rf_cv
+```
+
+```{r plot-tune}
+# Plot mtry vs performance
+plot(rf_cv, main = "Random Forest: Tuning mtry")
+```
+
+```{r best-mtry}
+cat("Best mtry:", rf_cv$bestTune$mtry, "\n")
 ```
 
 ---
@@ -281,14 +340,7 @@ ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
 4. ✅ **Variable importance** helps understand which features matter most
 5. ✅ **OOB error** provides built-in validation estimate
 6. ✅ **Cross-validation** helps tune hyperparameters like mtry
-
-## When to Use Random Forest
-
-- ✅ Mixed numeric and categorical features
-- ✅ Want to understand feature importance
-- ✅ Large datasets
-- ✅ Don't want to tune many hyperparameters
-- ✅ Need a robust baseline model
+7. ✅ **Class imbalance handling** - balanced sampling for training prevents bias toward majority class
 
 ## Workshop Complete!
 
@@ -297,8 +349,6 @@ You've now learned preprocessing, unsupervised learning (K-means), and supervise
 ---
 
 # Session Info
-
 ```{r session-info}
 sessionInfo()
 ```
-

@@ -38,16 +38,15 @@ Before applying any machine learning algorithm, it's crucial to understand and p
 ```{r libraries}
 # Data manipulation & visualization (includes ggplot2)
 library(tidyverse)
-
-# For comprehensive data summaries
-library(skimr)
 ```
 
 ---
 
 # Load and Explore the Data
 
-We'll use a COVID-19 symptoms dataset containing patient symptoms and test results.
+We'll use a COVID-19 symptoms dataset containing patient symptoms and test results.  
+- **Target variable**: `covid19_test_results` (what we want to predict)  
+- **Features**: All other columns (symptoms and risk factors)
 
 ```{r load-explore-data}
 # Load the data
@@ -55,18 +54,7 @@ covid_data <- read.csv("data/covid-symptoms.csv")
 
 # Check target distribution
 print(table(covid_data$covid19_test_results))
-```
-```{r explore-data}
-# Comprehensive overview with skimr
-# This shows: dimensions, column types, summary stats, and missing values
-skim(covid_data)
-```
-
-**Key observations from above:**  
-- **n_missing column**: Shows how many missing values each variable has  
-- **complete_rate**: Proportion of non-missing values (1.0 = no missing data)  
-- **Target variable**: `covid19_test_results` (what we want to predict)  
-- **Features**: All other columns (symptoms and risk factors)  
+```  
 
 ---
 
@@ -95,19 +83,45 @@ for (col in numeric_cols) {
 }
 
 # Check if any missing values remain
-cat("\nRemaining missing values:", sum(is.na(covid_imputed)), "\n")
+cat("Remaining missing values:", sum(is.na(covid_imputed)))
 ```
 
 ---
 
 # Handling Categorical Variables
 
-Some algorithms (Random Forest, SVM, K-means) require numeric input, so we need to encode categorical variables.
+Different algorithms have different requirements for categorical variables:  
+- **K-means, SVM**: Require numeric input → need encoded version  
+- **Random Forest**: Can handle categorical variables directly → can use original  
+
+We'll prepare both versions to accommodate different algorithms.
+
+### Handle Missing Values
+
+First, let's handle missing values in the original categorical variable:
+
+```{r handle-categorical-missing}
+# Replace missing/empty values with "No cough"
+covid_imputed$cough_severity <- ifelse(
+  is.na(covid_imputed$cough_severity) | covid_imputed$cough_severity == "",
+  "No cough",
+  covid_imputed$cough_severity
+)
+
+# Convert to factor to ensure proper handling
+covid_imputed$cough_severity <- as.factor(covid_imputed$cough_severity)
+
+# Check the distribution
+table(covid_imputed$cough_severity)
+```
+
+### Create Encoded Version
 
 ```{r label-encoding}
-# Encode ordinal cough_severity: None=0 < Mild=1 < Moderate=2 < Severe=3
+# Encode ordinal cough_severity: No cough=0 < Mild=1 < Moderate=2 < Severe=3
+# This version will be used for K-means (Part 2)
 covid_imputed$cough_severity_encoded <- case_when(
-  is.na(covid_imputed$cough_severity) | covid_imputed$cough_severity == "" ~ 0,  # No cough
+  covid_imputed$cough_severity == "No cough" ~ 0,
   covid_imputed$cough_severity == "Mild" ~ 1,
   covid_imputed$cough_severity == "Moderate" ~ 2,
   covid_imputed$cough_severity == "Severe" ~ 3,
@@ -115,6 +129,10 @@ covid_imputed$cough_severity_encoded <- case_when(
 )
 table(covid_imputed$cough_severity_encoded)
 ```
+
+**Note:** We keep both `cough_severity` (original categorical) and `cough_severity_encoded` (numeric) in our dataset:  
+- **Part 2 (K-means)**: Will use `cough_severity_encoded` (requires numeric input)  
+- **Part 3 (Random Forest)**: Will use `cough_severity` (can handle categorical variables directly)  
 
 ---
 
@@ -149,6 +167,9 @@ cat("Original - Mean:", round(mean(covid_imputed$temperature), 2),
 
 ```{r final-dataset}
 # Create the final clean dataset for machine learning
+# Note: We include both cough_severity (categorical) and cough_severity_encoded (numeric)
+# - K-means (Part 2) will use cough_severity_encoded
+# - Random Forest (Part 3) will use cough_severity (can handle categorical variables)
 covid_ml <- covid_imputed %>%
   select(
     # Target
@@ -172,7 +193,9 @@ covid_ml <- covid_imputed %>%
     muscle_sore,
     sore_throat,
     wheezes,
-    # Encoded categorical
+    # Categorical (for Random Forest)
+    cough_severity,
+    # Encoded categorical (for K-means)
     cough_severity_encoded
   )
 
