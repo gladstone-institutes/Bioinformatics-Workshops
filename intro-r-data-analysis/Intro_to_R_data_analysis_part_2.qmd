@@ -159,9 +159,8 @@ mpg |>
 
 ## Creating ggplots
 
-<br>
-</br>
-![](assets/plotting.png)
+
+![](assets/plotting.png){fig-alt="Annotated ggplot code showing three components: data parameter for input data frame, mapping with aes() for aesthetic mappings like x and y, and geom_point() indicating every plot type has its own geom function" .nostretch fig-align="center" width=85%}
 
 
 ## Plot Example
@@ -177,7 +176,7 @@ ggplot(data = mpg,                         # Input dataframe
 ## Adding and Modifying Layers
 
 ```{r}
-#| fig-width: 10
+#| fig-width: 6
 #| fig-height: 4
 ggplot(data = mpg,
        mapping = aes(x = cty, y = hwy)) +
@@ -214,19 +213,18 @@ countdown::countdown(minutes = 10,
     -   Used in macroecological and macroevolutionary research projects
     -   Data is organized by taxonomic rank
 
-## Taxonomic Rank
+## Taxonomic Rank 
 
-![](assets/Taxonomic_Rank_Graph.svg)
+![](assets/Taxonomic_Rank_Graph.svg){fig-alt="Inverted pyramid showing taxonomic classification of a red fox, from broadest (Domain: Eukarya) to most specific (Species: Vulpes vulpes), with color-coded levels for Kingdom, Phylum, Class, Order, Family, and Genus" .nostretch fig-align="center" width=85%}
 
 ## Data Preview
 
 ```{r}
 #| echo: false
-read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx") |>
-  head() |>
+read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx", na = "NA") |>
+  head(10) |>
   kable() |>
-  kable_styling("striped") |>
-  scroll_box(width = "100%")
+  kable_styling("striped", full_width = FALSE)
 ```
 
 ## Hands-on Analysis
@@ -313,15 +311,13 @@ Code templates can be used to avoid typing the same code over and over again.
 
 ## Upcoming Workshops {.small}
 
-**Introduction to Statistics, Experimental Design, and Hypothesis Testing**
-August 25 - August 26, 2025 1:00-3:00pm PDT
 
-**Introduction to RNA-Seq Analysis**
-September 22-September 23, 2025 1:00-3:00pm PDT
 
-**Introduction to Linear Mixed Effects Models**
-September 29-September 30, 2025 1:00-3:00pm PDT
+**Experimental Design and Hypothesis Testing Using R**   
+February 2 - February 3, 2026 1:00-3:00pm PST   
 
-**Working on Wynton**
-October 2-October 3, 2025 9:00am-12:00pm PDT
+<br></br>
+
+**Introduction to RNA-Seq Analysis**   
+February 12 - February 13, 2026 1:00-3:00pm PST   
 

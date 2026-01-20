@@ -107,14 +107,12 @@ environment (IDE)
 <br>
 </br>
 
-::: {.shrink}
-![](assets/R_and_RStudio.png)
-:::
+![](assets/R_and_RStudio.png){fig-alt="Analogy showing RStudio as a car body and R as the engine that powers it" .nostretch fig-align="center" width=65%}
 
 
 ## Layout
 
-![](assets/RStudio_layout.png)
+![](assets/RStudio_layout.png){fig-alt="RStudio interface with four labeled panes: Editor (top-left), Environment/History (top-right), Console (bottom-left), and Output for files, plots, packages, and help (bottom-right)" .nostretch fig-align="center" width=95%}
 
 
 ## File types
@@ -283,9 +281,9 @@ NA + 1
 - Data frames
     - Columns and rows of **mixed types**
 
-##
+## Data Structures
 
-![](assets/data structures.png)
+![](assets/data structures.png){fig-alt="Diagram showing four R data structures: a vector as a single row, a list containing mixed elements, a matrix as a uniform grid, and a data frame as a grid with columns of different types shown in different colors" .nostretch fig-align="center" width=95%}
 
 
 
@@ -403,7 +401,7 @@ perform a single action
 -  R has many built in functions, these are called **base R** functions
 -  Not all arguments are required and some have default values
 
-![](assets/functions.png)
+![](assets/functions.png){fig-alt="Annotated R function call showing mean(x = c(1,2,3), na.rm = FALSE) with arrows pointing to the function name and its arguments" .nostretch fig-align="center" width=70%}
 
 ## Defining a function
 -   To define a function we use the function keyword, the output is specified with the **return** function:
@@ -499,15 +497,11 @@ packages
 
 ## Upcoming Workshops {.small}
 
-**Introduction to Statistics, Experimental Design, and Hypothesis Testing**
-August 25 - August 26, 2025 1:00-3:00pm PDT
 
-**Introduction to RNA-Seq Analysis**
-September 22-September 23, 2025 1:00-3:00pm PDT
+**Experimental Design and Hypothesis Testing Using R**   
+February 2 - February 3, 2026 1:00-3:00pm PST   
 
-**Introduction to Linear Mixed Effects Models**
-September 29-September 30, 2025 1:00-3:00pm PDT
+<br></br>
 
-**Working on Wynton**
-October 2-October 3, 2025 9:00am-12:00pm PDT
-
+**Introduction to RNA-Seq Analysis**   
+February 12 - February 13, 2026 1:00-3:00pm PST   

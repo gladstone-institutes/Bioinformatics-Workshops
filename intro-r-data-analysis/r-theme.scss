@@ -182,6 +182,13 @@ small {
   font-size: 70%;
 }
 
+// Slide-level small class for compact content
+.small {
+  p, li, ul, ol {
+    font-size: 80%;
+  }
+}
+
 .small-bullets ul {
   font-size: 85%;
 }
@@ -205,4 +212,39 @@ small {
 
 .smaller-picture img {
   max-width: 60%;
+}
+
+// kableExtra table styling
+.reveal {
+  // Table styling
+  table {
+    font-size: 0.6em !important;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+  }
+
+  table th {
+    padding: 6px 10px;
+    font-size: 0.6em !important;
+    background-color: #f0f0f0;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+
+  table td {
+    padding: 5px 10px;
+    font-size: 0.6em !important;
+    border: 1px solid #ddd;
+  }
+
+  // Striped table rows
+  table.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  table.table-striped tbody tr:nth-of-type(even) {
+    background-color: white;
+  }
 }

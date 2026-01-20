@@ -96,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Intro_to_R_data_analysis_part_2_files/libs/revealjs/dist/theme/quarto-8710dd8f503be20627ef172d4b1e750b.css">
+  <link rel="stylesheet" href="Intro_to_R_data_analysis_part_2_files/libs/revealjs/dist/theme/quarto-4eb565f9297c0df157046d4bae3856f2.css">
   <link href="Intro_to_R_data_analysis_part_2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Intro_to_R_data_analysis_part_2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Intro_to_R_data_analysis_part_2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -449,7 +449,11 @@ Bioinformatician II</p>
 </section>
 <section id="creating-ggplots" class="slide level2">
 <h2>Creating ggplots</h2>
-<p><br> <br> <img data-src="assets/plotting.png"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/plotting.png" class="quarto-figure quarto-figure-center" style="width:85.0%" alt="Annotated ggplot code showing three components: data parameter for input data frame, mapping with aes() for aesthetic mappings like x and y, and geom_point() indicating every plot type has its own geom function"></p>
+</figure>
+</div>
 </section>
 <section id="plot-example" class="slide level2">
 <h2>Plot Example</h2>
@@ -469,13 +473,13 @@ Bioinformatician II</p>
 <span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">formula =</span> y <span class="sc">~</span> x, <span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="Intro_to_R_data_analysis_part_2_files/figure-revealjs/unnamed-chunk-9-1.png" width="960" class="r-stretch"></section></section>
+<img data-src="Intro_to_R_data_analysis_part_2_files/figure-revealjs/unnamed-chunk-9-1.png" width="576" class="r-stretch"></section></section>
 <section id="min-break" class="title-slide slide level1 center">
 <h1>10 min break</h1>
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_382ac0cc" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:5em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_7e8029bf" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:5em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -499,14 +503,17 @@ Bioinformatician II</p>
 </section>
 <section id="taxonomic-rank" class="slide level2">
 <h2>Taxonomic Rank</h2>
-
-<img data-src="assets/Taxonomic_Rank_Graph.svg" class="r-stretch"></section>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="assets/Taxonomic_Rank_Graph.svg" class="quarto-figure quarto-figure-center" style="width:85.0%" alt="Inverted pyramid showing taxonomic classification of a red fox, from broadest (Domain: Eukarya) to most specific (Species: Vulpes vulpes), with color-coded levels for Kingdom, Phylum, Class, Order, Family, and Genus"></p>
+</figure>
+</div>
+</section>
 <section id="data-preview" class="slide level2">
 <h2>Data Preview</h2>
 <div class="cell">
 <div class="cell-output-display">
-<div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:100%; ">
-<table class="table table-striped caption-top" style="margin-left: auto; margin-right: auto;">
+<table class="table table-striped caption-top" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Order</th>
@@ -515,54 +522,54 @@ Bioinformatician II</p>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Species</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Binomial</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">ActivityCycle</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">AdultBodyMass_g</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">AdultForearmLen_mm</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">AdultHeadBodyLen_mm</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">AgeatEyeOpening_d</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">AgeatFirstBirth_d</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">BasalMetRate_mLO2hr</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">BasalMetRateMass_g</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">AdultBodyMass_g</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">AdultForearmLen_mm</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">AdultHeadBodyLen_mm</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">AgeatEyeOpening_d</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">AgeatFirstBirth_d</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">BasalMetRate_mLO2hr</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">BasalMetRateMass_g</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">DietBreadth</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">DispersalAge_d</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GestationLen_d</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">HabitatBreadth</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">HomeRange_km2</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">HomeRange_Indiv_km2</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">InterbirthInterval_d</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">LitterSize</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">LittersPerYear</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">MaxLongevity_m</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">NeonateBodyMass_g</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">NeonateHeadBodyLen_mm</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">PopulationDensity_n/km2</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">PopulationGrpSize</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">SexualMaturityAge_d</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">SocialGrpSize</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">DispersalAge_d</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GestationLen_d</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">HabitatBreadth</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">HomeRange_km2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">HomeRange_Indiv_km2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">InterbirthInterval_d</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LitterSize</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LittersPerYear</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">MaxLongevity_m</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NeonateBodyMass_g</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NeonateHeadBodyLen_mm</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">PopulationDensity_n/km2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">PopulationGrpSize</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SexualMaturityAge_d</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">SocialGrpSize</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">Terrestriality</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">TrophicLevel</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">WeaningAge_d</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">WeaningBodyMass_g</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">WeaningHeadBodyLen_mm</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">WeaningAge_d</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">WeaningBodyMass_g</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">WeaningHeadBodyLen_mm</th>
 <th style="text-align: left;" data-quarto-table-cell-role="th">References</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">AdultBodyMass_g_EXT</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">LittersPerYear_EXT</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">NeonateBodyMass_g_EXT</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">WeaningBodyMass_g_EXT</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GR_Area_km2</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GR_MaxLat_dd</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GR_MinLat_dd</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GR_MidRangeLat_dd</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GR_MaxLong_dd</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GR_MinLong_dd</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">GR_MidRangeLong_dd</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">HuPopDen_Min_n/km2</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">HuPopDen_Mean_n/km2</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">HuPopDen_5p_n/km2</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">HuPopDen_Change</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Precip_Mean_mm</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">Temp_Mean_01degC</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">AET_Mean_mm</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">PET_Mean_mm</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">AdultBodyMass_g_EXT</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">LittersPerYear_EXT</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">NeonateBodyMass_g_EXT</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">WeaningBodyMass_g_EXT</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GR_Area_km2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GR_MaxLat_dd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GR_MinLat_dd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GR_MidRangeLat_dd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GR_MaxLong_dd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GR_MinLong_dd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">GR_MidRangeLong_dd</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">HuPopDen_Min_n/km2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">HuPopDen_Mean_n/km2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">HuPopDen_5p_n/km2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">HuPopDen_Change</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Precip_Mean_mm</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Temp_Mean_01degC</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">AET_Mean_mm</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">PET_Mean_mm</th>
 </tr>
 </thead>
 <tbody>
@@ -573,54 +580,54 @@ Bioinformatician II</p>
 <td style="text-align: left;">latrans</td>
 <td style="text-align: left;">Canis latrans</td>
 <td style="text-align: left;">crepuscular</td>
-<td style="text-align: left;">11989.1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">872.39</td>
-<td style="text-align: left;">11.94</td>
-<td style="text-align: left;">365</td>
-<td style="text-align: left;">3699</td>
-<td style="text-align: left;">10450</td>
+<td style="text-align: right;">11989.10</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">872.39</td>
+<td style="text-align: right;">11.94</td>
+<td style="text-align: right;">365.0</td>
+<td style="text-align: right;">3699.0</td>
+<td style="text-align: right;">10450</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">255</td>
-<td style="text-align: left;">61.74</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">18.88</td>
-<td style="text-align: left;">19.91</td>
-<td style="text-align: left;">365</td>
-<td style="text-align: left;">5.72</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">262</td>
-<td style="text-align: left;">200.01</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">0.25</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">372.9</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">255</td>
+<td style="text-align: right;">61.74</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">18.88</td>
+<td style="text-align: right;">19.91</td>
+<td style="text-align: right;">365.00</td>
+<td style="text-align: right;">5.72</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">262</td>
+<td style="text-align: right;">200.01</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.25</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">372.90</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">fossorial</td>
 <td style="text-align: left;">carnivore</td>
-<td style="text-align: left;">43.71</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">43.71</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">367;542;543;730;1113;1297;1573;1822;2655</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1.1000000000000001</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">17099094.300000001</td>
-<td style="text-align: left;">71.39</td>
-<td style="text-align: left;">8.02</td>
-<td style="text-align: left;">39.700000000000003</td>
-<td style="text-align: left;">-67.069999999999993</td>
-<td style="text-align: left;">-168.12</td>
-<td style="text-align: left;">-117.6</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">27.27</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0.06</td>
-<td style="text-align: left;">53.03</td>
-<td style="text-align: left;">58.18</td>
-<td style="text-align: left;">503.02</td>
-<td style="text-align: left;">728.37</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">17099094.30</td>
+<td style="text-align: right;">71.39</td>
+<td style="text-align: right;">8.02</td>
+<td style="text-align: right;">39.70</td>
+<td style="text-align: right;">-67.07</td>
+<td style="text-align: right;">-168.12</td>
+<td style="text-align: right;">-117.60</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">27.27</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">53.03</td>
+<td style="text-align: right;">58.18</td>
+<td style="text-align: right;">503.02</td>
+<td style="text-align: right;">728.37</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Carnivora</td>
@@ -629,54 +636,54 @@ Bioinformatician II</p>
 <td style="text-align: left;">lupus</td>
 <td style="text-align: left;">Canis lupus</td>
 <td style="text-align: left;">crepuscular</td>
-<td style="text-align: left;">31756.51</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1055</td>
-<td style="text-align: left;">14.01</td>
-<td style="text-align: left;">547.5</td>
-<td style="text-align: left;">11254.2</td>
-<td style="text-align: left;">33100</td>
+<td style="text-align: right;">31756.51</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1055.00</td>
+<td style="text-align: right;">14.01</td>
+<td style="text-align: right;">547.5</td>
+<td style="text-align: right;">11254.2</td>
+<td style="text-align: right;">33100</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">180</td>
-<td style="text-align: left;">63.5</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">159.86000000000001</td>
-<td style="text-align: left;">43.13</td>
-<td style="text-align: left;">365</td>
-<td style="text-align: left;">4.9800000000000004</td>
-<td style="text-align: left;">2</td>
-<td style="text-align: left;">354</td>
-<td style="text-align: left;">412.31</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">0.01</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">679.37</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">63.50</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">159.86</td>
+<td style="text-align: right;">43.13</td>
+<td style="text-align: right;">365.00</td>
+<td style="text-align: right;">4.98</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">354</td>
+<td style="text-align: right;">412.31</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">679.37</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">fossorial</td>
 <td style="text-align: left;">carnivore</td>
-<td style="text-align: left;">44.82</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">44.82</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">367;542;543;730;1015;1052;1113;1297;1573;1594;2338;2655</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">50803439.700000003</td>
-<td style="text-align: left;">83.27</td>
-<td style="text-align: left;">11.48</td>
-<td style="text-align: left;">47.38</td>
-<td style="text-align: left;">179.65</td>
-<td style="text-align: left;">-171.84</td>
-<td style="text-align: left;">3.9</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">37.869999999999997</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0.04</td>
-<td style="text-align: left;">34.79</td>
-<td style="text-align: left;">4.82</td>
-<td style="text-align: left;">313.33</td>
-<td style="text-align: left;">561.11</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">50803439.70</td>
+<td style="text-align: right;">83.27</td>
+<td style="text-align: right;">11.48</td>
+<td style="text-align: right;">47.38</td>
+<td style="text-align: right;">179.65</td>
+<td style="text-align: right;">-171.84</td>
+<td style="text-align: right;">3.90</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">37.87</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: right;">34.79</td>
+<td style="text-align: right;">4.82</td>
+<td style="text-align: right;">313.33</td>
+<td style="text-align: right;">561.11</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Carnivora</td>
@@ -685,54 +692,54 @@ Bioinformatician II</p>
 <td style="text-align: left;">simensis</td>
 <td style="text-align: left;">Canis simensis</td>
 <td style="text-align: left;">diurnal</td>
-<td style="text-align: left;">14361.86</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">938.19</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">14361.86</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">938.19</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">180</td>
-<td style="text-align: left;">63.61</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">4.2</td>
-<td style="text-align: left;">5.0199999999999996</td>
-<td style="text-align: left;">365</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1.2</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">754.74</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">63.61</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.20</td>
+<td style="text-align: right;">5.02</td>
+<td style="text-align: right;">365.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.20</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">754.74</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">fossorial</td>
 <td style="text-align: left;">carnivore</td>
-<td style="text-align: left;">69.599999999999994</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">69.60</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">542;730;1113;1573;2655</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1.1000000000000001</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">11402.81</td>
-<td style="text-align: left;">13.31</td>
-<td style="text-align: left;">6.55</td>
-<td style="text-align: left;">9.93</td>
-<td style="text-align: left;">39.96</td>
-<td style="text-align: left;">38.020000000000003</td>
-<td style="text-align: left;">38.99</td>
-<td style="text-align: left;">30</td>
-<td style="text-align: left;">99.87</td>
-<td style="text-align: left;">30</td>
-<td style="text-align: left;">0.15</td>
-<td style="text-align: left;">83.87</td>
-<td style="text-align: left;">99.03</td>
-<td style="text-align: left;">931.35</td>
-<td style="text-align: left;">1471.36</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">11402.81</td>
+<td style="text-align: right;">13.31</td>
+<td style="text-align: right;">6.55</td>
+<td style="text-align: right;">9.93</td>
+<td style="text-align: right;">39.96</td>
+<td style="text-align: right;">38.02</td>
+<td style="text-align: right;">38.99</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">99.87</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: right;">83.87</td>
+<td style="text-align: right;">99.03</td>
+<td style="text-align: right;">931.35</td>
+<td style="text-align: right;">1471.36</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Carnivora</td>
@@ -741,54 +748,54 @@ Bioinformatician II</p>
 <td style="text-align: left;">microtis</td>
 <td style="text-align: left;">Atelocynus microtis</td>
 <td style="text-align: left;">NA</td>
-<td style="text-align: left;">8363.2199999999993</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">831.01</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">8363.22</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">831.01</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">132</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">132</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.00</td>
 <td style="text-align: left;">fossorial</td>
 <td style="text-align: left;">carnivore</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">543;890;1113;2655</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">7634256.5999999996</td>
-<td style="text-align: left;">4.79</td>
-<td style="text-align: left;">-32.31</td>
-<td style="text-align: left;">-13.76</td>
-<td style="text-align: left;">-43.54</td>
-<td style="text-align: left;">-78.61</td>
-<td style="text-align: left;">-61.08</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">7.43</td>
-<td style="text-align: left;">0</td>
-<td style="text-align: left;">0.12</td>
-<td style="text-align: left;">163.06</td>
-<td style="text-align: left;">235.49</td>
-<td style="text-align: left;">1316.27</td>
-<td style="text-align: left;">1488</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">7634256.60</td>
+<td style="text-align: right;">4.79</td>
+<td style="text-align: right;">-32.31</td>
+<td style="text-align: right;">-13.76</td>
+<td style="text-align: right;">-43.54</td>
+<td style="text-align: right;">-78.61</td>
+<td style="text-align: right;">-61.08</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">7.43</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">163.06</td>
+<td style="text-align: right;">235.49</td>
+<td style="text-align: right;">1316.27</td>
+<td style="text-align: right;">1488.00</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Cetacea</td>
@@ -797,54 +804,54 @@ Bioinformatician II</p>
 <td style="text-align: left;">musculus</td>
 <td style="text-align: left;">Balaenoptera musculus</td>
 <td style="text-align: left;">NA</td>
-<td style="text-align: left;">154321304.5</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">30480</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">154321304.50</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">30480.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">326.97000000000003</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">821.25</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">0.45</td>
-<td style="text-align: left;">1320</td>
-<td style="text-align: left;">2738612.79</td>
-<td style="text-align: left;">7236.55</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">1959.8</td>
-<td style="text-align: left;">1.25</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">326.97</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">821.25</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.45</td>
+<td style="text-align: right;">1320</td>
+<td style="text-align: right;">2738612.79</td>
+<td style="text-align: right;">7236.55</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">1959.80</td>
+<td style="text-align: right;">1.25</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">carnivore</td>
-<td style="text-align: left;">211.71</td>
-<td style="text-align: left;">16999999.969999999</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">211.71</td>
+<td style="text-align: right;">1.7e+07</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">172;511;543;899;1004;1015;1217;1297;2151;2409;2655</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Cetacea</td>
@@ -853,58 +860,281 @@ Bioinformatician II</p>
 <td style="text-align: left;">physalus</td>
 <td style="text-align: left;">Balaenoptera physalus</td>
 <td style="text-align: left;">NA</td>
-<td style="text-align: left;">47506008.229999997</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">20641.060000000001</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">47506008.23</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">20641.06</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: right;">2</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">338.36</td>
-<td style="text-align: left;">1</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">730</td>
-<td style="text-align: left;">1.01</td>
-<td style="text-align: left;">0.37</td>
-<td style="text-align: left;">1392</td>
-<td style="text-align: left;">1899999.99</td>
-<td style="text-align: left;">6273.75</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">1.5</td>
-<td style="text-align: left;">2666.41</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">338.36</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">730.00</td>
+<td style="text-align: right;">1.01</td>
+<td style="text-align: right;">0.37</td>
+<td style="text-align: right;">1392</td>
+<td style="text-align: right;">1899999.99</td>
+<td style="text-align: right;">6273.75</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.5</td>
+<td style="text-align: right;">2666.41</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">carnivore</td>
-<td style="text-align: left;">196.58</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">12000</td>
+<td style="text-align: right;">196.58</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">12000</td>
 <td style="text-align: left;">24;27;543;899;1004;1015;1217;1297;1577;2151;2655</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">6395530</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chiroptera</td>
+<td style="text-align: left;">Emballonuridae</td>
+<td style="text-align: left;">Balantiopteryx</td>
+<td style="text-align: left;">plicata</td>
+<td style="text-align: left;">Balantiopteryx plicata</td>
+<td style="text-align: left;">nocturnal</td>
+<td style="text-align: right;">6.57</td>
+<td style="text-align: right;">42.23</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">365.0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">138.81</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">112.5</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">ground_dwelling</td>
+<td style="text-align: left;">carnivore</td>
+<td style="text-align: right;">58.59</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">126;426;429;889;1297;1658;1705;1814;2143;2151;2537;2655</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">841946.43</td>
+<td style="text-align: right;">27.13</td>
+<td style="text-align: right;">9.36</td>
+<td style="text-align: right;">18.24</td>
+<td style="text-align: right;">-71.82</td>
+<td style="text-align: right;">-110.03</td>
+<td style="text-align: right;">-90.93</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">88.19</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.09</td>
+<td style="text-align: right;">106.96</td>
+<td style="text-align: right;">216.78</td>
+<td style="text-align: right;">1061.85</td>
+<td style="text-align: right;">1571.82</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cetacea</td>
+<td style="text-align: left;">Delphinidae</td>
+<td style="text-align: left;">Cephalorhynchus</td>
+<td style="text-align: left;">commersonii</td>
+<td style="text-align: left;">Cephalorhynchus commersonii</td>
 <td style="text-align: left;">NA</td>
+<td style="text-align: right;">72400.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">216</td>
+<td style="text-align: right;">5834.74</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2207.29</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
+<td style="text-align: left;">carnivore</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">543;890;1297;2151;2655</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cetacea</td>
+<td style="text-align: left;">Delphinidae</td>
+<td style="text-align: left;">Cephalorhynchus</td>
+<td style="text-align: left;">eutropia</td>
+<td style="text-align: left;">Cephalorhynchus eutropia</td>
 <td style="text-align: left;">NA</td>
-<td style="text-align: left;">6395530.4199999999</td>
+<td style="text-align: right;">45000.00</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">0.97</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 <td style="text-align: left;">NA</td>
+<td style="text-align: left;">carnivore</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">511;1297;2151;2655</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Cetacea</td>
+<td style="text-align: left;">Delphinidae</td>
+<td style="text-align: left;">Cephalorhynchus</td>
+<td style="text-align: left;">hectori</td>
+<td style="text-align: left;">Cephalorhynchus hectori</td>
+<td style="text-align: left;">diurnal</td>
+<td style="text-align: right;">49999.99</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">2920.0</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">240</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">11.0</td>
+<td style="text-align: right;">2768.53</td>
+<td style="text-align: right;">5.00</td>
 <td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
-<td style="text-align: left;">NA</td>
+<td style="text-align: left;">carnivore</td>
+<td style="text-align: right;">355.65</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: left;">232;899;1297;2151;2655</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
 </tr>
 </tbody>
 </table>
-</div>
 </div>
 </div>
 </section>
@@ -1017,10 +1247,11 @@ Bioinformatician II</p>
 </section>
 <section id="upcoming-workshops" class="slide level2 small">
 <h2>Upcoming Workshops</h2>
-<p><strong>Introduction to Statistics, Experimental Design, and Hypothesis Testing</strong> August 25 - August 26, 2025 1:00-3:00pm PDT</p>
-<p><strong>Introduction to RNA-Seq Analysis</strong> September 22-September 23, 2025 1:00-3:00pm PDT</p>
-<p><strong>Introduction to Linear Mixed Effects Models</strong> September 29-September 30, 2025 1:00-3:00pm PDT</p>
-<p><strong>Working on Wynton</strong> October 2-October 3, 2025 9:00am-12:00pm PDT</p>
+<p><strong>Experimental Design and Hypothesis Testing Using R</strong><br>
+February 2 - February 3, 2026 1:00-3:00pm PST</p>
+<p><br><br></p>
+<p><strong>Introduction to RNA-Seq Analysis</strong><br>
+February 12 - February 13, 2026 1:00-3:00pm PST</p>
 
 </section></section>
     </div>
