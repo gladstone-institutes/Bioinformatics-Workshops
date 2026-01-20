@@ -1,0 +1,327 @@
+---
+title: "Introduction to R Data Analysis"
+subtitle: "Part 2"
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "January 27, 2026"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: [default, r-theme.scss]
+    highlight-style: arrow
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(kableExtra)
+library(tidyverse)
+library(readxl)
+theme_set(theme_grey(base_size = 16))
+knitr::opts_chunk$set(comment = "", echo = TRUE)
+```
+
+##
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+# Introductions
+**Natalie Gill**   
+Bioinformatician II
+
+
+# Schedule
+
+1. Introduction to Tidyverse
+2. Filtering and reformatting data
+3. Plotting data
+4. Hands on data analysis
+5. AI tips for R
+6. Where to get help
+
+
+# Introduction to Tidyverse
+
+## Tidyverse
+
+-   The tidyverse packages work well together because they share
+common data representations and design principles
+    -   Rows = observations, columns = variables
+-   [ggplot2](https://ggplot2.tidyverse.org/), for data visualization.
+-   [dplyr](https://dplyr.tidyverse.org/), for data manipulation.
+-   [tidyr](https://tidyr.tidyverse.org/), for data tidying.
+-   [readr](https://readr.tidyverse.org/), for data import.
+-   [purrr](https://purrr.tidyverse.org/), for iteration.
+-   and more..
+
+## dplyr
+-    Offers a common "grammar" of functions for data manipulation
+      -    [mutate()](https://dplyr.tidyverse.org/reference/mutate.html) adds new variables that are functions of existing
+    columns
+      -    [select()](https://dplyr.tidyverse.org/reference/select.html) picks columns based on their names
+      -    [filter()](https://dplyr.tidyverse.org/reference/filter.html) picks rows based on their values
+      -    [summarise()](https://dplyr.tidyverse.org/reference/summarise.html) reduces multiple values down to a single summary
+      -    [arrange()](https://dplyr.tidyverse.org/reference/arrange.html) changes the ordering of the rows
+      -    [group_by()](https://dplyr.tidyverse.org/reference/group_by.html) allows any operation to be done "by group"
+
+
+
+## Example Dataframe
+-   mpg is a dataframe built into the ggplot2 package
+```{r}
+head(mpg)
+```
+
+
+## Select Columns
+
+```{r}
+select(.data = mpg,
+       year, cty, hwy, manufacturer)
+```
+
+
+## Filter Rows
+
+
+```{r}
+filter(.data = mpg,
+       year == 2008)
+```
+
+
+## Arrange Rows
+
+-   desc() is used to arrange rows in descending order, the default is ascending
+```{r}
+arrange(.data = mpg,
+        desc(cty))
+```
+
+
+
+## Summarising data
+-    The dplyr **summarise()** function computes a table of
+summaries for a data frame
+-    **group_by()** groups the input data frame by the specified
+variable(s)
+-    Combining these two allows us to easily create summaries for
+different categorical groupings
+
+## Group and Summarise
+
+- Get the mean and median city mileage within manufacturer
+
+```{r}
+#| eval: false
+summarise(group_by(.data = mpg,
+                   manufacturer),
+          mean_cty = mean(cty),
+          median_cty = median(cty))
+```
+
+```{r}
+#| echo: false
+summarise(.data = group_by(.data = mpg,
+                   manufacturer),
+          mean_cty = mean(cty),
+          median_cty = median(cty)) |>
+  head(10)
+```
+
+
+
+## The pipe operator |>
+-   Allows "chaining" of function calls to make code more readable
+```{r}
+mpg |>
+  group_by(manufacturer) |>
+  summarise(mean_cty = mean(cty),
+            median_cty = median(cty)) |>
+  head(5)
+```
+
+
+
+# Plotting
+
+## ggplot2
+-    The most popular tidyverse package
+-    Create publication quality, highly customizable plots
+      -   See the [R graph gallery](https://r-graph-gallery.com/index.html) for examples
+-    ggplots use "layers" to build, modify and overlap visualizations
+      - Layers are added using the + symbol and can be added to an existing ggplot
+-    Many popular packages output ggplots which can then be easily modified by adding layers
+
+
+## Creating ggplots
+
+<br>
+</br>
+![](assets/plotting.png)
+
+
+## Plot Example
+
+```{r}
+#| fig-width: 6
+#| fig-height: 4
+ggplot(data = mpg,                         # Input dataframe
+       mapping = aes(x = cty, y = hwy)) +  # Aesthetic mapping
+  geom_point()                             # Point graph
+```
+
+## Adding and Modifying Layers
+
+```{r}
+#| fig-width: 10
+#| fig-height: 4
+ggplot(data = mpg,
+       mapping = aes(x = cty, y = hwy)) +
+  geom_point(color = "brown") +
+  geom_smooth(formula = y ~ x, method = "lm")
+```
+
+
+# 10 min break
+
+<center>
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 10,
+                     seconds = 0,
+                     color_border = "black",
+                     color_running_background = "#47d193",
+                     color_finished_background = "#a3184e",
+                     padding = "50px",
+                     margin = "5%",
+                     font_size = "5em",
+       style = "position: relative; width: min-content;")
+```
+
+</center>
+
+
+# Hands-on Data Analysis
+
+## Dataset Description
+-   PanTHERIA
+    -   A global species-level data set of key traits of all known extant and recently extinct mammals compiled from literature
+    -   Used in macroecological and macroevolutionary research projects
+    -   Data is organized by taxonomic rank
+
+## Taxonomic Rank
+
+![](assets/Taxonomic_Rank_Graph.svg)
+
+## Data Preview
+
+```{r}
+#| echo: false
+read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx") |>
+  head() |>
+  kable() |>
+  kable_styling("striped") |>
+  scroll_box(width = "100%")
+```
+
+## Hands-on Analysis
+
+-   We will read in the data and explore if the trophic level has a significant impact on the adult body mass of mammals
+
+Steps:
+1.    Combine and clean the data
+2.    Visualize adult body mass by trophic level
+3.    Check for overrepresented groups
+4.    Fit a simple linear model
+
+## Hands-on Analysis
+-   Open part_2.Rmd
+-   If you just want to follow along and not run code, open part2_filled_out.html
+
+
+
+# AI Tips for R
+
+
+## General Tips
+
+-   Follow any relevant institutional guidelines on using LLMs
+-   Always confirm the outputs are correct
+-   Provide as much detail as possible about the problem in the 1st prompt
+-   Use separate chats for separate tasks/projects
+-   Try the 'Custom Instructions' function
+
+## Code Tips
+
+-   Commented R code yields better responses
+-   Provide the code and error message in the same prompt
+-   LLMs can work well to convert syntax and improve your code:
+    -   "Turn this loop into a function : [your code]"
+    -   "Is there a better way to do this : [your code]"
+-   Check out the file: `example_code/1_convert_syntax_example.R` for an example use case
+
+
+# Where to Get Help
+
+## Bioinformatics Questions
+
+For any bioinformatics specific questions feel free to reach out to the Gladstone Bioinformatics Core.
+
+-   Email
+    -   [bioinformatics@gladstone.ucsf.edu](mailto:bioinformatics@gladstone.ucsf.edu)
+-   Slack channel #questions-about-bioinformatics
+    -   Contact us at the email above to be added to the channel
+
+## Debugging Errors
+
+-   Try searching the web by pasting the error message and any relevant keywords (package or function name)
+-   Websites like [Stack Overflow](https://stackoverflow.com/) and [Posit Community Forum](https://forum.posit.co/) should have the most relevant answers
+-   If the problem is package specific, check the documentation and reach out to the authors using their preferred method
+
+# Additional Resources
+
+## Coding Templates
+
+Code templates can be used to avoid typing the same code over and over again.
+
+-   These are templates can be used to automate things like plot appearance and documentation:
+    -   [.Rmd Template](https://www.dropbox.com/scl/fi/a9cnyqdajgabbfcxbmm6y/RMD_template.Rmd?rlkey=yntfpo6aptw9b4pgjyzpe5ubi&dl=1)
+    -   [.R Script Template](https://www.dropbox.com/scl/fi/cy43b8b1x3nzn17esnmmt/Rscript_template.R?rlkey=zn7b0g8nn0s9213blh70fjjsx&dl=1)
+
+-   Customize these for your use case to save time
+
+
+## R Resources
+-   [R for Data Science](https://r4ds.hadley.nz/)
+-   [Top 10 R Errors and How to Fix them](https://statsandr.com/blog/top-10-errors-in-r/)
+-   [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/how-to-read-this-book.html)
+-   [ggplot2: elegant graphics for data analysis](https://ggplot2-book.org/)
+-   [Advanced R](https://adv-r.hadley.nz/)
+
+
+
+
+# End of Part 2
+
+## Workshop survey
+- Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
+
+## Upcoming Workshops {.small}
+
+**Introduction to Statistics, Experimental Design, and Hypothesis Testing**
+August 25 - August 26, 2025 1:00-3:00pm PDT
+
+**Introduction to RNA-Seq Analysis**
+September 22-September 23, 2025 1:00-3:00pm PDT
+
+**Introduction to Linear Mixed Effects Models**
+September 29-September 30, 2025 1:00-3:00pm PDT
+
+**Working on Wynton**
+October 2-October 3, 2025 9:00am-12:00pm PDT
+

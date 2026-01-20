@@ -1,0 +1,513 @@
+---
+title: "Introduction to R Data Analysis"
+subtitle: "Part 1"
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "January 26, 2026"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: [default, r-theme.scss]
+    highlight-style: arrow
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+knitr::opts_chunk$set(comment = "", echo = TRUE)
+```
+
+##
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+## Introductions
+
+**Natalie Gill**   
+Bioinformatician II
+
+
+## Poll 1
+
+**What is your level of experience with coding/data analysis?**
+
+1.  I know another data analysis programming language (Python, Matlab etc.)
+2.  I can use Excel
+3.  I know some R
+4.  All of the above
+5.  None of the above
+
+## Target Audience
+-   No background in statistics or computing
+-   No prior experience with programming or R/RStudio
+
+
+## Learning Objectives
+
+
+1.    Navigate the RStudio environment and understand how R works
+2.    Understand variable types and data structures
+3.    Perform data cleaning and transformation in R
+4.    Create simple visualizations using ggplot2
+
+## Learning R Takes Time!
+
+-  **Workshop Pace**: This is an intro, and it's okay if everything doesn't click right away.
+-   **Practice is Key**: Plan to spend extra time on practicing concepts after the workshop.
+-   **Self-Guided Learning**: Use the materials provided at the end of the workshop to continue at your own pace.
+
+Keep at it—progress comes with persistence!
+
+
+## Part 1:
+
+1.  What is R and why should you use it?
+2.  The RStudio interface
+3.  File types
+4.  Variables
+5.  Error and warning messages
+6.  Types & data structures
+7.  Math and logic operations
+8.  Functions and packages
+
+
+# What is R?
+
+## R
+
+-   An open source language developed for statistical computing by **R**oss Ihaka and **R**obert Gentleman
+-   Developed at Bell labs in 1976 to make interactive data analysis easier
+-   The ﬁrst oﬃcial version was released in 2000
+
+## Why use R for data analysis?
+
+- R is and will always be free
+- Can easily implement any statistical analysis
+- Code serves as a record which enables reproducibility
+with minimal effort
+- As of June 2025, there were over 22,000 open source packages to extend its
+functionality
+  - Highly customizable graphics ([ggplot2](https://ggplot2-book.org/))
+  - Analysis reports ([knitr](https://cran.r-project.org/web/packages/knitr/index.html))
+  - RNA-seq analysis ([DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html))
+
+
+
+# RStudio
+
+## RStudio
+-   RStudio is an integrated development
+environment (IDE)
+-   An app that makes R code easier to write by providing a feature rich graphical user interface (GUI)
+
+<br>
+</br>
+
+::: {.shrink}
+![](assets/R_and_RStudio.png)
+:::
+
+
+## Layout
+
+![](assets/RStudio_layout.png)
+
+
+## File types
+
+-   **Rscript** files that end in `.R`
+    -   The most basic, a file that contains only R code
+-   **RMarkdown** files that end in `.Rmd`
+-   Let's create a blank Rscript to see how they work, open RStudio and click:
+    -   File -\> New File -\> R Script
+
+## R Markdown
+
+-   A file format combining `R` code with [Markdown](https://www.markdownguide.org/basic-syntax/) for text formatting.
+-   Designed for creating reproducible research reports in various formats (HTML, PDF, Word).
+-   Let's create an `Rmd` file in `RStudio` to explore the basics of how they work:
+-   File -\> New File -\> R Markdown
+
+
+## R Markdown Advanced Usage
+
+-   **Presentations:** Creating slides (like these) with [revealjs](https://github.com/rstudio/revealjs).
+-   **Publications:** Authoring online books that combine narrative, code, and output with [bookdown](https://bookdown.org/).
+-   **Interactive Documents:** Developing interactive tutorials or dashboards with [learnR](https://rstudio.github.io/learnr/) and other embedded applications.
+
+# Variables
+
+## Variable definition
+-    Variables store information that is referenced and manipulated
+in a computer program
+-    There are 3 ways to define variables in R, but one is preferred:
+```{r}
+x <- 1  # Preferred way
+x = 1
+1 -> x
+print(x)
+```
+
+## Example
+-   Run the following in the R console:
+
+```{r}
+x <- 1
+y <- 4
+z <- y
+x + y + z
+```
+
+# Error and Warning Messages
+
+## Errors
+-   **Errors**: Stop the execution of your code and must be fixed for the code to run successfully
+
+```{r}
+#| eval: false
+x <- 5
+y <- 10
+z <- x + a
+```
+
+```{r}
+#| echo: false
+message("Error: object 'a' not found")
+```
+
+
+## Common Errors
+
+- **Syntax Error:** Invalid R code syntax (e.g. misplaced parentheses)
+```{r}
+#| echo: false
+message('Error: unexpected ")"')
+```
+
+- **Object not found:** This variable is not defined (e.g. misspelled variables)
+
+```{r}
+#| echo: false
+message('Error: object "a" not found')
+```
+
+
+See this [article](https://statsandr.com/blog/top-10-errors-in-r/) for more common errors and how to fix them.
+
+## Warnings
+-   Do not stop the execution but indicate potential issues that you should be aware of and might need to address
+
+```{r}
+a <- c(1, 2, 3, 4, 5)
+b <- c(6, 7, 8, 9)
+result <- a + b
+```
+
+
+## Variable Naming
+
+-   Variables names must start with a letter and can contain
+underscores and periods
+-   It is best practice to use descriptive variable names and stick
+to one style of names
+
+```{r}
+# Snake case
+dog_breeds <- c("Labrador Retriever", "Akita", "Bulldog")
+
+# Period separated
+dog.breeds <- c("Labrador Retriever", "Akita", "Bulldog")
+
+# Camel case
+DogBreeds <- c("Labrador Retriever", "Akita", "Bulldog")
+```
+
+## Poll 2
+
+**Which variable name is not valid in R?**
+
+1.    cat_dog
+2.    CatDOG
+3.    cat.dog
+4.    catD*g
+
+
+## Excercise 1
+-   Open Rscript file part_1.R in Rstudio
+
+# Data Types and Structures
+
+## Data Types
+- Integer
+    - Whole numbers (denoted with L ex. 1L,2L)
+- Numeric
+    - Decimal numbers
+- Logical
+    - Boolean (TRUE, FALSE)
+- Character
+    - Letters and strings of letters
+    - "A", "Labrador Retriever"
+
+## Missing Values
+-   R has a special data type - NA which represents missing data
+-   NAs can take the place of any type but by default are logical
+```{r}
+NA + 1
+```
+
+
+## Poll 3
+
+**Which of these is not the correct data type for the value?**
+
+1.  "1.5" - Numeric
+2.  "A" - Character
+3.  1L - Integer
+4.  TRUE - Boolean/Logical
+
+
+
+## Data Structures
+- Vectors
+    - Atomic vectors - one dimensional lists that store values of
+    the **same type**
+    - Lists - can be multidimensional and contain **different types/structures** (ex. nested lists)
+- Factors
+    - Ordered list with assigned levels
+- Matrix
+    - Columns and rows of the **same type**
+- Data frames
+    - Columns and rows of **mixed types**
+
+##
+
+![](assets/data structures.png)
+
+
+
+## Exercise 2: Data Types and Structures
+-   Reopen Rscript file part_1.R in Rstudio
+
+
+# 10 min break
+
+<center>
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 10,
+                     seconds = 0,
+                     color_border = "black",
+                     color_running_background = "#47d193",
+                     color_finished_background = "#a3184e",
+                     padding = "50px",
+                     margin = "5%",
+                     font_size = "4em",
+       style = "position: relative; width: min-content;")
+```
+
+</center>
+
+# Math and Logic Operations
+
+## Math & Logic
+
+- Built in functions to get common mathematical summaries of data (eg. mean( ), median( ), mode( ) )
+- Relational comparison operators to compare values
+
+```{r}
+#| eval: false
+x == y   # Equal to
+x != y   # Not equal to
+x <  y   # Less than
+x > y    # Greater than
+x <= y   # Less than or equal to
+x >= y   # Greater than or equal to
+
+x %in% y # Is x in this vector y?
+```
+
+
+
+
+## Logical Operators
+  - Logical operators can compare TRUE or FALSE values
+```{r}
+#| eval: false
+x <- TRUE
+y <- FALSE
+
+!x     # Not x
+x | y  # x or y
+x & y  # x and y
+```
+
+## Poll 4
+
+**What is the output of the following code?**
+
+```{r}
+#| eval: false
+2 + 2 == 4 & 8 + 10 < 20
+```
+
+1.  TRUE
+2.  FALSE
+3.  NA
+
+## Poll 5
+
+**What is the output of the following code?**
+```{r}
+#| eval: false
+x <- TRUE
+y <- FALSE
+
+y | (y | x)
+```
+
+1.  TRUE
+2.  FALSE
+3.  NA
+
+## Conditional execution
+
+-   Relational and logical operations allow for conditional
+execution of code
+
+```{r}
+dog_breeds <- c("Labrador Retriever", "Akita", "Bulldog")
+
+if ("Akita" %in% dog_breeds) {
+
+  print("dog_breeds already contains Akita")
+
+} else {
+
+  dog_breeds <- c("Akita", dog_breeds)
+
+}
+
+```
+
+# Functions
+
+## Functions
+
+-  A function is block of organized, reusable code that is used to
+perform a single action
+-  R has many built in functions, these are called **base R** functions
+-  Not all arguments are required and some have default values
+
+![](assets/functions.png)
+
+## Defining a function
+-   To define a function we use the function keyword, the output is specified with the **return** function:
+```{r}
+add_dog <- function(dog_to_add, input_vector) {
+  if (dog_to_add %in% input_vector) {
+
+    print("Already contains this dog")
+
+  } else {
+
+    output <- c(dog_to_add, input_vector)
+    return(output)
+
+  }
+}
+```
+
+## Example
+```{r}
+add_dog(dog_to_add = "Akita",
+        input_vector = dog_breeds)
+```
+
+```{r}
+add_dog(dog_to_add = "German Shepard",
+        input_vector = dog_breeds)
+```
+
+## Poll 6
+
+**What does this function do?**
+
+```{r}
+#| eval: false
+mystery_function <- function(x) {
+  if (x > 0) {
+    return(x)
+  } else {
+    return(-x)
+  }
+}
+```
+
+1. Returns the absolute value of x
+2. Returns x
+3. Returns the square root of x
+4. Returns -x
+
+
+
+# Packages
+
+## Packages
+-    Packages are collections of functions that are specialized to a specific task (plotting, data manipulation etc.)
+
+```{r}
+library(ggplot2) # Makes all of the ggplot2 functions available
+```
+
+
+-    The tidyverse is a collection of commonly used data analysis
+packages
+      -   Learning curve is less steep
+      -   Lots of useful packages for cleaning and "wrangling" data into the correct format
+
+## Why use Tidyverse Packages?
+
+-   Much of the work in data analysis is getting data into the correct format to create outputs (plots and tables)
+-   The tidyverse collection of packages simplifies this process
+    -   Intuitive syntax
+    -   Comprehensive (data manipulation, cleaning, modeling and graphics)
+    -   Consistent data structure
+    -   Strong community support
+
+
+# End of Part 1
+
+
+## Schedule for Part 2
+
+1. Introduction to Tidyverse
+2. Filtering and reformatting data
+3. Plotting data
+4. Hands on data analysis
+5. AI tips for R
+6. Where to get help
+
+
+
+## Workshop survey
+- Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
+
+## Upcoming Workshops {.small}
+
+**Introduction to Statistics, Experimental Design, and Hypothesis Testing**
+August 25 - August 26, 2025 1:00-3:00pm PDT
+
+**Introduction to RNA-Seq Analysis**
+September 22-September 23, 2025 1:00-3:00pm PDT
+
+**Introduction to Linear Mixed Effects Models**
+September 29-September 30, 2025 1:00-3:00pm PDT
+
+**Working on Wynton**
+October 2-October 3, 2025 9:00am-12:00pm PDT
+
