@@ -24,6 +24,13 @@ if [ -d "assets" ]; then
     echo "Copied assets to $DOCS_DIR"
 fi
 
+# Copy lesson_0 images for pre-workshop setup page
+if [ -d "lesson_0/images" ]; then
+    mkdir -p "$DOCS_DIR/images"
+    cp -r lesson_0/images/* "$DOCS_DIR/images/"
+    echo "Copied lesson_0/images to $DOCS_DIR/images"
+fi
+
 # Function to render a single slide presentation
 render_slide() {
     local slide_file="$1"
@@ -59,6 +66,18 @@ render_slide() {
 render_slide "Intro_to_R_data_analysis_part_1.qmd"
 render_slide "Intro_to_R_data_analysis_part_2.qmd"
 
+# Render the pre-workshop setup page (HTML format, not revealjs)
+echo "Rendering Pre-Workshop Setup page..."
+quarto render "lesson_0/Pre_Workshop_Setup.qmd" --to html
+if [ -f "lesson_0/Pre_Workshop_Setup.html" ]; then
+    mv "lesson_0/Pre_Workshop_Setup.html" "$DOCS_DIR/"
+    echo "Moved Pre_Workshop_Setup.html to $DOCS_DIR"
+fi
+# Clean up any supporting files
+if [ -d "lesson_0/Pre_Workshop_Setup_files" ]; then
+    rm -rf "lesson_0/Pre_Workshop_Setup_files"
+fi
+
 echo ""
 echo "All slides rendered successfully!"
 echo "Output location: $DOCS_DIR"
@@ -69,3 +88,4 @@ echo ""
 echo "To view the slides, open the HTML files in a web browser:"
 echo "   - ${DOCS_DIR}/Intro_to_R_data_analysis_part_1.html"
 echo "   - ${DOCS_DIR}/Intro_to_R_data_analysis_part_2.html"
+echo "   - ${DOCS_DIR}/Pre_Workshop_Setup.html"
