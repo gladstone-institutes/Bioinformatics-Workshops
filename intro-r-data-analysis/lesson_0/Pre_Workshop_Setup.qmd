@@ -17,7 +17,7 @@ This guide will help you get set up for **Intro to R Data Analysis**. There are 
 
 This guide will help you set up R, RStudio, and a few extra tools we'll use in this course. You can think of R as the engine that powers everything, while RStudio is like the dashboard that makes it easy to control. R is a programming language, and RStudio is a tool that helps you work with it. Even though you'll mainly use RStudio, it needs R to be installed to work, just like a car needs an engine to run.
 
-Please complete the following steps (must be done in this order). If you already have R and Rstudio installed you can skip ahead. Make sure you complete step 5 though!
+Please complete the following steps (must be done in this order). If you already have R and Rstudio installed you can skip ahead. Make sure you complete steps 3 and 4 though!
 
 1. [Install R](#install-r)
 2. [Install RStudio](#install-rstudio)
