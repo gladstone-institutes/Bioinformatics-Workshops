@@ -116,20 +116,12 @@ different categorical groupings
 - Get the mean and median city mileage within manufacturer
 
 ```{r}
-#| eval: false
-summarise(group_by(.data = mpg,
-                   manufacturer),
-          mean_cty = mean(cty),
-          median_cty = median(cty))
-```
-
-```{r}
-#| echo: false
+#| echo: true
 summarise(.data = group_by(.data = mpg,
                    manufacturer),
           mean_cty = mean(cty),
           median_cty = median(cty)) |>
-  head(10)
+  head(5)
 ```
 
 
@@ -231,11 +223,11 @@ read_xlsx("Intro_to_R_workshop_materials/PanTHERIA.xlsx", na = "NA") |>
 
 -   We will read in the data and explore if the trophic level has a significant impact on the adult body mass of mammals
 
-Steps:
-1.    Combine and clean the data
-2.    Visualize adult body mass by trophic level
-3.    Check for overrepresented groups
-4.    Fit a simple linear model
+Steps:   
+1. Combine and clean the data   
+2. Visualize adult body mass by trophic level   
+3. Check for overrepresented groups   
+4. Fit a simple linear model   
 
 ## Hands-on Analysis
 -   Open part_2.Rmd
