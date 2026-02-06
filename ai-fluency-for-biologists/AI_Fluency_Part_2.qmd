@@ -1,0 +1,161 @@
+---
+title: "AI Fluency for Biologists"
+subtitle: "Part 2"
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "TBD"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: [default, ai-theme.scss]
+    highlight-style: arrow
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(countdown)
+```
+
+##
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+# Introductions
+**Natalie Gill**
+Bioinformatician II
+
+
+# Schedule
+
+1. Recap of Part 1
+2. Module 3: Discernment — Evaluating AI outputs
+3. Module 4: Diligence — Responsible AI use
+4. Practical application exercise
+5. Q&A and discussion
+6. Wrap-up and resources
+
+
+## Recap: Part 1
+
+*TODO: Quick recap of Delegation and Description modules*
+
+
+# Module 3: Discernment
+
+## Three Types of Discernment
+
+*TODO: Product, Process, Performance discernment*
+
+## Product Discernment
+
+*TODO: Accuracy, Precision, Completeness, Appropriateness*
+
+## Common AI Errors in Science
+
+*TODO: Hallucinated citations, oversimplified mechanisms, etc.*
+
+## Exercise: Spot the Errors
+
+*TODO: Review pre-generated AI summary, identify 3-5 issues*
+
+## Process Discernment
+
+*TODO: Red flags and green flags*
+
+## When to Stop Using AI for a Task
+
+*TODO: Knowing when to stop*
+
+## Performance Discernment: Verification Workflow
+
+*TODO: 5-step verification process*
+
+## Demo: Fact-Checking an AI Summary
+
+*TODO: Live demonstration*
+
+
+# 10 min break
+
+<center>
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 10,
+                     seconds = 0,
+                     color_border = "black",
+                     color_running_background = "#47d193",
+                     color_finished_background = "#a3184e",
+                     padding = "50px",
+                     margin = "5%",
+                     font_size = "4em",
+       style = "position: relative; width: min-content;")
+```
+
+</center>
+
+
+# Module 4: Diligence
+
+## Creation Diligence
+
+*TODO: Copyright, plagiarism, scientific integrity, data privacy*
+
+## Transparency Diligence
+
+*TODO: When and how to acknowledge AI use*
+
+## Deployment Diligence
+
+*TODO: Quality control process*
+
+## Journal AI Policies
+
+*TODO: Common journal policy themes*
+
+
+# Practical Application
+
+## Hands-On Exercise
+
+*TODO: Create 150-200 word paper summary using techniques*
+
+## Exercise Steps
+
+*TODO: Draft prompt, run it, evaluate, reflect*
+
+## Share Your Results
+
+*TODO: 2-3 volunteers share prompts and results*
+
+
+# Q&A and Discussion
+
+## Open Discussion
+
+*TODO: Questions, troubleshooting, edge cases*
+
+
+# Wrap-Up
+
+## Key Takeaways
+
+*TODO: The 4 Ds summary*
+
+## Resources
+
+*TODO: Links and references*
+
+
+# End of Part 2
+
+## Workshop survey
+- Please fill out our workshop survey so we can continue to improve these workshops
+
+## Upcoming Workshops {.small}
+
+*TODO: Add upcoming workshop details*

@@ -1,4 +1,11 @@
 .DS_Store
 .Rproj.user
 .Rhistory
+
+# Claude files
 CLAUDE.md
+.playwright-mcp/
+.claude/
+
+# Local only folder
+local_dev_only/

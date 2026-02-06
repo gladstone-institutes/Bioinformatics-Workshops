@@ -1,0 +1,191 @@
+/* countdown
+ * countdown timer for slides and HTML docs in Quarto, R Markdown, and Shiny
+ *
+ * https://pkg.garrickadenbuie.com/countdown
+ *
+ * Copyright (c) 2025 countdown authors
+ *
+ * This software is released under the MIT License.
+ * https://opensource.org/licenses/MIT
+ */
+
+.countdown {
+  --_margin: 0.6em;
+  --_running-color: var(--countdown-color-running-text, rgba(0, 0, 0, 0.8));
+  --_running-background: var(--countdown-color-running-background, #43AC6A);
+  --_running-border-color: var(--countdown-color-running-border, rgba(0, 0, 0, 0.1));
+  --_finished-color: var(--countdown-color-finished-text, rgba(0, 0, 0, 0.7));
+  --_finished-background: var(--countdown-color-finished-background, #F04124);
+  --_finished-border-color: var(--countdown-color-finished-border, rgba(0, 0, 0, 0.1));
+
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: var(--countdown-color-background, inherit);
+  font-size: var(--countdown-font-size, 3rem);
+  line-height: var(--countdown-line-height, 1);
+  border-color: var(--countdown-color-border, #ddd);
+  border-width: var(--countdown-border-width, 0.1875rem);
+  border-style: solid;
+  border-radius: var(--countdown-border-radius, 0.9rem);
+  box-shadow: var(--countdown-box-shadow, 0px 4px 10px 0px rgba(50, 50, 50, 0.4));
+  margin: var(--countdown-margin, var(--_margin, 0.6em));
+  padding: var(--countdown-padding, 0.625rem 0.9rem);
+  text-align: center;
+  z-index: 10;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+countdown-timer[position="static"],
+countdown-timer[position="relative"] {
+  position: relative;
+}
+
+.countdown.inline {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+}
+
+.countdown .countdown-time {
+  background: none;
+  font-size: 100%;
+  padding: 0;
+  color: currentColor;
+}
+
+.countdown-digits {
+  color: var(--countdown-color-text);
+}
+
+.countdown.running {
+  border-color: var(--_running-border-color);
+  background-color: var(--_running-background);
+}
+
+.countdown.running .countdown-digits {
+  color: var(--_running-color);
+}
+
+.countdown.finished {
+  border-color: var(--_finished-border-color);
+  background-color: var(--_finished-background);
+}
+
+.countdown.finished .countdown-digits {
+  color: var(--_finished-color);
+}
+
+.countdown.running.warning {
+  border-color: var(--countdown-color-warning-border, rgba(0, 0, 0, 0.1));
+  background-color: var(--countdown-color-warning-background, #E6C229);
+}
+
+.countdown.running.warning .countdown-digits {
+  color: var(--countdown-color-warning-text, rgba(0, 0, 0, 0.7));
+}
+
+.countdown.running.blink-colon .countdown-digits.colon {
+  opacity: 0.1;
+}
+
+/* ------ Controls ------ */
+.countdown:not(.running) .countdown-controls,
+.countdown.no-controls .countdown-controls {
+  display: none;
+}
+
+.countdown-controls {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  left: -0.5rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+}
+
+.countdown-controls>button {
+  position: relative;
+  font-size: 1.5rem;
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  padding: 10px;
+  margin: 0;
+  background: inherit;
+  border: 2px solid;
+  border-radius: 100%;
+  transition: 50ms transform ease-in-out, 150ms opacity ease-in;
+  box-shadow: 0px 2px 5px 0px rgba(50, 50, 50, 0.4);
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(50, 50, 50, 0.4);
+  --_button-bump: 0;
+  opacity: var(--_opacity, 0);
+  transform: translate(0, var(--_button-bump));
+}
+
+/* increase hit area of the +/- buttons */
+.countdown .countdown-controls > button::after {
+	content: "";
+	height: 200%;
+	width: 200%;
+	position: absolute;
+	border-radius: 50%;
+}
+
+.countdown .countdown-controls>button:last-child {
+  color: var(--_running-color);
+  background-color: var(--_running-background);
+  border-color: var(--_running-border-color);
+}
+
+.countdown .countdown-controls>button:first-child {
+  color: var(--_finished-color);
+  background-color: var(--_finished-background);
+  border-color: var(--_finished-border-color);
+}
+
+.countdown.running:hover, .countdown.running:focus-within {
+  --_opacity: 1;
+}
+
+.countdown.running:hover .countdown-controls>button,
+.countdown.running:focus-within .countdown-controls>button {
+  --_button-bump: -3px;
+}
+
+.countdown.running:hover .countdown-controls>button:active,
+.countdown.running:focus-within .countdown-controls>button:active {
+  --_button-bump: 0;
+}
+
+/* ---- Quarto Reveal.js ---- */
+.reveal .countdown {
+  --_margin: 0;
+}
+
+/* ----- Fullscreen ----- */
+.countdown.countdown-fullscreen {
+  z-index: 0;
+}
+
+.countdown-fullscreen.running .countdown-controls {
+  top: 1rem;
+  left: 0;
+  right: 0;
+  justify-content: center;
+}
+
+.countdown-fullscreen.running .countdown-controls>button+button {
+  margin-left: 1rem;
+}
