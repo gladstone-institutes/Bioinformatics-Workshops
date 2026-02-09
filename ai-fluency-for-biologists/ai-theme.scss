@@ -173,53 +173,6 @@ pre, code, kbd, samp {
   right: 0;
 }
 
-// Size utility classes
-small_custom {
-  font-size: 85%;
-}
-
-.small_custom {
-  p, li, ul, ol {
-    font-size: 85%;
-  }
-}
-
-smaller {
-  font-size: 88%;
-}
-
-.smaller {
-  p, li, ul, ol {
-    font-size: 88%;
-  }
-}
-
-.reveal section.smaller h2 {
-  font-size: 1.1em;
-}
-
-smallest {
-  font-size: 70%;
-}
-
-.smallest {
-  p, li, ul, ol {
-    font-size: 70%;
-  }
-}
-
-.small-bullets ul {
-  font-size: 85%;
-}
-
-.less-small-bullets ul {
-  font-size: 80%;
-}
-
-.small-list ol {
-  font-size: 80%;
-}
-
 // Image size classes
 .big-picture img {
   max-width: 95%;

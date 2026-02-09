@@ -112,30 +112,35 @@ Note: This is probably well covered by the other slides
 - Sensitive or unpublished data should not be shared with AI tools without considering privacy policies
 - AI-generated figures should not be used in publications - they can misrepresent data and many journals prohibit them -->
 
-## Brief Overview of Tools {.small_custom}
+## Brief Overview of Tools
 
+::: {style="font-size: 0.8em;"}
 Popular tools include **Claude** (Anthropic), **ChatGPT** (OpenAI), and **Gemini** (Google)
 
 - All are **large language models (LLMs)** - trained on vast text data to understand and generate language
 - They share the same core limitations: hallucinations, knowledge cutoffs, and training biases
 - Relative performance varies by task and changes frequently
 - They do not search the internet by default (some have optional web search)
+:::
 
 
 
 # Module 1: Delegation
 
-## Goal and Task Awareness {.small_custom}
+## Goal and Task Awareness
 
+::: {style="font-size: 0.8em;"}
 Before opening any AI tool, clearly define what you need:
 
 - **What is the task?** e.g., summarize a paper, draft a methods section, troubleshoot a protocol
 - **What does success look like?** Define the output you want before you start
 - **Do you have the expertise to evaluate the result?** If you can't judge whether the AI is right, you probably shouldn't delegate it
 - Together with **Platform Awareness**, this helps you decide if AI is the right tool for the job
+:::
 
-## Platform Awareness {.small_custom}
+## Platform Awareness
 
+::: {style="font-size: 0.8em;"}
 Understanding what AI tools can and cannot do:
 
 - **Context window** -- how much text AI can process at once. Exceeding it causes the AI to "forget" earlier content
@@ -143,6 +148,7 @@ Understanding what AI tools can and cannot do:
 - **Hallucination** -- AI can confidently state plausible but wrong things (fake citations, invented gene names)
 - **Context pollution** -- long conversations accumulate errors; start a new chat for new tasks
 - **Extended thinking / research modes** -- newer features for complex reasoning or searching external sources
+:::
 
 
 ## Choosing an AI Tool
@@ -157,8 +163,9 @@ Understanding what AI tools can and cannot do:
 
 ![](assets/task_delegation_modalities.svg){fig-alt="Three modalities of task delegation shown as cards: Automation (you define, AI executes), Augmentation (you and AI collaborate as thinking partners), and Agency (you configure, AI acts independently), with bar charts showing relative human versus AI involvement" fig-align="center" width=95%}
 
-## Modalities of Task Delegation {.smaller}
+## Modalities of Task Delegation
 
+::: {style="font-size: 0.8em;"}
 - **Automation** -- You define exactly what needs to be done, and the AI executes it
 
 :::{.example-indented}
@@ -178,9 +185,11 @@ Giving AI your experimental goals and reagent constraints, and letting it indepe
 :::
 
 In practice, **Augmentation** is the most productive mode for research tasks
+:::
 
-## Exercise: Identify Your AI Tasks {.small_custom}
+## Exercise: Identify Your AI Tasks
 
+::: {style="font-size: 0.8em;"}
 **Think about your own work and identify 2-3 tasks where AI could help.**
 
 For each task, consider:
@@ -190,6 +199,7 @@ For each task, consider:
 3. Could you evaluate whether the AI's output is correct?
 
 Enter tasks [here](https://app.sli.do/event/3sDxDAGKp3d6j1LfuKN4Si).
+:::
 
 
 # 10 min break
@@ -214,8 +224,9 @@ countdown::countdown(minutes = 10,
 
 # Module 2: Description
 
-## 6 Prompting Techniques Overview {.small_custom}
+## 6 Prompting Techniques Overview
 
+::: {style="font-size: 0.8em;"}
 1. **Provide Context** -- Give background information the AI needs
 2. **Show Examples** -- Demonstrate the format or style you want
 3. **Specify Output Constraints** -- Define length, format, audience, and structure
@@ -224,9 +235,11 @@ countdown::countdown(minutes = 10,
 6. **Define the AI's Role** -- Set perspective
 
 These techniques map to the Description competency: Product, Process, and Performance Description
+:::
 
-## 1) Provide Context {.small_custom}
+## 1) Provide Context
 
+::: {style="font-size: 0.8em;"}
 Give the AI the background information it needs to do a good job.
 
 - What field or subfield are you working in?
@@ -240,6 +253,7 @@ Give the AI the background information it needs to do a good job.
 
 :::{.good-example}
 "I'm a graduate student in cardiac biology preparing for a journal club. Summarize this paper's main findings, focusing on the signaling pathways involved in cardiomyocyte differentiation."
+:::
 :::
 
 ## 2) Show Examples
@@ -267,16 +281,17 @@ Tell the AI exactly what the output should look like:
 
 The more specific your constraints, the closer the output will match what you need
 
-## Bad Prompt vs. Good Prompt {.small_custom}
+## Bad Prompt vs. Good Prompt
 
+::: {style="font-size: 0.8em;"}
 :::{.bad-example}
 "Summarize this paper"
 :::
 
 :::{.good-example}
-"Summarize this cell biology paper's experimental methodology in exactly 200 words, focusing only on protein-protein interaction techniques (e.g., co-IP, pull-downs, FRET, crosslinking). Organize your summary by:  
+"Summarize this cell biology paper's experimental methodology in exactly 200 words, focusing only on protein-protein interaction techniques (e.g., co-IP, pull-downs, FRET, crosslinking). Organize your summary by:
 
-1. Primary techniques used 
+1. Primary techniques used
 2. Key reagents
 3. Validation methods
 
@@ -284,9 +299,11 @@ Write for an audience of post-docs and graduate students."
 :::
 
 The good prompt uses **context**, **output constraints**, and **structure** to guide the AI
+:::
 
-## 4) Break Complex Tasks into Steps {.small}
+## 4) Break Complex Tasks into Steps
 
+::: {style="font-size: 0.8em;"}
 For complex tasks, give the AI a step-by-step process to follow.
 
 
@@ -303,9 +320,11 @@ Step 4: Evaluate whether the conclusions are supported by the data"
 :::
 
 This is called **Process Description** -- defining *how* the AI should approach the task
+:::
 
-## 5) Let It Think Deeply {.small}
+## 5) Let It Think Deeply
 
+::: {style="font-size: 0.8em;"}
 Most AI tools now have a **thinking** or **reasoning** mode — use it for complex or multi-part questions
 
 - **Don't** need to say "think step by step"
@@ -316,9 +335,11 @@ Most AI tools now have a **thinking** or **reasoning** mode — use it for compl
 
 "Here is a paper on CRISPR-based gene therapy for sickle cell disease. What are the key methodological limitations, and how might they affect the authors' conclusions?"
 :::
+:::
 
-## 6) Define the AI's Role {.small}
+## 6) Define the AI's Role
 
+::: {style="font-size: 0.8em;"}
 Set the AI's perspective to shape its responses.
 
 
@@ -329,9 +350,11 @@ Set the AI's perspective to shape its responses.
 :::
 
 This is **Performance Description** -- defining how the AI should behave during your interaction (concise vs. detailed, supportive vs. critical)
+:::
 
-## Bonus: Ask AI to Help with Your Prompt {.small}
+## Bonus: Ask AI to Help with Your Prompt
 
+::: {style="font-size: 0.8em;"}
 You can ask the AI to help you write a better prompt -- this is called **meta-prompting**.
 
 
@@ -344,9 +367,11 @@ This is especially useful when:
 - You're not sure how to structure your request
 - You want to explore what's possible before committing to a specific approach
 - Your initial prompt isn't giving you good results
+:::
 
-## Exercise: Prompting {.small_custom}
+## Exercise: Prompting
 
+::: {style="font-size: 0.8em;"}
 **Use the task you identified in the Delegation exercise and write a prompt using at least 3 of the 6 techniques.**
 
 **Steps:**
@@ -358,6 +383,7 @@ This is especially useful when:
 
 
 *Tip: Start with context + constraints + role, then add steps or examples if needed.*
+:::
 
 
 # End of Part 1
@@ -374,9 +400,11 @@ This is especially useful when:
 ## Workshop survey
 - Please fill out our workshop survey so we can continue to improve these workshops
 
-## Upcoming Workshops {.small}
+## Upcoming Workshops
 
+::: {style="font-size: 0.8em;"}
 *Details coming soon -- check our website for the latest schedule*
+:::
 
 ## Acknowledgments
 

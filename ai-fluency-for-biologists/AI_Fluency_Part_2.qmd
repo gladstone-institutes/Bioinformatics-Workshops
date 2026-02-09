@@ -47,8 +47,9 @@ Bioinformatician II
 
 Think of it as: **What** did it produce? **How** did it get there? **How well** did it work with you?
 
-## Product Discernment {.small_custom}
+## Product Discernment
 
+::: {style="font-size: 0.8em;"}
 Evaluate every AI output against four criteria:
 
 - **Accuracy** -- Are the facts correct? Are citations real? Are gene names and pathways right?
@@ -57,9 +58,11 @@ Evaluate every AI output against four criteria:
 - **Appropriateness** -- Is the tone, depth, and format right for your audience and purpose?
 
 Your domain expertise is what makes this evaluation possible.
+:::
 
-## Common AI Errors in Science {.small-bullets}
+## Common AI Errors in Science
 
+::: {style="font-size: 0.8em;"}
 Watch out for these frequent mistakes:
 
 - **Hallucinated citations** -- AI invents plausible-sounding references that don't exist
@@ -67,26 +70,33 @@ Watch out for these frequent mistakes:
 - **Confused methodology** -- Mixing up techniques (e.g., describing Western blot results as flow cytometry data)
 - **Overstated conclusions** -- Presenting preliminary findings as established facts
 - **Fabricated details** -- Inventing sample sizes, p-values, or experimental conditions that weren't in the source
+:::
 
 
-## Process Discernment {.small_custom}
+## Process Discernment
 
+::: {style="font-size: 0.8em;"}
 Evaluate how the AI is working *with* you, not just what it produces.
 
-**Red flags:**
+:::{.bad-example}
 
 - AI consistently misunderstands technical terms in your field
 - Outputs require more correction than writing from scratch would
 - AI introduces errors faster than you can catch them
+:::
 
-**Green flags:**
+:::{.good-example}
 
 - AI helps structure your thinking in useful ways
 - Iterations genuinely improve the output
 - AI identifies aspects you hadn't considered
+:::
 
-## When to Stop Using AI for a Task {.small_custom}
+:::
 
+## When to Stop Using AI for a Task
+
+::: {style="font-size: 0.8em;"}
 Consider stopping when:
 
 - You've spent more time fixing AI output than it would take to do the task yourself
@@ -95,13 +105,15 @@ Consider stopping when:
 - You find yourself accepting AI output without critically evaluating it
 
 **The goal is to save time and improve quality.** If AI isn't doing both, switch approaches
+:::
 
 <!-- ## {.center} 
 
 ![](assets/verification_workflow.svg){fig-alt="Five-step verification workflow shown as a horizontal pipeline: 1. Compare to source, 2. Verify claims, 3. Check citations, 4. Validate data, 5. Assess quality, with the reminder to make this a habit for every AI output" fig-align="center" width=100%} -->
 
-## Performance Discernment: Verification {.small_custom}
+## Performance Discernment: Verification
 
+::: {style="font-size: 0.8em;"}
 A systematic process for checking AI output:
 
 1. **Compare to source** -- Does the AI output accurately reflect the original text?
@@ -111,10 +123,12 @@ A systematic process for checking AI output:
 5. **Assess overall quality** -- Is the output useful, or does it need significant revision?
 
 Make this a habit for every AI-generated output you plan to use
+:::
 
 
-## Exercise: Research Mode -- Discernment {.smaller}
+## Exercise: Research Mode -- Discernment
 
+::: {style="font-size: 0.6em;"}
 **Let's test how well AI handles the cutting edge of *your* field.**
 
 Open Claude, turn on **Research mode**, and ask it to summarize recent progress on a topic where you have genuine expertise.
@@ -130,6 +144,7 @@ Pick a topic that satisfies these criteria:
 :::
 
 Research mode takes a while -- we'll take a 10-minute break while it runs, then review the results together
+:::
 
 
 # 10 min break
@@ -151,8 +166,9 @@ countdown::countdown(minutes = 10,
 
 </center>
 
-## Exercise: Review Your Research Mode Output {.smaller}
+## Exercise: Review Research Mode Output
 
+::: {style="font-size: 0.7em;"}
 **Read through the AI's summary using your domain expertise. Look for:**
 
 - **Oversimplified conclusions** -- Did it present an active debate as settled science?
@@ -162,11 +178,14 @@ countdown::countdown(minutes = 10,
 - **Incorrect technical language** -- Did it misuse or confuse domain-specific terms?
 
 **Reflect:** What did the AI get right? What would a non-expert *not* have caught?
+:::
 
 
 # Module 4: Diligence
 
 ## Creation Diligence
+
+::: {style="font-size: 0.7em;"}
 
 Be thoughtful about which AI systems you use and how you interact with them.
 
@@ -175,7 +194,11 @@ Be thoughtful about which AI systems you use and how you interact with them.
 - **Scientific integrity** -- AI should support your analysis, not replace your scientific judgment
 - **Data privacy** -- Never paste unpublished data, patient information, or proprietary sequences into AI tools without checking your institution's data use policies
 
+:::
+
 ## Transparency Diligence
+
+::: {style="font-size: 0.8em;"}
 
 Be honest about AI's role in your work with everyone who needs to know.
 
@@ -184,11 +207,15 @@ Be honest about AI's role in your work with everyone who needs to know.
 - **With collaborators and supervisors** -- Let your team know when and how you used AI
 - **General principle:** If someone would want to know AI was involved, disclose it
 
+:::
+
 ## {.center}
 
-![](assets/deployment_diligence.svg){fig-alt="Five-step deployment diligence process shown as a horizontal pipeline: 1. Generate (AI produces a draft), 2. Verify (check against sources), 3. Edit (revise for accuracy), 4. Review (would you sign off?), 5. Document (note AI's role), with the principle that you vouch for everything you submit" .nostretch fig-align="center" width=95%}
+![](assets/deployment_diligence.svg){fig-alt="Five-step deployment diligence process shown as a horizontal pipeline: 1. Generate (AI produces a draft), 2. Verify (check against sources), 3. Edit (revise for accuracy), 4. Review (would you sign off?), 5. Document (note AI's role), with the principle that you vouch for everything you submit" fig-align="center" width=100%}
 
 ## Deployment Diligence
+
+::: {style="font-size: 0.8em;"}
 
 Take responsibility for verifying and vouching for every output you use or share.
 
@@ -200,53 +227,22 @@ Take responsibility for verifying and vouching for every output you use or share
 
 **Principle:** You vouch for everything you submit
 
-## Journal AI Policies {.small}
+:::
 
+## Journal AI Policies
+
+::: {style="font-size: 0.8em;"}
 Most major journals now have AI use policies. Common themes:
 
-- **Disclosure required** -- Authors must declare AI-assisted writing or analysis (Nature, Science, PNAS, Cell)
+- **Disclosure required** -- Authors must declare AI-assisted writing or analysis
 - **AI cannot be an author** -- AI tools do not meet authorship criteria
 - **Human responsibility** -- Authors are fully responsible for all content, including AI-generated portions
 - **No AI-generated figures** -- Many journals prohibit AI-generated images
 - **Evolving landscape** -- Policies change rapidly; always check your target journal's current guidelines
 
 *Check your target journal's author guidelines before submission*
+:::
 
-
-# Practical Application
-
-## Hands-On Exercise
-
-**Task:** Create a 150-200 word summary of the provided paper's main findings for a literature review.
-
-Apply the techniques from today:
-
-- **Provide context** -- Tell the AI about your field and purpose
-- **Specify constraints** -- Set the word count, audience, and structure
-- **Break into steps** -- If helpful, give the AI a sequence to follow
-- **Define a role** -- Set the AI's expertise level
-
-## Exercise Steps
-
-1. **Draft your prompt** using at least 3 techniques (3 min)
-2. **Run it through Claude** and review the output (2 min)
-3. **Evaluate the output** against the original paper -- is it accurate and complete? (3 min)
-4. **Reflect:** Which techniques helped most? What would you change next time? (2 min)
-
-*Tip: If the first output isn't right, iterate! Refine your prompt and try again.*
-
-## Share Your Results
-
-**2-3 volunteers:** Share your prompt and the AI's output with the group.
-
-Discussion points:
-
-- Which techniques did you use?
-- How close was the output to what you wanted?
-- What would you do differently next time?
-
-
-# Q&A and Discussion
 
 ## Open Discussion
 
@@ -257,7 +253,6 @@ Some topics to consider:
 - Challenges you've encountered with AI tools
 - Edge cases -- when is it unclear whether to use AI?
 - How to handle situations where AI output is "good enough" but not verified
-- Strategies for incorporating AI into your existing workflow
 
 
 # Wrap-Up
@@ -269,15 +264,12 @@ Some topics to consider:
 3. **Discern** critically -- Evaluate what AI produces, how it got there, and how it works with you
 4. **Act with Diligence** -- Use AI responsibly, transparently, and always verify before you share
 
-AI is a powerful tool for research -- but **you** remain the scientist
+AI is a powerful tool for research -- but it cannot replace **your** judgement
 
 ## Resources
 
 - **AI Fluency Framework** -- [Anthropic AI Fluency Curriculum](https://www.anthropic.com/education) (CC BY-NC-SA 4.0)
-- **Claude** -- [claude.ai](https://claude.ai) (free tier available)
 - **Prompt Engineering Guide** -- [docs.anthropic.com](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
-- **UCSF AI Guidelines** -- Check your institution's policies on AI use in research
-- **Journal Policies** -- Always check your target journal's current author guidelines
 
 
 # End of Part 2
@@ -285,6 +277,8 @@ AI is a powerful tool for research -- but **you** remain the scientist
 ## Workshop survey
 - Please fill out our workshop survey so we can continue to improve these workshops
 
-## Upcoming Workshops {.small}
+## Upcoming Workshops
 
+::: {style="font-size: 0.8em;"}
 *Details coming soon -- check our website for the latest schedule*
+:::
