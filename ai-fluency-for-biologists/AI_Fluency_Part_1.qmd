@@ -165,7 +165,7 @@ Understanding what AI tools can and cannot do:
 
 ## Modalities of Task Delegation
 
-::: {style="font-size: 0.8em;"}
+::: {style="font-size: 0.7em;"}
 - **Automation** -- You define exactly what needs to be done, and the AI executes it
 
 :::{.example-indented}
