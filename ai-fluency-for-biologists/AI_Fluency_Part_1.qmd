@@ -3,7 +3,7 @@ title: "AI Fluency for Biologists"
 subtitle: "Part 1"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "TBD"
+date: "April, 20, 2026"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
