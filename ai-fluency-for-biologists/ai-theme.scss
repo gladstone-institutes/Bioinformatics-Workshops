@@ -174,13 +174,33 @@ pre, code, kbd, samp {
 }
 
 // Size utility classes
-small {
+small_custom {
+  font-size: 85%;
+}
+
+.small_custom {
+  p, li, ul, ol {
+    font-size: 85%;
+  }
+}
+
+smaller {
+  font-size: 88%;
+}
+
+.smaller {
+  p, li, ul, ol {
+    font-size: 88%;
+  }
+}
+
+smallest {
   font-size: 70%;
 }
 
-.small {
+.smallest {
   p, li, ul, ol {
-    font-size: 80%;
+    font-size: 70%;
   }
 }
 
@@ -242,19 +262,101 @@ small {
   }
 }
 
-// Good/bad example styling for prompts
-.good-example {
-  background-color: #e8f5e9;
-  border-left: 4px solid #4caf50;
+// Example box styling for prompts
+// Shared base styles
+%example-base {
   padding: 10px 15px;
   margin: 10px 25px;
-  font-size: 0.85em;
+  font-size: 0.80em;
+  position: relative;
+
+  // Override colored list markers inside example boxes
+  ul, ol {
+    li::marker {
+      color: #333 !important;
+    }
+  }
 }
 
+// Icon mixin for good/bad variants
+@mixin example-icon($svg-data-uri) {
+  padding-left: 40px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 10px;
+    width: 52px;
+    height: 52px;
+    background-image: url($svg-data-uri);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+// Smaller icon mixin for neutral examples
+@mixin example-icon-small($svg-data-uri) {
+  padding-left: 36px;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    width: 26px;
+    height: 26px;
+    background-image: url($svg-data-uri);
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+// Checkmark SVG (green #4caf96)
+$check-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%234caf96'%3E%3Cpath d='M400-304 240-464l56-56 104 104 264-264 56 56-320 320Z'/%3E%3C/svg%3E";
+
+// X SVG (orange #e57b35)
+$close-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23e57b35'%3E%3Cpath d='m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z'/%3E%3C/svg%3E";
+
+// Info SVG (gray #888888)
+$info-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23888888'%3E%3Cpath d='M440-280h80v-240h-80v240Zm68.5-331.5Q520-623 520-640t-11.5-28.5Q497-680 480-680t-28.5 11.5Q440-657 440-640t11.5 28.5Q463-600 480-600t28.5-11.5ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z'/%3E%3C/svg%3E";
+
+// Generic example (info icon)
+.example {
+  @extend %example-base;
+  @include example-icon-small($info-icon);
+  background-color: #e8e8e8ff;
+  border-left: 5px solid #888888ff;
+}
+
+.example-indented {
+  @extend %example-base;
+  @include example-icon-small($info-icon);
+  background-color: #e8e8e8ff;
+  border-left: 5px solid #888888ff;
+  margin-left: 60px;
+}
+
+// Good example (checkmark icon)
+.good-example {
+  @extend %example-base;
+  @include example-icon($check-icon);
+  background-color: #d4ede6ff;
+  border-left: 5px solid #4caf96ff;
+}
+
+.good-example-indented {
+  @extend %example-base;
+  @include example-icon($check-icon);
+  background-color: #d4ede6ff;
+  border-left: 5px solid #4caf96ff;
+  margin-left: 60px;
+}
+
+// Bad example (X icon)
 .bad-example {
-  background-color: #fbe9e7;
-  border-left: 4px solid #e53935;
-  padding: 10px 15px;
-  margin: 10px 25px;
-  font-size: 0.85em;
+  @extend %example-base;
+  @include example-icon($close-icon);
+  background-color: #f8e4d9ff;
+  border-left: 5px solid #e57b35ff;
 }

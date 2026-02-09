@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 780 200"
+   width="780"
+   height="200"
+   role="img"
+   aria-label="5-step verification workflow: Compare to source, Verify claims, Check citations, Validate data, Assess quality"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="verification_workflow.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.388613"
+     inkscape:cx="399.67939"
+     inkscape:cy="92.538382"
+     inkscape:window-width="1728"
+     inkscape:window-height="964"
+     inkscape:window-x="0"
+     inkscape:window-y="38"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer-steps" />
+  <!-- =============================================
+       Verification Workflow — 5-step flowchart
+
+       Colors: Okabe-Ito colorblind-safe palette
+         Step 1: #0072B2 (Blue)
+         Step 2: #E69F00 (Orange)
+         Step 3: #009E73 (Bluish Green)
+         Step 4: #CC79A7 (Reddish Purple)
+         Step 5: #56B4E9 (Sky Blue)
+
+       Layout: Horizontal pipeline with arrows
+       ============================================= -->
+  <defs
+     id="defs1">
+    <filter
+       id="node-shadow"
+       x="-0.047619048"
+       y="-0.057142857"
+       width="1.1031746"
+       height="1.1333333">
+      <feGaussianBlur
+         in="SourceAlpha"
+         stdDeviation="2.5"
+         result="blur"
+         id="feGaussianBlur1" />
+      <feOffset
+         in="blur"
+         dx="1"
+         dy="2"
+         result="offsetBlur"
+         id="feOffset1" />
+      <feFlood
+         flood-color="#000000"
+         flood-opacity="0.12"
+         result="color"
+         id="feFlood1" />
+      <feComposite
+         in="color"
+         in2="offsetBlur"
+         operator="in"
+         result="shadow"
+         id="feComposite1" />
+      <feMerge
+         id="feMerge1">
+        <feMergeNode
+           in="shadow"
+           id="feMergeNode1" />
+        <feMergeNode
+           in="SourceGraphic"
+           id="feMergeNode2" />
+      </feMerge>
+    </filter>
+  </defs>
+  <!-- ==========================================
+       STEP BOXES AND ARROWS
+       ========================================== -->
+  <g
+     id="layer-steps"
+     inkscape:label="Steps"
+     inkscape:groupmode="layer">
+    <!-- ======== STEP 1: Compare to source (#0072B2) ======== -->
+    <rect
+       id="rect-step1"
+       x="10"
+       y="30"
+       width="126"
+       height="105"
+       rx="10"
+       ry="10"
+       fill="#0072b2"
+       filter="url(#node-shadow)"
+       style="fill:#c0ead2;fill-opacity:1" />
+    <g
+       id="g4"
+       transform="translate(0.32177497,-1.9360356)">
+      <text
+         id="num-step1"
+         x="73"
+         y="60"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="16px"
+         font-weight="bold"
+         fill="#ffffff"
+         text-anchor="middle"
+         opacity="0.7"
+         style="fill:#000000;fill-opacity:1">1</text>
+      <text
+         id="label-step1a"
+         x="73"
+         y="82"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#ffffff"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">Compare</text>
+      <text
+         id="label-step1b"
+         x="73"
+         y="98"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#ffffff"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">to source</text>
+      <text
+         id="desc-step1"
+         x="73"
+         y="122"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="10px"
+         fill="#ffffff"
+         text-anchor="middle"
+         opacity="0.85"
+         style="fill:#000000;fill-opacity:1">Does it match?</text>
+    </g>
+    <!-- Arrow 1→2 -->
+    <g
+       id="arrow-1-2"
+       inkscape:label="Arrow 1-2"
+       style="fill:#000000;fill-opacity:1">
+      <line
+         x1="140"
+         y1="82"
+         x2="158"
+         y2="82"
+         stroke="#555555"
+         stroke-width="2"
+         id="line1"
+         style="fill:#000000;fill-opacity:1" />
+      <polygon
+         points="162,82 154,77 154,87"
+         fill="#555555"
+         id="polygon1"
+         style="fill:#000000;fill-opacity:1" />
+    </g>
+    <!-- ======== STEP 2: Verify claims (#E69F00) ======== -->
+    <rect
+       id="rect-step2"
+       x="166"
+       y="30"
+       width="126"
+       height="105"
+       rx="10"
+       ry="10"
+       fill="#e69f00"
+       filter="url(#node-shadow)"
+       style="fill:#a3e0bd;fill-opacity:1" />
+    <g
+       id="g5"
+       transform="translate(0.2973609,-1.6586919)">
+      <text
+         id="num-step2"
+         x="229"
+         y="60"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="16px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         opacity="0.6"
+         style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1">2</text>
+      <text
+         id="label-step2a"
+         x="229"
+         y="82"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">Verify</text>
+      <text
+         id="label-step2b"
+         x="229"
+         y="98"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">claims</text>
+      <text
+         id="desc-step2"
+         x="229"
+         y="122"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="10px"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         opacity="0.75"
+         style="fill:#000000;fill-opacity:1">Facts and names correct?</text>
+    </g>
+    <!-- Arrow 2→3 -->
+    <g
+       id="arrow-2-3"
+       inkscape:label="Arrow 2-3"
+       style="fill:#000000;fill-opacity:1">
+      <line
+         x1="296"
+         y1="82"
+         x2="314"
+         y2="82"
+         stroke="#555555"
+         stroke-width="2"
+         id="line2"
+         style="fill:#000000;fill-opacity:1" />
+      <polygon
+         points="318,82 310,77 310,87"
+         fill="#555555"
+         id="polygon2"
+         style="fill:#000000;fill-opacity:1" />
+    </g>
+    <!-- ======== STEP 3: Check citations (#009E73) ======== -->
+    <rect
+       id="rect-step3"
+       x="322"
+       y="30"
+       width="126"
+       height="105"
+       rx="10"
+       ry="10"
+       fill="#009e73"
+       filter="url(#node-shadow)"
+       style="fill:#92dbb0;fill-opacity:1" />
+    <g
+       id="g6"
+       transform="translate(0,-2.8803715)">
+      <text
+         id="num-step3"
+         x="385"
+         y="60"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="16px"
+         font-weight="bold"
+         fill="#ffffff"
+         text-anchor="middle"
+         opacity="0.7"
+         style="fill:#000000;fill-opacity:1">3</text>
+      <text
+         id="label-step3a"
+         x="385"
+         y="82"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#ffffff"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">Check</text>
+      <text
+         id="label-step3b"
+         x="385"
+         y="98"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#ffffff"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">citations</text>
+      <text
+         id="desc-step3"
+         x="385"
+         y="122"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="10px"
+         fill="#ffffff"
+         text-anchor="middle"
+         opacity="0.85"
+         style="fill:#000000;fill-opacity:1">Do they exist?</text>
+    </g>
+    <!-- Arrow 3→4 -->
+    <g
+       id="arrow-3-4"
+       inkscape:label="Arrow 3-4"
+       style="fill:#000000;fill-opacity:1">
+      <line
+         x1="452"
+         y1="82"
+         x2="470"
+         y2="82"
+         stroke="#555555"
+         stroke-width="2"
+         id="line3"
+         style="fill:#000000;fill-opacity:1" />
+      <polygon
+         points="474,82 466,77 466,87"
+         fill="#555555"
+         id="polygon3"
+         style="fill:#000000;fill-opacity:1" />
+    </g>
+    <!-- ======== STEP 4: Validate data (#CC79A7) ======== -->
+    <rect
+       id="rect-step4"
+       x="478"
+       y="30"
+       width="126"
+       height="105"
+       rx="10"
+       ry="10"
+       fill="#cc79a7"
+       filter="url(#node-shadow)"
+       style="fill:#83d5a6;fill-opacity:1" />
+    <g
+       id="g7"
+       transform="translate(0.34374762,-1.9711919)">
+      <text
+         id="num-step4"
+         x="541"
+         y="60"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="16px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         opacity="0.6"
+         style="fill:#000000;fill-opacity:1">4</text>
+      <text
+         id="label-step4a"
+         x="541"
+         y="82"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">Validate</text>
+      <text
+         id="label-step4b"
+         x="541"
+         y="98"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">data</text>
+      <text
+         id="desc-step4"
+         x="541"
+         y="122"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="10px"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         opacity="0.75"
+         style="fill:#000000;fill-opacity:1">Numbers accurate?</text>
+    </g>
+    <!-- Arrow 4→5 -->
+    <g
+       id="arrow-4-5"
+       inkscape:label="Arrow 4-5"
+       style="fill:#000000;fill-opacity:1">
+      <line
+         x1="608"
+         y1="82"
+         x2="626"
+         y2="82"
+         stroke="#555555"
+         stroke-width="2"
+         id="line4"
+         style="fill:#000000;fill-opacity:1" />
+      <polygon
+         points="630,82 622,77 622,87"
+         fill="#555555"
+         id="polygon4"
+         style="fill:#000000;fill-opacity:1" />
+    </g>
+    <!-- ======== STEP 5: Assess quality (#56B4E9) ======== -->
+    <rect
+       id="rect-step5"
+       x="634"
+       y="30"
+       width="126"
+       height="105"
+       rx="10"
+       ry="10"
+       fill="#56b4e9"
+       filter="url(#node-shadow)"
+       style="fill:#63ca8f;fill-opacity:1" />
+    <g
+       id="g8"
+       transform="translate(0.30956794,-2.0102544)">
+      <text
+         id="num-step5"
+         x="697"
+         y="60"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="16px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         opacity="0.6"
+         style="fill:#000000;fill-opacity:1">5</text>
+      <text
+         id="label-step5a"
+         x="697"
+         y="82"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">Assess</text>
+      <text
+         id="label-step5b"
+         x="697"
+         y="98"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="14px"
+         font-weight="bold"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         style="fill:#000000;fill-opacity:1">quality</text>
+      <text
+         id="desc-step5"
+         x="697"
+         y="122"
+         font-family="Helvetica, Arial, sans-serif"
+         font-size="10px"
+         fill="#1a1a1a"
+         text-anchor="middle"
+         opacity="0.75"
+         style="fill:#000000;fill-opacity:1">Useful as-is?</text>
+    </g>
+  </g>
+  <!-- Bottom label -->
+  <text
+     x="389.22345"
+     y="177.25304"
+     font-family="Helvetica, Arial, sans-serif"
+     font-size="16.0968px"
+     fill="#666666"
+     text-anchor="middle"
+     font-style="italic"
+     id="label-habit"
+     style="fill:#000000;fill-opacity:1;stroke-width:1.23821">Make this a habit for every AI output you plan to use</text>
+</svg>

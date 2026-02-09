@@ -80,6 +80,11 @@ A practical approach to working with AI effectively:
 3. **Discernment** - Evaluating *whether* the output is correct
 4. **Diligence** - Using AI *responsibly* and ethically
 
+
+## {.center}
+
+![](assets/four_ds_diagram.svg){fig-alt="The 4 Ds of AI Fluency: Delegation, Description, Discernment, and Diligence arranged in an interconnected diamond with bidirectional arrows between each node" fig-align="center" width=100%}
+
 ## AI as Augmentation, Not Replacement
 
 AI tools are **thinking partners**, not replacements for your expertise
@@ -88,8 +93,10 @@ AI tools are **thinking partners**, not replacements for your expertise
 - AI is useful for tasks like brainstorming, summarizing, drafting, and troubleshooting
 - You remain responsible for the scientific validity of your work
 
+<!-- 
 
-## Current AI Landscape {.small}
+Note: This is probably well covered by the other slides
+## Current AI Landscape {.smaller}
 
 **Where AI can help in biology:**
 
@@ -103,16 +110,39 @@ AI tools are **thinking partners**, not replacements for your expertise
 - AI can "hallucinate" - generating plausible but fabricated references, gene names, or statistics
 - Outputs may reflect biases in training data
 - Sensitive or unpublished data should not be shared with AI tools without considering privacy policies
-- AI-generated figures should not be used in publications - they can misrepresent data and many journals prohibit them
+- AI-generated figures should not be used in publications - they can misrepresent data and many journals prohibit them -->
 
-## Brief Overview of Tools
+## Brief Overview of Tools {.small_custom}
 
 Popular tools include **Claude** (Anthropic), **ChatGPT** (OpenAI), and **Gemini** (Google)
 
 - All are **large language models (LLMs)** - trained on vast text data to understand and generate language
 - They share the same core limitations: hallucinations, knowledge cutoffs, and training biases
-- Relative performance varies by task and changes frequently - no single tool is consistently "best"
+- Relative performance varies by task and changes frequently
 - They do not search the internet by default (some have optional web search)
+
+
+
+# Module 1: Delegation
+
+## Goal and Task Awareness {.small_custom}
+
+Before opening any AI tool, clearly define what you need:
+
+- **What is the task?** e.g., summarize a paper, draft a methods section, troubleshoot a protocol
+- **What does success look like?** Define the output you want before you start
+- **Do you have the expertise to evaluate the result?** If you can't judge whether the AI is right, you probably shouldn't delegate it
+- Together with **Platform Awareness**, this helps you decide if AI is the right tool for the job
+
+## Platform Awareness {.small_custom}
+
+Understanding what AI tools can and cannot do:
+
+- **Context window** -- how much text AI can process at once. Exceeding it causes the AI to "forget" earlier content
+- **Knowledge cutoff** -- AI has no knowledge after its training date. It won't know recent papers
+- **Hallucination** -- AI can confidently state plausible but wrong things (fake citations, invented gene names)
+- **Context pollution** -- long conversations accumulate errors; start a new chat for new tasks
+- **Extended thinking / research modes** -- newer features for complex reasoning or searching external sources
 
 
 ## Choosing an AI Tool
@@ -123,24 +153,43 @@ Popular tools include **Claude** (Anthropic), **ChatGPT** (OpenAI), and **Gemini
 - Does your institution have approved tools or data use agreements?
 - Never share sensitive, unpublished, or patient-derived data without checking your institution's policies
 
+## {.center}
 
-# Module 1: Delegation
+![](assets/task_delegation_modalities.svg){fig-alt="Three modalities of task delegation shown as cards: Automation (you define, AI executes), Augmentation (you and AI collaborate as thinking partners), and Agency (you configure, AI acts independently), with bar charts showing relative human versus AI involvement" fig-align="center" width=95%}
 
-## Goal and Task Awareness
+## Modalities of Task Delegation {.smaller}
 
-*TODO: Define your task before opening AI*
+- **Automation** -- You define exactly what needs to be done, and the AI executes it
 
-## Platform Awareness
+:::{.example-indented}
+"Rewrite this protocol section to follow the journal's formatting guidelines, do not change the content - just the formatting."
+:::
 
-*TODO: Context windows, knowledge cutoffs, hallucination risks*
+- **Augmentation** -- You and AI collaborate iteratively as thinking partners
 
-## Three Modalities of Task Delegation
+:::{.example-indented}
+Drafting and refining an abstract together over several rounds of feedback
+:::
 
-*TODO: Automation, Augmentation, Agency*
+- **Agency** -- You configure the AI's role and knowledge, then let it act independently
 
-## Exercise: Identify Your AI Tasks
+:::{.example-indented}
+Giving AI your experimental goals and reagent constraints, and letting it independently design and compare multiple protocol options
+:::
 
-*TODO: Identify 2-3 tasks from own work suitable for AI*
+In practice, **Augmentation** is the most productive mode for research tasks
+
+## Exercise: Identify Your AI Tasks {.small_custom}
+
+**Think about your own work and identify 2-3 tasks where AI could help.**
+
+For each task, consider:
+
+1. What is the task? (e.g., literature review, writing, data wrangling)
+2. Which mode fits best -- Automation, Augmentation, or Agency?
+3. Could you evaluate whether the AI's output is correct?
+
+Enter tasks [here](https://app.sli.do/event/3sDxDAGKp3d6j1LfuKN4Si).
 
 
 # 10 min break
@@ -165,45 +214,150 @@ countdown::countdown(minutes = 10,
 
 # Module 2: Description
 
-## 6 Prompting Techniques Overview
+## 6 Prompting Techniques Overview {.small_custom}
 
-*TODO: List the 6 techniques*
+1. **Provide Context** -- Give background information the AI needs
+2. **Show Examples** -- Demonstrate the format or style you want
+3. **Specify Output Constraints** -- Define length, format, audience, and structure
+4. **Break Complex Tasks into Steps** -- Provide sequential instructions
+5. **Ask It to Think First** -- Use extended thinking modes
+6. **Define the AI's Role** -- Set perspective
 
-## Technique 1: Provide Context
+These techniques map to the Description competency: Product, Process, and Performance Description
 
-*TODO: Background information the AI needs*
+## 1) Provide Context {.small_custom}
 
-## Technique 2: Show Examples
+Give the AI the background information it needs to do a good job.
 
-*TODO: Demonstrate format or style*
+- What field or subfield are you working in?
+- What is the purpose of this task?
+- What has already been done?
 
-## Technique 3: Specify Output Constraints
 
-*TODO: Length, format, audience, structure*
+:::{.bad-example}
+"Summarize this paper"
+:::
 
-## Bad Prompt vs. Good Prompt
+:::{.good-example}
+"I'm a graduate student in cardiac biology preparing for a journal club. Summarize this paper's main findings, focusing on the signaling pathways involved in cardiomyocyte differentiation."
+:::
 
-*TODO: Side-by-side comparison*
+## 2) Show Examples
 
-## Technique 4: Break Complex Tasks into Steps
+Show the AI what you want by providing one or more examples of the desired output.
 
-*TODO: Sequential instructions*
+- Useful for defining **format**, **style**, or **level of detail**
+- Also called "few-shot prompting" -- the AI learns from the pattern you demonstrate
 
-## Technique 5: Ask It to Think First
 
-*TODO: Reason before answering*
+:::{.example}
+"Summarize each paper in this format:
 
-## Technique 6: Define the AI's Role
+[Author et al., Year] -- [One-sentence finding]. Method: [Key technique]. Relevance: [Why it matters to my project]."
+:::
 
-*TODO: Set expertise and perspective*
+## 3) Specify Output Constraints
 
-## Bonus: Ask AI to Help with Your Prompt
+Tell the AI exactly what the output should look like:
 
-*TODO: Meta-prompting demo*
+- **Length** -- "in 200 words," "in 3 bullet points"
+- **Format** -- "as a table," "as a numbered list," "in paragraph form"
+- **Audience** -- "for a PI," "for a first-year graduate student," "for a grant review panel"
+- **Structure** -- "organize by: (1) hypothesis, (2) methods, (3) key results"
 
-## Exercise: Craft a Prompt
+The more specific your constraints, the closer the output will match what you need
 
-*TODO: Apply at least 3 techniques, run through Claude, evaluate*
+## Bad Prompt vs. Good Prompt {.small_custom}
+
+:::{.bad-example}
+"Summarize this paper"
+:::
+
+:::{.good-example}
+"Summarize this cell biology paper's experimental methodology in exactly 200 words, focusing only on protein-protein interaction techniques (e.g., co-IP, pull-downs, FRET, crosslinking). Organize your summary by:  
+
+1. Primary techniques used 
+2. Key reagents
+3. Validation methods
+
+Write for an audience of post-docs and graduate students."
+:::
+
+The good prompt uses **context**, **output constraints**, and **structure** to guide the AI
+
+## 4) Break Complex Tasks into Steps {.small}
+
+For complex tasks, give the AI a step-by-step process to follow.
+
+
+:::{.example}
+"Analyze this paper in the following steps:
+
+Step 1: Identify the main hypothesis
+
+Step 2: List the experimental methods used
+
+Step 3: Summarize the key findings
+
+Step 4: Evaluate whether the conclusions are supported by the data"
+:::
+
+This is called **Process Description** -- defining *how* the AI should approach the task
+
+## 5) Let It Think Deeply {.small}
+
+Most AI tools now have a **thinking** or **reasoning** mode — use it for complex or multi-part questions
+
+- **Don't** need to say "think step by step"
+- **Do** toggle on extended thinking for harder questions; skip it for simple tasks
+
+:::{.example}
+*[Turn on extended thinking / reasoning mode]*
+
+"Here is a paper on CRISPR-based gene therapy for sickle cell disease. What are the key methodological limitations, and how might they affect the authors' conclusions?"
+:::
+
+## 6) Define the AI's Role {.small}
+
+Set the AI's perspective to shape its responses.
+
+
+:::{.example}
+- "Explain this as a journal club presenter would to a mixed audience of biologists"
+- "Write as if you are teaching a graduate student new to this subfield"
+- "Act as a critical reviewer evaluating this manuscript for a high-impact journal"
+:::
+
+This is **Performance Description** -- defining how the AI should behave during your interaction (concise vs. detailed, supportive vs. critical)
+
+## Bonus: Ask AI to Help with Your Prompt {.small}
+
+You can ask the AI to help you write a better prompt -- this is called **meta-prompting**.
+
+
+:::{.example}
+"I'm trying to analyze this paper's methodology for my literature review. Can you help me craft a better prompt to get a useful summary?"
+:::
+
+This is especially useful when:
+
+- You're not sure how to structure your request
+- You want to explore what's possible before committing to a specific approach
+- Your initial prompt isn't giving you good results
+
+## Exercise: Prompting {.small_custom}
+
+**Use the task you identified in the Delegation exercise and write a prompt using at least 3 of the 6 techniques.**
+
+**Steps:**
+
+1. **Draft your prompt** using at least 3 techniques (3 min)
+2. **Run it in Claude** and review the output (3 min)
+3. **Iterate** -- refine your prompt and try again if needed (2 min)
+4. **Reflect:** Which techniques helped most? What would you change? (2 min)
+
+
+*Tip: Start with context + constraints + role, then add steps or examples if needed.*
 
 
 # End of Part 1
@@ -222,7 +376,7 @@ countdown::countdown(minutes = 10,
 
 ## Upcoming Workshops {.small}
 
-*TODO: Add upcoming workshop details*
+*Details coming soon -- check our website for the latest schedule*
 
 ## Acknowledgments
 

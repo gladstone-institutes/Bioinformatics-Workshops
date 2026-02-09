@@ -29,7 +29,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="AI_Fluency_Part_1_files/libs/revealjs/dist/theme/quarto-935996b0d9e574aff0c1d3e85898812b.css">
+  <link rel="stylesheet" href="AI_Fluency_Part_1_files/libs/revealjs/dist/theme/quarto-0accc9b9d62f0bea279770cd522c8034.css">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -220,6 +220,10 @@ Bioinformatician II</p>
 <li><strong>Diligence</strong> - Using AI <em>responsibly</em> and ethically</li>
 </ol>
 </section>
+<section id="section-1" class="slide level2 center">
+<h2></h2>
+
+<img data-src="assets/four_ds_diagram.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%" alt="The 4 Ds of AI Fluency: Delegation, Description, Discernment, and Diligence arranged in an interconnected diamond with bidirectional arrows between each node"></section>
 <section id="ai-as-augmentation-not-replacement" class="slide level2">
 <h2>AI as Augmentation, Not Replacement</h2>
 <p>AI tools are <strong>thinking partners</strong>, not replacements for your expertise</p>
@@ -228,38 +232,33 @@ Bioinformatician II</p>
 <li>AI is useful for tasks like brainstorming, summarizing, drafting, and troubleshooting</li>
 <li>You remain responsible for the scientific validity of your work</li>
 </ul>
+<!-- 
+
+Note: This is probably well covered by the other slides
+## Current AI Landscape {.smaller}
+
+**Where AI can help in biology:**
+
+- Literature search and summarization
+- Writing and editing manuscripts, grants, and protocols
+- Designing experiments and analysis strategies
+- Explaining unfamiliar concepts or statistical methods
+
+**Where caution is needed:**
+
+- AI can "hallucinate" - generating plausible but fabricated references, gene names, or statistics
+- Outputs may reflect biases in training data
+- Sensitive or unpublished data should not be shared with AI tools without considering privacy policies
+- AI-generated figures should not be used in publications - they can misrepresent data and many journals prohibit them -->
 </section>
-<section id="current-ai-landscape" class="slide level2 small">
-<h2>Current AI Landscape</h2>
-<p><strong>Where AI can help in biology:</strong></p>
-<ul>
-<li>Literature search and summarization</li>
-<li>Writing and editing manuscripts, grants, and protocols</li>
-<li>Designing experiments and analysis strategies</li>
-<li>Explaining unfamiliar concepts or statistical methods</li>
-</ul>
-<p><strong>Where caution is needed:</strong></p>
-<ul>
-<li>AI can “hallucinate” - generating plausible but fabricated references, gene names, or statistics</li>
-<li>Outputs may reflect biases in training data</li>
-<li>Sensitive or unpublished data should not be shared with AI tools without considering privacy policies</li>
-<li>AI-generated figures should not be used in publications - they can misrepresent data and many journals prohibit them</li>
-</ul>
-</section>
-<section id="brief-overview-of-tools" class="slide level2">
+<section id="brief-overview-of-tools" class="slide level2 small_custom">
 <h2>Brief Overview of Tools</h2>
 <p>Popular tools include <strong>Claude</strong> (Anthropic), <strong>ChatGPT</strong> (OpenAI), and <strong>Gemini</strong> (Google)</p>
 <ul>
 <li>All are <strong>large language models (LLMs)</strong> - trained on vast text data to understand and generate language</li>
 <li>They share the same core limitations: hallucinations, knowledge cutoffs, and training biases</li>
-<li>Relative performance varies by task and changes frequently - no single tool is consistently “best”</li>
+<li>Relative performance varies by task and changes frequently</li>
 <li>They do not search the internet by default (some have optional web search)</li>
-</ul>
-<p><strong>Before choosing a tool, consider the privacy policy:</strong></p>
-<ul>
-<li>What data is stored? Is it used to train future models?</li>
-<li>Does your institution have approved tools or data use agreements?</li>
-<li>Never share sensitive, unpublished, or patient-derived data without checking your institution’s policies</li>
 </ul>
 </section></section>
 <section>
@@ -267,28 +266,79 @@ Bioinformatician II</p>
 <h1>Module 1: Delegation</h1>
 
 </section>
-<section id="goal-and-task-awareness" class="slide level2">
+<section id="goal-and-task-awareness" class="slide level2 small_custom">
 <h2>Goal and Task Awareness</h2>
-<p><em>TODO: Define your task before opening AI</em></p>
+<p>Before opening any AI tool, clearly define what you need:</p>
+<ul>
+<li><strong>What is the task?</strong> e.g., summarize a paper, draft a methods section, troubleshoot a protocol</li>
+<li><strong>What does success look like?</strong> Define the output you want before you start</li>
+<li><strong>Do you have the expertise to evaluate the result?</strong> If you can’t judge whether the AI is right, you probably shouldn’t delegate it</li>
+<li>Together with <strong>Platform Awareness</strong>, this helps you decide if AI is the right tool for the job</li>
+</ul>
 </section>
-<section id="platform-awareness" class="slide level2">
+<section id="platform-awareness" class="slide level2 small_custom">
 <h2>Platform Awareness</h2>
-<p><em>TODO: Context windows, knowledge cutoffs, hallucination risks</em></p>
+<p>Understanding what AI tools can and cannot do:</p>
+<ul>
+<li><strong>Context window</strong> – how much text AI can process at once. Exceeding it causes the AI to “forget” earlier content</li>
+<li><strong>Knowledge cutoff</strong> – AI has no knowledge after its training date. It won’t know recent papers</li>
+<li><strong>Hallucination</strong> – AI can confidently state plausible but wrong things (fake citations, invented gene names)</li>
+<li><strong>Context pollution</strong> – long conversations accumulate errors; start a new chat for new tasks</li>
+<li><strong>Extended thinking / research modes</strong> – newer features for complex reasoning or searching external sources</li>
+</ul>
 </section>
-<section id="three-modalities-of-task-delegation" class="slide level2">
-<h2>Three Modalities of Task Delegation</h2>
-<p><em>TODO: Automation, Augmentation, Agency</em></p>
+<section id="choosing-an-ai-tool" class="slide level2">
+<h2>Choosing an AI Tool</h2>
+<p><strong>Before choosing a tool, consider the privacy policy:</strong></p>
+<ul>
+<li>What data is stored? Is it used to train future models?</li>
+<li>Does your institution have approved tools or data use agreements?</li>
+<li>Never share sensitive, unpublished, or patient-derived data without checking your institution’s policies</li>
+</ul>
 </section>
-<section id="exercise-identify-your-ai-tasks" class="slide level2">
+<section id="section-2" class="slide level2 center">
+<h2></h2>
+
+<img data-src="assets/task_delegation_modalities.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:95.0%" alt="Three modalities of task delegation shown as cards: Automation (you define, AI executes), Augmentation (you and AI collaborate as thinking partners), and Agency (you configure, AI acts independently), with bar charts showing relative human versus AI involvement"></section>
+<section id="modalities-of-task-delegation" class="slide level2 smaller">
+<h2>Modalities of Task Delegation</h2>
+<ul>
+<li><strong>Automation</strong> – You define exactly what needs to be done, and the AI executes it</li>
+</ul>
+<div class="example-indented">
+<p>“Rewrite this protocol section to follow the journal’s formatting guidelines, do not change the content - just the formatting.”</p>
+</div>
+<ul>
+<li><strong>Augmentation</strong> – You and AI collaborate iteratively as thinking partners</li>
+</ul>
+<div class="example-indented">
+<p>Drafting and refining an abstract together over several rounds of feedback</p>
+</div>
+<ul>
+<li><strong>Agency</strong> – You configure the AI’s role and knowledge, then let it act independently</li>
+</ul>
+<div class="example-indented">
+<p>Giving AI your experimental goals and reagent constraints, and letting it independently design and compare multiple protocol options</p>
+</div>
+<p>In practice, <strong>Augmentation</strong> is the most productive mode for research tasks</p>
+</section>
+<section id="exercise-identify-your-ai-tasks" class="slide level2 small_custom">
 <h2>Exercise: Identify Your AI Tasks</h2>
-<p><em>TODO: Identify 2-3 tasks from own work suitable for AI</em></p>
+<p><strong>Think about your own work and identify 2-3 tasks where AI could help.</strong></p>
+<p>For each task, consider:</p>
+<ol type="1">
+<li>What is the task? (e.g., literature review, writing, data wrangling)</li>
+<li>Which mode fits best – Automation, Augmentation, or Agency?</li>
+<li>Could you evaluate whether the AI’s output is correct?</li>
+</ol>
+<p>Enter tasks <a href="https://app.sli.do/event/3sDxDAGKp3d6j1LfuKN4Si">here</a>.</p>
 </section></section>
 <section id="min-break" class="title-slide slide level1 center">
 <h1>10 min break</h1>
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_93ea02ce" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_c57abeb6" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -299,45 +349,132 @@ Bioinformatician II</p>
 <h1>Module 2: Description</h1>
 
 </section>
-<section id="prompting-techniques-overview" class="slide level2">
+<section id="prompting-techniques-overview" class="slide level2 small_custom">
 <h2>6 Prompting Techniques Overview</h2>
-<p><em>TODO: List the 6 techniques</em></p>
+<ol type="1">
+<li><strong>Provide Context</strong> – Give background information the AI needs</li>
+<li><strong>Show Examples</strong> – Demonstrate the format or style you want</li>
+<li><strong>Specify Output Constraints</strong> – Define length, format, audience, and structure</li>
+<li><strong>Break Complex Tasks into Steps</strong> – Provide sequential instructions</li>
+<li><strong>Ask It to Think First</strong> – Use extended thinking modes</li>
+<li><strong>Define the AI’s Role</strong> – Set perspective</li>
+</ol>
+<p>These techniques map to the Description competency: Product, Process, and Performance Description</p>
 </section>
-<section id="technique-1-provide-context" class="slide level2">
-<h2>Technique 1: Provide Context</h2>
-<p><em>TODO: Background information the AI needs</em></p>
+<section id="provide-context" class="slide level2 small_custom">
+<h2>1) Provide Context</h2>
+<p>Give the AI the background information it needs to do a good job.</p>
+<ul>
+<li>What field or subfield are you working in?</li>
+<li>What is the purpose of this task?</li>
+<li>What has already been done?</li>
+</ul>
+<div class="bad-example">
+<p>“Summarize this paper”</p>
+</div>
+<div class="good-example">
+<p>“I’m a graduate student in cardiac biology preparing for a journal club. Summarize this paper’s main findings, focusing on the signaling pathways involved in cardiomyocyte differentiation.”</p>
+</div>
 </section>
-<section id="technique-2-show-examples" class="slide level2">
-<h2>Technique 2: Show Examples</h2>
-<p><em>TODO: Demonstrate format or style</em></p>
+<section id="show-examples" class="slide level2">
+<h2>2) Show Examples</h2>
+<p>Show the AI what you want by providing one or more examples of the desired output.</p>
+<ul>
+<li>Useful for defining <strong>format</strong>, <strong>style</strong>, or <strong>level of detail</strong></li>
+<li>Also called “few-shot prompting” – the AI learns from the pattern you demonstrate</li>
+</ul>
+<div class="example">
+<p>“Summarize each paper in this format:</p>
+<p>[Author et al., Year] – [One-sentence finding]. Method: [Key technique]. Relevance: [Why it matters to my project].”</p>
+</div>
 </section>
-<section id="technique-3-specify-output-constraints" class="slide level2">
-<h2>Technique 3: Specify Output Constraints</h2>
-<p><em>TODO: Length, format, audience, structure</em></p>
+<section id="specify-output-constraints" class="slide level2">
+<h2>3) Specify Output Constraints</h2>
+<p>Tell the AI exactly what the output should look like:</p>
+<ul>
+<li><strong>Length</strong> – “in 200 words,” “in 3 bullet points”</li>
+<li><strong>Format</strong> – “as a table,” “as a numbered list,” “in paragraph form”</li>
+<li><strong>Audience</strong> – “for a PI,” “for a first-year graduate student,” “for a grant review panel”</li>
+<li><strong>Structure</strong> – “organize by: (1) hypothesis, (2) methods, (3) key results”</li>
+</ul>
+<p>The more specific your constraints, the closer the output will match what you need</p>
 </section>
-<section id="bad-prompt-vs.-good-prompt" class="slide level2">
+<section id="bad-prompt-vs.-good-prompt" class="slide level2 small_custom">
 <h2>Bad Prompt vs.&nbsp;Good Prompt</h2>
-<p><em>TODO: Side-by-side comparison</em></p>
+<div class="bad-example">
+<p>“Summarize this paper”</p>
+</div>
+<div class="good-example">
+<p>“Summarize this cell biology paper’s experimental methodology in exactly 200 words, focusing only on protein-protein interaction techniques (e.g., co-IP, pull-downs, FRET, crosslinking). Organize your summary by:</p>
+<ol type="1">
+<li>Primary techniques used</li>
+<li>Key reagents</li>
+<li>Validation methods</li>
+</ol>
+<p>Write for an audience of post-docs and graduate students.”</p>
+</div>
+<p>The good prompt uses <strong>context</strong>, <strong>output constraints</strong>, and <strong>structure</strong> to guide the AI</p>
 </section>
-<section id="technique-4-break-complex-tasks-into-steps" class="slide level2">
-<h2>Technique 4: Break Complex Tasks into Steps</h2>
-<p><em>TODO: Sequential instructions</em></p>
+<section id="break-complex-tasks-into-steps" class="slide level2 small">
+<h2>4) Break Complex Tasks into Steps</h2>
+<p>For complex tasks, give the AI a step-by-step process to follow.</p>
+<div class="example">
+<p>“Analyze this paper in the following steps:</p>
+<p>Step 1: Identify the main hypothesis</p>
+<p>Step 2: List the experimental methods used</p>
+<p>Step 3: Summarize the key findings</p>
+<p>Step 4: Evaluate whether the conclusions are supported by the data”</p>
+</div>
+<p>This is called <strong>Process Description</strong> – defining <em>how</em> the AI should approach the task</p>
 </section>
-<section id="technique-5-ask-it-to-think-first" class="slide level2">
-<h2>Technique 5: Ask It to Think First</h2>
-<p><em>TODO: Reason before answering</em></p>
+<section id="let-it-think-deeply" class="slide level2 small">
+<h2>5) Let It Think Deeply</h2>
+<p>Most AI tools now have a <strong>thinking</strong> or <strong>reasoning</strong> mode — use it for complex or multi-part questions</p>
+<ul>
+<li><strong>Don’t</strong> need to say “think step by step”</li>
+<li><strong>Do</strong> toggle on extended thinking for harder questions; skip it for simple tasks</li>
+</ul>
+<div class="example">
+<p><em>[Turn on extended thinking / reasoning mode]</em></p>
+<p>“Here is a paper on CRISPR-based gene therapy for sickle cell disease. What are the key methodological limitations, and how might they affect the authors’ conclusions?”</p>
+</div>
 </section>
-<section id="technique-6-define-the-ais-role" class="slide level2">
-<h2>Technique 6: Define the AI’s Role</h2>
-<p><em>TODO: Set expertise and perspective</em></p>
+<section id="define-the-ais-role" class="slide level2 small">
+<h2>6) Define the AI’s Role</h2>
+<p>Set the AI’s perspective to shape its responses.</p>
+<div class="example">
+<ul>
+<li>“Explain this as a journal club presenter would to a mixed audience of biologists”</li>
+<li>“Write as if you are teaching a graduate student new to this subfield”</li>
+<li>“Act as a critical reviewer evaluating this manuscript for a high-impact journal”</li>
+</ul>
+</div>
+<p>This is <strong>Performance Description</strong> – defining how the AI should behave during your interaction (concise vs.&nbsp;detailed, supportive vs.&nbsp;critical)</p>
 </section>
-<section id="bonus-ask-ai-to-help-with-your-prompt" class="slide level2">
+<section id="bonus-ask-ai-to-help-with-your-prompt" class="slide level2 small">
 <h2>Bonus: Ask AI to Help with Your Prompt</h2>
-<p><em>TODO: Meta-prompting demo</em></p>
+<p>You can ask the AI to help you write a better prompt – this is called <strong>meta-prompting</strong>.</p>
+<div class="example">
+<p>“I’m trying to analyze this paper’s methodology for my literature review. Can you help me craft a better prompt to get a useful summary?”</p>
+</div>
+<p>This is especially useful when:</p>
+<ul>
+<li>You’re not sure how to structure your request</li>
+<li>You want to explore what’s possible before committing to a specific approach</li>
+<li>Your initial prompt isn’t giving you good results</li>
+</ul>
 </section>
-<section id="exercise-craft-a-prompt" class="slide level2">
-<h2>Exercise: Craft a Prompt</h2>
-<p><em>TODO: Apply at least 3 techniques, run through Claude, evaluate</em></p>
+<section id="exercise-prompting" class="slide level2 small_custom">
+<h2>Exercise: Prompting</h2>
+<p><strong>Use the task you identified in the Delegation exercise and write a prompt using at least 3 of the 6 techniques.</strong></p>
+<p><strong>Steps:</strong></p>
+<ol type="1">
+<li><strong>Draft your prompt</strong> using at least 3 techniques (3 min)</li>
+<li><strong>Run it in Claude</strong> and review the output (3 min)</li>
+<li><strong>Iterate</strong> – refine your prompt and try again if needed (2 min)</li>
+<li><strong>Reflect:</strong> Which techniques helped most? What would you change? (2 min)</li>
+</ol>
+<p><em>Tip: Start with context + constraints + role, then add steps or examples if needed.</em></p>
 </section></section>
 <section>
 <section id="end-of-part-1" class="title-slide slide level1 center">
@@ -362,7 +499,7 @@ Bioinformatician II</p>
 </section>
 <section id="upcoming-workshops" class="slide level2 small">
 <h2>Upcoming Workshops</h2>
-<p><em>TODO: Add upcoming workshop details</em></p>
+<p><em>Details coming soon – check our website for the latest schedule</em></p>
 </section>
 <section id="acknowledgments" class="slide level2">
 <h2>Acknowledgments</h2>
