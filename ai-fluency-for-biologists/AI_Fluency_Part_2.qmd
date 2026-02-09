@@ -47,7 +47,7 @@ Bioinformatician II
 
 Think of it as: **What** did it produce? **How** did it get there? **How well** did it work with you?
 
-## Product Discernment
+## Product Discernment {.small_custom}
 
 Evaluate every AI output against four criteria:
 
@@ -69,7 +69,7 @@ Watch out for these frequent mistakes:
 - **Fabricated details** -- Inventing sample sizes, p-values, or experimental conditions that weren't in the source
 
 
-## Process Discernment
+## Process Discernment {.small_custom}
 
 Evaluate how the AI is working *with* you, not just what it produces.
 
@@ -85,7 +85,7 @@ Evaluate how the AI is working *with* you, not just what it produces.
 - Iterations genuinely improve the output
 - AI identifies aspects you hadn't considered
 
-## When to Stop Using AI for a Task
+## When to Stop Using AI for a Task {.small_custom}
 
 Consider stopping when:
 
@@ -96,11 +96,11 @@ Consider stopping when:
 
 **The goal is to save time and improve quality.** If AI isn't doing both, switch approaches
 
-## {.center}
+<!-- ## {.center} 
 
-![](assets/verification_workflow.svg){fig-alt="Five-step verification workflow shown as a horizontal pipeline: 1. Compare to source, 2. Verify claims, 3. Check citations, 4. Validate data, 5. Assess quality, with the reminder to make this a habit for every AI output" .nostretch fig-align="center" width=95%}
+![](assets/verification_workflow.svg){fig-alt="Five-step verification workflow shown as a horizontal pipeline: 1. Compare to source, 2. Verify claims, 3. Check citations, 4. Validate data, 5. Assess quality, with the reminder to make this a habit for every AI output" fig-align="center" width=100%} -->
 
-## Performance Discernment: Verification Workflow
+## Performance Discernment: Verification {.small_custom}
 
 A systematic process for checking AI output:
 
@@ -113,7 +113,7 @@ A systematic process for checking AI output:
 Make this a habit for every AI-generated output you plan to use
 
 
-## Exercise: Research Mode -- Discernment {.small_custom}
+## Exercise: Research Mode -- Discernment {.smaller}
 
 **Let's test how well AI handles the cutting edge of *your* field.**
 
@@ -126,7 +126,7 @@ Pick a topic that satisfies these criteria:
 3. You could spot if the AI gets something wrong or leaves something out
 
 :::{.example}
-"Summarize the current state of research on [your topic], focusing on key findings from the last 2 years. Include any ongoing debates or unresolved questions in the field."
+"Summarize the current state of research on [your topic] in 500-800 words, focusing on key findings from the last 2 years. Include any ongoing debates or unresolved questions in the field."
 :::
 
 Research mode takes a while -- we'll take a 10-minute break while it runs, then review the results together
@@ -151,7 +151,7 @@ countdown::countdown(minutes = 10,
 
 </center>
 
-## Exercise: Review Your Research Mode Output {.small_custom}
+## Exercise: Review Your Research Mode Output {.smaller}
 
 **Read through the AI's summary using your domain expertise. Look for:**
 
