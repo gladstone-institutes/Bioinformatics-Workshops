@@ -123,6 +123,52 @@ Popular tools include **Claude** (Anthropic), **ChatGPT** (OpenAI), and **Gemini
 - They do not search the internet by default (some have optional web search)
 :::
 
+## Choosing a Model {.smaller}
+
+<!-- TODO: Slide on factors that affect model selection for end users
+Guidance:
+- Cost vs. capability tradeoff (free tiers vs. paid plans)
+- Task fit: some models are better at coding, some at writing, some at reasoning
+- Context window size — how much text you can provide at once
+- Multimodal capabilities (image/PDF input, etc.)
+- Privacy and data policies vary by provider and plan tier
+- Speed vs. quality: smaller/faster models for simple tasks, larger models for complex reasoning
+- For most biologists: pick one good tool and learn it well rather than switching constantly
+-->
+
+## Understanding Benchmarks and Leaderboards {.smaller}
+
+<!-- TODO: Slide on how to interpret AI benchmark leaderboards
+Guidance:
+- Mention common leaderboards: Chatbot Arena (LMSYS), HELM, benchmarks on model provider websites
+- Key benchmarks to know: MMLU (general knowledge), HumanEval (coding), GPQA (graduate-level science)
+- Caveats for end users:
+  - Benchmarks measure narrow tasks — high scores don't guarantee good performance on YOUR task
+  - Leaderboard rankings change frequently; don't over-optimize model choice based on them
+  - "Vibes-based" evaluation (Chatbot Arena) vs. standardized benchmarks — both have value
+  - Contamination: models may have seen benchmark questions in training data
+  - The best approach: try your actual task on 2-3 models and see which works best for you
+- Main takeaway: benchmarks are useful for rough comparisons, but your own experience matters more
+-->
+
+## What Are AI Agents? {.smaller}
+
+<!-- TODO: Slide introducing the concept of AI agents
+Guidance:
+- An agent is an AI system that can take actions autonomously — not just generate text
+- Key capabilities that distinguish agents from basic chat:
+  - Tool use: agents can search the web, run code, read files, call APIs
+  - Multi-step planning: agents break down a goal into steps and execute them
+  - Iteration: agents can check their own work and retry if something fails
+- Examples relevant to biologists:
+  - Research mode / deep research: agent searches multiple sources and synthesizes findings
+  - Code agents: write, run, and debug analysis scripts autonomously
+  - Computer use: agents that can interact with software interfaces
+- This connects to the Agency modality from the Delegation module
+- Current limitations: agents can go off-track, may take unexpected actions, still need human oversight
+- Practical advice: start with augmentation mode, graduate to agents as you build trust
+-->
+
 
 
 # Module 1: Delegation
@@ -224,7 +270,58 @@ countdown::countdown(minutes = 10,
 
 # Module 2: Description
 
-## 6 Prompting Techniques Overview
+## Prompting Techniques Overview
+
+<!-- TODO: Revise this list based on current best practices (see guidance below)
+
+WHAT TO KEEP (still strongly recommended):
+1. Provide Context — still the #1 technique across all providers. Keep as-is.
+2. Show Examples (few-shot) — still highly effective. Research shows it can improve
+   accuracy from 0% to 90% on structured tasks. Keep as-is.
+3. Specify Output Constraints — still essential. Keep as-is.
+4. Break Complex Tasks into Steps — still valuable for complex tasks. Keep as-is.
+
+WHAT TO UPDATE:
+5. "Ask It to Think First" — REVISE. Modern models (Claude, GPT-5, Gemini 3) have
+   built-in reasoning modes. You no longer need to say "think step by step" — just
+   toggle on extended thinking / reasoning mode in the UI. The slide already says this
+   but could be stronger: emphasize that explicit CoT prompting is now unnecessary
+   for frontier models and can actually hurt performance (adds latency for minimal
+   gain, per Wharton 2025 research).
+
+WHAT TO DEMOTE OR REMOVE:
+6. "Define the AI's Role" — DEMOTE. Research (Schulhoff / The Prompt Report) shows
+   role prompting is "largely ineffective" for correctness. It may slightly influence
+   tone but doesn't improve accuracy. Consider moving it to a "minor tips" section
+   or removing it as a primary technique.
+
+WHAT TO ADD:
+- "Be Direct and Specific" — The current consensus #1 technique. Tell the AI exactly
+  what you want rather than hinting. Avoid vague instructions. Anthropic's framing:
+  "Think of the AI as a brilliant but new employee who lacks context."
+- "Iterate and Refine" — Already in the exercise but deserves its own technique slot.
+  Conversation is iterative — your first prompt rarely needs to be perfect. Follow up
+  with corrections, clarifications, and refinements.
+- "Use the AI to Improve Your Prompt" (meta-prompting) — Already exists as a "Bonus"
+  slide. Consider promoting it since all providers now recommend this approach.
+
+SUGGESTED REVISED LIST:
+1. Be Clear and Specific (new — the fundamental principle)
+2. Provide Context (keep)
+3. Show Examples (keep)
+4. Specify Output Constraints (keep)
+5. Break Complex Tasks into Steps (keep)
+6. Iterate and Refine (promoted from exercise)
+Bonus: Use extended thinking for hard problems (simplified from current #5)
+Bonus: Meta-prompting (already exists)
+
+ADDITIONAL NOTES:
+- The "Bad Prompt vs Good Prompt" slide is excellent — keep it
+- Consider adding: "Your prompt style influences the output style" — if you write
+  in bullets, the AI responds in bullets. If you write in prose, it responds in prose.
+- The current slides are well-written; the main change is swapping role prompting
+  for directness/iteration as primary techniques.
+-->
 
 ::: {style="font-size: 0.8em;"}
 1. **Provide Context** -- Give background information the AI needs
@@ -408,6 +505,6 @@ This is especially useful when:
 
 ## Acknowledgments
 
-This workshop adapts the AI Fluency framework developed by Rick Dakan, Joseph Feller, and Anthropic (2025).
+This workshop adapts the AI Fluency framework developed by Rick Dakan, Joseph Feller, and Anthropic (2025). Released under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
 
-Released under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
+We thank Anthropic for providing temporary Claude account upgrades for workshop attendees and for the AI Fluency framework that forms the foundation of this workshop.

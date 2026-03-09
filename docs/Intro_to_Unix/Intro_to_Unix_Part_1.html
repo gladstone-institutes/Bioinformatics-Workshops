@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="Natalie Gill">
-  <meta name="dcterms.date" content="2025-11-11">
+  <meta name="dcterms.date" content="2025-03-09">
   <title>Introduction to Unix Command-line</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -209,7 +209,7 @@
   </div>
   <div class="quarto-title-meta">
     <div class="quarto-title-meta-contents">
-      <p class="date">November 11, 2025</p>
+      <p class="date">March 09, 2025</p>
     </div>
   </div>
 </section>
@@ -701,8 +701,8 @@ unix_workshop.tar.gz</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-lah</span> part_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 8
-drwx---r--@ 4 nelphick  staff   128B Nov 11 11:00 .
-drwxr-xr-x@ 6 nelphick  staff   192B Nov 11 11:00 ..
+drwx---r--@ 4 nelphick  staff   128B Mar  9 11:14 .
+drwxr-xr-x@ 6 nelphick  staff   192B Mar  9 11:15 ..
 -rw-r--r--@ 1 nelphick  staff     0B Apr 11  2023 .hidden_file.txt
 -rw-r--r--@ 1 nelphick  staff    60B Apr 12  2023 list_numbers.tsv</code></pre>
 </div>
@@ -727,8 +727,8 @@ drwxr-xr-x@ 6 nelphick  staff   192B Nov 11 11:00 ..
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>total 8
-drwx---r--@ 4 nelphick  staff   128 Nov 11 11:00 part_1
-drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 11:00 part_2
+drwx---r--@ 4 nelphick  staff   128 Mar  9 11:14 part_1
+drwxr-xr-x@ 3 nelphick  staff    96 Mar  9 11:15 part_2
 -rw-r--r--  1 nelphick  staff  1790 Nov 11 10:43 unix_workshop.tar.gz</code></pre>
 </div>
 </div>
@@ -1064,6 +1064,17 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 11:00 part_2
 <h1>End of Part 1</h1>
 
 </section>
+<section id="notes-on-using-ai-for-unix-cli" class="slide level2 smaller">
+<h2>Notes on Using AI for UNIX CLI</h2>
+<ul>
+<li>AI tools (ChatGPT, Claude, Gemini) can help generate, explain, and debug Unix commands</li>
+<li>Always verify AI-generated commands before running them, especially destructive ones (rm, mv)</li>
+<li>AI can hallucinate flags or options — confirm with <code>man</code> or <code>--help</code></li>
+<li>Provide context for better results: your shell, OS, and goal</li>
+<li>If you can’t explain what a command does, don’t run it</li>
+<li>See the Gladstone Bioinformatics Core position paper on responsible use of AI in bioinformatics: <a href="https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&amp;dl=0">link</a></li>
+</ul>
+</section>
 <section id="other-helpful-commands" class="slide level2 small-bullets">
 <h2>Other helpful commands</h2>
 <ul>
@@ -1078,15 +1089,19 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 11:00 part_2
 <li><code>curl wttr.in</code> : check the weather</li>
 </ul>
 </section>
-<section id="survey" class="slide level2">
-<h2>Survey</h2>
+<section id="workshop-survey" class="slide level2">
+<h2>Workshop survey</h2>
 <ul>
-<li>If you are not attending part 2, please take some time to fill out the workshop survey: <a href="https://www.surveymonkey.com/r/bioinfo-training">https://www.surveymonkey.com/r/bioinfo-training</a></li>
+<li>If you are not attending part 2, please fill out our <a href="https://www.surveymonkey.com/r/bioinfo-training26">workshop survey</a> so we can continue to improve these workshops</li>
 </ul>
 </section>
 <section id="additional-learning-materials" class="slide level2">
 <h2>Additional learning materials</h2>
 <ul>
+<li>Learn Regular Expressions:
+<ul>
+<li><a href="https://regexone.com/lesson/introduction_abcs">RegexOne</a></li>
+</ul></li>
 <li>Software carpentry provides a self paced course:
 <ul>
 <li><a href="https://swcarpentry.github.io/shell-novice/">The Unix Shell</a></li>
@@ -1100,16 +1115,18 @@ drwxr-xr-x@ 3 nelphick  staff    96 Nov 11 11:00 part_2
 </section>
 <section id="upcoming-data-science-training-program-workshops" class="slide level2 smaller">
 <h2>Upcoming Data Science Training Program Workshops</h2>
-<p><strong>Introduction to scATAC-seq Data Analysis</strong><br>
-November 17-November 18, 2025 9:00am-12:00pm PST</p>
-<p><strong>scATAC-seq and scRNA-seq Data Integration</strong><br>
-December 1, 2025 1:00-4:00pm PST</p>
-<p><strong>Machine Learning Using R</strong><br>
-January 15, 2026 1:00-4:00pm PST</p>
+<p><strong>Working on Wynton</strong><br>
+March 16-March 17, 2026 9:00am-12:00pm PDT</p>
+<p><strong>Introduction to Pathway Analysis</strong><br>
+March 19, 2026 1:00-4:00pm PDT</p>
+<p><strong>Statistics of Enrichment Analysis Methods</strong><br>
+March 23-March 24, 2026 1:00-3:00pm PDT</p>
 <p><strong>Introduction to R Data Analysis</strong><br>
-January 26-January 27, 2026 1:00-4:00pm PST</p>
-<p><strong>Experimental Design and Hypothesis Testing Using R</strong><br>
-February 2-February 3, 2026 1:00-3:00pm PST</p>
+April 6-April 7, 2026 1:00-4:00pm PDT</p>
+<p><strong>Single Cell RNA-Seq Analysis Using R</strong><br>
+April 13-April 14, 2026 9:30am-12:00pm PDT</p>
+<p><strong>AI Fluency for Biologists</strong><br>
+April 20-April 21, 2026 1:00-4:00pm PDT</p>
 
 </section></section>
     </div>

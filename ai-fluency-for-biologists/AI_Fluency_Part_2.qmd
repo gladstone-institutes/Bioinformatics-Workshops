@@ -276,6 +276,12 @@ AI is a powerful tool for research -- but it cannot replace **your** judgement
 ## Workshop survey
 - Please fill out our workshop survey so we can continue to improve these workshops
 
+## Acknowledgments
+
+This workshop adapts the AI Fluency framework developed by Rick Dakan, Joseph Feller, and Anthropic (2025). Released under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
+
+We thank Anthropic for providing temporary Claude account upgrades for workshop attendees and for the AI Fluency framework that forms the foundation of this workshop.
+
 ## Upcoming Workshops
 
 ::: {style="font-size: 0.8em;"}

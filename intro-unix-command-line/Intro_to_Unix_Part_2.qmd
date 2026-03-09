@@ -3,7 +3,7 @@ title: "Introduction to Unix Command-line"
 subtitle: "Part 2"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "November 12, 2025"
+date: "March 10, 2025"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
@@ -454,11 +454,23 @@ END {print sum / count}'
 
 
 
+## Notes on Using AI for UNIX CLI {.smaller}
+
+- AI tools (ChatGPT, Claude, Gemini) can help generate, explain, and debug Unix commands
+- Always verify AI-generated commands before running them, especially destructive ones (rm, mv)
+- AI can hallucinate flags or options — confirm with `man` or `--help`
+- Provide context for better results: your shell, OS, and goal
+- If you can't explain what a command does, don't run it
+- See the Gladstone Bioinformatics Core position paper on responsible use of AI in bioinformatics: [link](https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&dl=0)
 
 
 
 
 ## Additional learning materials
+
+
+- Learn Regular Expressions:
+  - [RegexOne](https://regexone.com/lesson/introduction_abcs)
 
 - Software carpentry provides a self paced course:
   - [The Unix Shell](https://swcarpentry.github.io/shell-novice/)
@@ -467,28 +479,31 @@ END {print sum / count}'
   - [The Unix Workbench](https://seankross.com/the-unix-workbench/index.html)
   - [The Linux Command Line](http://linuxcommand.org/tlcl.php)
 
-## Survey
 
-- Please take some time to fill out the workshop survey:
-[https://www.surveymonkey.com/r/bioinfo-training](https://www.surveymonkey.com/r/bioinfo-training)
+## Workshop survey
+- Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
 
 
 ## Upcoming Data Science Training Program Workshops {.smaller}
 
-**Introduction to scATAC-seq Data Analysis**   
-November 17-November 18, 2025 9:00am-12:00pm PST   
 
-**scATAC-seq and scRNA-seq Data Integration**   
-December 1, 2025 1:00-4:00pm PST   
+**Working on Wynton**    
+March 16-March 17, 2026 9:00am-12:00pm PDT    
 
-**Machine Learning Using R**   
-January 15, 2026 1:00-4:00pm PST   
+**Introduction to Pathway Analysis**    
+March 19, 2026 1:00-4:00pm PDT    
 
-**Introduction to R Data Analysis**   
-January 26-January 27, 2026 1:00-4:00pm PST   
+**Statistics of Enrichment Analysis Methods**    
+March 23-March 24, 2026 1:00-3:00pm PDT    
 
-**Experimental Design and Hypothesis Testing Using R**   
-February 2-February 3, 2026 1:00-3:00pm PST   
+**Introduction to R Data Analysis**    
+April 6-April 7, 2026 1:00-4:00pm PDT    
+
+**Single Cell RNA-Seq Analysis Using R**    
+April 13-April 14, 2026 9:30am-12:00pm PDT    
+
+**AI Fluency for Biologists**    
+April 20-April 21, 2026 1:00-4:00pm PDT    
 
 
 
