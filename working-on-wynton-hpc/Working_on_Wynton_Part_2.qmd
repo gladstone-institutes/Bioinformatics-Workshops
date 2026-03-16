@@ -3,7 +3,7 @@ title: "Working on Wynton"
 subtitle: "Part 2"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "October 3, 2025"
+date: "March 17, 2026"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
@@ -475,26 +475,30 @@ echo "[alice@dev1 ~]$ apptainer pull docker://docker_hub_user/seurat-harmony:1.0
 
 # End of Part 2
 
-## Thank You!
+## Notes on Using AI on Wynton {.smaller}
+
+- AI tools (ChatGPT, Claude, Gemini) can help write and debug job scripts, troubleshoot errors, and explain cluster concepts
+- Wynton storage is not backed up. Make sure you understand what any AI-generated script does before running it, especially if it moves or deletes files
+- When using AI to write scripts that run on development nodes, give it context about the resources available to you so it does not overload the shared nodes
+- See the Gladstone Bioinformatics Core position paper on responsible use of AI in bioinformatics: [link](https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&dl=0)
+
+## Workshop survey
+
+- Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
+## Upcoming Data Science Training Program Workshops {.smaller}
 
 
--   Please take some time to fill out the workshop survey:
+**Introduction to Pathway Analysis**     
+March 19, 2026 1:00-4:00pm PDT      
 
-<https://www.surveymonkey.com/r/bioinfo-training>
+**Statistics of Enrichment Analysis Methods**      
+March 23-March 24, 2026 1:00-3:00pm PDT      
 
-## Upcoming Data Science Training Program Workshops
+**Introduction to R Data Analysis**      
+April 6-April 7, 2026 1:00-4:00pm PDT     
 
+**Single Cell RNA-Seq Analysis Using R**    
+April 13-April 14, 2026 9:30am-12:00pm PDT    
 
-**Intermediate RNA-Seq Analysis Using R**   
-October 6, 2025 1:00-4:00pm PDT 
-
-**Introduction to Pathway Analysis**   
-October 16, 2025 1:00-4:00pm PDT   
-
-
-**Statistics of Enrichment Analysis Methods **  
-October 20-October 21, 2025 1:00-3:00pm PDT   
-
-
-**Single Cell RNA-Seq Analysis**   
-October 27-October 28, 2025 9:00-4:00pm PDT   
+**AI Fluency for Biologists**    
+April 20-April 21, 2026 1:00-4:00pm PDT   

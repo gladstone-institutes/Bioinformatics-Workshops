@@ -3,7 +3,7 @@ title: "Working on Wynton"
 subtitle: "Part 1"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "October 2, 2025"
+date: "March 16, 2026"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
@@ -44,10 +44,10 @@ knitr::opts_chunk$set(comment = "")
 
 ## Upcoming Changes to Wynton
 
--   Wynton is in the process of transitioning to and integrating with CoreHPC (UCSF)  
+-   Wynton is in the process of transitioning to and integrating with CoreHPC
     - Scheduled to conclude in spring 2027
--   This is a separate HPC from the currently in development CoreHPC (Gladstone)
--   Both of these will use the SLURM job scheduler system and serve a different set of users
+-   CoreHPC will use the SLURM job scheduler system
+-   This is the last time we will be teaching this workshop
 
 
 # What is Wynton HPC?
@@ -424,25 +424,24 @@ echo '[alice@dev1 ~]$ apptainer exec hello-world_1.0.sif cat /Dockerfile'
 
 # End of Part 1
 
-## Thank You!
+## Workshop survey
 
--   Please take some time to fill out the workshop survey if you are not attending part 2:
+- If you are not attending part 2, please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
 
-    <https://www.surveymonkey.com/r/bioinfo-training>
-
-## Upcoming Data Science Training Program Workshops
+## Upcoming Data Science Training Program Workshops {.smaller}
 
 
-**Intermediate RNA-Seq Analysis Using R**   
-October 6, 2025 1:00-4:00pm PDT 
+**Introduction to Pathway Analysis**     
+March 19, 2026 1:00-4:00pm PDT      
 
-**Introduction to Pathway Analysis**   
-October 16, 2025 1:00-4:00pm PDT   
+**Statistics of Enrichment Analysis Methods**      
+March 23-March 24, 2026 1:00-3:00pm PDT      
 
+**Introduction to R Data Analysis**      
+April 6-April 7, 2026 1:00-4:00pm PDT     
 
-**Statistics of Enrichment Analysis Methods **  
-October 20-October 21, 2025 1:00-3:00pm PDT   
+**Single Cell RNA-Seq Analysis Using R**    
+April 13-April 14, 2026 9:30am-12:00pm PDT    
 
-
-**Single Cell RNA-Seq Analysis**   
-October 27-October 28, 2025 9:00-4:00pm PDT   
+**AI Fluency for Biologists**    
+April 20-April 21, 2026 1:00-4:00pm PDT   
