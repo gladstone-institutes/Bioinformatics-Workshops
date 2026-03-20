@@ -485,6 +485,7 @@ echo "[alice@dev1 ~]$ apptainer pull docker://docker_hub_user/seurat-harmony:1.0
 ## Workshop survey
 
 - Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
+
 ## Upcoming Data Science Training Program Workshops {.smaller}
 
 
