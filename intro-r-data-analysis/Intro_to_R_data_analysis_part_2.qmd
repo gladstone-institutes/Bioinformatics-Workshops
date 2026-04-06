@@ -3,7 +3,7 @@ title: "Introduction to R Data Analysis"
 subtitle: "Part 2"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "January 27, 2026"
+date: "April 7, 2026"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
@@ -304,12 +304,13 @@ Code templates can be used to avoid typing the same code over and over again.
 ## Upcoming Workshops {.small}
 
 
+**Single Cell RNA-Seq Analysis Using R**  
+April 13 - April 14, 2026 9:00am - 12:00pm PDT      
+  
+**Linear Mixed Effects Models Using R**    
+May 4 - May 5, 2026 9:00am - 4:00pm PDT   
 
-**Experimental Design and Hypothesis Testing Using R**   
-February 2 - February 3, 2026 1:00-3:00pm PST   
+**scATAC-seq Analysis Using R**     
+May 11-May 12, 2026 9:30am-12:00pm PDT    
 
-<br></br>
-
-**Introduction to RNA-Seq Analysis**   
-February 12 - February 13, 2026 1:00-3:00pm PST   
 
