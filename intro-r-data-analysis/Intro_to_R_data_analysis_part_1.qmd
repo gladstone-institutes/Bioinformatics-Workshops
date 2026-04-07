@@ -487,7 +487,7 @@ packages
 2. Filtering and reformatting data
 3. Plotting data
 4. Hands on data analysis
-5. AI tips for R
+5. Using AI to learn R
 6. Where to get help
 
 

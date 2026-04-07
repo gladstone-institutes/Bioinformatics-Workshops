@@ -39,7 +39,7 @@ Bioinformatician II
 2. Filtering and reformatting data
 3. Plotting data
 4. Hands on data analysis
-5. AI tips for R
+5. Using AI to learn R
 6. Where to get help
 
 
@@ -235,25 +235,53 @@ Steps:
 
 
 
-# AI Tips for R
+# Using AI to Learn R
+
+## Use AI as a Tutor, Not a Code Generator
 
 
-## General Tips
+-   Generating large blocks of code you don't understand means:
+    -   You can't spot subtle bugs or silently wrong results
+    -   Hallucinated functions and packages are common
+    -   You don't build skills to debug or extend the code later
+-   Follow institutional guidelines and **never paste private or patient data into a public chatbot**
 
--   Follow any relevant institutional guidelines on using LLMs
--   Always confirm the outputs are correct
--   Provide as much detail as possible about the problem in the 1st prompt
--   Use separate chats for separate tasks/projects
--   Try the 'Custom Instructions' function
+## Prompt Engineering
 
-## Code Tips
+A good prompt has 3 parts:
 
--   Commented R code yields better responses
--   Provide the code and error message in the same prompt
--   LLMs can work well to convert syntax and improve your code:
-    -   "Turn this loop into a function : [your code]"
-    -   "Is there a better way to do this : [your code]"
--   Check out the file: `example_code/1_convert_syntax_example.R` for an example use case
+1.  **Context**: what you're doing, what your data looks like, what you've tried
+2.  **A specific question**: one focused ask, not "fix my script"
+3.  **How you want the answer**: e.g. *"explain the approach before writing code"*
+
+## Prompts That Build Understanding
+
+Instead of *"Write code to filter and plot this data"*, try:
+
+-   "I have a data frame with columns X, Y, Z. I want rows where X > 10. Which dplyr function fits and why?"
+-   "Explain `group_by() |> summarize()` with a small example."
+-   "Here's my code \[paste\]. Walk me through what each line does."
+-   "What are 2 ways to do this in R, and what are the tradeoffs?"
+
+## Debugging with AI
+
+Paste all three:
+
+1.  The code that produced the error
+2.  The full error message
+3.  What you expected vs. what happened
+
+Then ask *"What is this error telling me, and what should I check first?"*  instead of *"fix this"*.
+
+## Always Verify
+
+-   Run small examples and check outputs yourself
+-   Cross-check unfamiliar functions against official package docs
+-   Push back: *"Are you sure that function exists in dplyr?"*
+
+::: {.bottom-message}
+Goal: leave each AI conversation knowing more R than when you started.
+:::
 
 
 # Where to Get Help

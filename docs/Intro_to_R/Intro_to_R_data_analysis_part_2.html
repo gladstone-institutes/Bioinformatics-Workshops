@@ -236,7 +236,7 @@ Bioinformatician II</p>
 <li>Filtering and reformatting data</li>
 <li>Plotting data</li>
 <li>Hands on data analysis</li>
-<li>AI tips for R</li>
+<li>Using AI to learn R</li>
 <li>Where to get help</li>
 </ol>
 </section>
@@ -473,7 +473,7 @@ Bioinformatician II</p>
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_8966edb3" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:5em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_c13ace79" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:5em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -1151,32 +1151,61 @@ Bioinformatician II</p>
 </ul>
 </section></section>
 <section>
-<section id="ai-tips-for-r" class="title-slide slide level1 center">
-<h1>AI Tips for R</h1>
+<section id="using-ai-to-learn-r" class="title-slide slide level1 center">
+<h1>Using AI to Learn R</h1>
 
 </section>
-<section id="general-tips" class="slide level2">
-<h2>General Tips</h2>
+<section id="use-ai-as-a-tutor-not-a-code-generator" class="slide level2">
+<h2>Use AI as a Tutor, Not a Code Generator</h2>
 <ul>
-<li>Follow any relevant institutional guidelines on using LLMs</li>
-<li>Always confirm the outputs are correct</li>
-<li>Provide as much detail as possible about the problem in the 1st prompt</li>
-<li>Use separate chats for separate tasks/projects</li>
-<li>Try the ‘Custom Instructions’ function</li>
+<li>Generating large blocks of code you don’t understand means:
+<ul>
+<li>You can’t spot subtle bugs or silently wrong results</li>
+<li>Hallucinated functions and packages are common</li>
+<li>You don’t build skills to debug or extend the code later</li>
+</ul></li>
+<li>Follow institutional guidelines and <strong>never paste private or patient data into a public chatbot</strong></li>
 </ul>
 </section>
-<section id="code-tips" class="slide level2">
-<h2>Code Tips</h2>
+<section id="prompt-engineering" class="slide level2">
+<h2>Prompt Engineering</h2>
+<p>A good prompt has 3 parts:</p>
+<ol type="1">
+<li><strong>Context</strong>: what you’re doing, what your data looks like, what you’ve tried</li>
+<li><strong>A specific question</strong>: one focused ask, not “fix my script”</li>
+<li><strong>How you want the answer</strong>: e.g.&nbsp;<em>“explain the approach before writing code”</em></li>
+</ol>
+</section>
+<section id="prompts-that-build-understanding" class="slide level2">
+<h2>Prompts That Build Understanding</h2>
+<p>Instead of <em>“Write code to filter and plot this data”</em>, try:</p>
 <ul>
-<li>Commented R code yields better responses</li>
-<li>Provide the code and error message in the same prompt</li>
-<li>LLMs can work well to convert syntax and improve your code:
-<ul>
-<li>“Turn this loop into a function : [your code]”</li>
-<li>“Is there a better way to do this : [your code]”</li>
-</ul></li>
-<li>Check out the file: <code>example_code/1_convert_syntax_example.R</code> for an example use case</li>
+<li>“I have a data frame with columns X, Y, Z. I want rows where X &gt; 10. Which dplyr function fits and why?”</li>
+<li>“Explain <code>group_by() |&gt; summarize()</code> with a small example.”</li>
+<li>“Here’s my code [paste]. Walk me through what each line does.”</li>
+<li>“What are 2 ways to do this in R, and what are the tradeoffs?”</li>
 </ul>
+</section>
+<section id="debugging-with-ai" class="slide level2">
+<h2>Debugging with AI</h2>
+<p>Paste all three:</p>
+<ol type="1">
+<li>The code that produced the error</li>
+<li>The full error message</li>
+<li>What you expected vs.&nbsp;what happened</li>
+</ol>
+<p>Then ask <em>“What is this error telling me, and what should I check first?”</em> instead of <em>“fix this”</em>.</p>
+</section>
+<section id="always-verify" class="slide level2">
+<h2>Always Verify</h2>
+<ul>
+<li>Run small examples and check outputs yourself</li>
+<li>Cross-check unfamiliar functions against official package docs</li>
+<li>Push back: <em>“Are you sure that function exists in dplyr?”</em></li>
+</ul>
+<div class="bottom-message">
+<p>Goal: leave each AI conversation knowing more R than when you started.</p>
+</div>
 </section></section>
 <section>
 <section id="where-to-get-help" class="title-slide slide level1 center">
