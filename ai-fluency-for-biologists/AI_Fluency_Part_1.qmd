@@ -30,19 +30,11 @@ library(countdown)
 Bioinformatician II  
 
 
-## Poll 1
-
-**What is your level of experience with AI tools like ChatGPT or Claude?**
-
-1. I've never used them
-2. I've tried them a few times
-3. I use them regularly
-4. I use them daily in my work
 
 ## Target Audience
 
 - No prior AI or programming experience required
-- Designed for biologists at all career stages
+- Biologists at all career stages
 - Laptop and a free Claude account are all you need
 
 ## Learning Objectives
@@ -55,13 +47,22 @@ Bioinformatician II
 
 ## Part 1:
 
-1. Introduction to AI tools and the 4 Ds framework
-2. Module 1: Delegation
+1. Introduction to AI and the 4 Ds framework
+2. Delegation: Platform Awareness
 3. Break
-4. Module 2: Description
+4. Delegation: Task Awareness
+5. Description
 
 
 # Introduction
+
+## What is AI?
+
+![](assets/ai_hierarchy.svg){fig-alt="Nested diagram showing the relationship between Artificial Intelligence, Machine Learning, Deep Learning, and Large Language Models as progressively more specific subsets" fig-align="center" width=80%}
+
+:::{style="font-size: 0.6em; text-align: center;"}
+In this workshop, "AI" refers to **generative AI**: models that produce text, code, and images
+:::
 
 ## What is AI Fluency?
 
@@ -70,6 +71,14 @@ The ability to work with AI systems in ways that are **effective**, **efficient*
 - Not about becoming an AI expert
 - About developing practical skills to use AI as a tool in your research
 - Like learning to use a new instrument - you need to know its strengths and limitations
+
+## Poll: How often do you use AI tools?
+
+:::{.v-center-container}
+<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
+
+*Scan or click to join*
+:::
 
 ## The 4 Ds Framework
 
@@ -85,95 +94,208 @@ A practical approach to working with AI effectively:
 
 ![](assets/four_ds_diagram.svg){fig-alt="The 4 Ds of AI Fluency: Delegation, Description, Discernment, and Diligence arranged in an interconnected diamond with bidirectional arrows between each node" fig-align="center" width=100%}
 
-## AI as Augmentation, Not Replacement
 
-AI tools are **thinking partners**, not replacements for your expertise
+# Delegation {.center}
 
-- Your domain knowledge is essential - AI doesn't know your system, your data, or your scientific question
-- AI is useful for tasks like brainstorming, summarizing, drafting, and troubleshooting
-- You remain responsible for the scientific validity of your work
+<p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">Platform Awareness</p>
 
-<!-- 
+## Current Landscape
 
-Note: This is probably well covered by the other slides
-## Current AI Landscape {.smaller}
+![](assets/current_landscape.svg){fig-alt="Architecture diagram showing four layers of AI software tools: Data Sources (Slack, Drive, PubMed, Files, Databases), Orchestration Layer (Agent Loop, Tool Routing, Memory, Context), Model Layer (Claude, GPT, Gemini, Llama), and Application/Output Layer (Reports, Plots, Dashboards, Documents, Code)" fig-align="center" width=90%}
 
-**Where AI can help in biology:**
 
-- Literature search and summarization
-- Writing and editing manuscripts, grants, and protocols
-- Designing experiments and analysis strategies
-- Explaining unfamiliar concepts or statistical methods
+## Poll: What AI tools have you heard of?
 
-**Where caution is needed:**
+:::{.v-center-container}
+<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
 
-- AI can "hallucinate" - generating plausible but fabricated references, gene names, or statistics
-- Outputs may reflect biases in training data
-- Sensitive or unpublished data should not be shared with AI tools without considering privacy policies
-- AI-generated figures should not be used in publications - they can misrepresent data and many journals prohibit them -->
-
-## Brief Overview of Tools
-
-::: {style="font-size: 0.8em;"}
-Popular tools include **Claude** (Anthropic), **ChatGPT** (OpenAI), and **Gemini** (Google)
-
-- All are **large language models (LLMs)** - trained on vast text data to understand and generate language
-- They share the same core limitations: hallucinations, knowledge cutoffs, and training biases
-- Relative performance varies by task and changes frequently
-- They do not search the internet by default (some have optional web search)
+*Scan or click to join*
 :::
 
-## Choosing a Model {.smaller}
 
-<!-- TODO: Slide on factors that affect model selection for end users
-Guidance:
-- Cost vs. capability tradeoff (free tiers vs. paid plans)
-- Task fit: some models are better at coding, some at writing, some at reasoning
-- Context window size — how much text you can provide at once
-- Multimodal capabilities (image/PDF input, etc.)
-- Privacy and data policies vary by provider and plan tier
-- Speed vs. quality: smaller/faster models for simple tasks, larger models for complex reasoning
-- For most biologists: pick one good tool and learn it well rather than switching constantly
--->
 
-## Understanding Benchmarks and Leaderboards {.smaller}
+## Model Providers
 
-<!-- TODO: Slide on how to interpret AI benchmark leaderboards
-Guidance:
-- Mention common leaderboards: Chatbot Arena (LMSYS), HELM, benchmarks on model provider websites
-- Key benchmarks to know: MMLU (general knowledge), HumanEval (coding), GPQA (graduate-level science)
-- Caveats for end users:
-  - Benchmarks measure narrow tasks — high scores don't guarantee good performance on YOUR task
-  - Leaderboard rankings change frequently; don't over-optimize model choice based on them
-  - "Vibes-based" evaluation (Chatbot Arena) vs. standardized benchmarks — both have value
-  - Contamination: models may have seen benchmark questions in training data
-  - The best approach: try your actual task on 2-3 models and see which works best for you
-- Main takeaway: benchmarks are useful for rough comparisons, but your own experience matters more
--->
+::: {style="font-size: 0.8em;"}
+Popular model providers include **Claude** (Anthropic), **ChatGPT** (OpenAI), and **Gemini** (Google)
 
-## What Are AI Agents? {.smaller}
+- All are **large language models (LLMs)** - trained on vast text data to understand and generate language
+- Relative performance varies by task and changes frequently
 
-<!-- TODO: Slide introducing the concept of AI agents
-Guidance:
-- An agent is an AI system that can take actions autonomously — not just generate text
-- Key capabilities that distinguish agents from basic chat:
-  - Tool use: agents can search the web, run code, read files, call APIs
-  - Multi-step planning: agents break down a goal into steps and execute them
-  - Iteration: agents can check their own work and retry if something fails
-- Examples relevant to biologists:
-  - Research mode / deep research: agent searches multiple sources and synthesizes findings
-  - Code agents: write, run, and debug analysis scripts autonomously
-  - Computer use: agents that can interact with software interfaces
-- This connects to the Agency modality from the Delegation module
-- Current limitations: agents can go off-track, may take unexpected actions, still need human oversight
-- Practical advice: start with augmentation mode, graduate to agents as you build trust
--->
+:::
+
+
+## Model Limitations
+
+
+- **Hallucinations**: Confident incorrect answers
+- **Knowledge cutoff**: AI has no knowledge after its training date it won't know about recent papers or discoveries
+- **Context window**: The maximum number of tokens (words) a language model can process at once, covering both its input and output
+- **Training bias**: Systematic skews inherited from training data and alignment choices
+
+
+## Hallucinations
+
+:::{.human-message}
+I want to wash my car. The car wash is 50 meters away. Should I drive or walk?
+:::
+
+:::{.fragment .ai-message}
+Walk. 50 meters is about 30 seconds on foot so driving makes no sense.
+:::
+
+## Context Rot
 
 
 
-# Module 1: Delegation
+:::{style="margin-left: -40px;"}
+```{python}
+#| echo: false
+#| fig-align: center
+#| fig-width: 12
+#| fig-height: 8
+#| out-width: "100%"
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import norm
+import matplotlib.font_manager as fm
+import warnings, logging
+warnings.filterwarnings('ignore')
+logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
-## Goal and Task Awareness
+
+fm.fontManager.addfont('assets/HumorSans.ttf')
+
+with plt.xkcd(scale=2, length=200, randomness=2):
+    x = np.linspace(0, 100, 200)
+    y = 95 - 0.1 * x - 55 * norm.cdf(x, loc=75, scale=12)
+
+    fig, ax = plt.subplots()
+    _ = ax.plot(x, y, color="#56B4E9", linewidth=2.5)
+    _ = ax.set_xlabel("Conversation Length", fontsize=26)
+    _ = ax.set_ylabel("Response Quality", fontsize=26, labelpad=10)
+    _ = ax.set_xticks([0, 100])
+    _ = ax.set_xticklabels(["Start", "End"], fontsize=22)
+    _ = ax.set_yticks([0, 50, 95])
+    _ = ax.set_yticklabels(["Low", "", "High"], fontsize=22)
+    _ = ax.set_xlim(-5, 105)
+    _ = ax.set_ylim(0, 100)
+    plt.tight_layout(pad=2)
+    fig.subplots_adjust(left=0.15, right=0.95)
+    plt.show()
+```
+:::
+
+
+## Context Pollution
+
+
+
+:::{style="margin-left: -35px;"}
+```{python}
+#| echo: false
+#| fig-align: center
+#| fig-width: 12
+#| fig-height: 8
+#| out-width: "100%"
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
+import warnings, logging
+warnings.filterwarnings('ignore')
+logging.getLogger('matplotlib').setLevel(logging.ERROR)
+
+fm.fontManager.addfont('assets/HumorSans.ttf')
+
+with plt.xkcd(scale=2, length=200, randomness=2):
+    turns = np.arange(1, 9)
+    errors =      [0, 0, 1, 1, 2, 3, 4, 5]
+    irrelevant =  [0, 1, 1, 2, 3, 4, 5, 7]
+    carried =     [0, 0, 0, 1, 2, 4, 6, 9]
+
+    fig, ax = plt.subplots()
+    _ = ax.bar(turns, carried, color="#56B4E9", label="Carried from earlier", width=0.6)
+    _ = ax.bar(turns, irrelevant, bottom=carried, color="#E69F00", label="Irrelevant context", width=0.6)
+    bottom2 = [c + i for c, i in zip(carried, irrelevant)]
+    _ = ax.bar(turns, errors, bottom=bottom2, color="#D55E00", label="New errors", width=0.6)
+    _ = ax.set_xlabel("Conversation Turn", fontsize=26)
+    _ = ax.set_ylabel("Noise in Context", fontsize=26)
+    _ = ax.set_xticks(turns)
+    _ = ax.set_xticklabels([str(t) for t in turns], fontsize=22)
+    _ = ax.set_yticks([])
+    _ = ax.legend(fontsize=20, loc="upper left", frameon=False)
+    plt.tight_layout(pad=1.5)
+    fig.subplots_adjust(left=0.08, right=0.95)
+    plt.show()
+```
+:::
+
+## Training Bias
+
+- AI reflects biases in its training data
+
+![](assets/omar_et_al_april_2025.png){fig-alt="Title card for Omar et al. 2025 paper: Sociodemographic biases in medical decision making by large language models, published in Nature Medicine" width=95% style="border: 1px solid #ccc; padding: 5px;"}
+
+![](assets/bai_et_al_feb_2025.png){fig-alt="Title card for Bai et al. 2025 paper: Explicitly unbiased large language models still form biased associations, published in PNAS" width=95% style="border: 1px solid #ccc; padding: 5px;"}
+
+## What Are AI Agents?
+
+:::{style="font-size: 0.7em; text-align: center;"}
+A system powered by LLMs that independently directs its own processes, makes decisions, and uses tools to accomplish tasks
+:::
+
+![](assets/agent_diagram.svg){fig-alt="Diagram of an AI agent showing a central robot icon labeled AI Agent connected by bidirectional arrows to six capabilities: Memory (retains context across steps), Feedback (observes results and adapts), Tools (APIs, code, web), Autonomy (chooses its own next step), Delegation (spawns other agents), and Human Oversight (human stays in the loop)" fig-align="center" width=90%}
+
+## How Are AI Models Evaluated?
+
+::: {style="font-size: 0.8em;"}
+- **Knowledge and reasoning**: Academic and professional knowledge tests (MMLU, GPQA Diamond, HLE)
+- **Coding**: Whether models write code that actually works (SWE-bench pro, Terminal-bench)
+- **Novel reasoning**: Problem-solving on tasks the model has not seen (ARC-AGI series)
+- **Agentic tasks**: Sustained, multi-step professional work (OSWorld, tau2-bench)
+- **Agentic search**: Research and information synthesis across sources (BrowseComp, GAIA)
+
+Benchmarks are useful for rough comparisons, but your own experience matters more.
+:::
+
+## Benchmarks in Perspective
+
+Benchmarks don't tell the whole story:
+
+- High scores don't guarantee good performance on *your* task
+- Rankings change frequently
+- Models may have seen benchmark questions in training data
+- The best approach: try your actual task on 2-3 models
+
+## Humanity's Last Exam
+
+- **[Humanity's Last Exam (HLE)](https://agi.safe.ai/)**: Graduate-level problems that require multi-step reasoning and whose answers are not "googleable"
+
+The best AI model currently scores **45.9%**
+
+
+## SpatialBench
+
+- **[SpatialBench](https://blog.latch.bio/p/spatialbench-can-agents-analyze-real)**: 146 verifiable problems from practical spatial analysis workflows spanning five technologies and seven task categories
+- Uses real experimental data from Vizgen MERFISH, Takara Seeker, 10x Visium, 10x Xenium, and Atlasxomics DBIT-seq
+
+
+The best AI models currently score **20–38%**
+
+
+## Choosing an AI Tool
+
+- **Pick one and learn it well** rather than switching constantly
+- **Check the privacy policy**: What data is stored? Is it used for training?
+- **Follow your institution's guidelines** on approved tools and data sharing
+- Never share sensitive, unpublished, or patient-derived data without checking policies
+
+
+# Delegation {.center}
+
+<p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">Task Awareness</p>
+
+## Task Awareness
 
 ::: {style="font-size: 0.8em;"}
 Before opening any AI tool, clearly define what you need:
@@ -184,47 +306,65 @@ Before opening any AI tool, clearly define what you need:
 - Together with **Platform Awareness**, this helps you decide if AI is the right tool for the job
 :::
 
-## Platform Awareness
+## Suitable Tasks for AI
 
-::: {style="font-size: 0.8em;"}
-Understanding what AI tools can and cannot do:
+Tasks where **you can verify the output**:
 
-- **Context window** -- how much text AI can process at once. Exceeding it causes the AI to "forget" earlier content
-- **Knowledge cutoff** -- AI has no knowledge after its training date. It won't know recent papers
-- **Hallucination** -- AI can confidently state plausible but wrong things (fake citations, invented gene names)
-- **Context pollution** -- long conversations accumulate errors; start a new chat for new tasks
-- **Extended thinking / research modes** -- newer features for complex reasoning or searching external sources
-:::
+- **Drafting**: Methods sections, abstracts, emails, grants; anything you'll revise
+- **Learning**: Summarizing concepts, explaining methods, exploring a new area
+- **Tedious work**: Reformatting, restructuring, converting between formats
+- **Brainstorming**: Generating ideas or outlines to structure your thinking
 
+## Poor Tasks for AI
 
-## Choosing an AI Tool
+Tasks where **you can't verify the output**:
 
-**Before choosing a tool, consider the privacy policy:**
+- **Outside your expertise**: If you can't judge correctness, don't delegate it
+- **Precise calculations**: Use dedicated tools for statistics and quantitative claims
+- **Final versions**: AI output always needs human revision
 
-- What data is stored? Is it used to train future models?
-- Does your institution have approved tools or data use agreements?
-- Never share sensitive, unpublished, or patient-derived data without checking your institution's policies
+## Visual Reasoning: A Good Task
 
-## {.center}
+You can upload images and AI will describe, interpret, or extract information from them
+
+- Photos of gels, plates, blots, or microscopy
+- Figures from papers ("explain this figure")
+- Handwritten notes or whiteboard diagrams
+- Error messages and screenshots
+- Tables in PDFs ("extract this data")
+
+AI can misread details in images just like text — always verify
+
+## Image Generation: A Poor Task
+
+AI can generate photorealistic images, but they are **not grounded in real data**
+
+- Most major journals prohibit AI-generated figures
+- Generated images can contain subtle errors that look plausible
+- Never use AI to create anything that could be mistaken for data
+
+Acceptable: conceptual diagrams and presentation graphics (with disclosure)
+
+##  Modalities of Task Delegation {.center}
 
 ![](assets/task_delegation_modalities.svg){fig-alt="Three modalities of task delegation shown as cards: Automation (you define, AI executes), Augmentation (you and AI collaborate as thinking partners), and Agency (you configure, AI acts independently), with bar charts showing relative human versus AI involvement" fig-align="center" width=95%}
 
 ## Modalities of Task Delegation
 
 ::: {style="font-size: 0.7em;"}
-- **Automation** -- You define exactly what needs to be done, and the AI executes it
+- **Automation**: You define exactly what needs to be done, and the AI executes it
 
 :::{.example-indented}
 "Rewrite this protocol section to follow the journal's formatting guidelines, do not change the content - just the formatting."
 :::
 
-- **Augmentation** -- You and AI collaborate iteratively as thinking partners
+- **Augmentation**: You and AI collaborate iteratively as thinking partners
 
 :::{.example-indented}
 Drafting and refining an abstract together over several rounds of feedback
 :::
 
-- **Agency** -- You configure the AI's role and knowledge, then let it act independently
+- **Agency**: You configure the AI's role and knowledge, then let it act independently
 
 :::{.example-indented}
 Giving AI your experimental goals and reagent constraints, and letting it independently design and compare multiple protocol options
@@ -232,6 +372,14 @@ Giving AI your experimental goals and reagent constraints, and letting it indepe
 
 In practice, **Augmentation** is the most productive mode for research tasks
 :::
+
+## AI as Augmentation, Not Replacement
+
+Currently the most effective way to interact with AI is through **Augmentation**
+
+- Your domain knowledge is essential
+- AI is useful for tasks like brainstorming, summarizing, drafting, and troubleshooting
+- You remain responsible for the scientific validity of your work
 
 ## Exercise: Identify Your AI Tasks
 
@@ -241,11 +389,18 @@ In practice, **Augmentation** is the most productive mode for research tasks
 For each task, consider:
 
 1. What is the task? (e.g., literature review, writing, data wrangling)
-2. Which mode fits best -- Automation, Augmentation, or Agency?
+2. Which mode fits best: Automation, Augmentation, or Agency?
 3. Could you evaluate whether the AI's output is correct?
 
-Enter tasks [here](https://app.sli.do/event/3sDxDAGKp3d6j1LfuKN4Si).
+<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="20%"></a>
 :::
+
+## Discussion
+
+- Are there any tasks that you are unsure about?
+
+
+
 
 
 # 10 min break
@@ -268,70 +423,18 @@ countdown::countdown(minutes = 10,
 </center>
 
 
-# Module 2: Description
+# Description
 
 ## Prompting Techniques Overview
 
-<!-- TODO: Revise this list based on current best practices (see guidance below)
-
-WHAT TO KEEP (still strongly recommended):
-1. Provide Context — still the #1 technique across all providers. Keep as-is.
-2. Show Examples (few-shot) — still highly effective. Research shows it can improve
-   accuracy from 0% to 90% on structured tasks. Keep as-is.
-3. Specify Output Constraints — still essential. Keep as-is.
-4. Break Complex Tasks into Steps — still valuable for complex tasks. Keep as-is.
-
-WHAT TO UPDATE:
-5. "Ask It to Think First" — REVISE. Modern models (Claude, GPT-5, Gemini 3) have
-   built-in reasoning modes. You no longer need to say "think step by step" — just
-   toggle on extended thinking / reasoning mode in the UI. The slide already says this
-   but could be stronger: emphasize that explicit CoT prompting is now unnecessary
-   for frontier models and can actually hurt performance (adds latency for minimal
-   gain, per Wharton 2025 research).
-
-WHAT TO DEMOTE OR REMOVE:
-6. "Define the AI's Role" — DEMOTE. Research (Schulhoff / The Prompt Report) shows
-   role prompting is "largely ineffective" for correctness. It may slightly influence
-   tone but doesn't improve accuracy. Consider moving it to a "minor tips" section
-   or removing it as a primary technique.
-
-WHAT TO ADD:
-- "Be Direct and Specific" — The current consensus #1 technique. Tell the AI exactly
-  what you want rather than hinting. Avoid vague instructions. Anthropic's framing:
-  "Think of the AI as a brilliant but new employee who lacks context."
-- "Iterate and Refine" — Already in the exercise but deserves its own technique slot.
-  Conversation is iterative — your first prompt rarely needs to be perfect. Follow up
-  with corrections, clarifications, and refinements.
-- "Use the AI to Improve Your Prompt" (meta-prompting) — Already exists as a "Bonus"
-  slide. Consider promoting it since all providers now recommend this approach.
-
-SUGGESTED REVISED LIST:
-1. Be Clear and Specific (new — the fundamental principle)
-2. Provide Context (keep)
-3. Show Examples (keep)
-4. Specify Output Constraints (keep)
-5. Break Complex Tasks into Steps (keep)
-6. Iterate and Refine (promoted from exercise)
-Bonus: Use extended thinking for hard problems (simplified from current #5)
-Bonus: Meta-prompting (already exists)
-
-ADDITIONAL NOTES:
-- The "Bad Prompt vs Good Prompt" slide is excellent — keep it
-- Consider adding: "Your prompt style influences the output style" — if you write
-  in bullets, the AI responds in bullets. If you write in prose, it responds in prose.
-- The current slides are well-written; the main change is swapping role prompting
-  for directness/iteration as primary techniques.
--->
-
 ::: {style="font-size: 0.8em;"}
-1. **Provide Context** -- Give background information the AI needs
-2. **Show Examples** -- Demonstrate the format or style you want
-3. **Specify Output Constraints** -- Define length, format, audience, and structure
-4. **Break Complex Tasks into Steps** -- Provide sequential instructions
-5. **Ask It to Think First** -- Use extended thinking modes
-6. **Define the AI's Role** -- Set perspective
+1. **Provide Context**
+2. **Show Examples**
+3. **Specify Output Constraints**
+4. **Break Complex Tasks into Steps**
+5. **Ask It to Think First**
+6. **Define the AI's Role**
 
-These techniques map to the Description competency: Product, Process, and Performance Description
 :::
 
 ## 1) Provide Context
@@ -358,23 +461,23 @@ Give the AI the background information it needs to do a good job.
 Show the AI what you want by providing one or more examples of the desired output.
 
 - Useful for defining **format**, **style**, or **level of detail**
-- Also called "few-shot prompting" -- the AI learns from the pattern you demonstrate
+- Also called "few-shot prompting": the AI learns from the pattern you demonstrate
 
 
 :::{.example}
 "Summarize each paper in this format:
 
-[Author et al., Year] -- [One-sentence finding]. Method: [Key technique]. Relevance: [Why it matters to my project]."
+[Author et al., Year]: [One-sentence finding]. Method: [Key technique]. Relevance: [Why it matters to my project]."
 :::
 
 ## 3) Specify Output Constraints
 
 Tell the AI exactly what the output should look like:
 
-- **Length** -- "in 200 words," "in 3 bullet points"
-- **Format** -- "as a table," "as a numbered list," "in paragraph form"
-- **Audience** -- "for a PI," "for a first-year graduate student," "for a grant review panel"
-- **Structure** -- "organize by: (1) hypothesis, (2) methods, (3) key results"
+- **Length**: "in 200 words," "in 3 bullet points"
+- **Format**: "as a table," "as a numbered list," "in paragraph form"
+- **Audience**: "for a PI," "for a first-year graduate student," "for a grant review panel"
+- **Structure**: "organize by: (1) hypothesis, (2) methods, (3) key results"
 
 The more specific your constraints, the closer the output will match what you need
 
@@ -416,7 +519,7 @@ Step 3: Summarize the key findings
 Step 4: Evaluate whether the conclusions are supported by the data"
 :::
 
-This is called **Process Description** -- defining *how* the AI should approach the task
+This is called **Process Description**: defining *how* the AI should approach the task
 :::
 
 ## 5) Let It Think Deeply
@@ -443,16 +546,16 @@ Set the AI's perspective to shape its responses.
 :::{.example}
 - "Explain this as a journal club presenter would to a mixed audience of biologists"
 - "Write as if you are teaching a graduate student new to this subfield"
-- "Act as a critical reviewer evaluating this manuscript for a high-impact journal"
+- "Act as a critical reviewer evaluating this manuscript for a journal"
 :::
 
-This is **Performance Description** -- defining how the AI should behave during your interaction (concise vs. detailed, supportive vs. critical)
+
 :::
 
 ## Bonus: Ask AI to Help with Your Prompt
 
 ::: {style="font-size: 0.8em;"}
-You can ask the AI to help you write a better prompt -- this is called **meta-prompting**.
+You can ask the AI to help you write a better prompt: this is called **meta-prompting**.
 
 
 :::{.example}
@@ -469,13 +572,13 @@ This is especially useful when:
 ## Exercise: Prompting
 
 ::: {style="font-size: 0.8em;"}
-**Use the task you identified in the Delegation exercise and write a prompt using at least 3 of the 6 techniques.**
+**Use a task you identified in the Delegation exercise and write a prompt using at least 3 of the 6 techniques.**
 
 **Steps:**
 
 1. **Draft your prompt** using at least 3 techniques (3 min)
 2. **Run it in Claude** and review the output (3 min)
-3. **Iterate** -- refine your prompt and try again if needed (2 min)
+3. **Iterate**: refine your prompt and try again if needed (2 min)
 4. **Reflect:** Which techniques helped most? What would you change? (2 min)
 
 
@@ -488,20 +591,27 @@ This is especially useful when:
 
 ## Schedule for Part 2
 
-1. Module 3: Discernment - Evaluating AI outputs
-2. Module 4: Diligence - Responsible AI use
-3. Practical application exercise
+1. Discernment - Evaluating AI outputs
+2. Literature Review Excercise
+3. Diligence - Responsible AI use
 4. Q&A and discussion
 5. Wrap-up and resources
 
+
 ## Workshop survey
-- Please fill out our workshop survey so we can continue to improve these workshops
+- Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
 
-## Upcoming Workshops
+## Upcoming Workshops {.small}
 
-::: {style="font-size: 0.8em;"}
-*Details coming soon -- check our website for the latest schedule*
-:::
+**Linear Mixed Effects Models Using R**    
+May 4 - May 5, 2026 9:00am - 4:00pm PDT   
+
+**scATAC-seq Analysis Using R**     
+May 11-May 12, 2026 9:30am-12:00pm PDT  
+
+**Advanced RNA-seq Analysis Using R**    
+May 27-May 28, 2026 1:00-3:00pm PDT   
+
 
 ## Acknowledgments
 

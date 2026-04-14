@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="440" viewBox="0 0 900 440">
+  <defs>
+    <!-- Arrow marker: tip at refX=10 so it aligns exactly to the line endpoint.
+         orient="auto-start-reverse" lets the same marker work for both marker-start and marker-end. -->
+    <marker id="spoke-arrow" viewBox="0 0 10 10" refX="10" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect width="900" height="440" fill="white"/>
+
+  <!-- HUB card centered at (450, 220) -->
+  <rect x="370" y="140" width="160" height="160" rx="20" ry="20"
+        fill="#e2e8f0" stroke="#475569" stroke-width="2.5"/>
+
+  <!-- FA robot, viewBox 0 0 640 512, scale 0.18 -> ~115x92 visual, center in 160 card at (450,220) -->
+  <g transform="translate(392.4, 173.2) scale(0.18)" fill="#475569">
+    <path d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z"/>
+  </g>
+
+  <text x="450" y="328" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="18" font-weight="bold" fill="#1e293b">AI Agent</text>
+
+  <!-- ============ LEFT COLUMN ============ -->
+
+  <!-- LEFT TOP: Memory (brain) at icon center (120, 100) -->
+  <g transform="translate(94.4, 74.4) scale(0.1)" fill="#6b5b95">
+    <path d="M184 0c30.9 0 56 25.1 56 56l0 400c0 30.9-25.1 56-56 56c-28.9 0-52.7-21.9-55.7-50.1c-5.2 1.4-10.7 2.1-16.3 2.1c-35.3 0-64-28.7-64-64c0-7.4 1.3-14.6 3.6-21.2C21.4 367.4 0 338.2 0 304c0-31.9 18.7-59.5 45.8-72.3C37.1 220.8 32 207 32 192c0-30.7 21.6-56.3 50.4-62.6C80.8 123.9 80 118 80 112c0-29.9 20.6-55.1 48.3-62.1C131.3 21.9 155.1 0 184 0zM328 0c28.9 0 52.6 21.9 55.7 49.9c27.8 7 48.3 32.1 48.3 62.1c0 6-.8 11.9-2.4 17.4c28.8 6.2 50.4 31.9 50.4 62.6c0 15-5.1 28.8-13.8 39.7C493.3 244.5 512 272.1 512 304c0 34.2-21.4 63.4-51.6 74.8c2.3 6.6 3.6 13.8 3.6 21.2c0 35.3-28.7 64-64 64c-5.6 0-11.1-.7-16.3-2.1c-3 28.2-26.8 50.1-55.7 50.1c-30.9 0-56-25.1-56-56l0-400c0-30.9 25.1-56 56-56z"/>
+  </g>
+  <text x="120" y="150" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="14" font-weight="600" fill="#1e293b">Memory</text>
+  <text x="120" y="167" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="13" fill="#334155">retains context across steps</text>
+
+  <!-- LEFT MIDDLE: Reactivity (eye) at icon center (120, 220), viewBox 576x512, scale 0.09 -->
+  <g transform="translate(94.08, 196.96) scale(0.09)" fill="#4a7a8a">
+    <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256A144 144 0 1 1 144 256a144 144 0 1 1 288 0zM288 192c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/>
+  </g>
+  <text x="120" y="270" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="14" font-weight="600" fill="#1e293b">Feedback</text>
+  <text x="120" y="287" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="13" fill="#334155">observes results and adapts</text>
+
+  <!-- LEFT BOTTOM: Tools (wrench) at icon center (120, 340) -->
+  <g transform="translate(94.4, 314.4) scale(0.1)" fill="#4a8a6f">
+    <path d="M352 320c88.4 0 160-71.6 160-160c0-15.3-2.2-30.1-6.2-44.2c-3.1-10.8-16.4-13.2-24.3-5.3l-76.8 76.8c-3 3-7.1 4.7-11.3 4.7L336 192c-8.8 0-16-7.2-16-16l0-57.4c0-4.2 1.7-8.3 4.7-11.3l76.8-76.8c7.9-7.9 5.4-21.2-5.3-24.3C382.1 2.2 367.3 0 352 0C263.6 0 192 71.6 192 160c0 19.1 3.4 37.5 9.5 54.5L19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L297.5 310.5c17 6.2 35.4 9.5 54.5 9.5zM80 408a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
+  </g>
+  <text x="120" y="390" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="14" font-weight="600" fill="#1e293b">Tools</text>
+  <text x="120" y="407" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="13" fill="#334155">APIs, code, web</text>
+
+  <!-- ============ RIGHT COLUMN ============ -->
+
+  <!-- RIGHT TOP: Autonomy (gear) at icon center (780, 100), viewBox 512x512 -->
+  <g transform="translate(754.4, 74.4) scale(0.1)" fill="#a14a6b">
+    <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
+  </g>
+  <text x="780" y="150" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="14" font-weight="600" fill="#1e293b">Autonomy</text>
+  <text x="780" y="167" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="13" fill="#334155">chooses its own next step</text>
+
+  <!-- RIGHT MIDDLE: Delegation (sitemap - tree of nodes, reads as sub-agents not people)
+       FA sitemap, viewBox 0 0 576 512, size at scale 0.1 = 57.6 x 51.2
+       center (780, 220) -> translate (780-28.8, 220-25.6) = (751.2, 194.4) -->
+  <g transform="translate(751.2, 194.4) scale(0.1)" fill="#a68a3e">
+    <path d="M208 80c0-26.5 21.5-48 48-48l64 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-8 0 0 40 112 0c13.3 0 24 10.7 24 24l0 40 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-16-224 0 0 16 8 0c26.5 0 48 21.5 48 48l0 64c0 26.5-21.5 48-48 48l-64 0c-26.5 0-48-21.5-48-48l0-64c0-26.5 21.5-48 48-48l8 0 0-40c0-13.3 10.7-24 24-24l112 0 0-40-8 0c-26.5 0-48-21.5-48-48l0-64z"/>
+  </g>
+  <text x="780" y="270" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="14" font-weight="600" fill="#1e293b">Delegation</text>
+  <text x="780" y="287" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="13" fill="#334155">spawns other agents</text>
+
+  <!-- RIGHT BOTTOM: Human Oversight (user-check) at icon center (780, 340), viewBox 640x512 -->
+  <g transform="translate(748, 314.4) scale(0.1)" fill="#3b6ea5">
+    <path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304l91.4 0C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM625 177L497 305c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L591 143c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+  </g>
+  <text x="780" y="390" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="14" font-weight="600" fill="#1e293b">Human Oversight</text>
+  <text x="780" y="407" text-anchor="middle"
+        font-family="Helvetica, sans-serif" font-size="13" fill="#334155">human stays in the loop</text>
+
+  <!-- ============ SPOKE LINES ============
+       Double-ended arrows (marker-start + marker-end both use the same
+       auto-start-reverse marker, so the tip aligns to each line endpoint).
+       Hub-side endpoints are inset 15px from the hub card edges (card x=[370,530])
+       so the lines never touch the hub box. -->
+
+  <!-- Left spokes: hub-side at x=355, icon-side at x=170 -->
+  <line x1="355" y1="175" x2="170" y2="115" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#spoke-arrow)" marker-end="url(#spoke-arrow)"/>
+  <line x1="355" y1="220" x2="170" y2="220" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#spoke-arrow)" marker-end="url(#spoke-arrow)"/>
+  <line x1="355" y1="265" x2="170" y2="325" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#spoke-arrow)" marker-end="url(#spoke-arrow)"/>
+
+  <!-- Right spokes: hub-side at x=545, icon-side at x=730 -->
+  <line x1="545" y1="175" x2="730" y2="115" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#spoke-arrow)" marker-end="url(#spoke-arrow)"/>
+  <line x1="545" y1="220" x2="730" y2="220" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#spoke-arrow)" marker-end="url(#spoke-arrow)"/>
+  <line x1="545" y1="265" x2="730" y2="325" stroke="#94a3b8" stroke-width="1.5"
+        marker-start="url(#spoke-arrow)" marker-end="url(#spoke-arrow)"/>
+</svg>

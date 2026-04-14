@@ -6,6 +6,13 @@
 # Set script to exit on any error
 set -e
 
+# Activate Python virtual environment for matplotlib plots
+if [ -d ".venv" ]; then
+    source .venv/bin/activate
+else
+    echo "Warning: .venv not found. Run 'uv init && uv add matplotlib scipy' to set up."
+fi
+
 echo "Starting Quarto slide rendering..."
 
 # Create docs directory if it doesn't exist

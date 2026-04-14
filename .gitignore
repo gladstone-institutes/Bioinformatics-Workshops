@@ -9,3 +9,6 @@ CLAUDE.md
 
 # Local only folder
 local_dev_only/
+
+# Python virtual environments
+.venv/

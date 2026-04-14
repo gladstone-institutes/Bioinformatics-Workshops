@@ -1,0 +1,254 @@
+:root {
+  --bubble-blue:   #1B93FF;
+  --bubble-gray:   #E9E9EB;
+  --bubble-green:  #34C759;
+  --bubble-purple: #AF52DE;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  padding: 1rem;
+  overflow-y: scroll;
+  max-height: 100%;
+  position: relative;
+  scrollbar-width: none;
+}
+
+.chat::-webkit-scrollbar {
+  display: none;
+}
+
+.chat.is-scrolled {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 80px);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 80px);
+}
+
+.chat::after {
+  content: '';
+  display: block;
+  min-height: 150px;
+  flex-shrink: 0;
+}
+
+.bubble-right,
+.bubble-left,
+.bubble-left-2,
+.bubble-left-3 {
+  max-width: 65%;
+  padding: 0.55em 0.9em;
+  border-radius: 1.2em;
+  font-size: 0.9em;
+  line-height: 1.4;
+  position: relative;
+  word-wrap: break-word;
+}
+
+.bubble-right {
+  align-self: flex-end;
+  background-color: var(--bubble-blue);
+  color: #ffffff;
+  border-bottom-right-radius: 0.25em;
+}
+
+.bubble-right::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -0.45em;
+  width: 0.5em;
+  height: 0.75em;
+  background-color: var(--bubble-blue);
+  clip-path: polygon(0 0, 0% 100%, 100% 100%);
+}
+
+.bubble-left,
+.bubble-left-2,
+.bubble-left-3 {
+  align-self: flex-start;
+  border-bottom-left-radius: 0.25em;
+}
+
+.bubble-left::after,
+.bubble-left-2::after,
+.bubble-left-3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -0.45em;
+  width: 0.5em;
+  height: 0.75em;
+  clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+}
+
+.bubble-left {
+  background-color: var(--bubble-gray);
+  color: #000000;
+}
+
+.bubble-left::after {
+  background-color: var(--bubble-gray);
+}
+
+.bubble-left-2 {
+  background-color: var(--bubble-green);
+  color: #ffffff;
+}
+
+.bubble-left-2::after {
+  background-color: var(--bubble-green);
+}
+
+.bubble-left-3 {
+  background-color: var(--bubble-purple);
+  color: #ffffff;
+}
+
+.bubble-left-3::after {
+  background-color: var(--bubble-purple);
+}
+
+/* Extra space above bubbles that have reactions */
+.bubble-right.has-reactions,
+.bubble-left.has-reactions,
+.bubble-left-2.has-reactions,
+.bubble-left-3.has-reactions {
+  margin-top: 1.2em;
+}
+
+/* Reaction pill container — anchored to top corner of bubble, overlapping slightly */
+.bubble-reactions {
+  position: absolute;
+  top: -0.75em;
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+}
+
+.bubble-right .bubble-reactions {
+  left: 6px;
+}
+
+.bubble-left .bubble-reactions,
+.bubble-left-2 .bubble-reactions,
+.bubble-left-3 .bubble-reactions {
+  right: 6px;
+}
+
+@keyframes reaction-in {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes reaction-out {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.4); }
+}
+
+.reaction-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  padding: 2px 6px;
+  font-size: 0.75em;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  animation: reaction-in 0.2s ease forwards;
+}
+
+.reaction-pill.is-hiding {
+  animation: reaction-out 0.2s ease forwards;
+}
+
+/* Typing indicator */
+
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-5px); }
+}
+
+.typing-indicator {
+  display: flex;
+  gap: 0.3em;
+  align-items: center;
+  padding: 0.15em 0;
+}
+
+.typing-indicator span {
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+  animation: typing-dot 1.2s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+/* When typing: show indicator, hide text */
+.is-typing .bubble-text { display: none; }
+.is-typing .typing-indicator { display: flex; }
+
+/* After text is revealed */
+.is-typing.text-revealed .bubble-text { display: block; }
+.is-typing.text-revealed .typing-indicator { display: none; }
+
+/* Images inside bubbles */
+.bubble-right img,
+.bubble-left img,
+.bubble-left-2 img,
+.bubble-left-3 img {
+  display: block;
+  max-width: 100%;
+  border-radius: 0.6em;
+}
+
+/* Strip margins/padding from Quarto cell wrappers and lone <p> tags */
+.bubble-right p:only-child,
+.bubble-left p:only-child,
+.bubble-left-2 p:only-child,
+.bubble-left-3 p:only-child,
+.bubble-right .cell,
+.bubble-left .cell,
+.bubble-left-2 .cell,
+.bubble-left-3 .cell,
+.bubble-right .cell-output-display,
+.bubble-left .cell-output-display,
+.bubble-left-2 .cell-output-display,
+.bubble-left-3 .cell-output-display,
+.bubble-right figure,
+.bubble-left figure,
+.bubble-left-2 figure,
+.bubble-left-3 figure {
+  margin: 0;
+  padding: 0;
+}
+
+/* Fragment animation */
+
+.reveal .slides section .fragment.bubble-right,
+.reveal .slides section .fragment.bubble-left,
+.reveal .slides section .fragment.bubble-left-2,
+.reveal .slides section .fragment.bubble-left-3 {
+  opacity: 0;
+  visibility: visible;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.reveal .slides section .fragment.bubble-right.visible,
+.reveal .slides section .fragment.bubble-left.visible,
+.reveal .slides section .fragment.bubble-left-2.visible,
+.reveal .slides section .fragment.bubble-left-3.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}

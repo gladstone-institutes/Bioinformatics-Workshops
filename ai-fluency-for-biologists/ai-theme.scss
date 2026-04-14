@@ -163,6 +163,15 @@ pre, code, kbd, samp {
 }
 
 // Custom utility classes
+.v-center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+}
+
 .bottom-message {
   font-size: 0.8em !important;
   font-style: italic !important;
@@ -316,4 +325,68 @@ $info-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height
   @include example-icon($close-icon);
   background-color: #f8e4d9ff;
   border-left: 5px solid #e57b35ff;
+}
+
+// Chat bubble styling for AI/human interaction demos
+// Human icon (cognition_2.svg, blue #0072B2)
+$human-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%230072B2'%3E%3Cpath d='M380-360q42 0 71-29l160-160q29-29 29-71t-29-71q-29-29-71-29t-71 29q-37-13-73-6t-61 32q-25 25-32 61t6 73q-29 29-29 71t29 71q29 29 71 29ZM240-80v-172q-57-52-88.5-121.5T120-520q0-150 105-255t255-105q125 0 221.5 73.5T827-615l52 205q5 19-7 34.5T840-360h-80v120q0 33-23.5 56.5T680-160h-80v80h-80v-160h160v-200h108l-38-155q-23-91-98-148t-172-57q-116 0-198 81t-82 197q0 60 24.5 114t69.5 96l26 24v208h-80Zm254-360Z'/%3E%3C/svg%3E";
+
+// AI icon (smart_toy.svg, gray #666666)
+$ai-icon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23666666'%3E%3Cpath d='M160-360q-50 0-85-35t-35-85q0-50 35-85t85-35v-80q0-33 23.5-56.5T240-760h120q0-50 35-85t85-35q50 0 85 35t35 85h120q33 0 56.5 23.5T800-680v80q50 0 85 35t35 85q0 50-35 85t-85 35v160q0 33-23.5 56.5T720-120H240q-33 0-56.5-23.5T160-200v-160Zm242.5-97.5Q420-475 420-500t-17.5-42.5Q385-560 360-560t-42.5 17.5Q300-525 300-500t17.5 42.5Q335-440 360-440t42.5-17.5Zm240 0Q660-475 660-500t-17.5-42.5Q625-560 600-560t-42.5 17.5Q540-525 540-500t17.5 42.5Q575-440 600-440t42.5-17.5ZM320-280h320v-80H320v80Zm-80 80h480v-480H240v480Zm240-240Z'/%3E%3C/svg%3E";
+
+// Chat bubble base — icon at bottom, bubble above it
+%chat-bubble-base {
+  position: relative;
+  padding: 12px 16px;
+  margin: 10px 25px;
+  font-size: 0.80em;
+  border-radius: 16px;
+  max-width: 60%;
+
+  ul, ol {
+    li::marker {
+      color: #333 !important;
+    }
+  }
+}
+
+@mixin chat-icon-bottom($svg-data-uri, $side) {
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -40px;
+    width: 40px;
+    height: 40px;
+    background-image: url($svg-data-uri);
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    @if $side == left {
+      left: -36px;
+    } @else {
+      right: -36px;
+    }
+  }
+}
+
+// Human message — left-aligned, icon at bottom-left
+.human-message {
+  @extend %chat-bubble-base;
+  @include chat-icon-bottom($human-icon, left);
+  background-color: #dceefaff;
+  margin-left: 25px;
+  margin-right: 30%;
+  margin-bottom: 35px;
+  border-bottom-left-radius: 4px;
+}
+
+// AI message — right-aligned, icon at bottom-right
+.ai-message {
+  @extend %chat-bubble-base;
+  @include chat-icon-bottom($ai-icon, right);
+  background-color: #e8e8e8ff;
+  margin-left: 30%;
+  margin-right: 25px;
+  margin-bottom: 35px;
+  border-bottom-right-radius: 4px;
 }
