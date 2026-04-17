@@ -30,7 +30,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="AI_Fluency_Part_1_files/libs/revealjs/dist/theme/quarto-827c8d914e89851f68bff75377969752.css">
+  <link rel="stylesheet" href="AI_Fluency_Part_1_files/libs/revealjs/dist/theme/quarto-081d9f038429577e2c20afe4547d21cf.css">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -237,17 +237,6 @@ Bioinformatician II</p>
 Platform Awareness
 </p>
 </section>
-<section id="current-landscape" class="slide level2">
-<h2>Current Landscape</h2>
-
-<img data-src="assets/current_landscape.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%" alt="Architecture diagram showing four layers of AI software tools: Data Sources (Slack, Drive, PubMed, Files, Databases), Orchestration Layer (Agent Loop, Tool Routing, Memory, Context), Model Layer (Claude, GPT, Gemini, Llama), and Application/Output Layer (Reports, Plots, Dashboards, Documents, Code)"></section>
-<section id="poll-what-ai-tools-have-you-heard-of" class="slide level2">
-<h2>Poll: What AI tools have you heard of?</h2>
-<div class="v-center-container">
-<p><a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a></p>
-<p><em>Scan or click to join</em></p>
-</div>
-</section>
 <section id="model-providers" class="slide level2">
 <h2>Model Providers</h2>
 <div style="font-size: 0.8em;">
@@ -312,6 +301,10 @@ Platform Awareness
 <p><img data-src="assets/omar_et_al_april_2025.png" style="border: 1px solid #ccc; padding: 5px;;width:95.0%" alt="Title card for Omar et al. 2025 paper: Sociodemographic biases in medical decision making by large language models, published in Nature Medicine"></p>
 <p><img data-src="assets/bai_et_al_feb_2025.png" style="border: 1px solid #ccc; padding: 5px;;width:95.0%" alt="Title card for Bai et al. 2025 paper: Explicitly unbiased large language models still form biased associations, published in PNAS"></p>
 </section>
+<section id="current-landscape" class="slide level2">
+<h2>Current Landscape</h2>
+
+<img data-src="assets/current_landscape.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%" alt="Architecture diagram showing four layers of AI software tools: Data Sources (Slack, Drive, PubMed, Files, Databases), Orchestration Layer (Agent Loop, Tool Routing, Memory, Context), Model Layer (Claude, GPT, Gemini, Llama), and Application/Output Layer (Reports, Plots, Dashboards, Documents, Code)"></section>
 <section id="what-are-ai-agents" class="slide level2">
 <h2>What Are AI Agents?</h2>
 <div style="font-size: 0.7em; text-align: center;">
@@ -319,6 +312,13 @@ Platform Awareness
 </div>
 
 <img data-src="assets/agent_diagram.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%" alt="Diagram of an AI agent showing a central robot icon labeled AI Agent connected by bidirectional arrows to six capabilities: Memory (retains context across steps), Feedback (observes results and adapts), Tools (APIs, code, web), Autonomy (chooses its own next step), Delegation (spawns other agents), and Human Oversight (human stays in the loop)"></section>
+<section id="poll-what-ai-tools-have-you-heard-of" class="slide level2">
+<h2>Poll: What AI tools have you heard of?</h2>
+<div class="v-center-container">
+<p><a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a></p>
+<p><em>Scan or click to join</em></p>
+</div>
+</section>
 <section id="how-are-ai-models-evaluated" class="slide level2">
 <h2>How Are AI Models Evaluated?</h2>
 <div style="font-size: 0.8em;">
@@ -404,18 +404,6 @@ Task Awareness
 <li><strong>Final versions</strong>: AI output always needs human revision</li>
 </ul>
 </section>
-<section id="visual-reasoning-a-good-task" class="slide level2">
-<h2>Visual Reasoning: A Good Task</h2>
-<p>You can upload images and AI will describe, interpret, or extract information from them</p>
-<ul>
-<li>Photos of gels, plates, blots, or microscopy</li>
-<li>Figures from papers (“explain this figure”)</li>
-<li>Handwritten notes or whiteboard diagrams</li>
-<li>Error messages and screenshots</li>
-<li>Tables in PDFs (“extract this data”)</li>
-</ul>
-<p>AI can misread details in images just like text — always verify</p>
-</section>
 <section id="image-generation-a-poor-task" class="slide level2">
 <h2>Image Generation: A Poor Task</h2>
 <p>AI can generate photorealistic images, but they are <strong>not grounded in real data</strong></p>
@@ -424,7 +412,7 @@ Task Awareness
 <li>Generated images can contain subtle errors that look plausible</li>
 <li>Never use AI to create anything that could be mistaken for data</li>
 </ul>
-<p>Acceptable: conceptual diagrams and presentation graphics (with disclosure)</p>
+<p>Exceptions: conceptual diagrams and flowcharts that you refine for accuracy (with disclosure)</p>
 </section>
 <section id="modalities-of-task-delegation" class="slide level2 center">
 <h2>Modalities of Task Delegation</h2>
@@ -487,7 +475,7 @@ Task Awareness
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_9c702a38" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_54958487" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -583,10 +571,10 @@ Task Awareness
 <p>This is called <strong>Process Description</strong>: defining <em>how</em> the AI should approach the task</p>
 </div>
 </section>
-<section id="let-it-think-deeply" class="slide level2">
-<h2>5) Let It Think Deeply</h2>
+<section id="use-extended-thinking-mode" class="slide level2">
+<h2>5) Use Extended Thinking Mode</h2>
 <div style="font-size: 0.8em;">
-<p>Most AI tools now have a <strong>thinking</strong> or <strong>reasoning</strong> mode — use it for complex or multi-part questions</p>
+<p>Most AI tools now have a <strong>thinking</strong> or <strong>reasoning</strong> mode, use it for complex or multi-part questions.</p>
 <ul>
 <li><strong>Don’t</strong> need to say “think step by step”</li>
 <li><strong>Do</strong> toggle on extended thinking for harder questions; skip it for simple tasks</li>
@@ -625,6 +613,18 @@ Task Awareness
 </ul>
 </div>
 </section>
+<section id="persistent-context-projects-and-custom-instructions" class="slide level2">
+<h2>Persistent Context: Projects and Custom Instructions</h2>
+<div style="font-size: 0.75em;">
+<p>If you find yourself pasting the same background into every conversation, stop. Most tools let you attach persistent context that applies to every chat in a workspace.</p>
+<ul>
+<li><strong>Claude Projects</strong> (and equivalents in ChatGPT, Gemini): attach reference documents and custom instructions that the model sees on every turn</li>
+<li>Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions</li>
+<li>For code, a <code>CLAUDE.md</code> or <code>AGENTS.md</code> at the repo root serves the same purpose (covered in Part 2)</li>
+</ul>
+<p>Set it up once, stop repeating yourself, and the model stays oriented to your work.</p>
+</div>
+</section>
 <section id="exercise-prompting" class="slide level2">
 <h2>Exercise: Prompting</h2>
 <div style="font-size: 0.8em;">
@@ -648,7 +648,8 @@ Task Awareness
 <h2>Schedule for Part 2</h2>
 <ol type="1">
 <li>Discernment - Evaluating AI outputs</li>
-<li>Literature Review Excercise</li>
+<li>Literature Review Exercise</li>
+<li>Coding with LLMs</li>
 <li>Diligence - Responsible AI use</li>
 <li>Q&amp;A and discussion</li>
 <li>Wrap-up and resources</li>
@@ -669,10 +670,13 @@ May 11-May 12, 2026 9:30am-12:00pm PDT</p>
 <p><strong>Advanced RNA-seq Analysis Using R</strong><br>
 May 27-May 28, 2026 1:00-3:00pm PDT</p>
 </section>
-<section id="acknowledgments" class="slide level2">
-<h2>Acknowledgments</h2>
-<p>This workshop adapts the AI Fluency framework developed by Rick Dakan, Joseph Feller, and Anthropic (2025). Released under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> license.</p>
-<p>We thank Anthropic for providing temporary Claude account upgrades for workshop attendees and for the AI Fluency framework that forms the foundation of this workshop.</p>
+<section id="thank-you" class="slide level2">
+<h2>Thank You</h2>
+<p>Thanks to Anthropic for providing temporary Claude account upgrades for workshop attendees and for the <a href="https://www.anthropic.com/learn">AI Fluency framework</a> that inspired this workshop (<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>).</p>
+</section>
+<section id="ai-disclosure" class="slide level2">
+<h2>AI Disclosure</h2>
+<p>Claude (Anthropic) was used as an aid in developing and adapting materials for this workshop. All content was reviewed and approved by the workshop instructor.</p>
 
 </section></section>
     </div>

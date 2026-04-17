@@ -23,13 +23,13 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.98437507"
-     inkscape:cx="422.09521"
+     inkscape:cx="421.58727"
      inkscape:cy="316.95236"
      inkscape:window-width="1728"
-     inkscape:window-height="961"
+     inkscape:window-height="907"
      inkscape:window-x="0"
      inkscape:window-y="38"
-     inkscape:window-maximized="1"
+     inkscape:window-maximized="0"
      inkscape:current-layer="svg30" />
   <rect
      width="700"
@@ -146,7 +146,7 @@
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Natural language</text>
   <text
      x="235.99973"
-     y="143"
+     y="145"
      text-anchor="middle"
      font-family="Helvetica, sans-serif"
      font-size="14.0008px"
@@ -188,28 +188,24 @@
      fill="#1e293b"
      id="text12"
      style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Intelligent robots</text>
-  <g
-     id="g30"
-     transform="translate(8,-12)">
-    <text
-       x="94.999809"
-       y="273.99985"
-       text-anchor="middle"
-       font-family="Helvetica, sans-serif"
-       font-size="11.9993px"
-       fill="#1e293b"
-       id="text13"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Knowledge</text>
-    <text
-       x="96.999809"
-       y="288"
-       text-anchor="middle"
-       font-family="Helvetica, sans-serif"
-       font-size="11.9993px"
-       fill="#1e293b"
-       id="text14"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">representation</text>
-  </g>
+  <text
+     x="106.99981"
+     y="247.99985"
+     text-anchor="middle"
+     font-family="Helvetica, sans-serif"
+     font-size="11.9993px"
+     fill="#1e293b"
+     id="text13"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Knowledge</text>
+  <text
+     x="108.99981"
+     y="264"
+     text-anchor="middle"
+     font-family="Helvetica, sans-serif"
+     font-size="11.9993px"
+     fill="#1e293b"
+     id="text14"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">representation</text>
   <text
      x="604.99969"
      y="273.99985"
@@ -221,13 +217,13 @@
      style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Automatic</text>
   <text
      x="604.99969"
-     y="288"
+     y="292"
      text-anchor="middle"
      font-family="Helvetica, sans-serif"
      font-size="11.9993px"
      fill="#1e293b"
      id="text16"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">reasoning</text>
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">reasoning</text>
   <!-- ============================================================
        ML example labels — fs=13
   ============================================================ -->

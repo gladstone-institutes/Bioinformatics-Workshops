@@ -99,18 +99,9 @@ A practical approach to working with AI effectively:
 
 <p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">Platform Awareness</p>
 
-## Current Landscape
-
-![](assets/current_landscape.svg){fig-alt="Architecture diagram showing four layers of AI software tools: Data Sources (Slack, Drive, PubMed, Files, Databases), Orchestration Layer (Agent Loop, Tool Routing, Memory, Context), Model Layer (Claude, GPT, Gemini, Llama), and Application/Output Layer (Reports, Plots, Dashboards, Documents, Code)" fig-align="center" width=90%}
 
 
-## Poll: What AI tools have you heard of?
 
-:::{.v-center-container}
-<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
-
-*Scan or click to join*
-:::
 
 
 
@@ -238,6 +229,12 @@ with plt.xkcd(scale=2, length=200, randomness=2):
 
 ![](assets/bai_et_al_feb_2025.png){fig-alt="Title card for Bai et al. 2025 paper: Explicitly unbiased large language models still form biased associations, published in PNAS" width=95% style="border: 1px solid #ccc; padding: 5px;"}
 
+
+## Current Landscape
+
+![](assets/current_landscape.svg){fig-alt="Architecture diagram showing four layers of AI software tools: Data Sources (Slack, Drive, PubMed, Files, Databases), Orchestration Layer (Agent Loop, Tool Routing, Memory, Context), Model Layer (Claude, GPT, Gemini, Llama), and Application/Output Layer (Reports, Plots, Dashboards, Documents, Code)" fig-align="center" width=90%}
+
+
 ## What Are AI Agents?
 
 :::{style="font-size: 0.7em; text-align: center;"}
@@ -245,6 +242,16 @@ A system powered by LLMs that independently directs its own processes, makes dec
 :::
 
 ![](assets/agent_diagram.svg){fig-alt="Diagram of an AI agent showing a central robot icon labeled AI Agent connected by bidirectional arrows to six capabilities: Memory (retains context across steps), Feedback (observes results and adapts), Tools (APIs, code, web), Autonomy (chooses its own next step), Delegation (spawns other agents), and Human Oversight (human stays in the loop)" fig-align="center" width=90%}
+
+
+## Poll: What AI tools have you heard of?
+
+:::{.v-center-container}
+<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
+
+*Scan or click to join*
+:::
+
 
 ## How Are AI Models Evaluated?
 
@@ -323,17 +330,6 @@ Tasks where **you can't verify the output**:
 - **Precise calculations**: Use dedicated tools for statistics and quantitative claims
 - **Final versions**: AI output always needs human revision
 
-## Visual Reasoning: A Good Task
-
-You can upload images and AI will describe, interpret, or extract information from them
-
-- Photos of gels, plates, blots, or microscopy
-- Figures from papers ("explain this figure")
-- Handwritten notes or whiteboard diagrams
-- Error messages and screenshots
-- Tables in PDFs ("extract this data")
-
-AI can misread details in images just like text — always verify
 
 ## Image Generation: A Poor Task
 
@@ -343,7 +339,7 @@ AI can generate photorealistic images, but they are **not grounded in real data*
 - Generated images can contain subtle errors that look plausible
 - Never use AI to create anything that could be mistaken for data
 
-Acceptable: conceptual diagrams and presentation graphics (with disclosure)
+Exceptions: conceptual diagrams and flowcharts that you refine for accuracy (with disclosure)
 
 ##  Modalities of Task Delegation {.center}
 
@@ -522,10 +518,10 @@ Step 4: Evaluate whether the conclusions are supported by the data"
 This is called **Process Description**: defining *how* the AI should approach the task
 :::
 
-## 5) Let It Think Deeply
+## 5) Use Extended Thinking Mode
 
 ::: {style="font-size: 0.8em;"}
-Most AI tools now have a **thinking** or **reasoning** mode — use it for complex or multi-part questions
+Most AI tools now have a **thinking** or **reasoning** mode, use it for complex or multi-part questions.
 
 - **Don't** need to say "think step by step"
 - **Do** toggle on extended thinking for harder questions; skip it for simple tasks
@@ -569,6 +565,20 @@ This is especially useful when:
 - Your initial prompt isn't giving you good results
 :::
 
+## Persistent Context: Projects and Custom Instructions
+
+::: {style="font-size: 0.75em;"}
+
+If you find yourself pasting the same background into every conversation, stop. Most tools let you attach persistent context that applies to every chat in a workspace.
+
+- **Claude Projects** (and equivalents in ChatGPT, Gemini): attach reference documents and custom instructions that the model sees on every turn
+- Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions
+- For code, a `CLAUDE.md` or `AGENTS.md` at the repo root serves the same purpose (covered in Part 2)
+
+Set it up once, stop repeating yourself, and the model stays oriented to your work.
+
+:::
+
 ## Exercise: Prompting
 
 ::: {style="font-size: 0.8em;"}
@@ -592,10 +602,11 @@ This is especially useful when:
 ## Schedule for Part 2
 
 1. Discernment - Evaluating AI outputs
-2. Literature Review Excercise
-3. Diligence - Responsible AI use
-4. Q&A and discussion
-5. Wrap-up and resources
+2. Literature Review Exercise
+3. Coding with LLMs
+4. Diligence - Responsible AI use
+5. Q&A and discussion
+6. Wrap-up and resources
 
 
 ## Workshop survey
@@ -613,8 +624,10 @@ May 11-May 12, 2026 9:30am-12:00pm PDT
 May 27-May 28, 2026 1:00-3:00pm PDT   
 
 
-## Acknowledgments
+## Thank You
 
-This workshop adapts the AI Fluency framework developed by Rick Dakan, Joseph Feller, and Anthropic (2025). Released under the [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) license.
+Thanks to Anthropic for providing temporary Claude account upgrades for workshop attendees and for the [AI Fluency framework](https://www.anthropic.com/learn) that inspired this workshop ([CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)).
 
-We thank Anthropic for providing temporary Claude account upgrades for workshop attendees and for the AI Fluency framework that forms the foundation of this workshop.
+## AI Disclosure
+
+Claude (Anthropic) was used as an aid in developing and adapting materials for this workshop. All content was reviewed and approved by the workshop instructor.
