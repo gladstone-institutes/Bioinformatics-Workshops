@@ -155,7 +155,7 @@ When you're learning something new, you can't rely on your own expertise to spot
 Then reach out to a subject matter expert.
 
 :::{.example}
-**If you do, disclose that it's AI-generated.** Bioinformaticians, statisticians, and mathematicians are increasingly asked to review large, confidently incorrect AI output, sometimes without disclosure. It wastes their time and damages trust.
+**If you do, disclose that it's AI-generated.** Bioinformaticians, statisticians, and mathematicians are increasingly asked to review large, incorrect AI output. Reviewing AI output takes a different kind of attention than reviewing human work. 
 :::
 
 :::
