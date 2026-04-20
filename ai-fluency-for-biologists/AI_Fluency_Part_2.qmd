@@ -30,17 +30,17 @@ library(countdown)
 **Natalie Gill**    
 Bioinformatician II    
 
-**Ayushi Agrawal, MS**   
+**Ayushi Agrawal**   
 Senior Bioinformatician    
 
-**Kristina Hanspers, MS**   
+**Kristina Hanspers**   
 Senior Research Associate   
 :::
 ::: {.column width="50%"}
-**Michela Traglia, PhD**   
+**Michela Traglia**   
 Associate Core Director    
 
-**Reuben Thomas, PhD**   
+**Reuben Thomas**   
 Core Director  
 :::
 ::::
@@ -331,7 +331,6 @@ Take responsibility for verifying and vouching for every output you use or share
 4. **Final human review**: Read it as if you wrote it yourself; would you stand behind it?
 5. **Document AI's role**: Note what AI contributed for transparency
 
-**Principle:** You vouch for everything you submit
 
 :::
 
