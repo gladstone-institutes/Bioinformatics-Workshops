@@ -121,7 +121,7 @@ Popular model providers include **Claude** (Anthropic), **ChatGPT** (OpenAI), an
 
 - **Hallucinations**: Confident incorrect answers
 - **Knowledge cutoff**: AI has no knowledge after its training date it won't know about recent papers or discoveries
-- **Context window**: The maximum number of tokens (words) a language model can process at once, covering both its input and output
+- **Context window**: The input/output token budget; once it fills up, accuracy drops and earlier details get lost
 - **Training bias**: Systematic skews inherited from training data and alignment choices
 
 
@@ -569,13 +569,12 @@ This is especially useful when:
 
 ::: {style="font-size: 0.75em;"}
 
-If you find yourself pasting the same background into every conversation, stop. Most tools let you attach persistent context that applies to every chat in a workspace.
+Most tools let you attach persistent context that applies to every chat in a workspace so you can avoid pasting the same information over and over again.
 
 - **Claude Projects** (and equivalents in ChatGPT, Gemini): attach reference documents and custom instructions that the model sees on every turn
 - Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions
 - For code, a `CLAUDE.md` or `AGENTS.md` at the repo root serves the same purpose (covered in Part 2)
 
-Set it up once, stop repeating yourself, and the model stays oriented to your work.
 
 :::
 

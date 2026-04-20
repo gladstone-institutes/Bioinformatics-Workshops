@@ -204,7 +204,7 @@ countdown::countdown(minutes = 10,
 ## Exercise: Review Research Mode Output
 
 ::: {style="font-size: 0.7em;"}
-**Read through the AI's summary using your domain expertise. Look for:**
+**Read through the AI's summary. Look for:**
 
 - **Oversimplified conclusions**: Did it present an active debate as settled science?
 - **Missing nuance**: Did it leave out key caveats, conflicting findings, or minority viewpoints?
