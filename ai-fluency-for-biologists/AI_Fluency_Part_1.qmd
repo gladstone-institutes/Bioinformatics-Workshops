@@ -26,9 +26,25 @@ library(countdown)
 
 ## Introductions
 
-**Natalie Gill**   
+:::: {.columns}
+::: {.column width="50%"}
+**Natalie Gill**     
 Bioinformatician II  
 
+**Ayushi Agrawal, MS**    
+Senior Bioinformatician    
+
+**Kristina Hanspers, MS**   
+Senior Research Associate   
+:::
+::: {.column width="50%"}
+**Michela Traglia, PhD**   
+Associate Core Director   
+
+**Reuben Thomas, PhD**   
+Core Director  
+:::
+::::
 
 
 ## Target Audience

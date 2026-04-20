@@ -24,8 +24,26 @@ library(countdown)
 <center>*Press the ? key for tips on navigating these slides*</center>
 
 ## Introductions
-**Natalie Gill**     
-Bioinformatician II
+
+:::: {.columns}
+::: {.column width="50%"}
+**Natalie Gill**    
+Bioinformatician II    
+
+**Ayushi Agrawal, MS**   
+Senior Bioinformatician    
+
+**Kristina Hanspers, MS**   
+Senior Research Associate   
+:::
+::: {.column width="50%"}
+**Michela Traglia, PhD**   
+Associate Core Director    
+
+**Reuben Thomas, PhD**   
+Core Director  
+:::
+::::
 
 
 ## Schedule
@@ -374,8 +392,13 @@ Thanks to Anthropic for providing temporary Claude account upgrades for workshop
 
 Claude (Anthropic) was used as an aid in developing and adapting materials for this workshop. All content was reviewed and approved by the workshop instructor.
 
-## Upcoming Workshops
+## Upcoming Workshops {.small}
 
-::: {style="font-size: 0.8em;"}
-*Details coming soon, check our website for the latest schedule*
-:::
+**Linear Mixed Effects Models Using R**    
+May 4 - May 5, 2026 9:00am - 4:00pm PDT   
+
+**scATAC-seq Analysis Using R**     
+May 11-May 12, 2026 9:30am-12:00pm PDT  
+
+**Advanced RNA-seq Analysis Using R**    
+May 27-May 28, 2026 1:00-3:00pm PDT   
