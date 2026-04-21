@@ -206,7 +206,6 @@ Core Director</p>
 <li><strong>Completeness</strong>: Are key findings, methods, or caveats missing?</li>
 <li><strong>Appropriateness</strong>: Is the tone, depth, and format right for your audience and purpose?</li>
 </ul>
-<p>Your domain expertise is what makes this evaluation possible.</p>
 </div>
 </section>
 <section id="common-ai-errors-in-science" class="slide level2">
@@ -269,7 +268,6 @@ Core Director</p>
 <li><strong>Validate data</strong>: Are numerical values, statistics, and units accurate?</li>
 <li><strong>Assess overall quality</strong>: Is the output useful, or does it need significant revision?</li>
 </ol>
-<p>Make this a habit for every AI-generated output you plan to use</p>
 </div>
 </section>
 <section id="cross-model-verification" class="slide level2">
@@ -297,7 +295,7 @@ Core Director</p>
 </ul>
 <p>Then reach out to a subject matter expert.</p>
 <div class="example">
-<p><strong>If you do, disclose that it’s AI-generated.</strong> Bioinformaticians, statisticians, and mathematicians are increasingly asked to review large, incorrect AI output. Reviewing AI output takes a different kind of attention than reviewing human work.</p>
+<p><strong>If you do, disclose that it’s AI-generated.</strong> Reviewing AI output takes a different kind of attention than reviewing human work. Plausible-sounding mistakes appear in unfamiliar places, so experts need to know what they’re reading before they can review it well.</p>
 </div>
 </div>
 </section>
@@ -324,7 +322,7 @@ Core Director</p>
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_ff196977" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_b702d3db" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -364,17 +362,17 @@ Core Director</p>
 </ul>
 </div>
 </section>
-<section id="if-you-can-evaluate-code-raise-the-bar" class="slide level2">
-<h2>If You Can Evaluate Code, Raise the Bar</h2>
+<section id="agentic-coding-best-practices" class="slide level2">
+<h2>Agentic Coding Best Practices</h2>
 <div style="font-size: 0.75em;">
-<p>Agentic coding amplifies whatever habits you already have. When models make large-scale changes to a complex codebase, software engineering practices stop being optional:</p>
+<p>Agentic coding amplifies whatever habits you already have, good and bad. The more the model does, the more these practices pay off:</p>
 <ul>
 <li><strong>Version control (git)</strong>: Review every diff. Commit often. Revert when the model goes off the rails</li>
 <li><strong>Unit tests</strong>: Catch regressions the moment the model refactors something it shouldn’t have</li>
 <li><strong>System design</strong>: Small, well-scoped modules (SOLID, layered architecture) are easier for both humans and models to reason about</li>
-<li><strong>Read every line</strong>: A diff you didn’t read is a diff you didn’t review</li>
+<li><strong>Human review</strong>: You’re still the author, the model’s output is a draft until you’ve read it</li>
 </ul>
-<p>Bioinformatics often skips these practices. Agentic coding makes them essential.</p>
+<p>These practices aren’t new, but agentic coding raises the payoff for having them in place.</p>
 </div>
 </section>
 <section id="tooling-that-makes-agents-more-reliable" class="slide level2">
@@ -394,63 +392,48 @@ Core Director</p>
 <h1>Diligence</h1>
 
 </section>
-<section id="creation-diligence" class="slide level2">
-<h2>Creation Diligence</h2>
+<section id="risks-to-consider" class="slide level2">
+<h2>Risks to Consider</h2>
 <div style="font-size: 0.7em;">
-<p>Be thoughtful about which AI systems you use and how you interact with them.</p>
+<p>Creating with AI carries risks that are easy to overlook until they bite:</p>
 <ul>
-<li><strong>Copyright and IP</strong>: AI-generated text may inadvertently reproduce copyrighted material</li>
-<li><strong>Plagiarism</strong>: Submitting AI-generated text as your own without disclosure can violate academic integrity policies</li>
-<li><strong>Scientific integrity</strong>: AI should support your analysis, not replace your scientific judgment</li>
 <li><strong>Data privacy</strong>: Never paste unpublished data, patient information, or proprietary sequences into AI tools without checking your institution’s data use policies</li>
+<li><strong>Copyright and IP</strong>: AI-generated text can reproduce IP without citation</li>
+<li><strong>Methodological choices</strong>: AI will confidently suggest statistical methods or parameters that don’t fit your data</li>
 </ul>
 </div>
 </section>
-<section id="transparency-diligence" class="slide level2">
-<h2>Transparency Diligence</h2>
-<div style="font-size: 0.8em;">
-<p>Be honest about AI’s role in your work with everyone who needs to know.</p>
+<section id="ai-and-skill-atrophy" class="slide level2">
+<h2>AI and Skill Atrophy</h2>
+<div style="font-size: 0.75em;">
+<p>Using AI heavily for critical tasks can erode skills you still need, or prevent you from building them in the first place.</p>
+<p><strong>Evidence:</strong></p>
 <ul>
-<li><strong>In manuscripts</strong>: Disclose AI use in Methods, Acknowledgments, or Author Contributions as required by the journal</li>
-<li><strong>In grant proposals</strong>: AI use in grants is generally discouraged; check funder guidelines (e.g., NIH, NSF)</li>
-<li><strong>With collaborators and supervisors</strong>: Let your team know when and how you used AI</li>
-<li><strong>General principle:</strong> If someone would want to know AI was involved, disclose it</li>
+<li><a href="https://doi.org/10.1016/S2468-1253(25)00133-5">Budzyń et al.&nbsp;(2025), <em>Lancet Gastroenterol Hepatol</em></a>: endoscopists showed a 20% relative drop in adenoma detection rate on non-AI colonoscopy after routine AI exposure.</li>
+<li><a href="https://doi.org/10.2147/AMEP.S583763">Turney et al.&nbsp;(2026), <em>Adv Med Educ Pract</em></a>: AI in medical training improves efficiency and basic knowledge, but higher-order clinical reasoning outcomes are mixed or weaker.</li>
+<li><a href="https://doi.org/10.1145/3706598.3713778">Lee et al.&nbsp;(2025), <em>CHI ’25</em></a>: survey of 319 knowledge workers: higher confidence in AI predicts less critical thinking; higher self-confidence predicts more.</li>
 </ul>
 </div>
 </section>
-<section id="section-1" class="slide level2 center">
-<h2></h2>
+<section id="taking-responsibility-for-ai-output" class="slide level2">
+<h2>Taking Responsibility for AI Output</h2>
+<p><br></p>
 
 <img data-src="assets/deployment_diligence.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%" alt="Five-step deployment diligence process shown as a horizontal pipeline: 1. Generate (AI produces a draft), 2. Verify (check against sources), 3. Edit (revise for accuracy), 4. Review (would you sign off?), 5. Document (note AI's role), with the principle that you vouch for everything you submit"></section>
-<section id="deployment-diligence" class="slide level2">
-<h2>Deployment Diligence</h2>
-<div style="font-size: 0.8em;">
-<p>Take responsibility for verifying and vouching for every output you use or share.</p>
-<ol type="1">
-<li><strong>Generate</strong>: Use AI to produce a draft or analysis</li>
-<li><strong>Verify</strong>: Check output against primary sources and your domain knowledge</li>
-<li><strong>Edit and refine</strong>: Revise for accuracy, tone, and completeness</li>
-<li><strong>Final human review</strong>: Read it as if you wrote it yourself; would you stand behind it?</li>
-<li><strong>Document AI’s role</strong>: Note what AI contributed for transparency</li>
-</ol>
-</div>
-</section>
-<section id="journal-ai-policies" class="slide level2">
-<h2>Journal AI Policies</h2>
-<div style="font-size: 0.8em;">
-<p>Most major journals now have AI use policies. Common themes:</p>
+<section id="disclosing-ai-use" class="slide level2">
+<h2>Disclosing AI Use</h2>
+<div style="font-size: 0.75em;">
+<p>If someone would want to know AI was involved, disclose it.</p>
 <ul>
-<li><strong>Disclosure required</strong>: Authors must declare AI-assisted writing or analysis</li>
-<li><strong>AI cannot be an author</strong>: AI tools do not meet authorship criteria</li>
-<li><strong>Human responsibility</strong>: Authors are fully responsible for all content, including AI-generated portions</li>
-<li><strong>No AI-generated figures</strong>: Many journals prohibit AI-generated images</li>
-<li><strong>Evolving landscape</strong>: Policies change rapidly; always check your target journal’s current guidelines</li>
+<li><strong>Manuscripts</strong>: Most journals require disclosure in Methods, Acknowledgments, or Author Contributions. AI cannot be an author, and many journals prohibit AI-generated figures</li>
+<li><strong>Grant proposals</strong>: AI use is generally discouraged; check funder guidelines (NIH, NSF) before submitting AI-assisted text</li>
+<li><strong>Collaborators and supervisors</strong>: When AI shaped the analysis or writing, let your team know</li>
 </ul>
-<p><em>Check your target journal’s author guidelines before submission</em></p>
 </div>
 </section>
 <section id="open-discussion" class="slide level2">
 <h2>Open Discussion</h2>
+<div style="font-size: 0.75em;">
 <p><strong>Let’s discuss your questions about using AI in research.</strong></p>
 <p>Some topics to consider:</p>
 <ul>
@@ -458,6 +441,7 @@ Core Director</p>
 <li>Edge cases: when is it unclear whether to use AI?</li>
 <li>How to handle situations where AI output is “good enough” but not verified</li>
 </ul>
+</div>
 </section></section>
 <section>
 <section id="wrap-up" class="title-slide slide level1 center">

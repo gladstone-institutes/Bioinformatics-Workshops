@@ -74,7 +74,6 @@ Evaluate every AI output against four criteria:
 - **Completeness**: Are key findings, methods, or caveats missing?
 - **Appropriateness**: Is the tone, depth, and format right for your audience and purpose?
 
-Your domain expertise is what makes this evaluation possible.
 :::
 
 ## Common AI Errors in Science
@@ -139,7 +138,6 @@ A systematic process for checking AI output:
 4. **Validate data**: Are numerical values, statistics, and units accurate?
 5. **Assess overall quality**: Is the output useful, or does it need significant revision?
 
-Make this a habit for every AI-generated output you plan to use
 :::
 
 
@@ -173,7 +171,7 @@ When you're learning something new, you can't rely on your own expertise to spot
 Then reach out to a subject matter expert.
 
 :::{.example}
-**If you do, disclose that it's AI-generated.** Bioinformaticians, statisticians, and mathematicians are increasingly asked to review large, incorrect AI output. Reviewing AI output takes a different kind of attention than reviewing human work. 
+**If you do, disclose that it's AI-generated.** Reviewing AI output takes a different kind of attention than reviewing human work. Plausible-sounding mistakes appear in unfamiliar places, so experts need to know what they're reading before they can review it well.  
 :::
 
 :::
@@ -257,18 +255,18 @@ Bioinformatics code that looks right but is subtly wrong silently corrupts your 
 :::
 
 
-## If You Can Evaluate Code, Raise the Bar
+## Agentic Coding Best Practices
 
 ::: {style="font-size: 0.75em;"}
 
-Agentic coding amplifies whatever habits you already have. When models make large-scale changes to a complex codebase, software engineering practices stop being optional:
+Agentic coding amplifies whatever habits you already have, good and bad. The more the model does, the more these practices pay off:  
 
 - **Version control (git)**: Review every diff. Commit often. Revert when the model goes off the rails
 - **Unit tests**: Catch regressions the moment the model refactors something it shouldn't have
 - **System design**: Small, well-scoped modules (SOLID, layered architecture) are easier for both humans and models to reason about
-- **Read every line**: A diff you didn't read is a diff you didn't review
+- **Human review**: You're still the author, the model's output is a draft until you've read it 
 
-Bioinformatics often skips these practices. Agentic coding makes them essential.
+These practices aren't new, but agentic coding raises the payoff for having them in place.
 
 :::
 
@@ -289,68 +287,62 @@ Beyond coding practices, configuration that shapes how the model works with your
 
 # Diligence {.center}
 
-## Creation Diligence
+## Risks to Consider
 
 ::: {style="font-size: 0.7em;"}
 
-Be thoughtful about which AI systems you use and how you interact with them.
+Creating with AI carries risks that are easy to overlook until they bite:
 
-- **Copyright and IP**: AI-generated text may inadvertently reproduce copyrighted material
-- **Plagiarism**: Submitting AI-generated text as your own without disclosure can violate academic integrity policies
-- **Scientific integrity**: AI should support your analysis, not replace your scientific judgment
 - **Data privacy**: Never paste unpublished data, patient information, or proprietary sequences into AI tools without checking your institution's data use policies
+- **Copyright and IP**: AI-generated text can reproduce IP without citation
+- **Methodological choices**: AI will confidently suggest statistical methods or parameters that don't fit your data
 
 :::
 
-## Transparency Diligence
+## AI and Skill Atrophy
 
-::: {style="font-size: 0.8em;"}
+::: {style="font-size: 0.75em;"}
 
-Be honest about AI's role in your work with everyone who needs to know.
+Using AI heavily for critical tasks can erode skills you still need, or prevent you from building them in the first place.
 
-- **In manuscripts**: Disclose AI use in Methods, Acknowledgments, or Author Contributions as required by the journal
-- **In grant proposals**: AI use in grants is generally discouraged; check funder guidelines (e.g., NIH, NSF)
-- **With collaborators and supervisors**: Let your team know when and how you used AI
-- **General principle:** If someone would want to know AI was involved, disclose it
+**Evidence:**
 
-:::
+- [Budzyń et al. (2025), *Lancet Gastroenterol Hepatol*](https://doi.org/10.1016/S2468-1253(25)00133-5): endoscopists showed a 20% relative drop in adenoma detection rate on non-AI colonoscopy after routine AI exposure.
+- [Turney et al. (2026), *Adv Med Educ Pract*](https://doi.org/10.2147/AMEP.S583763): AI in medical training improves efficiency and basic knowledge, but higher-order clinical reasoning outcomes are mixed or weaker.
+- [Lee et al. (2025), *CHI '25*](https://doi.org/10.1145/3706598.3713778): survey of 319 knowledge workers: higher confidence in AI predicts less critical thinking; higher self-confidence predicts more.
 
-## {.center}
+
+:::    
+
+
+
+## Taking Responsibility for AI Output
+
+<br>
 
 ![](assets/deployment_diligence.svg){fig-alt="Five-step deployment diligence process shown as a horizontal pipeline: 1. Generate (AI produces a draft), 2. Verify (check against sources), 3. Edit (revise for accuracy), 4. Review (would you sign off?), 5. Document (note AI's role), with the principle that you vouch for everything you submit" fig-align="center" width=100%}
 
-## Deployment Diligence
-
-::: {style="font-size: 0.8em;"}
-
-Take responsibility for verifying and vouching for every output you use or share.
-
-1. **Generate**: Use AI to produce a draft or analysis
-2. **Verify**: Check output against primary sources and your domain knowledge
-3. **Edit and refine**: Revise for accuracy, tone, and completeness
-4. **Final human review**: Read it as if you wrote it yourself; would you stand behind it?
-5. **Document AI's role**: Note what AI contributed for transparency
 
 
-:::
 
-## Journal AI Policies
+## Disclosing AI Use
 
-::: {style="font-size: 0.8em;"}
-Most major journals now have AI use policies. Common themes:
+::: {style="font-size: 0.75em;"}
 
-- **Disclosure required**: Authors must declare AI-assisted writing or analysis
-- **AI cannot be an author**: AI tools do not meet authorship criteria
-- **Human responsibility**: Authors are fully responsible for all content, including AI-generated portions
-- **No AI-generated figures**: Many journals prohibit AI-generated images
-- **Evolving landscape**: Policies change rapidly; always check your target journal's current guidelines
+If someone would want to know AI was involved, disclose it.
 
-*Check your target journal's author guidelines before submission*
+- **Manuscripts**: Most journals require disclosure in Methods, Acknowledgments, or Author Contributions. AI cannot be an author, and many journals prohibit AI-generated figures
+- **Grant proposals**: AI use is generally discouraged; check funder guidelines (NIH, NSF) before submitting AI-assisted text
+- **Collaborators and supervisors**: When AI shaped the analysis or writing, let your team know
+
+
+
 :::
 
 
 ## Open Discussion
 
+::: {style="font-size: 0.75em;"}
 **Let's discuss your questions about using AI in research.**
 
 Some topics to consider:
@@ -359,6 +351,7 @@ Some topics to consider:
 - Edge cases: when is it unclear whether to use AI?
 - How to handle situations where AI output is "good enough" but not verified
 
+:::
 
 # Wrap-Up
 
