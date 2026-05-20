@@ -312,10 +312,10 @@ squeue -u $USER
 -   CoreHPC support form: <https://tiny.ucsf.edu/Gethpc>
 -   CoreHPC Slack channel (request access via the form above)
 -   UCSF docs (translate bastion/login/partition names to Gladstone-side):
-    -   CoreHPC Access Primer
-    -   CoreHPC FAQ
-    -   CoreHPC Miniforge Conda Guide
-    -   SGE to SLURM translation guide
+    -   [CoreHPC Access Primer](https://wiki.library.ucsf.edu/x/m2LwKg)
+    -   [CoreHPC FAQ](https://wiki.library.ucsf.edu/spaces/CHPC/pages/720396966/CoreHPC+Frequently+Asked+Questions+FAQ+)
+    -   [CoreHPC Miniforge Conda Guide](https://wiki.library.ucsf.edu/spaces/CHPC/pages/755894162/CoreHPC+Miniforge+Conda+Guide)
+    -   [SGE to SLURM](https://wiki.library.ucsf.edu/spaces/CHPC/pages/755894004/SGE+to+SLURM)
 
     *(Require Gladstone network + UCSF email to view.)*
 -   Gladstone Bioinformatics Core: [bioinformatics@gladstone.ucsf.edu](mailto:bioinformatics@gladstone.ucsf.edu)
