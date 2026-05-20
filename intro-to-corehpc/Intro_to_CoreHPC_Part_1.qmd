@@ -1,0 +1,203 @@
+---
+title: "Intro to CoreHPC"
+subtitle: "Part 1"
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "TBD"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: corehpc-theme.scss
+    highlight: default
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(comment = "")
+```
+
+##
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+## Introductions
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*
+
+## Target Audience
+
+-   Prior experience with UNIX command-line
+-   No prior experience on computing clusters
+
+## Part 1:
+
+1.  What is CoreHPC?
+2.  Accessing CoreHPC
+3.  Storage
+4.  Data Transfer
+5.  Software with OpenHPC Modules
+6.  Python Environments with Miniforge3
+7.  Containers
+
+
+# What is CoreHPC?
+
+## Overview {.small-bullets}
+
+<!-- TODO: institutional HPC for UCSF, originally AI/Data Science focus, expanding to general HPC -->
+
+## Architecture
+
+![](slide_materials/CoreHPC_diagram.svg){fig-alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints" .nostretch fig-align="center" width=80%}
+
+## Partitions {.small-bullets}
+
+<!-- TODO: CPU, GPU, Pod, Community CPU partitions and what each is for -->
+
+## Hardware Highlights {.small-bullets}
+
+<!-- TODO: brief node specs (cores, RAM, GPU types). Note SLURM partition names -->
+
+## Access Model {.small-bullets}
+
+<!-- TODO: PI-requested accounts, default allocations (100k core hr, 1440 GPU hr), Pod by request, condo buy-in -->
+
+
+# Accessing CoreHPC
+
+## Prerequisites {.small-bullets}
+
+<!-- TODO: UCSF campus account, CoreHPC-provisioned account, UCSFwpa or VPN, MFA/DUO -->
+
+## Step 1: SSH to a Bastion Node
+
+<!-- TODO: ssh <user>@chpc-ucsf-bastion-vm1.corehpc.ucsf.edu, alternate vm2, MFA challenge -->
+
+## Step 2: Hop to the Login Node
+
+<!-- TODO: from bastion: ssh chpc-ucsf-login-vm1 -->
+
+## The Login Node {.small-bullets}
+
+<!-- TODO: what it's for (job submission, staging data), what NOT to do (heavy compute), the one node with internet access -->
+
+## The Bastion Nodes
+
+<!-- TODO: gateway only, no compute, scp/rsync currently blocked (Globus required soon) -->
+
+
+# Storage
+
+## Storage Layout {.small-bullets}
+
+<!-- TODO: home (20 GB), /mnt/scratch/user/$USER (50 TB, 30-day cleanup), /mnt/scratch/group/<FAC>, FAC capacity storage ($52/TB/yr), /mnt/lscratch on compute nodes -->
+
+## Home Directory
+
+<!-- TODO: 20 GB quota, shared across login/compute (not bastion), good for scripts/configs -->
+
+## Scratch {.small-bullets}
+
+<!-- TODO: /mnt/scratch limits, 30-day policy, 50 TB user cap, when to use vs FAC -->
+
+## FAC Capacity Storage {.small-bullets}
+
+<!-- TODO: project storage, recharge model, how to request (https://tiny.ucsf.edu/getfac), CXyyyyyy_DSy naming -->
+
+## Storage Advice {.small-bullets}
+
+<!-- TODO: scratch is volatile, use FAC for persistent data, avoid metadata-heavy IO patterns -->
+
+
+# Data Transfer
+
+## Transfer Options {.small-bullets}
+
+<!-- TODO: Globus (recommended), FAC share cp/rsync from login node, temporary admin bastion scp for early access users -->
+
+## Globus {.small-bullets}
+
+<!-- TODO: globus.org login with UCSF CILogon, "UCSF CoreHPC - User Home" and "User Scratch" endpoints, Globus Connect Personal for local machine -->
+
+## FAC Share Copy
+
+<!-- TODO: cp -R /mnt/fac/<share>/<file> /mnt/scratch/group/<share>/ example -->
+
+## Hands-on
+
+<!-- TODO: small Globus transfer exercise -->
+
+
+# Software with OpenHPC Modules
+
+## Module Basics {.small-bullets}
+
+<!-- TODO: software is provided via OpenHPC modules, consistent across login and compute nodes -->
+
+## Common Commands
+
+<!-- TODO: module avail, module load <name>, module list, module unload, module --help -->
+
+## Example Available Modules {.small-bullets}
+
+<!-- TODO: paste sample module avail output (apptainer, cuda, gnu14, miniforge3, nvidia/nvhpc, openmpi5, etc.) -->
+
+
+# Python Environments with Miniforge3
+
+## What is Miniforge? {.small-bullets}
+
+<!-- TODO: minimal conda distribution, conda-forge default channel, why use envs -->
+
+## Setup (Once) {.small-bullets}
+
+<!-- TODO: module load miniforge3, conda init bash, redirect envs_dirs and pkgs_dirs to /scratch/user/$USER to avoid 20 GB home quota -->
+
+## Creating an Environment
+
+<!-- TODO: conda create -n project1 python=3.11, conda activate, conda install -->
+
+## Exporting an Environment
+
+<!-- TODO: conda env export > environment.yml, conda env create -f environment.yml -->
+
+
+# Containers
+
+## Motivation {.small-bullets}
+
+<!-- TODO: why containers (reproducibility, OS isolation, hard-to-install tools) -->
+
+## Apptainer on CoreHPC
+
+<!-- TODO: module load apptainer, apptainer pull docker://..., apptainer exec/run/shell -->
+
+## Example: Pull a Container
+
+<!-- TODO: apptainer pull docker://natalie23gill/hello-world:1.0 (from login node, which has internet) -->
+
+
+# Polls
+
+## Poll 1
+
+<!-- TODO: which node should you run heavy compute on? (answer: not the login node, use sbatch / salloc) -->
+
+## Poll 2
+
+<!-- TODO: scratch retention question - True/False the 30-day cleanup -->
+
+
+# End of Part 1
+
+## Workshop survey
+
+- If you are not attending part 2, please fill out our [workshop survey](TBD) so we can continue to improve these workshops
+
+## Upcoming Data Science Training Program Workshops {.smaller}
+
+<!-- TODO: fill in upcoming workshop list near the workshop date -->

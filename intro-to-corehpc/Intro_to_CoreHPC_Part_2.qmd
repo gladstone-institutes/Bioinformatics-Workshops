@@ -1,0 +1,225 @@
+---
+title: "Intro to CoreHPC"
+subtitle: "Part 2"
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "TBD"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: corehpc-theme.scss
+    highlight: default
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(comment = "")
+```
+
+##
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+## Introductions
+
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*      
+
+
+## Target Audience
+
+-   Prior experience with UNIX command-line
+-   No prior experience on computing clusters
+
+
+## Part 2:
+
+1.    SLURM Basics
+2.    Submitting Batch Jobs
+3.    Requesting CPU, Memory, GPU Resources
+4.    Job Arrays
+5.    Interactive Jobs
+6.    Monitoring & Canceling Jobs
+7.    Running Containers in SLURM Jobs
+8.    MPI / Multi-Node Jobs
+9.    Pipelines on CoreHPC
+10.   Jupyter / OpenOnDemand
+11.   Best Practices and Troubleshooting
+12.   How to Get Help
+
+
+# SLURM Basics
+
+## What is SLURM? {.small-bullets}
+
+<!-- TODO: workload manager, replaces SGE on Wynton, supports interactive jobs and GPUs natively -->
+
+## Key Concepts {.small-bullets}
+
+<!-- TODO: login node vs compute nodes vs partitions vs job vs job script, srun inside sbatch -->
+
+## Common Commands
+
+<!-- TODO: table of sbatch, salloc, srun, squeue, scancel, sinfo, scontrol show job, sacct -->
+
+
+# Submitting Batch Jobs
+
+## Minimal Job Script
+
+<!-- TODO: hello.sh example (#!/bin/bash, #SBATCH --job-name, #SBATCH --output, srun echo "Hello") -->
+
+## Submitting
+
+<!-- TODO: sbatch hello.sh, squeue -u $USER, output file -->
+
+
+# Resource Requests
+
+## CPU and Memory {.small-bullets}
+
+<!-- TODO: --ntasks, --cpus-per-task, --mem, --time, --partition example -->
+
+## GPU Jobs {.small-bullets}
+
+<!-- TODO: --partition=gpu (or pod), --gres=gpu:1, module load cuda, what GPU types are available -->
+
+## Pod Partition Note
+
+<!-- TODO: Pod is request-only, 48 hr max wall-time, 5760 GPU hr allocation, multi-GPU shared memory -->
+
+
+# Job Arrays
+
+## When to Use
+
+<!-- TODO: many similar tasks indexed by ID (per-sample, per-chromosome) -->
+
+## Example Array Job
+
+<!-- TODO: #SBATCH --array=1-100, %A / %a output format, $SLURM_ARRAY_TASK_ID -->
+
+
+# Interactive Jobs
+
+## salloc {.small-bullets}
+
+<!-- TODO: salloc --partition=cpu --cpus-per-task=4 --mem=8G --time=01:00:00 -->
+
+## Attaching to a Running Job
+
+<!-- TODO: srun --jobid=<JOBID> --nodelist=<node> --pty /bin/bash to inspect a running job (e.g. nvidia-smi) -->
+
+
+# Monitoring & Canceling
+
+## Checking Status
+
+<!-- TODO: squeue, squeue -u $USER, scontrol show job <jobid>, sacct -j <jobid> -->
+
+## Job / Node Status Codes {.small-bullets}
+
+<!-- TODO: table of idle, mix, down, drain, comp, etc. -->
+
+## Canceling
+
+<!-- TODO: scancel <jobid>, scancel -u $USER -->
+
+
+# Containers in SLURM Jobs
+
+## Running Apptainer in a Job
+
+<!-- TODO: module load apptainer, srun apptainer exec <image>.sif <command> -->
+
+## GPU-Enabled Containers
+
+<!-- TODO: srun apptainer exec --nv <image>.sif python train.py, requires --gres=gpu:N -->
+
+## Hybrid Host + Container Workflow
+
+<!-- TODO: preprocess outside container, run analysis inside container, all in one job script -->
+
+
+# MPI / Multi-Node Jobs
+
+## MPI Job Script {.small-bullets}
+
+<!-- TODO: --nodes=N, --ntasks-per-node=M, module load openmpi5/5.0.x or nvidia/nvhpc, srun mpi_program -->
+
+## Important: Community CPU Partition
+
+<!-- TODO: Community CPU partition does NOT have InfiniBand and is not for tightly-coupled MPI; use CPU/GPU partitions for that -->
+
+
+# Pipelines on CoreHPC
+
+## Nextflow with SLURM
+
+<!-- TODO: nextflow runs on login node, executor 'slurm' profile, note that pipelines must be adapted from Wynton SGE configs -->
+
+## No Internet on Compute Nodes
+
+<!-- TODO: stage all containers / reference data / pipeline assets from the login node first, compute nodes are offline -->
+
+
+# Jupyter / OpenOnDemand
+
+## OpenOnDemand Portal
+
+<!-- TODO: web portal entry point for Jupyter, RStudio, shell, etc. (replaces SSH port-forwarding dance from Wynton) -->
+
+## Conda Kernels in Jupyter {.small-bullets}
+
+<!-- TODO: conda install ipykernel, python -m ipykernel install --user --name myenv --display-name "Python (My Env)", jupyter kernelspec list -->
+
+
+# Best Practices and Troubleshooting
+
+## Best Practices {.small-bullets}
+
+<!-- TODO: test interactively first, request only what you need, set --time, no compute on login/bastion, no internet on compute (stage first), prefer FAC over scratch for persistence -->
+
+## Common Errors {.small-bullets}
+
+<!-- TODO: pending due to resource limits, OOM, module not found, container missing --nv -->
+
+
+## Poll 3
+
+<!-- TODO: poll question about partitions or login-node use -->
+
+
+# How to Get Help
+
+## CoreHPC Support
+
+- Support request form: <https://tiny.ucsf.edu/Gethpc>
+- CoreHPC Slack channel (request access via the form above)
+
+## Bioinformatics Questions
+
+For any bioinformatics specific questions feel free to reach out to the Gladstone Bioinformatics Core.
+
+-   Email
+    -   [bioinformatics@gladstone.ucsf.edu](mailto:bioinformatics@gladstone.ucsf.edu)
+-   Slack channel #questions-about-bioinformatics
+    -   Contact us at the email above to be added to the channel
+
+
+# End of Part 2
+
+## Notes on Using AI on CoreHPC {.smaller}
+
+<!-- TODO: AI tools (ChatGPT, Claude, Gemini) can help write/debug SLURM scripts. CoreHPC scratch is volatile (30 day) - understand any AI-generated script before running it. Bioinformatics Core AI position paper link. -->
+
+## Workshop survey
+
+- Please fill out our [workshop survey](TBD) so we can continue to improve these workshops
+
+## Upcoming Data Science Training Program Workshops {.smaller}
+
+<!-- TODO: fill in upcoming workshop list near the workshop date -->
