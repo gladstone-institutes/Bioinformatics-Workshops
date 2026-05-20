@@ -1,0 +1,43 @@
+ArchR demo
+
+
+Error:
+Warnings/errors during plotting
+
+Resolution:
+require(devtools)
+install_version("ggplot2", version = "3.4.4", repos = "http://cran.us.r-project.org") 
+
+-------------------------------------------------------------------------------------------
+ArchR installation
+
+Error: 
+I get the following error message while installing ArchR-> ERROR: dependency ‘chromVAR’ is not available for package ‘ArchR’
+* removing ‘/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/ArchR’
+Warning messages:
+1: In i.p(...) :
+  installation of package ‘chromVAR’ had non-zero exit status
+2: In i.p(...) :
+  installation of package ‘/var/folders/hl/b2_4yd491xzfzk8_dt0nm1140000gn/T//RtmpMLZpiv/file7b8448c4f5f8/ArchR_1.0.2.tar.gz’ had non-zero exit status
+
+Resolution:
+1. You would need to install chromVar and then re-run ArchR installation: https://bioconductor.org/packages/release/bioc/html/chromVAR.html
+
+-------------------------------------------------------------------------------------------
+chromVAR installation
+
+Error:
+ld: warning: search path '/opt/gfortran/lib/gcc/aarch64-apple-darwin20.0/12.2.0' not found
+ld: warning: search path '/opt/gfortran/lib' not found
+ld: library 'gfortran' not found
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+make: *** [chromVAR.so] Error 1
+ERROR: compilation failed for package ‘chromVAR’
+* removing ‘/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library/chromVAR’
+
+Resolution:
+1. chromVAR installation fails on Mac when a fortran compiler is not available.
+2. As of R 4.2 using the homebrew compilers (brew install gcc) is not a stable solution (see the note in the page linked below).
+3. Solution is follow the mandatory tools section on this page: https://mac.r-project.org/tools/
+
+-------------------------------------------------------------------------------------------
