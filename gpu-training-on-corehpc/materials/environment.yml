@@ -1,0 +1,16 @@
+name: gpu-training-corehpc
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pytorch
+  - pytorch-cuda=12.1
+  - numpy
+  - pip
+  - pip:
+      - tiktoken
+      - wandb
+      - datasets
+      - tqdm

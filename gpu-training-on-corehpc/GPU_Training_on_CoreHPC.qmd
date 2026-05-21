@@ -1,0 +1,408 @@
+---
+title: "GPU Training on CoreHPC"
+subtitle: "PyTorch, SLURM, and Weights & Biases"
+author: "Natalie Gill"
+institute: "Gladstone Bioinformatics Core"
+date: "TBD"
+date-format: MMMM DD, YYYY
+format:
+  revealjs:
+    theme: corehpc-theme.scss
+    highlight: default
+    code-line-numbers: false
+    template-partials:
+      - title-slide.html
+---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(comment = "")
+```
+
+##
+
+<center>*Press the ? key for tips on navigating these slides*</center>
+
+## Who this is for
+
+-   You write PyTorch and have trained models before
+-   You've used Weights & Biases for experiment tracking
+-   You have a CoreHPC account but are new to SLURM and running on the cluster
+-   You want to avoid the two most common wastes of GPU time
+
+## The two failure modes we'll fix {.small-bullets}
+
+1.  **Over-reservation.** You ask for `--gres=gpu:4` and the run is the same speed as one GPU. You burn allocation and queue behind yourself.
+2.  **Non-graceful failure.** Your job hits a wall-time limit, gets preempted, or OOMs at hour 12 and you have no checkpoint. You start over from step 0.
+
+The rest of this video is the minimum you need to never lose time to either of these.
+
+## Outline
+
+1.  Right-sizing GPU requests
+2.  Checkpointing for graceful failure
+3.  Live monitoring with `nvidia-smi` and W&B
+4.  W&B inside SLURM jobs
+5.  Multi-GPU (when it actually helps)
+6.  Preemption and `--requeue`
+
+
+# Section 1: Right-sizing GPU requests
+
+## The over-reservation trap {.smaller}
+
+> *"I asked for 4 GPUs and my training is the same speed as 1 GPU."*
+
+What `--gres=gpu:nvidia_l40s:N` actually does:
+
+-   Reserves N GPU devices on the assigned node
+-   Sets `CUDA_VISIBLE_DEVICES=0,1,...,N-1` for your process
+-   That's it. **It does not parallelize your code.**
+
+To actually use N GPUs you need `torchrun` (or equivalent). Without it, devices `1..N-1` sit idle while you burn allocation, queue behind your own job, and get no speedup.
+
+## What a single-GPU job actually needs {.small-bullets}
+
+```bash
+#!/bin/bash
+#SBATCH --partition=small_gpu
+#SBATCH --gres=gpu:nvidia_l40s:1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=32G
+#SBATCH --time=01:00:00
+#SBATCH --output=train-%j.out
+```
+
+-   SLURM has **no sane defaults** on CoreHPC. Every flag here is required.
+-   Match `--cpus-per-task` to your data-loader `num_workers + 1`
+-   `--mem` is per-node total, not per-CPU (SLURM gotcha if you're coming from SGE)
+
+## Checking GPU utilization while a job runs {.small-bullets}
+
+Three options, in order of preference:
+
+```bash
+# 1. One-shot snapshot of nvidia-smi on the job's node:
+srun --jobid=<JOBID> --pty nvidia-smi
+
+# 2. Open a shell on the node, then watch in a loop:
+srun --jobid=<JOBID> --pty bash
+watch -n 1 nvidia-smi
+
+# 3. W&B system metrics (covered later) - no extra commands
+```
+
+If GPU-Util is hovering near 0%, your code is not using the GPU. If it's hovering near 0% on devices 1..N-1, you've over-reserved.
+
+## Post-hoc check {.small-bullets}
+
+After the job finishes:
+
+```bash
+seff <JOBID>
+# Job efficiency report: CPU %, MaxRSS, wall time vs requested
+
+sacct -j <JOBID> --format=JobID,State,Elapsed,MaxRSS,ReqTRES,AllocTRES
+# What you asked for vs what got allocated
+```
+
+Compare `ReqTRES` (`gres/gpu:nvidia_l40s=N`) against what `nvidia-smi` showed inside the run. If you asked for N and only used 1, your next submission should ask for 1.
+
+
+# Section 2: Checkpointing for graceful failure
+
+## Why checkpoint {.small-bullets}
+
+Four ways your training job dies on a shared cluster:
+
+1.  **Wall-time limit.** SLURM kills the job at `--time`.
+2.  **Preemption.** On the `pod` partition, a higher-priority job evicts you.
+3.  **OOM.** Batch size too big, memory leak, surprise spike.
+4.  **Crash.** NaN loss, segfault, NCCL hang.
+
+Without a checkpoint, every one of these means "start over from step 0." With a checkpoint, the worst case is "lose the work since the last save."
+
+## Saving a checkpoint
+
+```python
+# Inside your training loop, every N steps/epochs:
+checkpoint = {
+    'model': model.state_dict(),
+    'optimizer': optimizer.state_dict(),
+    'epoch': epoch,
+}
+torch.save(checkpoint, 'ckpt.pt')
+```
+
+Save model state, optimizer state, **and** the iteration/epoch counter.
+
+Optimizer state matters for momentum-based optimizers (Adam, AdamW): resuming without it spikes the loss for the next few hundred steps.
+
+## Resuming from a checkpoint {.smaller}
+
+```python
+start_epoch = 0
+if os.path.exists('ckpt.pt'):
+    ckpt = torch.load('ckpt.pt')
+    model.load_state_dict(ckpt['model'])
+    optimizer.load_state_dict(ckpt['optimizer'])
+    start_epoch = ckpt['epoch'] + 1
+
+for epoch in range(start_epoch, num_epochs):
+    # ...same training loop as always
+```
+
+The training loop is **the same code path** whether it's a fresh start or a recovered start. This symmetry is what makes preemption recovery work without any special-case logic.
+
+## Where to put checkpoints {.smaller}
+
+```bash
+out_dir=/mnt/scratch/user/$USER/runs/${SLURM_JOB_ID}
+mkdir -p "$out_dir"
+# ...training writes $out_dir/ckpt.pt every eval interval
+```
+
+-   **`/mnt/scratch/user/$USER/`** for the run itself (50 TB cap, 30-day cleanup post-GA)
+-   When the run finishes, copy the final checkpoint to HIVE:
+
+```bash
+cp "$out_dir/ckpt.pt" /mnt/gladstone/<lab>/models/final.pt
+```
+
+⚠️ **Only HIVE (`/mnt/gladstone`) is backed up.** Scratch will be wiped before GA. Never keep the only copy of a trained model on scratch.
+
+
+# Section 3: Live monitoring
+
+## nvidia-smi inside the job script {.smaller}
+
+The cheapest way to confirm "yes, my GPU is actually doing work":
+
+```bash
+#!/bin/bash
+#SBATCH --gres=gpu:nvidia_l40s:1
+# ...other SBATCH lines...
+
+# Background nvidia-smi loop, captured to a log:
+nvidia-smi --query-gpu=timestamp,utilization.gpu,memory.used \
+           --format=csv --loop=5 > gpu_util.log &
+NVSMI_PID=$!
+
+# Your training run:
+python train.py config/train_shakespeare_char.py
+
+# Stop the monitor:
+kill $NVSMI_PID
+```
+
+After the job, `gpu_util.log` is your timeline of GPU activity.
+
+## Reading utilization
+
+| What you see                 | What it means                              |
+|------------------------------|--------------------------------------------|
+| **GPU-Util** near 100%       | Kernels are running. Good.                 |
+| **GPU-Util** low, **Memory** high | Loaded but idle. Data-loader bottleneck. |
+| **GPU-Util** 0%, **Memory** 0%   | Code isn't using the GPU at all.        |
+| 100% util on dev 0, 0% on dev 1 | Over-reserved. Drop `--gres` to 1.      |
+
+Memory-Usage tells you *capacity*, not *activity*. A model loaded into VRAM doesn't mean it's training.
+
+## W&B system metrics {.small-bullets}
+
+When you call `wandb.init(...)`, W&B starts a background process that logs **per-device** GPU utilization, memory, power draw, and temperature. No extra code.
+
+-   Over-reservation is **obvious** in the dashboard: devices 1..N-1 sit flat at 0%
+-   Data-loader bottlenecks show up as a sawtooth GPU-Util pattern
+-   Works in offline mode too (synced later from the login node)
+
+This is the easiest way to make GPU efficiency visible to your collaborators.
+
+
+# Section 4: W&B inside SLURM jobs
+
+## The compute-node problem {.small-bullets}
+
+CoreHPC compute nodes have **no internet**. W&B's default online mode tries to phone home on every log call. Result: hangs, timeouts, or a job that completes but never appears in the dashboard.
+
+Two options:
+
+1.  **Offline mode** (recommended): log locally, sync from the login node after the job
+2.  **Don't use W&B**: rely on `nvidia-smi` logs + your own TSV files
+
+
+## Offline mode pattern {.smaller}
+
+In your sbatch script:
+
+```bash
+export WANDB_MODE=offline
+export WANDB_DIR=/mnt/scratch/user/$USER/wandb
+export WANDB_NAME=run-${SLURM_JOB_ID}
+export WANDB_PROJECT=shakespeare-char
+
+python train.py config/train_shakespeare_char.py --wandb_log=True
+```
+
+After the job, from the **login node** (which has limited internet via proxy):
+
+```bash
+wandb sync /mnt/scratch/user/$USER/wandb/offline-run-*
+```
+
+Your run appears in the dashboard with all metrics + system metrics intact.
+
+## Naming and grouping runs {.small-bullets}
+
+Tie your dashboard names to SLURM so you can correlate later:
+
+```bash
+export WANDB_NAME=run-${SLURM_JOB_ID}
+
+# For array jobs (hyperparameter sweeps):
+export WANDB_RUN_GROUP=array-${SLURM_ARRAY_JOB_ID}
+export WANDB_NAME=task-${SLURM_ARRAY_TASK_ID}
+```
+
+Now when something goes sideways, `squeue` / `sacct` and W&B agree on what to call the run.
+
+
+# Section 5: Multi-GPU
+
+## When N GPUs actually helps {.small-bullets}
+
+Three legitimate reasons:
+
+1.  **Model doesn't fit on one device.** Needs sharding (FSDP, DeepSpeed). Beyond this workshop.
+2.  **Larger effective batch size for training stability.** DDP averages gradients across devices: 2 GPUs at batch 32 each = effective batch 64.
+3.  **Faster wall-clock for an already-tuned config.** ~Linear speedup if you're compute-bound, ~zero if you're I/O bound.
+
+What multi-GPU does **not** do: make a small model train faster than a single GPU can already process the data.
+
+## DDP vs DataParallel
+
+| Approach     | Pattern         | Verdict                                  |
+|--------------|-----------------|------------------------------------------|
+| **DDP**      | One process per GPU, NCCL all-reduce | Use this. Faster, scales, what nanoGPT uses. |
+| DataParallel | One process, threads | Don't use. Single-process GIL bottleneck. Effectively deprecated. |
+
+The right command is always `torchrun`, never `python` for multi-GPU.
+
+## torchrun on one node {.smaller}
+
+```bash
+#!/bin/bash
+#SBATCH --partition=pod
+#SBATCH --gres=gpu:nvidia_h200:2
+#SBATCH --cpus-per-task=8
+#SBATCH --ntasks=1
+#SBATCH --time=01:00:00
+
+torchrun --standalone --nproc_per_node=2 \
+    train.py config/train_shakespeare_char.py
+```
+
+-   `--nproc_per_node` **must equal** the GPU count from `--gres`
+-   `--standalone` works for single-node only. For multi-node, set `--master_addr` and `--master_port` from `SLURM_NODELIST`.
+
+## Partition reality check on CoreHPC {.small-bullets}
+
+| Partition   | Multi-GPU per running job?       |
+|-------------|----------------------------------|
+| `small_gpu` | No: cap is 1 GPU per running job |
+| `large_gpu` | No: cap is 1 GPU per running job |
+| `pod`       | Yes: up to 8x H200 SXM per node, 4 nodes max |
+
+True multi-GPU work on CoreHPC means the `pod` partition, which is request-only. Develop your DDP script on `small_gpu` with `--nproc_per_node=1` (which is just regular single-GPU training under torchrun), then submit the real run to `pod` once your account is approved.
+
+
+# Section 6: Preemption and requeue
+
+## What preemption means on `pod`
+
+`pod` is shared infrastructure. A higher-priority job can evict yours mid-run.
+
+When that happens, SLURM:
+
+1.  Sends `SIGTERM` to your job (warning shot)
+2.  Waits for the grace period you configured
+3.  Sends `SIGKILL` (no recovery after this)
+
+Your job is then re-queued (if you asked for it) and runs again when resources free up.
+
+## --requeue + SIGTERM handler {.smaller}
+
+```bash
+#!/bin/bash
+#SBATCH --partition=pod
+#SBATCH --requeue
+#SBATCH --signal=B:SIGTERM@60   # 60-second warning before SIGKILL
+#SBATCH --time=24:00:00
+
+trap 'echo "preempted at $(date), checkpoint on disk"; exit 0' SIGTERM
+
+# Same training command - the resume path is automatic:
+python train.py config/train_shakespeare_char.py \
+    --init_from=resume \
+    --out_dir=/mnt/scratch/user/$USER/runs/persistent
+```
+
+Because resume uses the same code path (Section 2), the next invocation picks up at the last checkpoint with no special handling.
+
+## The full picture
+
+```
+sbatch ──► PENDING ──► RUNNING ──► checkpoint
+                            │              │
+                            ▼              ▼
+                       (preempt)      saved to scratch
+                            │
+                            ▼
+                       REQUEUED ──► RUNNING (init_from=resume)
+                                         │
+                                         ▼
+                                    checkpoint
+                                         │
+                                         ▼
+                                    COMPLETED
+                                         │
+                                         ▼
+                          cp ckpt.pt /mnt/gladstone/<lab>/...
+```
+
+The payoff: a 24-hour run survives any number of preemptions, OOMs, or restarts.
+
+
+# Hands-on
+
+## Try it on your own account {.small-bullets}
+
+Everything in this video is paired with a working example:
+
+```bash
+# On CoreHPC, from /mnt/scratch/user/$USER/:
+git clone https://github.com/gladstone-institutes/Bioinformatics-Workshops.git
+cd Bioinformatics-Workshops/gpu-training-on-corehpc/materials
+bash setup.sh
+```
+
+Then walk through `notes/lab_guide.md`:
+
+1.  `sbatch slurm/01_single_gpu.sbatch` and watch with `srun --jobid`
+2.  `sbatch slurm/02_wandb_offline.sbatch`, then `wandb sync` from the login node
+3.  Read `03_multi_gpu_ddp.sbatch` (submit if you have `pod` access)
+4.  Try `04_preempt_requeue.sbatch` and simulate a preemption
+
+
+# Help
+
+## Where to get help {.small-bullets}
+
+-   CoreHPC support form: <https://tiny.ucsf.edu/Gethpc>
+-   CoreHPC Slack channel (request access via the form above)
+-   UCSF docs (Gladstone-side bastion/login/partition names per the migration deck):
+    -   [CoreHPC Access Primer](https://wiki.library.ucsf.edu/x/m2LwKg)
+    -   [CoreHPC Miniforge Conda Guide](https://wiki.library.ucsf.edu/spaces/CHPC/pages/755894162/CoreHPC+Miniforge+Conda+Guide)
+    -   [SGE to SLURM](https://wiki.library.ucsf.edu/spaces/CHPC/pages/755894004/SGE+to+SLURM)
+-   PyTorch DDP: <https://pytorch.org/tutorials/intermediate/ddp_tutorial.html>
+-   nanoGPT: <https://github.com/karpathy/nanoGPT> (MIT)
+-   Gladstone Bioinformatics Core: [bioinformatics@gladstone.ucsf.edu](mailto:bioinformatics@gladstone.ucsf.edu)
