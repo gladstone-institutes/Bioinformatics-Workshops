@@ -220,6 +220,7 @@ qstat
 #!/bin/bash
 #SBATCH --time=00:05:00
 #SBATCH --mem=1G
+#SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=cpu
 #SBATCH --output=hello.out
