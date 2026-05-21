@@ -259,7 +259,7 @@ squeue -u $USER
 
 # Partitions and GPUs
 
-## Partitions + limits {.small-bullets}
+## Partitions + limits {.smaller}
 
 | Partition   | Use                              | Max per user            |
 |-------------|----------------------------------|-------------------------|
@@ -268,7 +268,7 @@ squeue -u $USER
 | `large_gpu` | H200 single-node (ggpu3 nodes)   | 1 running, 1 GPU        |
 | `pod`       | 1/2 SuperPod, 8× H200 SXM        | 1 running, 4 nodes max  |
 
-## GPU request syntax {.small-bullets}
+## GPU request syntax {.smaller}
 
 ```bash
 # L40s (small_gpu):
@@ -319,4 +319,4 @@ squeue -u $USER
     -   [SGE to SLURM](https://wiki.library.ucsf.edu/spaces/CHPC/pages/755894004/SGE+to+SLURM)
 
     *(Require Gladstone network + UCSF email to view.)*
--   Gladstone Bioinformatics Core: [bioinformatics@gladstone.ucsf.edu](mailto:bioinformatics@gladstone.ucsf.edu)
+-   Gladstone IT
