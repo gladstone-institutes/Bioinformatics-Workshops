@@ -279,7 +279,7 @@ squeue -u $USER
 #SBATCH --partition=large_gpu
 #SBATCH --gres=gpu:nvidia_h200:1
 
-# H200, SuperPod (multi-node):
+# H200, SuperPod (1 node, 8 GPUs):
 #SBATCH --partition=pod
 #SBATCH --gres=gpu:nvidia_h200:8
 ```
