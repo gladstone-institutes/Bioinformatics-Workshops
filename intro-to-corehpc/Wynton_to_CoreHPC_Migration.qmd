@@ -143,7 +143,7 @@ conda config --append pkgs_dirs /mnt/scratch/user/$USER/pkgs
 
 ⚠️ **Only HIVE (`/mnt/gladstone`) is backed up.**
 
-## Moving your data {.small-bullets}
+## Moving your data {.smaller}
 
 **Already on HIVE (`/gladstone/<lab>`):** nothing to move. The same share is mounted on CoreHPC at `/mnt/gladstone/<lab>`.
 
@@ -172,7 +172,6 @@ The image runs identically. **Only the submission script changes.**
 | Submit a job      | `qsub job.sh`        | `sbatch job.sh`                  |
 | Check your jobs   | `qstat`              | `squeue -u $USER`                |
 | Cancel a job      | `qdel <jobid>`       | `scancel <jobid>`                |
-| Node / queue info | `qhost`              | `sinfo`                          |
 
 
 ## Resource request flags {.smaller}
@@ -183,7 +182,7 @@ The image runs identically. **Only the submission script changes.**
 | `-pe smp 4`                   | `--cpus-per-task=4`                              |
 | `-l mem_free=4G` *(per core)* | `--mem=16G` *(per node)* or `--mem-per-cpu=4G`   |
 | `-q <queue>`                  | `--partition=<partition>`                        |
-| `-l gpu=1`                    | `--gres=gpu:nvidia_l40s:1`                       |
+| `-q gpu.q`                    | `--gres=gpu:nvidia_l40s:1`                       |
 | `-o out.txt`                  | `--output=out.txt`                               |
 | `-t 1-10`, `$SGE_TASK_ID`     | `--array=1-10`, `$SLURM_ARRAY_TASK_ID`           |
 
@@ -268,6 +267,8 @@ squeue -u $USER
 | `large_gpu` | H200 single-node (ggpu3 nodes)   | 1 running, 1 GPU        |
 | `pod`       | 1/2 SuperPod, 8× H200 SXM        | 1 running, 4 nodes max  |
 
+These queues and user limits may change in the future, check the current documentation for the most up to date partition information.
+
 ## GPU request syntax {.smaller}
 
 ```bash
@@ -300,7 +301,7 @@ squeue -u $USER
 -   [ ] Confirmed your Hive lab share is visible at `/mnt/gladstone/<lab>` (or `/gladstone/<lab>`)
 -   [ ] Anything not on Hive moved over via Globus
 -   [ ] Containers re-pulled with `apptainer pull` on the login node
--   [ ] Conda envs re-created (`envs_dirs` pointed to `/mnt/scratch/user/$USER`)
+-   [ ] Conda setup (`envs_dirs`, `pkgs_dirs` and  pointed to `/mnt/scratch/user/$USER`)
 -   [ ] Job script translated SGE → SLURM (`--time`, `--mem`, `--cpus-per-task`, `--partition`, `--gres` all explicit)
 -   [ ] First `sbatch` submitted and verified with `squeue -u $USER`
 -   [ ] Anything you cannot afford to lose is on HIVE

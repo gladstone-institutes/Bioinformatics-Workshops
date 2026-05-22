@@ -406,7 +406,7 @@ Natalie Gill
 </table>
 <p>⚠️ <strong>Only HIVE (<code>/mnt/gladstone</code>) is backed up.</strong></p>
 </section>
-<section id="moving-your-data" class="slide level2 small-bullets">
+<section id="moving-your-data" class="slide level2 smaller">
 <h2>Moving your data</h2>
 <p><strong>Already on HIVE (<code>/gladstone/&lt;lab&gt;</code>):</strong> nothing to move. The same share is mounted on CoreHPC at <code>/mnt/gladstone/&lt;lab&gt;</code>.</p>
 <p><strong>On Wynton-only paths (<code>/wynton/home</code>, <code>/wynton/scratch</code>, <code>/wynton/group</code>):</strong> you have to migrate.</p>
@@ -458,11 +458,6 @@ Natalie Gill
 <td><code>qdel &lt;jobid&gt;</code></td>
 <td><code>scancel &lt;jobid&gt;</code></td>
 </tr>
-<tr class="even">
-<td>Node / queue info</td>
-<td><code>qhost</code></td>
-<td><code>sinfo</code></td>
-</tr>
 </tbody>
 </table>
 </section>
@@ -497,7 +492,7 @@ Natalie Gill
 <td><code>--partition=&lt;partition&gt;</code></td>
 </tr>
 <tr class="odd">
-<td><code>-l gpu=1</code></td>
+<td><code>-q gpu.q</code></td>
 <td><code>--gres=gpu:nvidia_l40s:1</code></td>
 </tr>
 <tr class="even">
@@ -632,6 +627,7 @@ Natalie Gill
 </tr>
 </tbody>
 </table>
+<p>These queues and user limits may change in the future, check the current documentation for the most up to date partition information.</p>
 </section>
 <section id="gpu-request-syntax" class="slide level2 smaller">
 <h2>GPU request syntax</h2>
@@ -665,7 +661,7 @@ Natalie Gill
 <li><label><input type="checkbox">Confirmed your Hive lab share is visible at <code>/mnt/gladstone/&lt;lab&gt;</code> (or <code>/gladstone/&lt;lab&gt;</code>)</label></li>
 <li><label><input type="checkbox">Anything not on Hive moved over via Globus</label></li>
 <li><label><input type="checkbox">Containers re-pulled with <code>apptainer pull</code> on the login node</label></li>
-<li><label><input type="checkbox">Conda envs re-created (<code>envs_dirs</code> pointed to <code>/mnt/scratch/user/$USER</code>)</label></li>
+<li><label><input type="checkbox">Conda setup (<code>envs_dirs</code>, <code>pkgs_dirs</code> and pointed to <code>/mnt/scratch/user/$USER</code>)</label></li>
 <li><label><input type="checkbox">Job script translated SGE → SLURM (<code>--time</code>, <code>--mem</code>, <code>--cpus-per-task</code>, <code>--partition</code>, <code>--gres</code> all explicit)</label></li>
 <li><label><input type="checkbox">First <code>sbatch</code> submitted and verified with <code>squeue -u $USER</code></label></li>
 <li><label><input type="checkbox">Anything you cannot afford to lose is on HIVE</label></li>
