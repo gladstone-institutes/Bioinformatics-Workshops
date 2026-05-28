@@ -282,7 +282,7 @@ Natalie Gill
 <tr class="odd">
 <td>Hive</td>
 <td><code>/gladstone/&lt;lab&gt;</code></td>
-<td><code>/mnt/gladstone/&lt;lab&gt;</code> (<code>/gladstone</code> symlink)</td>
+<td><code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></td>
 </tr>
 <tr class="even">
 <td>Job defaults</td>
@@ -322,8 +322,8 @@ Natalie Gill
 <h2>How to login</h2>
 <p><em>A <strong>bastion</strong> is a hardened gateway whose only job is to authenticate you and let you SSH onward. No storage or compute of its own.</em></p>
 <p><strong>Prerequisite:</strong> on Gladstone network (wired, Gladstone-MB, or Ivanti VPN), Gladstone device.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. SSH to the Gladstone bastion (address is temporary, will change)</span></span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@10.98.160.34          <span class="co"># chpc-gs-bastion-vm1</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. SSH to the Gladstone bastion</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@chpc-gs-bastion-vm1.corehpc.ucsf.edu</span>
 <span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; prompts for your UCSF MyAccess password</span></span>
 <span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># -&gt; approve the DUO MFA push on your phone</span></span>
 <span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
@@ -355,13 +355,22 @@ Natalie Gill
 <span id="cb3-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Drops you on a compute node</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <p><em>For GPU dev work, add <code>--partition=small_gpu</code> (or <code>large_gpu</code> / <code>pod</code>) and <code>--gres=gpu:nvidia_l40s:1</code>.</em></p>
+<p>ℹ️ <code>salloc</code> gives you a <strong>shell only</strong>. For browser-based RStudio Server or Jupyter (like Wynton’s dev nodes provide), <strong>Open OnDemand is coming to CoreHPC soon</strong>.</p>
 </section>
-<section id="one-time-setup-for-conda-users" class="slide level2">
+<section id="one-time-setup-for-conda-users" class="slide level2 smaller">
 <h2>One-time setup for conda users</h2>
 <p>Home is only 20 GB. Push conda envs/pkgs onto scratch:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
 <span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
 <span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>⚠️ <strong>Scratch is automatically purged periodically.</strong> Keep an <code>environment.yml</code> and a <strong>bootstrap script</strong> in your home directory (or HIVE) so you can rebuild quickly if files are purged:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Export the active env to environment.yml (run once, from the env you want to capture):</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate myenv</span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="op">&gt;</span> environment.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># rebuild_env.sh</span></span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml <span class="at">-p</span> /mnt/scratch/user/<span class="va">$USER</span>/envs/myenv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For environments you will use long term it is recommended to use <code>apptainer</code> and store the .sif files on the HIVE.</p>
 </section></section>
 <section>
 <section id="storage-and-data-migration" class="title-slide slide level1 center">
@@ -384,7 +393,7 @@ Natalie Gill
 <tbody>
 <tr class="odd">
 <td><code>/gladstone/&lt;lab&gt;</code></td>
-<td><code>/mnt/gladstone/&lt;lab&gt;</code></td>
+<td><code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></td>
 </tr>
 <tr class="even">
 <td><code>/wynton/home/&lt;lab&gt;/&lt;user&gt;</code></td>
@@ -396,7 +405,7 @@ Natalie Gill
 </tr>
 <tr class="even">
 <td><code>/wynton/scratch</code></td>
-<td><code>/mnt/scratch/user/$USER</code> or <code>/mnt/scratch/global</code></td>
+<td><code>/mnt/scratch/user/$USER</code></td>
 </tr>
 <tr class="odd">
 <td>local <code>/scratch</code></td>
@@ -404,15 +413,20 @@ Natalie Gill
 </tr>
 </tbody>
 </table>
+<p><strong>Hive share path translation:</strong></p>
+<ul>
+<li><code>\\hive.gladstone.internal\&lt;PI&gt;-&lt;Share&gt;</code> becomes <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></li>
+<li>All Gladstone shares are mounted on CoreHPC, not just the ones you had on Wynton.</li>
+</ul>
 <p>⚠️ <strong>Only HIVE (<code>/mnt/gladstone</code>) is backed up.</strong></p>
 </section>
 <section id="moving-your-data" class="slide level2 smaller">
 <h2>Moving your data</h2>
-<p><strong>Already on HIVE (<code>/gladstone/&lt;lab&gt;</code>):</strong> nothing to move. The same share is mounted on CoreHPC at <code>/mnt/gladstone/&lt;lab&gt;</code>.</p>
+<p><strong>Already on HIVE:</strong> nothing to move. The same share is mounted on CoreHPC at <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code>.</p>
 <p><strong>On Wynton-only paths (<code>/wynton/home</code>, <code>/wynton/scratch</code>, <code>/wynton/group</code>):</strong> you have to migrate.</p>
 <ul>
-<li>Easiest: copy it to your HIVE lab share on Wynton first; CoreHPC then picks it up automatically at <code>/mnt/gladstone/&lt;lab&gt;</code></li>
-<li>Otherwise: Globus (standard bastions block <code>scp</code> / <code>rsync</code>)</li>
+<li><strong>Easiest:</strong> Use the <strong>Gladstone Data Transfer Node (<code>gsdt02</code>)</strong> to copy your data onto your Hive lab share. CoreHPC then picks it up automatically at <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code>.</li>
+<li><strong>Globus:</strong> for direct transfers into CoreHPC (<code>gsdt02</code> does <strong>not</strong> connect to CoreHPC directly). Required for large or cross-institution moves since standard bastions block <code>scp</code> / <code>rsync</code>.</li>
 </ul>
 </section></section>
 <section>
@@ -422,9 +436,9 @@ Natalie Gill
 </section>
 <section id="containers-dont-change" class="slide level2">
 <h2>Containers don’t change</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Works the same on both clusters:</span></span>
-<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
-<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Works the same on both clusters:</span></span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
+<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The image runs identically. <strong>Only the submission script changes.</strong></p>
 </section>
 <section id="command-cheat-sheet" class="slide level2 smaller">
@@ -512,30 +526,30 @@ Natalie Gill
 <div class="columns">
 <div class="column" style="width:48%;">
 <p><strong>Wynton (SGE)</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -S /bin/bash</span></span>
-<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -cwd</span></span>
-<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -l h_rt=00:05:00</span></span>
-<span id="cb6-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -l mem_free=1G</span></span>
-<span id="cb6-6"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 30   <span class="co"># so we can see the job in qstat</span></span>
-<span id="cb6-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> hello.sh</span>
-<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -S /bin/bash</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -cwd</span></span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -l h_rt=00:05:00</span></span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#$ -l mem_free=1G</span></span>
+<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 30   <span class="co"># so we can see the job in qstat</span></span>
+<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">qsub</span> hello.sh</span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">qstat</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:48%;">
 <p><strong>CoreHPC (SLURM)</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1G</span></span>
-<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
-<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello.out</span></span>
-<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 30   <span class="co"># so we can see the job in squeue</span></span>
-<span id="cb8-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello.sh</span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
+<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1G</span></span>
+<span id="cb10-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb10-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb10-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb10-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello.out</span></span>
+<span id="cb10-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 30   <span class="co"># so we can see the job in squeue</span></span>
+<span id="cb10-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello.sh</span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <p><em><code>srun</code> runs your command as a tracked SLURM “job step” (better accounting via <code>sacct</code>, required for multi-node/MPI)</em></p>
 </section>
@@ -621,31 +635,58 @@ Natalie Gill
 <td>1 running, 1 GPU</td>
 </tr>
 <tr class="even">
-<td><code>pod</code></td>
+<td><code>pod</code>*</td>
 <td>1/2 SuperPod, 8× H200 SXM</td>
 <td>1 running, 4 nodes max</td>
 </tr>
 </tbody>
 </table>
+<p><em>*<code>pod</code> is <strong>by request only</strong> and subject to PI / IT approval.</em></p>
 <p>These queues and user limits may change in the future, check the current documentation for the most up to date partition information.</p>
 </section>
 <section id="gpu-request-syntax" class="slide level2 smaller">
 <h2>GPU request syntax</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># L40s (small_gpu):</span></span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
-<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
-<span id="cb10-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># H200, single node (large_gpu):</span></span>
-<span id="cb10-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=large_gpu</span></span>
-<span id="cb10-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_h200:1</span></span>
-<span id="cb10-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># H200, SuperPod (1 node, 8 GPUs):</span></span>
-<span id="cb10-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=pod</span></span>
-<span id="cb10-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_h200:8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># L40s (small_gpu):</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># H200, single node (large_gpu):</span></span>
+<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=large_gpu</span></span>
+<span id="cb12-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_h200:1</span></span>
+<span id="cb12-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># H200, SuperPod (1 node, 8 GPUs):</span></span>
+<span id="cb12-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=pod</span></span>
+<span id="cb12-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_h200:8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><em><code>--gres=gpu:&lt;model&gt;:&lt;count&gt;</code> — count is GPUs <strong>per node</strong>.</em></p>
 <ul>
 <li>For GPU containers: <code>apptainer exec --nv ...</code> (same as Wynton)</li>
 <li>CUDA: <code>module load cuda</code> or <code>module load nvidia/cuda/12.9.1</code></li>
+</ul>
+</section>
+<section id="example-gpu-job-script" class="slide level2 smaller">
+<h2>Example GPU job script</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=gpu_example</span></span>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=gpu_example.out</span></span>
+<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu          # or large_gpu / pod</span></span>
+<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1       # 1 GPU</span></span>
+<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb13-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=8              # CPUs</span></span>
+<span id="cb13-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=64G</span></span>
+<span id="cb13-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=04:00:00</span></span>
+<span id="cb13-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span>
+<span id="cb13-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> python train.py <span class="at">--num-workers</span> <span class="va">$((SLURM_CPUS_PER_TASK</span> <span class="op">-</span> <span class="dv">1</span><span class="va">))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="right-sizing-gpu-jobs" class="slide level2 smaller">
+<h2>Right-sizing GPU jobs</h2>
+<ul>
+<li><strong><code>--cpus-per-task</code> is required.</strong> SLURM does not allocate CPUs based on GPUs requested. Default is <strong>1</strong>, which can starve your DataLoader.</li>
+<li><strong>Starting point:</strong> ~8 CPUs per L40S / H100, ~12 per H200 — but profile and adjust. Optimal count depends on model size, batch size, and CPU-side augmentation, not just GPU type.</li>
+<li><strong>DataLoader workers:</strong> set <code>num_workers = $SLURM_CPUS_PER_TASK - 1</code> to leave headroom for the main process and pinned-memory transfers.</li>
+<li><strong>Memory:</strong> start at <strong>2-4× the GPU’s VRAM</strong> (L40S 48 GB → 64-128 GB; H200 141 GB → 256-512 GB).</li>
+<li><strong>Check for GPU starvation:</strong> run <code>nvidia-smi dmon</code> during training, low SM utilization with high CPU usage means you need more CPUs.</li>
+<li><strong>Verify what you got:</strong> <code>sacct -j &lt;jobid&gt;</code></li>
 </ul>
 </section></section>
 <section>
@@ -658,8 +699,8 @@ Natalie Gill
 <ul class="task-list">
 <li><label><input type="checkbox">On Gladstone network (wired / Gladstone-MB / Ivanti VPN), Gladstone device</label></li>
 <li><label><input type="checkbox">Logged into <code>chpc-gs-bastion-vm1</code> → <code>chpc-gs-login-vm1</code></label></li>
-<li><label><input type="checkbox">Confirmed your Hive lab share is visible at <code>/mnt/gladstone/&lt;lab&gt;</code> (or <code>/gladstone/&lt;lab&gt;</code>)</label></li>
-<li><label><input type="checkbox">Anything not on Hive moved over via Globus</label></li>
+<li><label><input type="checkbox">Confirmed your Hive lab share is visible at <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></label></li>
+<li><label><input type="checkbox">Anything not on Hive moved over via <code>gsdt02</code> (Wynton → Hive) or Globus (direct to CoreHPC)</label></li>
 <li><label><input type="checkbox">Containers re-pulled with <code>apptainer pull</code> on the login node</label></li>
 <li><label><input type="checkbox">Conda setup (<code>envs_dirs</code>, <code>pkgs_dirs</code> and pointed to <code>/mnt/scratch/user/$USER</code>)</label></li>
 <li><label><input type="checkbox">Job script translated SGE → SLURM (<code>--time</code>, <code>--mem</code>, <code>--cpus-per-task</code>, <code>--partition</code>, <code>--gres</code> all explicit)</label></li>

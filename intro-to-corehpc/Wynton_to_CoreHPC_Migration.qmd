@@ -49,7 +49,7 @@ knitr::opts_chunk$set(comment = "")
 | Login        | ssh into login node              | **bastion → login**                              |
 | Home         | `/wynton/home/$USER`, 500 GB  | `/home/remote/$USER`, **20 GB**                  |
 | Scratch      | `/wynton/scratch/$USER`       | `/mnt/scratch/user/$USER`                        |
-| Hive         | `/gladstone/<lab>`      | `/mnt/gladstone/<lab>` (`/gladstone` symlink)    |
+| Hive         | `/gladstone/<lab>`      | `/mnt/gladstone/<pi>/<share>`                    |
 | Job defaults | yes                     | **none; set all explicitly**                     |
 | GPU access   | `-q gpu.q` + `SGE_GPU`  | `--partition=...` + `--gres=...`                 |
 
@@ -71,8 +71,8 @@ knitr::opts_chunk$set(comment = "")
 **Prerequisite:** on Gladstone network (wired, Gladstone-MB, or Ivanti VPN), Gladstone device.
 
 ```bash
-# 1. SSH to the Gladstone bastion (address is temporary, will change)
-ssh <user>@10.98.160.34          # chpc-gs-bastion-vm1
+# 1. SSH to the Gladstone bastion
+ssh <user>@chpc-gs-bastion-vm1.corehpc.ucsf.edu
 # -> prompts for your UCSF MyAccess password
 # -> approve the DUO MFA push on your phone
 
@@ -118,7 +118,9 @@ salloc --partition=cpu \
 
 *For GPU dev work, add `--partition=small_gpu` (or `large_gpu` / `pod`) and `--gres=gpu:nvidia_l40s:1`.*
 
-## One-time setup for conda users
+ℹ️ `salloc` gives you a **shell only**. For browser-based RStudio Server or Jupyter (like Wynton's dev nodes provide), **Open OnDemand is coming to CoreHPC soon**.
+
+## One-time setup for conda users {.smaller}
 
 Home is only 20 GB. Push conda envs/pkgs onto scratch:
 
@@ -128,6 +130,21 @@ conda config --append envs_dirs /mnt/scratch/user/$USER/envs
 conda config --append pkgs_dirs /mnt/scratch/user/$USER/pkgs
 ```
 
+⚠️ **Scratch is automatically purged periodically.** Keep an `environment.yml` and a **bootstrap script** in your home directory (or HIVE) so you can rebuild quickly if files are purged:
+
+```bash
+# Export the active env to environment.yml (run once, from the env you want to capture):
+conda activate myenv
+conda env export > environment.yml
+```
+
+```bash
+# rebuild_env.sh
+module load miniforge3
+conda env create -f environment.yml -p /mnt/scratch/user/$USER/envs/myenv
+```
+
+For environments you will use long term it is recommended to use `apptainer` and store the .sif files on the HIVE.
 
 # Storage and data migration
 
@@ -135,22 +152,28 @@ conda config --append pkgs_dirs /mnt/scratch/user/$USER/pkgs
 
 | Wynton                      | CoreHPC                                                |
 |-----------------------------|--------------------------------------------------------|
-| `/gladstone/<lab>`          | `/mnt/gladstone/<lab>`                                 |
+| `/gladstone/<lab>`          | `/mnt/gladstone/<pi>/<share>`                          |
 | `/wynton/home/<lab>/<user>` | `/home/remote/<user>` (**20 GB cap**)                  |
 | `/wynton/group/<lab>`       | use your Hive mount, or scratch                        |
-| `/wynton/scratch`           | `/mnt/scratch/user/$USER` or `/mnt/scratch/global`     |
+| `/wynton/scratch`           | `/mnt/scratch/user/$USER`                              |
 | local `/scratch`            | local per-node scratch                                 |
+
+**Hive share path translation:**   
+
+-   `\\hive.gladstone.internal\<PI>-<Share>` becomes `/mnt/gladstone/<pi>/<share>` 
+-   All Gladstone shares are mounted on CoreHPC, not just the ones you had on Wynton.
+
 
 ⚠️ **Only HIVE (`/mnt/gladstone`) is backed up.**
 
 ## Moving your data {.smaller}
 
-**Already on HIVE (`/gladstone/<lab>`):** nothing to move. The same share is mounted on CoreHPC at `/mnt/gladstone/<lab>`.
+**Already on HIVE:** nothing to move. The same share is mounted on CoreHPC at `/mnt/gladstone/<pi>/<share>`.
 
 **On Wynton-only paths (`/wynton/home`, `/wynton/scratch`, `/wynton/group`):** you have to migrate.
 
--   Easiest: copy it to your HIVE lab share on Wynton first; CoreHPC then picks it up automatically at `/mnt/gladstone/<lab>`
--   Otherwise: Globus (standard bastions block `scp` / `rsync`)
+-   **Easiest:** Use the **Gladstone Data Transfer Node (`gsdt02`)** to copy your data onto your Hive lab share. CoreHPC then picks it up automatically at `/mnt/gladstone/<pi>/<share>`.
+-   **Globus:** for direct transfers into CoreHPC (`gsdt02` does **not** connect to CoreHPC directly). Required for large or cross-institution moves since standard bastions block `scp` / `rsync`.
 
 
 # SGE → SLURM Translation
@@ -265,7 +288,9 @@ squeue -u $USER
 | `cpu`       | High-memory CPU (gcpu2 nodes)    | 1 node, 42 CPUs/job     |
 | `small_gpu` | L40s 48 GB (ggpu1 nodes)         | 1 running, 1 GPU        |
 | `large_gpu` | H200 single-node (ggpu3 nodes)   | 1 running, 1 GPU        |
-| `pod`       | 1/2 SuperPod, 8× H200 SXM        | 1 running, 4 nodes max  |
+| `pod`*      | 1/2 SuperPod, 8× H200 SXM        | 1 running, 4 nodes max  |
+
+*\*`pod` is **by request only** and subject to PI / IT approval.*
 
 These queues and user limits may change in the future, check the current documentation for the most up to date partition information.
 
@@ -290,6 +315,31 @@ These queues and user limits may change in the future, check the current documen
 -   For GPU containers: `apptainer exec --nv ...` (same as Wynton)
 -   CUDA: `module load cuda` or `module load nvidia/cuda/12.9.1`
 
+## Example GPU job script {.smaller}
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=gpu_example
+#SBATCH --output=gpu_example.out
+#SBATCH --partition=small_gpu          # or large_gpu / pod
+#SBATCH --gres=gpu:nvidia_l40s:1       # 1 GPU
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8              # CPUs
+#SBATCH --mem=64G
+#SBATCH --time=04:00:00
+
+module load cuda
+srun python train.py --num-workers $((SLURM_CPUS_PER_TASK - 1))
+```
+
+## Right-sizing GPU jobs {.smaller}
+
+-   **`--cpus-per-task` is required.** SLURM does not allocate CPUs based on GPUs requested. Default is **1**, which can starve your DataLoader.
+-   **Starting point:** ~8 CPUs per L40S / H100, ~12 per H200 — but profile and adjust. Optimal count depends on model size, batch size, and CPU-side augmentation, not just GPU type.
+-   **DataLoader workers:** set `num_workers = $SLURM_CPUS_PER_TASK - 1` to leave headroom for the main process and pinned-memory transfers.
+-   **Memory:** start at **2-4× the GPU's VRAM** (L40S 48 GB → 64-128 GB; H200 141 GB → 256-512 GB). 
+-   **Check for GPU starvation:** run `nvidia-smi dmon` during training, low SM utilization with high CPU usage means you need more CPUs.
+-   **Verify what you got:** `sacct -j <jobid>`
 
 # Migrating
 
@@ -298,8 +348,8 @@ These queues and user limits may change in the future, check the current documen
 
 -   [ ] On Gladstone network (wired / Gladstone-MB / Ivanti VPN), Gladstone device
 -   [ ] Logged into `chpc-gs-bastion-vm1` → `chpc-gs-login-vm1`
--   [ ] Confirmed your Hive lab share is visible at `/mnt/gladstone/<lab>` (or `/gladstone/<lab>`)
--   [ ] Anything not on Hive moved over via Globus
+-   [ ] Confirmed your Hive lab share is visible at `/mnt/gladstone/<pi>/<share>`
+-   [ ] Anything not on Hive moved over via `gsdt02` (Wynton → Hive) or Globus (direct to CoreHPC)
 -   [ ] Containers re-pulled with `apptainer pull` on the login node
 -   [ ] Conda setup (`envs_dirs`, `pkgs_dirs` and  pointed to `/mnt/scratch/user/$USER`)
 -   [ ] Job script translated SGE → SLURM (`--time`, `--mem`, `--cpus-per-task`, `--partition`, `--gres` all explicit)

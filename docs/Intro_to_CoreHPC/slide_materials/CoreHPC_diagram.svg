@@ -27,15 +27,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.95082506"
-     inkscape:cx="197.72302"
-     inkscape:cy="229.27456"
-     inkscape:window-width="1728"
-     inkscape:window-height="961"
+     inkscape:zoom="1.3446697"
+     inkscape:cx="204.51119"
+     inkscape:cy="144.27335"
+     inkscape:window-width="1920"
+     inkscape:window-height="937"
      inkscape:window-x="0"
-     inkscape:window-y="38"
+     inkscape:window-y="25"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg28" />
+     inkscape:current-layer="g32" />
   <g
      transform="translate(94.110352,-14.921384)"
      id="g1"
@@ -276,7 +276,11 @@
        stroke-width="4"
        stroke-linejoin="round"
        paint-order="stroke fill"
-       id="text17">(chpc-ucsf-login-vm1)</text>
+       id="text17"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         x="110"
+         y="173">(chpc-gs-login-vm1)</tspan></text>
   </g>
   <g
      id="g31"
