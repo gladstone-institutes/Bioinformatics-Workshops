@@ -67,5 +67,5 @@ done
 if [ "$best" -ge 0 ]; then
   echo "Largest batch size that fits: $best"
 else
-  echo "Nothing fit: even $MIN_BATCH_SIZE ran out of memory. Try a smaller model or mixed precision."
+  echo "Nothing fit: even $MIN_BATCH_SIZE ran out of memory."
 fi
