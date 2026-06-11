@@ -1,24 +1,28 @@
 #!/usr/bin/env bash
 #
 # Finds the largest batch size that fits in GPU memory by running your script
-# with different sizes until it stops OOMing. Run inside a GPU salloc session.
+# with different sizes (binary search) until it stops OOMing. Run inside a GPU
+# salloc session.
 #
 # IMPORTANT: your script must read the size from the BATCH_SIZE env var and 
 # exit 0 on success:
 #   import os
 #   batch_size = int(os.environ.get("BATCH_SIZE", 32))
 #
-# Usage: ./find_batch_size.sh [START_BATCH_SIZE] [PYTHON_SCRIPT]
+# Usage: edit the Settings block below, then run: ./find_batch_size.sh
 
-# Configure here, or pass the first two as arguments.
-START_BATCH_SIZE=${1:-1024}
-PYTHON_SCRIPT=${2:-train.py}
-MIN_BATCH_SIZE=8
-STEP=8
+# ----------------------------------------------------------------------------
+# Settings: change these values, then save and run the script.
+# ----------------------------------------------------------------------------
+PYTHON_SCRIPT=train.py   # name of your training script
+START_BATCH_SIZE=1024    # largest size to try; the result is capped here, so set it above any size that might fit
+MIN_BATCH_SIZE=8         # smallest size to try; if even this runs out of memory, nothing fit
+STEP=8                   # only test multiples of this number
+# ----------------------------------------------------------------------------
 
 if [ ! -f "$PYTHON_SCRIPT" ]; then
   echo "Error: Python script '$PYTHON_SCRIPT' not found."
-  echo "Usage: $0 [START_BATCH_SIZE] [PYTHON_SCRIPT]"
+  echo "Set PYTHON_SCRIPT in the Settings block at the top of this file."
   exit 1
 fi
 
