@@ -66,6 +66,17 @@ render_slide "Intro_to_CoreHPC_Part_1.qmd"
 render_slide "Intro_to_CoreHPC_Part_2.qmd"
 render_slide "Wynton_to_CoreHPC_Migration.qmd"
 
+# Render the standalone containers guide (HTML format, not revealjs)
+echo "🔧 Rendering Containers_on_CoreHPC guide..."
+quarto render "Containers_on_CoreHPC.qmd" --to html
+if [ -f "Containers_on_CoreHPC.html" ]; then
+    mv "Containers_on_CoreHPC.html" "$DOCS_DIR/"
+    echo "📁 Moved Containers_on_CoreHPC.html to $DOCS_DIR"
+fi
+if [ -d "Containers_on_CoreHPC_files" ]; then
+    rm -rf "Containers_on_CoreHPC_files"
+fi
+
 
 echo ""
 echo "🎉 All slides rendered successfully!"
@@ -78,3 +89,4 @@ echo "🌐 To view the slides, open the HTML files in a web browser:"
 echo "   - ${DOCS_DIR}/Intro_to_CoreHPC_Part_1.html"
 echo "   - ${DOCS_DIR}/Intro_to_CoreHPC_Part_2.html"
 echo "   - ${DOCS_DIR}/Wynton_to_CoreHPC_Migration.html"
+echo "   - ${DOCS_DIR}/Containers_on_CoreHPC.html"

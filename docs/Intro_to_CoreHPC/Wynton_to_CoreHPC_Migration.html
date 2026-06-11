@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="Natalie Gill">
-  <meta name="dcterms.date" content="2026-05-20">
+  <meta name="dcterms.date" content="2026-06-10">
   <title>Wynton to CoreHPC</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -208,7 +208,7 @@ Natalie Gill
     </div>
 </div>
 
-  <p class="date">May 20, 2026</p>
+  <p class="date">June 10, 2026</p>
 </section>
 <section id="who-this-is-for" class="slide level2">
 <h2>Who this is for</h2>
@@ -370,7 +370,7 @@ Natalie Gill
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># rebuild_env.sh</span></span>
 <span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
 <span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml <span class="at">-p</span> /mnt/scratch/user/<span class="va">$USER</span>/envs/myenv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For environments you will use long term it is recommended to use <code>apptainer</code> and store the .sif files on the HIVE.</p>
+<p>For environments you will use long term it is recommended to use <code>apptainer</code> and store the .sif files on the HIVE. See the <a href="Containers_on_CoreHPC.html">container guide</a>.</p>
 </section></section>
 <section>
 <section id="storage-and-data-migration" class="title-slide slide level1 center">
@@ -433,6 +433,16 @@ Natalie Gill
 <section id="sge-slurm-translation" class="title-slide slide level1 center">
 <h1>SGE → SLURM Translation</h1>
 
+</section>
+<section id="whats-a-container" class="slide level2 smaller">
+<h2>What’s a container?</h2>
+<p>A <strong>container</strong> packages your code with the exact versions of every tool it needs, so the analysis runs identically anywhere.</p>
+<ul>
+<li>You write a <strong>definition file</strong>, the recipe for the image (a <code>Dockerfile</code>, or Apptainer <code>.def</code>)</li>
+<li>You build it into an <strong>image file</strong>, the runnable result (a Docker image, or a <code>.sif</code>)</li>
+<li>Run that image <strong>locally</strong> with <strong>Docker</strong>, or <strong>remotely on the HPC</strong> with <strong>Apptainer</strong> (which runs <code>.sif</code> and pulls directly from Docker)</li>
+</ul>
+<p>Build your own from a conda env: see the <a href="Containers_on_CoreHPC.html">container guide</a>.</p>
 </section>
 <section id="containers-dont-change" class="slide level2">
 <h2>Containers don’t change</h2>
@@ -519,7 +529,7 @@ Natalie Gill
 </tr>
 </tbody>
 </table>
-<p>⚠️ <strong>Memory gotcha:</strong> SGE’s <code>mem_free</code> is <strong>per core</strong>; SLURM’s <code>--mem</code> is <strong>per node total</strong>. Setting <code>--mem=4G --cpus-per-task=4</code> gets you 4 GB total, not 16 GB.</p>
+<p>⚠️ SGE’s <code>mem_free</code> is <strong>per core</strong>; SLURM’s <code>--mem</code> is <strong>per node total</strong>. Setting <code>--mem=4G --cpus-per-task=4</code> gets you 4 GB total, not 16 GB.</p>
 </section>
 <section id="same-job-two-scripts" class="slide level2 smaller">
 <h2>Same job, two scripts</h2>
@@ -642,7 +652,7 @@ Natalie Gill
 </tbody>
 </table>
 <p><em>*<code>pod</code> is <strong>by request only</strong> and subject to PI / IT approval.</em></p>
-<p>These queues and user limits may change in the future, check the current documentation for the most up to date partition information.</p>
+<p>These queues and user limits may change in the future, check the current documentation for the most up-to-date partition information.</p>
 </section>
 <section id="gpu-request-syntax" class="slide level2 smaller">
 <h2>GPU request syntax</h2>
@@ -657,7 +667,7 @@ Natalie Gill
 <span id="cb12-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># H200, SuperPod (1 node, 8 GPUs):</span></span>
 <span id="cb12-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=pod</span></span>
 <span id="cb12-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_h200:8</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><em><code>--gres=gpu:&lt;model&gt;:&lt;count&gt;</code> — count is GPUs <strong>per node</strong>.</em></p>
+<p><em><code>--gres=gpu:&lt;model&gt;:&lt;count&gt;</code>: count is GPUs <strong>per node</strong>.</em></p>
 <ul>
 <li>For GPU containers: <code>apptainer exec --nv ...</code> (same as Wynton)</li>
 <li>CUDA: <code>module load cuda</code> or <code>module load nvidia/cuda/12.9.1</code></li>
@@ -667,25 +677,36 @@ Natalie Gill
 <h2>Example GPU job script</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
 <span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=gpu_example</span></span>
-<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=gpu_example.out</span></span>
-<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu          # or large_gpu / pod</span></span>
-<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1       # 1 GPU</span></span>
-<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
-<span id="cb13-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=8              # CPUs</span></span>
-<span id="cb13-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=64G</span></span>
-<span id="cb13-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=04:00:00</span></span>
-<span id="cb13-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span>
-<span id="cb13-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> python train.py <span class="at">--num-workers</span> <span class="va">$((SLURM_CPUS_PER_TASK</span> <span class="op">-</span> <span class="dv">1</span><span class="va">))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu          # 1 L40s = most single-GPU work</span></span>
+<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1       # how many GPUs (start here: 1)</span></span>
+<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=32             # ~half a 2-GPU node = 1 GPU's share</span></span>
+<span id="cb13-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=180G                     # ~half the node's 384 GB</span></span>
+<span id="cb13-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=04:00:00</span></span>
+<span id="cb13-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=gpu_%j.out            # %j = job ID</span></span>
+<span id="cb13-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=gpu_%j.err</span></span>
+<span id="cb13-11"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span>
+<span id="cb13-13"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Always track GPU utilization, log it for the life of the job</span></span>
+<span id="cb13-15"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">nvidia-smi</span> <span class="at">--query-gpu</span><span class="op">=</span>timestamp,utilization.gpu,memory.used,memory.total <span class="dt">\</span></span>
+<span id="cb13-16"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="at">--format</span><span class="op">=</span>csv <span class="at">--loop</span><span class="op">=</span>10 <span class="op">&gt;</span> gpu_util_<span class="va">${SLURM_JOB_ID}</span>.csv <span class="kw">&amp;</span></span>
+<span id="cb13-17"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> python train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="right-sizing-gpu-jobs" class="slide level2 smaller">
-<h2>Right-sizing GPU jobs</h2>
+<section id="right-sizing-a-gpu-job" class="slide level2 smaller">
+<h2>Right-sizing a GPU job</h2>
+<ol type="1">
+<li><strong>How many GPUs?</strong> Most jobs need <strong>1</strong>. More GPUs help only if your code is written to use them.</li>
+<li><strong>CPU &amp; RAM: proportional to GPUs.</strong> Divide the node’s totals by its GPU count and request up to that share. A <code>small_gpu</code> node has ~64 CPUs / 384 GB across 2 L40s → <strong>up to ~32 CPUs / ~190 GB per GPU</strong>.</li>
+<li><strong>Batch size: fill the VRAM.</strong> Pick the <strong>largest batch size that fits</strong> without running out of memory. Bigger batches = higher GPU utilization. Start large, reduce until it fits.</li>
+</ol>
+</section>
+<section id="right-sizing-a-gpu-job-1" class="slide level2 smaller">
+<h2>Right-sizing a GPU job</h2>
 <ul>
-<li><strong><code>--cpus-per-task</code> is required.</strong> SLURM does not allocate CPUs based on GPUs requested. Default is <strong>1</strong>, which can starve your DataLoader.</li>
-<li><strong>Starting point:</strong> ~8 CPUs per L40S / H100, ~12 per H200 — but profile and adjust. Optimal count depends on model size, batch size, and CPU-side augmentation, not just GPU type.</li>
-<li><strong>DataLoader workers:</strong> set <code>num_workers = $SLURM_CPUS_PER_TASK - 1</code> to leave headroom for the main process and pinned-memory transfers.</li>
-<li><strong>Memory:</strong> start at <strong>2-4× the GPU’s VRAM</strong> (L40S 48 GB → 64-128 GB; H200 141 GB → 256-512 GB).</li>
-<li><strong>Check for GPU starvation:</strong> run <code>nvidia-smi dmon</code> during training, low SM utilization with high CPU usage means you need more CPUs.</li>
+<li><strong>Profile interactively first</strong> in a <code>salloc</code> session. Batch-size search helper: <a href="https://github.com/gladstone-institutes/Bioinformatics-Workshops/blob/master/intro-to-corehpc/materials/find_batch_size.sh">find_batch_size.sh</a>.</li>
+<li><strong>Always check utilization:</strong> <code>nvidia-smi</code> during the run, or <code>seff &lt;jobid&gt;</code> / <code>sacct -j &lt;jobid&gt;</code> after. Low utilization = wasted reservation (smaller request or larger batch).</li>
 <li><strong>Verify what you got:</strong> <code>sacct -j &lt;jobid&gt;</code></li>
 </ul>
 </section></section>
@@ -702,7 +723,7 @@ Natalie Gill
 <li><label><input type="checkbox">Confirmed your Hive lab share is visible at <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></label></li>
 <li><label><input type="checkbox">Anything not on Hive moved over via <code>gsdt02</code> (Wynton → Hive) or Globus (direct to CoreHPC)</label></li>
 <li><label><input type="checkbox">Containers re-pulled with <code>apptainer pull</code> on the login node</label></li>
-<li><label><input type="checkbox">Conda setup (<code>envs_dirs</code>, <code>pkgs_dirs</code> and pointed to <code>/mnt/scratch/user/$USER</code>)</label></li>
+<li><label><input type="checkbox">Conda <code>envs_dirs</code> and <code>pkgs_dirs</code> pointed to <code>/mnt/scratch/user/$USER</code>)</label></li>
 <li><label><input type="checkbox">Job script translated SGE → SLURM (<code>--time</code>, <code>--mem</code>, <code>--cpus-per-task</code>, <code>--partition</code>, <code>--gres</code> all explicit)</label></li>
 <li><label><input type="checkbox">First <code>sbatch</code> submitted and verified with <code>squeue -u $USER</code></label></li>
 <li><label><input type="checkbox">Anything you cannot afford to lose is on HIVE</label></li>

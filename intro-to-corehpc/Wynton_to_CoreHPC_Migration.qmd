@@ -3,7 +3,7 @@ title: "Wynton to CoreHPC"
 subtitle: "Migration Guide"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "May, 20, 2026"
+date: "June 10, 2026"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
@@ -144,7 +144,8 @@ module load miniforge3
 conda env create -f environment.yml -p /mnt/scratch/user/$USER/envs/myenv
 ```
 
-For environments you will use long term it is recommended to use `apptainer` and store the .sif files on the HIVE.
+For environments you will use long term it is recommended to use `apptainer` and store the .sif files on the HIVE. See the [container guide](Containers_on_CoreHPC.html).
+
 
 # Storage and data migration
 
@@ -178,6 +179,16 @@ For environments you will use long term it is recommended to use `apptainer` and
 
 # SGE → SLURM Translation
 
+## What's a container? {.smaller}
+
+A **container** packages your code with the exact versions of every tool it needs, so the analysis runs identically anywhere.
+
+-   You write a **definition file**, the recipe for the image (a `Dockerfile`, or Apptainer `.def`)
+-   You build it into an **image file**, the runnable result (a Docker image, or a `.sif`)
+-   Run that image **locally** with **Docker**, or **remotely on the HPC** with **Apptainer** (which runs `.sif` and pulls directly from Docker)
+
+Build your own from a conda env: see the [container guide](Containers_on_CoreHPC.html).
+
 ## Containers don't change
 
 ```bash
@@ -209,7 +220,7 @@ The image runs identically. **Only the submission script changes.**
 | `-o out.txt`                  | `--output=out.txt`                               |
 | `-t 1-10`, `$SGE_TASK_ID`     | `--array=1-10`, `$SLURM_ARRAY_TASK_ID`           |
 
-⚠️ **Memory gotcha:** SGE's `mem_free` is **per core**; SLURM's `--mem` is **per node total**. Setting `--mem=4G --cpus-per-task=4` gets you 4 GB total, not 16 GB.
+⚠️ SGE's `mem_free` is **per core**; SLURM's `--mem` is **per node total**. Setting `--mem=4G --cpus-per-task=4` gets you 4 GB total, not 16 GB.
 
 ## Same job, two scripts {.smaller}
 
@@ -292,7 +303,7 @@ squeue -u $USER
 
 *\*`pod` is **by request only** and subject to PI / IT approval.*
 
-These queues and user limits may change in the future, check the current documentation for the most up to date partition information.
+These queues and user limits may change in the future, check the current documentation for the most up-to-date partition information.
 
 ## GPU request syntax {.smaller}
 
@@ -310,7 +321,7 @@ These queues and user limits may change in the future, check the current documen
 #SBATCH --gres=gpu:nvidia_h200:8
 ```
 
-*`--gres=gpu:<model>:<count>` — count is GPUs **per node**.*
+*`--gres=gpu:<model>:<count>`: count is GPUs **per node**.*
 
 -   For GPU containers: `apptainer exec --nv ...` (same as Wynton)
 -   CUDA: `module load cuda` or `module load nvidia/cuda/12.9.1`
@@ -320,25 +331,34 @@ These queues and user limits may change in the future, check the current documen
 ```bash
 #!/bin/bash
 #SBATCH --job-name=gpu_example
-#SBATCH --output=gpu_example.out
-#SBATCH --partition=small_gpu          # or large_gpu / pod
-#SBATCH --gres=gpu:nvidia_l40s:1       # 1 GPU
+#SBATCH --partition=small_gpu          # 1 L40s = most single-GPU work
+#SBATCH --gres=gpu:nvidia_l40s:1       # how many GPUs (start here: 1)
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8              # CPUs
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=32             # ~half a 2-GPU node = 1 GPU's share
+#SBATCH --mem=180G                     # ~half the node's 384 GB
 #SBATCH --time=04:00:00
+#SBATCH --output=gpu_%j.out            # %j = job ID
+#SBATCH --error=gpu_%j.err
 
 module load cuda
-srun python train.py --num-workers $((SLURM_CPUS_PER_TASK - 1))
+
+# Always track GPU utilization, log it for the life of the job
+nvidia-smi --query-gpu=timestamp,utilization.gpu,memory.used,memory.total \
+           --format=csv --loop=10 > gpu_util_${SLURM_JOB_ID}.csv &
+
+srun python train.py
 ```
 
-## Right-sizing GPU jobs {.smaller}
+## Right-sizing a GPU job {.smaller}
 
--   **`--cpus-per-task` is required.** SLURM does not allocate CPUs based on GPUs requested. Default is **1**, which can starve your DataLoader.
--   **Starting point:** ~8 CPUs per L40S / H100, ~12 per H200 — but profile and adjust. Optimal count depends on model size, batch size, and CPU-side augmentation, not just GPU type.
--   **DataLoader workers:** set `num_workers = $SLURM_CPUS_PER_TASK - 1` to leave headroom for the main process and pinned-memory transfers.
--   **Memory:** start at **2-4× the GPU's VRAM** (L40S 48 GB → 64-128 GB; H200 141 GB → 256-512 GB). 
--   **Check for GPU starvation:** run `nvidia-smi dmon` during training, low SM utilization with high CPU usage means you need more CPUs.
+1.  **How many GPUs?** Most jobs need **1**. More GPUs help only if your code is written to use them.
+2.  **CPU & RAM: proportional to GPUs.** Divide the node's totals by its GPU count and request up to that share. A `small_gpu` node has ~64 CPUs / 384 GB across 2 L40s → **up to ~32 CPUs / ~190 GB per GPU**.
+3.  **Batch size: fill the VRAM.** Pick the **largest batch size that fits** without running out of memory. Bigger batches = higher GPU utilization. Start large, reduce until it fits.
+
+## Right-sizing a GPU job {.smaller}
+
+- **Profile interactively first** in a `salloc` session. Batch-size search helper: [find_batch_size.sh](https://github.com/gladstone-institutes/Bioinformatics-Workshops/blob/master/intro-to-corehpc/materials/find_batch_size.sh).
+- **Always check utilization:** `nvidia-smi` during the run, or `seff <jobid>` / `sacct -j <jobid>` after. Low utilization = wasted reservation (smaller request or larger batch).
 -   **Verify what you got:** `sacct -j <jobid>`
 
 # Migrating
@@ -351,7 +371,7 @@ srun python train.py --num-workers $((SLURM_CPUS_PER_TASK - 1))
 -   [ ] Confirmed your Hive lab share is visible at `/mnt/gladstone/<pi>/<share>`
 -   [ ] Anything not on Hive moved over via `gsdt02` (Wynton → Hive) or Globus (direct to CoreHPC)
 -   [ ] Containers re-pulled with `apptainer pull` on the login node
--   [ ] Conda setup (`envs_dirs`, `pkgs_dirs` and  pointed to `/mnt/scratch/user/$USER`)
+-   [ ] Conda `envs_dirs` and `pkgs_dirs` pointed to `/mnt/scratch/user/$USER`)
 -   [ ] Job script translated SGE → SLURM (`--time`, `--mem`, `--cpus-per-task`, `--partition`, `--gres` all explicit)
 -   [ ] First `sbatch` submitted and verified with `squeue -u $USER`
 -   [ ] Anything you cannot afford to lose is on HIVE

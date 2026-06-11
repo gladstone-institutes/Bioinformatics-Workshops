@@ -1,0 +1,284 @@
+---
+title: "Building Containers on CoreHPC"
+subtitle: "From conda environments to Apptainer images"
+author: "Gladstone Bioinformatics Core"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+---
+
+## Why build a container instead of running a conda environment?
+
+On CoreHPC, the recommended way to use a long-lived software environment is to
+capture it as a recipe, build it into a single **[Apptainer](https://apptainer.org/docs/user/main/)**
+image (`.sif`), and run your code from that image instead of from a live conda
+environment.
+
+A conda environment is **hundreds of thousands of tiny files**. Stored on a
+shared network filesystem like HIVE, those files are slow to read and slow to
+scan. The cost is not just yours: large directories of small files degrade filesystem
+performance for **everyone** on the cluster.
+
+An Apptainer image solves this in three ways:
+
+- **Reproducible.** The exact versions of every tool are pinned in the recipe
+  and frozen into the image, which is a major benefit when you publish.
+- **Tidy.** One `environment.yml` plus one `.sif` replaces a sprawling
+  environment directory, so HIVE stays clean.
+- **Fast.** The cluster reads **one file** instead of millions, which avoids the
+  small-file penalty that conda environments impose on a network filesystem.
+
+As a bonus, images are sharable making onboarding new lab members easier and allowing
+you to easily share your environment (no more "but it works in my conda env").
+
+::: {.callout-tip}
+## Recommendation
+Build each environment from a requirements file (`environment.yml`), bake it into
+an Apptainer image, and delete the live conda environment once the image works.
+Keep the recipe and the `.sif` on HIVE; rebuild from the recipe whenever you need
+to.
+:::
+
+## The workflow at a glance
+
+1. **Capture** your conda environment to an `environment.yml` recipe.
+2. **Write** a short Apptainer definition file (`.def`).
+3. **Build** the `.sif` image on the login node.
+4. **Run** your code with `apptainer exec`.
+5. **Store and clean up**: keep the recipe and image on HIVE, delete the live
+   conda environment.
+
+## Step 1: Capture your environment
+
+From the login node, load Miniforge, activate the environment you want to
+capture, and export it to a recipe:
+
+```bash
+module load miniforge3
+conda activate myenv
+
+# --no-builds drops platform-specific build strings, which keeps the
+# recipe portable when the image is rebuilt.
+conda env export --no-builds > environment.yml
+```
+
+The resulting `environment.yml` lists the Python version, every package, and the
+exact versions. A trimmed example:
+
+```yaml
+name: myenv
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy=1.26.4
+  - pandas=2.2.2
+  - scikit-learn=1.5.1
+  - pip
+  - pip:
+      - some-pip-only-package==0.4.1
+```
+
+A couple of things to check before you build:
+
+- **Channels:** make sure `conda-forge` is listed (CoreHPC's Miniforge uses it as
+  the default channel). Remove `defaults` if it appears.
+- **pip packages:** anything installed with `pip` shows up under a `pip:` block.
+  Keep that block so the image picks those up too.
+- You can delete the `prefix:` line at the bottom if present; it is ignored when
+  building.
+
+## Step 2: Write the Apptainer definition file
+
+A definition file (`.def`) is the set of instructions Apptainer uses to build the
+image. Create `myenv.def` next to your `environment.yml`:
+
+```default
+Bootstrap: docker
+From: condaforge/miniforge3:latest
+
+%files
+    environment.yml /environment.yml
+
+%post
+    # Build the environment from the recipe, then trim the image.
+    conda env create -f /environment.yml -n myenv
+    conda clean -afy
+
+%environment
+    # Put the environment's tools on the PATH for every run.
+    export PATH=/opt/conda/envs/myenv/bin:$PATH
+
+%runscript
+    exec "$@"
+```
+
+What each section does:
+
+- **`Bootstrap` / `From`** start from the official Miniforge base image, so conda
+  is already installed.
+- **`%files`** copies your recipe into the image.
+- **`%post`** runs at build time to create the environment and clean up cached
+  package files.
+- **`%environment`** runs every time you use the image; prepending the
+  environment's `bin` to the `PATH` activates it without needing `conda activate`.
+- **`%runscript`** makes `apptainer run` execute whatever command you pass.
+
+::: {.callout-important}
+The environment name appears twice: `-n myenv` in `%post` and
+`/opt/conda/envs/myenv/bin` in `%environment`. Keep them identical, and match the
+`name:` in your `environment.yml`.
+:::
+
+For the full set of definition-file sections and options, see the
+[Apptainer definition file documentation](https://apptainer.org/docs/user/main/definition_files.html).
+
+## Step 3: Build the image on the login node
+
+```bash
+module load apptainer
+apptainer build myenv.sif myenv.def
+```
+
+The build pulls the base image and downloads your packages, so it must run where
+there is internet. **The login node has proxied internet; the compute nodes have
+none.** Build on the login node, then submit jobs that use the finished `.sif`.
+
+## Step 4: Run your code
+
+Execute any command inside the image with `apptainer exec`:
+
+```bash
+apptainer exec myenv.sif python script.py
+```
+
+For GPU code, add `--nv` so the container can see the GPU drivers (the same flag
+you used on Wynton):
+
+```bash
+apptainer exec --nv myenv.sif python train.py
+```
+
+Inside a SLURM job, wrap it with `srun`:
+
+```bash
+srun apptainer exec --nv myenv.sif python train.py
+```
+
+By default Apptainer can see your home directory and the current working
+directory. To make other paths (scratch, a HIVE share) available inside the
+container, bind them explicitly:
+
+```bash
+apptainer exec --bind /mnt/scratch/user/$USER myenv.sif python script.py
+```
+
+You can also set `APPTAINER_BINDPATH` once instead of repeating `--bind`. See
+[Bind paths and mounts](https://apptainer.org/docs/user/main/bind_paths_and_mounts.html)
+for details.
+
+## Step 5: Store the image and clean up
+
+- Keep the recipe and image together on **HIVE**: `environment.yml`, `myenv.def`,
+  and `myenv.sif`. The `.sif` is a single file, so it is friendly to the network
+  filesystem.
+- Once the image works, **delete the live conda environment** so it stops
+  consuming space and slowing the filesystem:
+
+  ```bash
+  conda remove -n myenv --all
+  ```
+
+- You never lose anything by deleting the environment, rebuild it any time from
+  the recipe with `apptainer build myenv.sif myenv.def`.
+
+## More complex environments: build with Docker
+
+Some environments need things conda cannot provide cleanly: system libraries,
+`apt` packages, or tools you compile yourself. **R / Bioconductor** is the classic
+example. Many Bioconductor packages are not on conda-forge, they are version-locked
+to a specific Bioconductor release, and they will not compile until the right system
+libraries are already in place. Reproducing that by hand is exactly the kind of
+thorny setup containers exist to solve.
+
+For these, build a **[Docker](https://docs.docker.com/)** image on your own machine.
+The [Bioconductor](https://bioconductor.org/help/docker/) and
+[rocker](https://rocker-project.org/) project base images already ship R, the
+required system libraries, and a pinned Bioconductor release, so your Dockerfile
+only has to add packages. Here is an example that builds a single-cell analysis
+environment (Seurat plus harmony) on the Bioconductor base image:
+
+```dockerfile
+# Bioconductor base image gives access to many bioinformatics tools and R
+# packages, with the R version and Bioconductor release already pinned.
+FROM bioconductor/bioconductor_docker:RELEASE_3_17
+
+# Exit if any command in a pipeline fails.
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Update the package list and install system packages in one RUN, then clean up
+# to keep the image small. (apt-get update and install must share a command.)
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends make \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install the R packages, then confirm they load.
+RUN Rscript -e 'install.packages(c("Seurat","harmony"))'
+RUN Rscript -e 'lapply(c("Seurat","harmony"), library, character.only = TRUE)'
+
+# Bake the Dockerfile into the image for reproducibility.
+COPY Dockerfile /Dockerfile
+```
+
+::: {.callout-note}
+## Why no non-root `USER`?
+Adding a non-root `USER` near the end of a Dockerfile is a common Docker security
+practice, but it is left out here on purpose. Apptainer runs the container as your
+own cluster account and ignores the Dockerfile `USER`, so the step buys nothing on
+CoreHPC. If you also run the image with Docker directly, add it back.
+:::
+
+Then build the image, push it to Docker Hub, and pull it onto CoreHPC as an
+Apptainer image:
+
+```bash
+# On your laptop, in the directory with the Dockerfile. --platform linux/amd64
+# matches CoreHPC's x86-64 CPUs; buildx builds and pushes in one step.
+docker buildx build --platform linux/amd64 \
+  -t docker_hub_user/seurat-harmony:1.0 --push .
+
+# On the CoreHPC login node:
+apptainer pull docker://docker_hub_user/seurat-harmony:1.0
+```
+
+::: {.callout-important}
+## Building on Apple Silicon
+M-series Macs build `linux/arm64` images by default, but CoreHPC runs x86-64. An
+arm64 image fails on the cluster with `exec format error`, so always pass
+`--platform linux/amd64`. That cross-build runs under emulation and is slow
+(compiling Seurat takes a while and a lot of RAM), so build the image once and
+reuse it rather than rebuilding for every job.
+:::
+
+`apptainer pull` converts the Docker image to a `seurat-harmony_1.0.sif` file you run
+exactly like the one you built above (`apptainer exec seurat-harmony_1.0.sif Rscript analysis.R`).
+Docker's own documentation covers writing
+[Dockerfiles](https://docs.docker.com/reference/dockerfile/), choosing base
+images, and [pushing to Docker Hub](https://docs.docker.com/get-started/introduction/build-and-push-first-image/).
+
+## Quick reference
+
+| Task                                | Command                                              |
+|-------------------------------------|------------------------------------------------------|
+| Export a conda env to a recipe      | `conda env export --no-builds > environment.yml`     |
+| Build an image from a `.def`        | `apptainer build myenv.sif myenv.def`                |
+| Run a command in the image          | `apptainer exec myenv.sif python script.py`          |
+| Run with GPU access                 | `apptainer exec --nv myenv.sif python train.py`      |
+| Run inside a SLURM job              | `srun apptainer exec myenv.sif python script.py`     |
+| Bind an extra path                  | `apptainer exec --bind /mnt/scratch/user/$USER ...`  |
+| Convert a Docker image              | `apptainer pull docker://user/image:tag`             |
+| Delete the live conda env           | `conda remove -n myenv --all`                        |
