@@ -217,10 +217,11 @@ The image runs identically. **Only the submission script changes.**
 | `-l mem_free=4G` *(per core)* | `--mem=16G` *(per node)* or `--mem-per-cpu=4G`   |
 | `-q <queue>`                  | `--partition=<partition>`                        |
 | `-q gpu.q`                    | `--gres=gpu:nvidia_l40s:1`                       |
-| `-o out.txt`                  | `--output=out.txt`                               |
+| `-l scratch=2G`               | no flag; write to local `/scratch/$USER/job_$SLURM_JOB_ID` |
 | `-t 1-10`, `$SGE_TASK_ID`     | `--array=1-10`, `$SLURM_ARRAY_TASK_ID`           |
 
-⚠️ SGE's `mem_free` is **per core**; SLURM's `--mem` is **per node total**. Setting `--mem=4G --cpus-per-task=4` gets you 4 GB total, not 16 GB.
+⚠️ SGE's `mem_free` is **per core**; SLURM's `--mem` is **per node total**. 
+
 
 ## Same job, two scripts {.smaller}
 
@@ -256,7 +257,8 @@ qstat
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --partition=cpu
-#SBATCH --output=hello.out
+#SBATCH --output=hello_%j.out  # %j = job ID
+#SBATCH --error=hello_%j.err
 
 sleep 30   # so we can see the job in squeue
 srun apptainer exec hello-world_1.0.sif hi

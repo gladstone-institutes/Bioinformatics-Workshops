@@ -520,8 +520,8 @@ Natalie Gill
 <td><code>--gres=gpu:nvidia_l40s:1</code></td>
 </tr>
 <tr class="even">
-<td><code>-o out.txt</code></td>
-<td><code>--output=out.txt</code></td>
+<td><code>-l scratch=2G</code></td>
+<td>no flag; write to local <code>/scratch/$USER/job_$SLURM_JOB_ID</code></td>
 </tr>
 <tr class="odd">
 <td><code>-t 1-10</code>, <code>$SGE_TASK_ID</code></td>
@@ -529,7 +529,7 @@ Natalie Gill
 </tr>
 </tbody>
 </table>
-<p>⚠️ SGE’s <code>mem_free</code> is <strong>per core</strong>; SLURM’s <code>--mem</code> is <strong>per node total</strong>. Setting <code>--mem=4G --cpus-per-task=4</code> gets you 4 GB total, not 16 GB.</p>
+<p>⚠️ SGE’s <code>mem_free</code> is <strong>per core</strong>; SLURM’s <code>--mem</code> is <strong>per node total</strong>.</p>
 </section>
 <section id="same-job-two-scripts" class="slide level2 smaller">
 <h2>Same job, two scripts</h2>
@@ -554,10 +554,11 @@ Natalie Gill
 <span id="cb10-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
 <span id="cb10-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
 <span id="cb10-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb10-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello.out</span></span>
-<span id="cb10-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 30   <span class="co"># so we can see the job in squeue</span></span>
-<span id="cb10-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello_%j.out  # %j = job ID</span></span>
+<span id="cb10-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=hello_%j.err</span></span>
+<span id="cb10-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sleep</span> 30   <span class="co"># so we can see the job in squeue</span></span>
+<span id="cb10-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello.sh</span>
 <span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
