@@ -234,13 +234,6 @@ RUN Rscript -e 'lapply(c("Seurat","harmony"), library, character.only = TRUE)'
 COPY Dockerfile /Dockerfile
 ```
 
-::: {.callout-note}
-## Why no non-root `USER`?
-Adding a non-root `USER` near the end of a Dockerfile is a common Docker security
-practice, but it is left out here on purpose. Apptainer runs the container as your
-own cluster account and ignores the Dockerfile `USER`, so the step buys nothing on
-CoreHPC. If you also run the image with Docker directly, add it back.
-:::
 
 Then build the image, push it to Docker Hub, and pull it onto CoreHPC as an
 Apptainer image:

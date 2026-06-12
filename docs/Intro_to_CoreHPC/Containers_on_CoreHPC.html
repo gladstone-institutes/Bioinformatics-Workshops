@@ -2405,19 +2405,6 @@ Important
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Bake the Dockerfile into the image for reproducibility.</span></span>
 <span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="kw">COPY</span> Dockerfile /Dockerfile</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Why no non-root <code>USER</code>?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Adding a non-root <code>USER</code> near the end of a Dockerfile is a common Docker security practice, but it is left out here on purpose. Apptainer runs the container as your own cluster account and ignores the Dockerfile <code>USER</code>, so the step buys nothing on CoreHPC. If you also run the image with Docker directly, add it back.</p>
-</div>
-</div>
 <p>Then build the image, push it to Docker Hub, and pull it onto CoreHPC as an Apptainer image:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># On your laptop, in the directory with the Dockerfile. --platform linux/amd64</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># matches CoreHPC&#39;s x86-64 CPUs; buildx builds and pushes in one step.</span></span>
