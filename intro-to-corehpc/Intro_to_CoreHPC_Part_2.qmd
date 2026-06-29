@@ -25,8 +25,8 @@ knitr::opts_chunk$set(comment = "")
 ## Introductions
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**      
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*      
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*
 
 
 ## Target Audience
@@ -55,142 +55,382 @@ knitr::opts_chunk$set(comment = "")
 
 ## What is SLURM? {.small-bullets}
 
-<!-- TODO: workload manager, replaces SGE on Wynton, supports interactive jobs and GPUs natively -->
+-   SLURM is CoreHPC's **workload manager** (job scheduler)
+-   It decides **what runs where and when** across the compute nodes
+-   Replaces Wynton's **SGE**; supports **GPUs** and **interactive** jobs natively
+-   You describe the resources you need, and SLURM finds a node and runs your job
 
 ## Key Concepts {.small-bullets}
 
-<!-- TODO: login node vs compute nodes vs partitions vs job vs job script, srun inside sbatch -->
+-   **Login node:** where you submit jobs (no heavy compute)
+-   **Compute nodes:** where jobs actually run
+-   **Partition:** a named set of nodes (e.g. `cpu`, `small_gpu`)
+-   **Job:** your resource request plus a script; a **job step** is a command run with `srun` inside it
+-   You rarely SSH to compute nodes, you reach them through SLURM
 
-## Common Commands
+## Common Commands {.smaller}
 
-<!-- TODO: table of sbatch, salloc, srun, squeue, scancel, sinfo, scontrol show job, sacct -->
+| Command | What it does |
+|---------|--------------|
+| `sbatch job.sh` | submit a batch job |
+| `salloc ...` | start an interactive job |
+| `srun <cmd>` | run a command as a tracked job step |
+| `squeue -u $USER` | list your jobs |
+| `scancel <jobid>` | cancel a job |
+| `sinfo` | show partitions and node states |
+| `scontrol show job <jobid>` | full detail on one job |
+| `sacct -j <jobid>` / `seff <jobid>` | resource usage after a job |
 
 
 # Submitting Batch Jobs
 
-## Minimal Job Script
+## Minimal Job Script {.smaller}
 
-<!-- TODO: hello.sh example (#!/bin/bash, #SBATCH --job-name, #SBATCH --output, srun echo "Hello") -->
+```bash
+#!/bin/bash
+#SBATCH --job-name=hello
+#SBATCH --partition=cpu
+#SBATCH --time=00:05:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --output=hello_%j.out   # %j = job ID
+#SBATCH --error=hello_%j.err
+
+srun echo "Hello from $(hostname)"
+```
+
+⚠️ CoreHPC sets **no default** resources. Set `--time`, `--mem`, and `--partition` explicitly.
 
 ## Submitting
 
-<!-- TODO: sbatch hello.sh, squeue -u $USER, output file -->
+```bash
+sbatch hello.sh
+squeue -u $USER
+```
+
+```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@chpc-gs-login-vm1 ~]$ sbatch hello.sh
+Submitted batch job 152334
+[alice@chpc-gs-login-vm1 ~]$ squeue -u alice
+   JOBID PARTITION  NAME  USER ST  TIME NODES NODELIST(REASON)
+  152334       cpu hello alice  R  0:03     1 chpc-gs-cpu-01'
+```
+
+-   Output lands in `hello_152334.out`
 
 
 # Resource Requests
 
 ## CPU and Memory {.small-bullets}
 
-<!-- TODO: --ntasks, --cpus-per-task, --mem, --time, --partition example -->
+-   `--ntasks` : number of tasks (processes); `--cpus-per-task` : cores per task
+-   `--mem=16G` : total memory **per node** (or `--mem-per-cpu=4G`)
+-   `--time=HH:MM:SS` : wall-time limit; `--partition=cpu` : which nodes
+-   ⚠️ SLURM's `--mem` is **per node total**; SGE's `mem_free` was per core
 
 ## GPU Jobs {.small-bullets}
 
-<!-- TODO: --partition=gpu (or pod), --gres=gpu:1, module load cuda, what GPU types are available -->
+```bash
+#SBATCH --partition=small_gpu
+#SBATCH --gres=gpu:nvidia_l40s:1     # model:count (per node)
+module load cuda
+```
 
-## Pod Partition Note
+-   Generic form `--gres=gpu:1` requests any GPU on the partition
+-   GPU types: **L40s** / **H100NVL** (`small_gpu`), **H200** (`large_gpu`, `pod`)
+-   For GPU containers, add `--nv` to `apptainer exec`
 
-<!-- TODO: Pod is request-only, 48 hr max wall-time, 5760 GPU hr allocation, multi-GPU shared memory -->
+## Pod Partition Note {.small-bullets}
+
+-   `pod` is **by request only** (a brief consult confirms your code uses multiple GPUs)
+-   8x **H200 SXM** per node with **InfiniBand** shared memory across GPUs
+-   Comes with a larger GPU allocation and a longer wall-time limit (see current docs)
 
 
 # Job Arrays
 
-## When to Use
+## When to Use {.small-bullets}
 
-<!-- TODO: many similar tasks indexed by ID (per-sample, per-chromosome) -->
+-   Many **similar tasks** that differ only by an index (per-sample, per-chromosome)
+-   One script, many tasks; SLURM schedules them independently
 
-## Example Array Job
+## Example Array Job {.smaller}
 
-<!-- TODO: #SBATCH --array=1-100, %A / %a output format, $SLURM_ARRAY_TASK_ID -->
+```bash
+#!/bin/bash
+#SBATCH --job-name=align
+#SBATCH --partition=cpu
+#SBATCH --array=1-100
+#SBATCH --time=01:00:00
+#SBATCH --mem=4G
+#SBATCH --cpus-per-task=4
+#SBATCH --output=align_%A_%a.out   # %A = array job ID, %a = task ID
+
+srun python process.py sample_${SLURM_ARRAY_TASK_ID}.fastq
+```
+
+-   `$SLURM_ARRAY_TASK_ID` is 1, 2, ... 100 for each task in turn
 
 
 # Interactive Jobs
 
 ## salloc {.small-bullets}
 
-<!-- TODO: salloc --partition=cpu --cpus-per-task=4 --mem=8G --time=01:00:00 -->
+Get an interactive shell on a compute node:
+
+```bash
+salloc --partition=cpu --cpus-per-task=4 --mem=8G --time=01:00:00
+```
+
+-   Use it to prototype, test scripts, or run R / Python interactively
+-   Replaces Wynton **dev nodes**; for GPU dev add `--partition=small_gpu --gres=gpu:nvidia_l40s:1`
+-   Browser-based RStudio / Jupyter via **Open OnDemand** is coming to CoreHPC
 
 ## Attaching to a Running Job
 
-<!-- TODO: srun --jobid=<JOBID> --nodelist=<node> --pty /bin/bash to inspect a running job (e.g. nvidia-smi) -->
+Inspect a job that is already running on a node:
+
+```bash
+srun --jobid=<JOBID> --pty /bin/bash
+# then, e.g. nvidia-smi, top, ls
+```
 
 
 # Monitoring & Canceling
 
-## Checking Status
+## Checking Status {.small-bullets}
 
-<!-- TODO: squeue, squeue -u $USER, scontrol show job <jobid>, sacct -j <jobid> -->
+```bash
+squeue -u $USER             # your jobs and their state
+scontrol show job <jobid>   # full detail on one job
+sacct -j <jobid>            # accounting after it finishes
+seff <jobid>                # efficiency: did you use what you asked for?
+```
 
-## Job / Node Status Codes {.small-bullets}
+## Job / Node Status Codes {.smaller}
 
-<!-- TODO: table of idle, mix, down, drain, comp, etc. -->
+:::: {.columns}
+
+::: {.column width="48%"}
+**Job states (`squeue`)**
+
+| Code | Meaning |
+|------|---------|
+| PD | pending |
+| R | running |
+| CG | completing |
+| F | failed |
+| TO | timed out |
+:::
+
+::: {.column width="48%"}
+**Node states (`sinfo`)**
+
+| Code | Meaning |
+|------|---------|
+| idle | free |
+| mix | partly used |
+| alloc | fully used |
+| drain / maint | unavailable |
+| down | offline |
+:::
+
+::::
 
 ## Canceling
 
-<!-- TODO: scancel <jobid>, scancel -u $USER -->
+```bash
+scancel <jobid>     # cancel one job
+scancel -u $USER    # cancel all your jobs
+```
 
 
 # Containers in SLURM Jobs
 
 ## Running Apptainer in a Job
 
-<!-- TODO: module load apptainer, srun apptainer exec <image>.sif <command> -->
+```bash
+module load apptainer
+srun apptainer exec myenv.sif python script.py
+```
 
-## GPU-Enabled Containers
+-   Build / pull the `.sif` on the login node first (compute nodes have no internet)
 
-<!-- TODO: srun apptainer exec --nv <image>.sif python train.py, requires --gres=gpu:N -->
+## GPU-Enabled Containers {.smaller}
 
-## Hybrid Host + Container Workflow
+```bash
+#SBATCH --partition=small_gpu
+#SBATCH --gres=gpu:nvidia_l40s:1
 
-<!-- TODO: preprocess outside container, run analysis inside container, all in one job script -->
+module load apptainer cuda
+srun apptainer exec --nv myenv.sif python train.py
+```
+
+-   `--nv` exposes the GPU drivers inside the container
+-   Building images: see the [container guide](Containers_on_CoreHPC.html)
+
+## Hybrid Host + Container Workflow {.smaller}
+
+Mix host tools and a container in one job script:
+
+```bash
+# preprocess with a module-provided tool
+module load samtools
+samtools sort in.bam -o sorted.bam
+
+# analyze inside the container
+srun apptainer exec --bind /mnt/scratch/user/$USER analysis.sif python run.py sorted.bam
+```
 
 
 # MPI / Multi-Node Jobs
 
-## MPI Job Script {.small-bullets}
+## MPI Job Script {.smaller}
 
-<!-- TODO: --nodes=N, --ntasks-per-node=M, module load openmpi5/5.0.x or nvidia/nvhpc, srun mpi_program -->
+```bash
+#!/bin/bash
+#SBATCH --job-name=mpi_example
+#SBATCH --partition=cpu
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=8        # 16 MPI ranks total
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=16G
+#SBATCH --time=01:00:00
+#SBATCH --output=mpi_%j.out
 
-## Important: Community CPU Partition
+module load openmpi5/5.0.8         # or the MPI bundled with nvidia/nvhpc
+srun ./my_mpi_program
+```
 
-<!-- TODO: Community CPU partition does NOT have InfiniBand and is not for tightly-coupled MPI; use CPU/GPU partitions for that -->
+-   `srun` launches one rank per task and wires up MPI across the nodes
+
+## Important: Community CPU Partition {.small-bullets}
+
+-   The **`community cpu`** partition has **no InfiniBand**
+-   Not for tightly-coupled MPI; it suits **high-throughput** (independent) jobs, Wynton-style
+-   For real MPI use `cpu`, `small_gpu` / `large_gpu`, or `pod` (which have the fast interconnect)
+-   *Confirm partition names and MPI module versions with `sinfo` / `module avail`.*
 
 
 # Pipelines on CoreHPC
 
-## Nextflow with SLURM
+## Nextflow on CoreHPC {.small-bullets}
 
-<!-- TODO: nextflow runs on login node, executor 'slurm' profile, note that pipelines must be adapted from Wynton SGE configs -->
+-   **Nextflow** runs portable, reproducible workflows; **nf-core** is a community library of pipelines (<https://nf-co.re>)
+-   The **head process** submits **each step as its own SLURM job**
+-   On CoreHPC the head runs as its **own small SLURM job**, not on the login node (which is submission-only and can drop your session)
+-   Compute nodes are **offline**, so stage everything first
+-   Example here: the **nf-core/rnaseq** pipeline
 
-## No Internet on Compute Nodes
+## Nextflow RNA-seq {.small-bullets .big-picture}
 
-<!-- TODO: stage all containers / reference data / pipeline assets from the login node first, compute nodes are offline -->
+-   nf-core/rnaseq is the most widely used pipeline
+
+![](slide_materials/nf-core-rnaseq_metro_map_grey.png){fig-alt="nf-core RNA-seq pipeline steps shown as a metro map" .nostretch fig-align="center" width=70%}
+
+## Installing Nextflow {.smaller}
+
+There is no Nextflow module, so install it once via conda **on the login node** (it has internet):
+
+```bash
+module load miniforge3
+conda create -n nextflow -c bioconda nf-core nextflow   # nextflow + nf-core tools (+ a JRE)
+conda activate nextflow
+nextflow -v
+```
+
+## Stage Everything on the Login Node {.smaller}
+
+Compute nodes have **no internet**, so pre-fetch the pipeline and all its containers while you are connected:
+
+```bash
+export NXF_SINGULARITY_CACHEDIR=/mnt/scratch/user/$USER/containers
+nf-core download rnaseq -r 3.14.0 --container-system singularity
+```
+
+-   Downloads the pipeline code, configs, and images so the run needs **no internet**
+-   Apptainer runs the Singularity-format images (CoreHPC's runtime is `module load apptainer`)
+-   *UCSF (non-Gladstone): use `/scratch/user/$USER/...`*
+
+## Configure the SLURM Executor {.smaller}
+
+```groovy
+// corehpc.config
+process {
+  executor = 'slurm'
+  queue    = 'cpu'                 // default partition
+  cpus     = 4
+  memory   = '8 GB'
+  time     = '2h'
+  withLabel: gpu { queue = 'small_gpu'; clusterOptions = '--gres=gpu:nvidia_l40s:1' }
+}
+executor  { queueSize = 50 }       // cap concurrent SLURM jobs
+apptainer { enabled = true; autoMounts = true }
+```
+
+*No SLURM defaults, so set resources explicitly. Pass the work dir on the command line (next slide) so `$USER` expands.*
+
+## Run It as a Head Job {.smaller}
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=nf-rnaseq
+#SBATCH --partition=cpu
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=4G
+#SBATCH --time=24:00:00              # must cover the whole pipeline
+#SBATCH --output=nf_%j.out
+
+module load miniforge3 apptainer
+conda activate nextflow
+export NXF_OFFLINE=true
+export NXF_SINGULARITY_CACHEDIR=/mnt/scratch/user/$USER/containers
+
+nextflow run ./nf-core-rnaseq_3.14.0/workflow \
+  -profile test -c corehpc.config \
+  -w /mnt/scratch/user/$USER/work -resume
+```
+
+Submit with `sbatch run_rnaseq.sh`; the head job orchestrates and submits each step as its own job.
+
+## Why a Head Job (Not the Login Node) {.small-bullets}
+
+-   The login node is **submission only**; long sessions there are discouraged and may be revoked
+-   A head job runs **within the scheduler**: it survives disconnects and is policy-compliant
+-   Pre-stage everything (pipeline, containers, references) and run with `NXF_OFFLINE=true`
+-   Size `--time` to the whole pipeline; `-resume` continues a timed-out run; move results off scratch
+-   *Constructed example: confirm nested `sbatch` is allowed and validate the offline / container settings on the cluster*
 
 
 # Jupyter / OpenOnDemand
 
-## OpenOnDemand Portal
+## OpenOnDemand Portal {.small-bullets}
 
-<!-- TODO: web portal entry point for Jupyter, RStudio, shell, etc. (replaces SSH port-forwarding dance from Wynton) -->
-
-## Conda Kernels in Jupyter {.small-bullets}
-
-<!-- TODO: conda install ipykernel, python -m ipykernel install --user --name myenv --display-name "Python (My Env)", jupyter kernelspec list -->
+-   A **web portal** for launching Jupyter, RStudio, and shells in the browser
+-   Replaces the SSH port-forwarding dance from Wynton
+-   *Coming to CoreHPC; check the current docs for availability*
 
 
 # Best Practices and Troubleshooting
 
 ## Best Practices {.small-bullets}
 
-<!-- TODO: test interactively first, request only what you need, set --time, no compute on login/bastion, no internet on compute (stage first), prefer FAC over scratch for persistence -->
+-   **Test interactively** in `salloc` before submitting big batch jobs
+-   Request **only what you need**, and always set `--time`
+-   **No heavy compute** on the login or bastion nodes
+-   Compute nodes have **no internet**, so stage data and containers first
+-   Keep anything you cannot lose on **FAC / HIVE**, not scratch
+-   For GPU jobs, track utilization with `seff` / `nvidia-smi` (low use = wasted reservation)
 
 ## Common Errors {.small-bullets}
 
-<!-- TODO: pending due to resource limits, OOM, module not found, container missing --nv -->
+-   Job stuck **PD (pending):** waiting on resources, or the request is too big for the partition
+-   **OOM / killed:** raise `--mem` or reduce memory use
+-   **module not found:** check the exact name with `module avail`
+-   **container cannot see the GPU:** add `--nv` to `apptainer exec` (and request `--gres`)
 
 
-## Poll 3
-
-<!-- TODO: poll question about partitions or login-node use -->
 
 
 # How to Get Help
@@ -214,7 +454,10 @@ For any bioinformatics specific questions feel free to reach out to the Gladston
 
 ## Notes on Using AI on CoreHPC {.smaller}
 
-<!-- TODO: AI tools (ChatGPT, Claude, Gemini) can help write/debug SLURM scripts. CoreHPC scratch is volatile (30 day) - understand any AI-generated script before running it. Bioinformatics Core AI position paper link. -->
+-   AI assistants (Claude, ChatGPT, Gemini) are great for **writing and debugging SLURM scripts**
+-   But CoreHPC scratch is **volatile** (30-day purge), so **understand any AI-generated script before you run it**
+-   Double-check resource flags and file paths so a generated job does not delete or overwrite data
+-   See the Bioinformatics Core's guidance on using AI responsibly in research
 
 ## Workshop survey
 
@@ -222,4 +465,4 @@ For any bioinformatics specific questions feel free to reach out to the Gladston
 
 ## Upcoming Data Science Training Program Workshops {.smaller}
 
-<!-- TODO: fill in upcoming workshop list near the workshop date -->
+*To be filled in closer to the workshop date.*

@@ -48,148 +48,326 @@ knitr::opts_chunk$set(comment = "")
 
 ## Overview {.small-bullets}
 
-<!-- TODO: institutional HPC for UCSF, originally AI/Data Science focus, expanding to general HPC -->
+-   An institutional HPC cluster for **UCSF researchers**
+-   Built and maintained by **UCSF IT Academic Research Services**, in partnership with **Gladstone IT**
+-   Originally focused on **AI / Data Science**, now expanding to general-purpose HPC
+-   Set to **replace Wynton** (Wynton is scheduled to sunset by Feb 2027)
 
 ## Architecture
 
 ![](slide_materials/CoreHPC_diagram.svg){fig-alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints" .nostretch fig-align="center" width=80%}
 
+<center>*Connect through a **bastion**, submit jobs from the **login node**, and SLURM runs them on **compute nodes**. **Globus** moves data in and out.*</center>
+
+## A Two-Tenant System {.small-bullets}
+
+-   CoreHPC is **one HPC platform** serving **two separate tenants**: **UCSF campus** and **Gladstone**
+-   Each tenant has its **own** bastion, login nodes, **storage**, and **compute nodes**
+-   Both run the **same setup** (Linux, OpenHPC modules, Apptainer, SLURM), so this workshop applies to either
+-   This is why some hostnames and paths differ by institution: **use the ones for your tenant**
+
 ## Partitions {.small-bullets}
 
-<!-- TODO: CPU, GPU, Pod, Community CPU partitions and what each is for -->
+-   **`cpu`** : high-core-count CPU nodes for general compute
+-   **`small_gpu`** : single-GPU jobs (NVIDIA L40s / H100NVL)
+-   **`large_gpu`** : large single-node GPU jobs (NVIDIA H200)
+-   **`pod`** : multi-GPU SuperPod (8x H200 with InfiniBand), **by request only**
+-   **`community cpu`** : high-throughput CPU, no InfiniBand (Wynton-like)
+
+*Partition names and availability change as the cluster grows. Confirm with `sinfo`.*
 
 ## Hardware Highlights {.small-bullets}
 
-<!-- TODO: brief node specs (cores, RAM, GPU types). Note SLURM partition names -->
+-   **CPU nodes:** dual AMD EPYC (84+ cores), 1.5 TB RAM
+-   **small_gpu:** dual **L40s (48 GB)** or **H100NVL**, 384 GB RAM, 32 cores
+-   **large_gpu:** **H200** GPUs on high-memory nodes
+-   **pod:** 8x **H200 SXM** per node, 2 TB RAM, InfiniBand across GPUs
+-   Every compute node also has fast **local NVMe scratch** (2 to 12 TB)
 
-## Access Model {.small-bullets}
-
-<!-- TODO: PI-requested accounts, default allocations (100k core hr, 1440 GPU hr), Pod by request, condo buy-in -->
+*Specs as of mid-2026; see the current CoreHPC docs for the latest.*
 
 
 # Accessing CoreHPC
 
 ## Prerequisites {.small-bullets}
 
-<!-- TODO: UCSF campus account, CoreHPC-provisioned account, UCSFwpa or VPN, MFA/DUO -->
+-   A **UCSF campus account** 
+-   A **CoreHPC-provisioned account** (requested via your PI / lab)
+-   On the right network:
+    -   **UCSF:** UCSF network or VPN
+    -   **Gladstone:** Gladstone network (wired, Gladstone-MB, or Ivanti VPN)
+-   **MFA / DUO** enrolled on your phone
 
-## Step 1: SSH to a Bastion Node
+## Step 1: SSH to a Bastion Node {.smaller}
 
-<!-- TODO: ssh <user>@chpc-ucsf-bastion-vm1.corehpc.ucsf.edu, alternate vm2, MFA challenge -->
+*A **bastion** is a hardened gateway: it authenticates you and lets you SSH onward. It has no storage or compute of its own.*
 
-## Step 2: Hop to the Login Node
+:::: {.columns}
 
-<!-- TODO: from bastion: ssh chpc-ucsf-login-vm1 -->
+::: {.column width="48%"}
+**UCSF**
+
+```bash
+ssh <user>@chpc-ucsf-bastion-vm1.corehpc.ucsf.edu
+# alternate: chpc-ucsf-bastion-vm2.corehpc.ucsf.edu
+```
+:::
+
+::: {.column width="48%"}
+**Gladstone**
+
+```bash
+ssh <user>@chpc-gs-bastion-vm1.corehpc.ucsf.edu
+```
+:::
+
+::::
+
+-   Enter your **UCSF MyAccess password**, then approve the **DUO** push
+
+## Step 2: Hop to the Login Node {.smaller}
+
+From the bastion, SSH to the login node:
+
+:::: {.columns}
+
+::: {.column width="48%"}
+**UCSF**
+
+```bash
+ssh chpc-ucsf-login-vm1
+```
+:::
+
+::: {.column width="48%"}
+**Gladstone**
+
+```bash
+ssh chpc-gs-login-vm1
+```
+:::
+
+::::
+
+```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@laptop ~]$ ssh alice@chpc-gs-bastion-vm1.corehpc.ucsf.edu
+Password:
+Duo two-factor login for alice
+Passcode or option (1-1): 1
+Success. Logging you in...
+[alice@chpc-gs-bastion-vm1 ~]$ ssh chpc-gs-login-vm1
+[alice@chpc-gs-login-vm1 ~]$'
+```
 
 ## The Login Node {.small-bullets}
 
-<!-- TODO: what it's for (job submission, staging data), what NOT to do (heavy compute), the one node with internet access -->
+-   Your launch pad: **submit jobs** and **stage data**, not for heavy compute
+-   The **only** node with internet (via a proxy): GitHub, PyPI, conda, Hugging Face, Apptainer registries
+-   Do **not** run analyses here. Use `salloc` (interactive) or `sbatch` (batch) instead
+-   Shares your home directory and scratch with the compute nodes
 
-## The Bastion Nodes
+## The Bastion Nodes {.small-bullets}
 
-<!-- TODO: gateway only, no compute, scp/rsync currently blocked (Globus required soon) -->
+-   A **gateway only**: authentication and SSH forwarding, no storage or compute
+-   `scp` / `rsync` through the bastion are **blocked** by security policy
+-   Move data with **Globus** or via a mounted **FAC / HIVE share** instead
 
 
 # Storage
 
-## Storage Layout {.small-bullets}
+## Storage Layout {.smaller}
 
-<!-- TODO: home (20 GB), /mnt/scratch/user/$USER (50 TB, 30-day cleanup), /mnt/scratch/group/<FAC>, FAC capacity storage ($52/TB/yr), /mnt/lscratch on compute nodes -->
+| Location | Path | Size / policy |
+|----------|------|---------------|
+| Home | `/home/remote/$USER` (shared) | 20 GB |
+| Scratch | `/scratch/user/$USER` *(Gladstone: `/mnt/scratch/...`)* | 50 TB cap, purged after 30 days |
+| Group scratch | `/scratch/group/<group>` | shared, volatile |
+| Persistent | FAC capacity storage *(Gladstone: HIVE `/mnt/gladstone/<pi>/<share>`)* | persistent, backed up |
+| Local | per-node NVMe scratch | fast, lasts only for the job |
 
-## Home Directory
+## Home Directory {.small-bullets}
 
-<!-- TODO: 20 GB quota, shared across login/compute (not bastion), good for scripts/configs -->
+-   **20 GB** quota, shared across login and compute nodes (not the bastion)
+-   Good for scripts, configs, small files, and `environment.yml` recipes
+-   Too small for conda envs, data, or container images (push those to scratch / HIVE)
 
 ## Scratch {.small-bullets}
 
-<!-- TODO: /mnt/scratch limits, 30-day policy, 50 TB user cap, when to use vs FAC -->
+-   Large, fast shared space for **active job data**
+-   Path: `/scratch/user/$USER` *(Gladstone: `/mnt/scratch/user/$USER`)*
+-   **50 TB** per-user cap; **anything older than 30 days is automatically deleted**
+-   Treat it as **volatile**: never your only copy
 
 ## FAC Capacity Storage {.small-bullets}
 
-<!-- TODO: project storage, recharge model, how to request (https://tiny.ucsf.edu/getfac), CXyyyyyy_DSy naming -->
+-   Persistent project storage for data you keep beyond 30 days
+-   Request a share: <https://tiny.ucsf.edu/getfac>
+-   **Gladstone:** your **HIVE** lab share (`/mnt/gladstone/<pi>/<share>`) is already mounted and **backed up**, use it for persistence
 
 ## Storage Advice {.small-bullets}
 
-<!-- TODO: scratch is volatile, use FAC for persistent data, avoid metadata-heavy IO patterns -->
+-   Scratch is volatile: keep `environment.yml`, scripts, and small inputs on home / HIVE
+-   Use **FAC / HIVE** for anything you cannot afford to lose
+-   Avoid huge directories of tiny files on shared storage (it slows the filesystem for everyone). Prefer a single container image (see the [container guide](Containers_on_CoreHPC.html))
 
 
 # Data Transfer
 
 ## Transfer Options {.small-bullets}
 
-<!-- TODO: Globus (recommended), FAC share cp/rsync from login node, temporary admin bastion scp for early access users -->
+-   **Globus** (recommended) for moving data in and out of CoreHPC
+-   **`cp` / `rsync` from the login node** if your data is on a mounted FAC / HIVE share
+-   `scp` / `rsync` **through the bastion are blocked**
 
 ## Globus {.small-bullets}
 
-<!-- TODO: globus.org login with UCSF CILogon, "UCSF CoreHPC - User Home" and "User Scratch" endpoints, Globus Connect Personal for local machine -->
+-   Log in at <https://globus.org> with your **UCSF CILogon** identity
+-   Endpoints: **"UCSF CoreHPC - User Home"** and **"UCSF CoreHPC - User Scratch"**
+-   For your laptop, install **Globus Connect Personal** (use your UCSF ORG / CILogon identity)
+-   Best for large files (> 1 GB) and cross-institution transfers
 
 ## FAC Share Copy
 
-<!-- TODO: cp -R /mnt/fac/<share>/<file> /mnt/scratch/group/<share>/ example -->
+If your data is on a mounted share, just copy it on the login node:
+
+```bash
+cp -R /mnt/fac/<share>/<file> /mnt/scratch/group/<share>/
+# or
+rsync -av /mnt/fac/<share>/<file> /mnt/scratch/group/<share>/
+```
+
+-   **Gladstone:** data already on **HIVE** (`/mnt/gladstone/...`) needs no move, it is mounted on CoreHPC
 
 ## Hands-on
 
-<!-- TODO: small Globus transfer exercise -->
+-   Transfer a small file into your scratch space using Globus
+-   We will walk through a Globus transfer together
 
 
 # Software with OpenHPC Modules
 
 ## Module Basics {.small-bullets}
 
-<!-- TODO: software is provided via OpenHPC modules, consistent across login and compute nodes -->
+-   Cluster software is provided as **OpenHPC modules**
+-   A module sets up your `PATH` and environment for a given tool and version
+-   Available consistently on the **login and compute nodes**
+-   Wynton's **CBI modules are ported over** (e.g. `module load CBI r`)
 
 ## Common Commands
 
-<!-- TODO: module avail, module load <name>, module list, module unload, module --help -->
+```bash
+module avail              # list available modules
+module load miniforge3    # load a module
+module list               # show loaded modules
+module unload miniforge3  # unload it
+module --help
+```
 
 ## Example Available Modules {.small-bullets}
 
-<!-- TODO: paste sample module avail output (apptainer, cuda, gnu14, miniforge3, nvidia/nvhpc, openmpi5, etc.) -->
+```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@chpc-gs-login-vm1 ~]$ module avail
+
+  apptainer/1.4.1      gnu13/13.2.0          nvidia/cuda/12.9.1
+  cmake/4.0.0          hwloc/2.12.0          nvidia/cudnn/9.10_cuda_12.9
+  cuda/25.1            libfabric/1.18.0      nvidia/nvhpc/25.5
+  autotools            miniforge3/25.11.0    ucx/1.18.0
+  papi/6.0.0           spack/0.23.1          prun/2.2'
+```
+
+*Module versions shown are current as of mid-2026.*
 
 
 # Python Environments with Miniforge3
 
 ## What is Miniforge? {.small-bullets}
 
-<!-- TODO: minimal conda distribution, conda-forge default channel, why use envs -->
+-   A minimal **conda** distribution that defaults to the **conda-forge** channel
+-   Lets you create isolated **environments**, each with its own Python and packages
+-   Available as a module: `module load miniforge3`
 
-## Setup (Once) {.small-bullets}
+## Setup (Once) {.smaller}
 
-<!-- TODO: module load miniforge3, conda init bash, redirect envs_dirs and pkgs_dirs to /scratch/user/$USER to avoid 20 GB home quota -->
+Home is only 20 GB, so point conda's environments and package cache at scratch:
+
+```bash
+module load miniforge3
+conda init bash          # then restart your shell
+conda config --append envs_dirs /mnt/scratch/user/$USER/envs
+conda config --append pkgs_dirs /mnt/scratch/user/$USER/pkgs
+```
+
+*UCSF (non-Gladstone): use `/scratch/user/$USER/...` instead.*
 
 ## Creating an Environment
 
-<!-- TODO: conda create -n project1 python=3.11, conda activate, conda install -->
+```bash
+conda create -n project1 python=3.11
+conda activate project1
+conda install numpy pandas scikit-learn
+```
 
-## Exporting an Environment
+## Exporting an Environment {.small-bullets}
 
-<!-- TODO: conda env export > environment.yml, conda env create -f environment.yml -->
+Scratch is volatile, so capture a recipe you can rebuild from:
+
+```bash
+conda env export --no-builds > environment.yml   # save to home or HIVE
+conda env create -f environment.yml              # rebuild anytime
+```
+
+-   For long-lived environments, build an **Apptainer image** and store the `.sif` on HIVE instead. See the [container guide](Containers_on_CoreHPC.html).
 
 
 # Containers
 
 ## Motivation {.small-bullets}
 
-<!-- TODO: why containers (reproducibility, OS isolation, hard-to-install tools) -->
+-   Package your code with the **exact versions** of every tool, so it runs the same anywhere
+-   **Reproducible**, isolated from the host OS, and great for hard-to-install software
+-   One `.sif` file is far friendlier to shared storage than a conda env's **millions of tiny files**
 
-## Apptainer on CoreHPC
+## Apptainer on CoreHPC {.small-bullets}
 
-<!-- TODO: module load apptainer, apptainer pull docker://..., apptainer exec/run/shell -->
+-   Load the module: `module load apptainer`
+-   Pull and run images:
+
+```bash
+apptainer pull docker://<user>/<image>:<tag>   # creates image_tag.sif
+apptainer exec image.sif <command>
+apptainer shell image.sif                       # interactive shell
+```
+
+-   **Pull / build on the login node** (the only node with internet)
 
 ## Example: Pull a Container
 
-<!-- TODO: apptainer pull docker://natalie23gill/hello-world:1.0 (from login node, which has internet) -->
+```bash
+# On the login node:
+apptainer pull docker://natalie23gill/hello-world:1.0
+apptainer exec hello-world_1.0.sif hi
+```
+
+-   **Building your own image** (from a conda env or Dockerfile): see the [container guide](Containers_on_CoreHPC.html)
 
 
 # Polls
 
 ## Poll 1
 
-<!-- TODO: which node should you run heavy compute on? (answer: not the login node, use sbatch / salloc) -->
+Which node should you run heavy compute on?
+
+1.  A bastion node
+2.  The login node
+3.  A compute node (via `sbatch` / `salloc`)
+4.  Any of the above
 
 ## Poll 2
 
-<!-- TODO: scratch retention question - True/False the 30-day cleanup -->
+Files in your home directory are kept forever, so it is safe to store your only copy there.
+
+1.  True
+2.  False
 
 
 # End of Part 1
@@ -200,4 +378,4 @@ knitr::opts_chunk$set(comment = "")
 
 ## Upcoming Data Science Training Program Workshops {.smaller}
 
-<!-- TODO: fill in upcoming workshop list near the workshop date -->
+*To be filled in closer to the workshop date.*

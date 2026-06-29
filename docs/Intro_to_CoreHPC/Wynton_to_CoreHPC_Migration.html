@@ -564,12 +564,6 @@ Natalie Gill
 </div></div>
 <p><em><code>srun</code> runs your command as a tracked SLURM “job step” (better accounting via <code>sacct</code>, required for multi-node/MPI)</em></p>
 </section>
-<section id="live-demo-same-job-both-clusters" class="slide level2">
-<h2>Live demo: same job, both clusters</h2>
-<center>
-<em>Two terminals, side by side. Reference: previous slide.</em>
-</center>
-</section>
 <section id="slurm-job-status-codes" class="slide level2 smaller">
 <h2>SLURM Job status codes</h2>
 <table class="caption-top">
@@ -719,10 +713,10 @@ Natalie Gill
 <section id="migration-checklist" class="slide level2 smaller">
 <h2>Migration checklist</h2>
 <ul class="task-list">
+<li><label><input type="checkbox">Anything not on Hive moved over via <code>gsdt02</code> (Wynton → Hive) or Globus (direct to CoreHPC)</label></li>
 <li><label><input type="checkbox">On Gladstone network (wired / Gladstone-MB / Ivanti VPN), Gladstone device</label></li>
 <li><label><input type="checkbox">Logged into <code>chpc-gs-bastion-vm1</code> → <code>chpc-gs-login-vm1</code></label></li>
 <li><label><input type="checkbox">Confirmed your Hive lab share is visible at <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></label></li>
-<li><label><input type="checkbox">Anything not on Hive moved over via <code>gsdt02</code> (Wynton → Hive) or Globus (direct to CoreHPC)</label></li>
 <li><label><input type="checkbox">Containers re-pulled with <code>apptainer pull</code> on the login node</label></li>
 <li><label><input type="checkbox">Conda <code>envs_dirs</code> and <code>pkgs_dirs</code> pointed to <code>/mnt/scratch/user/$USER</code>)</label></li>
 <li><label><input type="checkbox">Job script translated SGE → SLURM (<code>--time</code>, <code>--mem</code>, <code>--cpus-per-task</code>, <code>--partition</code>, <code>--gres</code> all explicit)</label></li>

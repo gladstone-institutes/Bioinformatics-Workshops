@@ -275,9 +275,6 @@ squeue -u $USER
 
 *`srun` runs your command as a tracked SLURM "job step" (better accounting via `sacct`, required for multi-node/MPI)*
 
-## Live demo: same job, both clusters
-
-<center>*Two terminals, side by side. Reference: previous slide.*</center>
 
 ## SLURM Job status codes {.smaller}
 
@@ -368,10 +365,10 @@ srun python train.py
 
 ## Migration checklist {.smaller}
 
+-   [ ] Anything not on Hive moved over via `gsdt02` (Wynton → Hive) or Globus (direct to CoreHPC)
 -   [ ] On Gladstone network (wired / Gladstone-MB / Ivanti VPN), Gladstone device
 -   [ ] Logged into `chpc-gs-bastion-vm1` → `chpc-gs-login-vm1`
 -   [ ] Confirmed your Hive lab share is visible at `/mnt/gladstone/<pi>/<share>`
--   [ ] Anything not on Hive moved over via `gsdt02` (Wynton → Hive) or Globus (direct to CoreHPC)
 -   [ ] Containers re-pulled with `apptainer pull` on the login node
 -   [ ] Conda `envs_dirs` and `pkgs_dirs` pointed to `/mnt/scratch/user/$USER`)
 -   [ ] Job script translated SGE → SLURM (`--time`, `--mem`, `--cpus-per-task`, `--partition`, `--gres` all explicit)
