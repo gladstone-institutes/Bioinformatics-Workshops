@@ -498,11 +498,17 @@ packages
 ## Upcoming Workshops {.small}
 
 
-**Single Cell RNA-Seq Analysis Using R**  
-April 13 - April 14, 2026 9:00am - 12:00pm PDT      
-  
-**Linear Mixed Effects Models Using R**    
-May 4 - May 5, 2026 9:00am - 4:00pm PDT   
+**Experimental Design and Hypothesis Testing Using R**  
+August 17 - August 18, 2026 1:00pm - 3:00pm PDT  
 
-**scATAC-seq Analysis Using R**     
-May 11-May 12, 2026 9:30am-12:00pm PDT    
+**Introduction to Unix Command Line**  
+August 24 - August 25, 2026 1:00pm - 3:00pm PDT  
+
+**Introduction to Core HPC**  
+September 10 - September 11, 2026 1:00pm - 3:00pm PDT  
+
+**Introduction to Machine Learning**  
+September 24, 2026 1:00pm - 5:00pm PDT  
+
+**Introduction to RNA-Seq Analysis**  
+September 28 - September 29, 2026 9:00am - 3:00pm PDT  
