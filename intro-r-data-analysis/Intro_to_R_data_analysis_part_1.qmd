@@ -3,7 +3,7 @@ title: "Introduction to R Data Analysis"
 subtitle: "Part 1"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "April 6, 2026"
+date: "August 3, 2026"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
