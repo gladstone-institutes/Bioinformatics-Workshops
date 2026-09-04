@@ -26,8 +26,9 @@ export COREHPC_PROJECT=/mnt/gladstone/<pi>/<share>/<project>
 ```
 
 ::: {.callout-note}
-Paths use the Gladstone conventions (`/mnt/scratch`,
-`/mnt/gladstone`); on the UCSF half substitute `/scratch` and your FAC share.
+Scratch is `/mnt/scratch` on both halves. Persistent storage differs: these
+examples use Gladstone's `/mnt/gladstone`, so on the UCSF half substitute your
+FAC share.
 :::
 
 

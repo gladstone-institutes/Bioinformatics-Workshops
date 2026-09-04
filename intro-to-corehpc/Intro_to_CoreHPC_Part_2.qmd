@@ -101,29 +101,15 @@ Each half groups its nodes into partitions you request by name:
 
 ## A Note on Paths in These Slides {.small-bullets}
 
-The two halves use different scratch paths. The examples that follow use the **Gladstone** path:
-
-:::: {.columns}
-
-::: {.column width="48%"}
-**Gladstone**
+Home and scratch are at the **same paths on both halves**:
 
 ```bash
-/mnt/scratch/user/$USER
+/home/remote/$USER          # 20 GB
+/mnt/scratch/user/$USER     # volatile, 30-day purge
+/tmp                        # per-job local NVMe, /mnt/lscratch/<job id>
 ```
-:::
 
-::: {.column width="48%"}
-**UCSF**
-
-```bash
-/scratch/user/$USER
-```
-:::
-
-::::
-
--   Everywhere you see `/mnt/scratch/user/$USER`, substitute your own half's path
+-   Only **persistent storage** differs: a **FAC** share (UCSF) or **HIVE** at `/mnt/gladstone/<pi>/<share>` (Gladstone)
 -   Everything else (SLURM flags, modules, Apptainer) is **identical** on both halves
 
 ## Common Commands {.smaller}

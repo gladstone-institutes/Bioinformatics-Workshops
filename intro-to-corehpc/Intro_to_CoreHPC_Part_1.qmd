@@ -98,7 +98,7 @@ knitr::opts_chunk$set(comment = "")
 -   **UCSF half:** persistent data lives on **FAC** capacity storage
     -   **Not intended for active compute**
     -   Do **not** point SLURM jobs at it
-    -   Stage datasets onto **scratch** (`/scratch/user/$USER`) first
+    -   Stage datasets onto **scratch** (`/mnt/scratch/user/$USER`) first
 -   **Gladstone half:** connected **directly to HIVE**
     -   Your lab share is already mounted, nothing to move
     -   **No copying large datasets** just to compute on them
@@ -106,14 +106,6 @@ knitr::opts_chunk$set(comment = "")
     -   No FAC on the Gladstone half
     -   No HIVE on the UCSF half
 
-## Scheduling and Priority {.small-bullets}
-
--   **Both halves** schedule with **fair-share**, favoring users who have **not recently used** the cluster
-    -   The goal is to spread resources evenly, not first-come-first-served
--   **UCSF half:** no allocation of core hours, and no hard usage caps today
-    -   Labs can **buy condo nodes** for priority on hardware they purchased
-    -   Extra priority or wall-time for time-critical work goes to a governance committee
--   **Gladstone half:** per-user limits on running jobs and GPUs keep the queue moving
 
 # Accessing CoreHPC
 
@@ -128,7 +120,7 @@ A cluster is made of different kinds of machines, each with its own job:
 -   **Compute:** where your jobs actually run
     -   You reach these through SLURM, not by SSH
 
-<center>*Each half of CoreHPC has its own bastion, login, and compute nodes.*</center>
+
 
 ## Prerequisites {.small-bullets}
 
@@ -142,7 +134,8 @@ A cluster is made of different kinds of machines, each with its own job:
 
 ## Step 1: SSH to a Bastion Node {.smaller}
 
-*A **bastion** is a hardened gateway: it authenticates you and lets you SSH onward. It has no storage or compute of its own.*
+-   You must be connected to either the Gladstone or UCSF networks or VPN for these steps to work
+
 
 **UCSF**
 
@@ -199,18 +192,11 @@ Success. Logging you in...
 
 ## The Login Node {.small-bullets}
 
--   Your launch pad: **submit jobs** and **stage data**, not for heavy compute
+-   **Submit jobs** and **stage data**, not for heavy compute
 -   The **only** node with internet (via a proxy): GitHub, PyPI, conda, Hugging Face, Container registries
 -   Do **not** run analyses here
--   Use `salloc` (interactive) or `sbatch` (batch) instead
--   Shares your home directory and scratch with the compute nodes **on that half**
-
-## The Bastion Nodes {.small-bullets}
-
--   A **gateway only**: authentication and SSH forwarding, no storage or compute
--   Bastions have their **own home directories**, separate from the cluster
--   `scp` / `rsync` through the bastion are **blocked** by security policy
--   Move data with **Globus** or via a mounted **FAC / HIVE share** instead
+    -   Use `salloc` (interactive) or `sbatch` (batch) instead
+-   Shares your home directory and scratch with the compute nodes
 
 ## Compute Nodes {.small-bullets}
 
@@ -220,40 +206,23 @@ Success. Logging you in...
 -   **No internet access**
     -   Download data, containers, and packages on the login node first
 -   Share your home directory and scratch with the login node
--   Also have fast **local NVMe scratch** that lasts only for the job
-
-<center>*Requesting and running jobs is covered in Part 2.*</center>
+-   Also have fast **local NVMe** at `/tmp` that lasts only for the job
+    -   This is a per-job `/mnt/lscratch/<job id>` mounted as `/tmp`
 
 
 # Storage
 
 ## Storage Layout {.smaller}
 
-:::: {.columns}
-
-::: {.column width="48%"}
-**UCSF**
+The paths are the **same on both halves**, except for persistent storage:
 
 | Location | Path |
-|----------|------|
-| Home | `/home/remote/$USER` |
-| Scratch | `/scratch/user/$USER` |
-| Group scratch | `/scratch/group/<group>` |
-| Persistent | FAC share |
-:::
-
-::: {.column width="48%"}
-**Gladstone**
-
-| Location | Path |
-|----------|------|
+|----------------|--------------------------------------------------|
 | Home | `/home/remote/$USER` |
 | Scratch | `/mnt/scratch/user/$USER` |
 | Group scratch | `/mnt/scratch/group/<group>` |
-| Persistent | `/mnt/gladstone/<pi>/<share>` |
-:::
-
-::::
+| Local scratch | `/tmp` (inside a job only) |
+| Persistent | FAC share (UCSF) or `/mnt/gladstone/<pi>/<share>` (Gladstone) |
 
 *Home is **20 GB** on both halves. Scratch is **volatile** on both halves.*
 
@@ -270,28 +239,14 @@ Success. Logging you in...
 -   **Anything older than 30 days may be automatically deleted**
 -   Treat it as **volatile**: never your only copy
 
-:::: {.columns}
-
-::: {.column width="48%"}
-**UCSF**
-
-```bash
-/scratch/user/$USER
-```
-:::
-
-::: {.column width="48%"}
-**Gladstone**
-
 ```bash
 /mnt/scratch/user/$USER
 ```
-:::
 
-::::
-
--   Shared scratch is the **VAST** file system, deployed specifically for high-performance compute
--   Compute nodes also have even faster **local NVMe** at `/tmp`, which lasts only for the job
+-   Compute nodes also have even faster **node local** scratch
+    -   Inside a job, write to **`/tmp`**
+    -   SLURM gives each job its own `/mnt/lscratch/<job id>`, mounted as `/tmp`
+    -   It is deleted when the job ends, so copy anything you need out
 -   Speed order: local `/tmp`, then shared scratch, then persistent storage
 
 ## Persistent Storage {.smaller}
@@ -354,7 +309,7 @@ FAC is not for active compute, so stage first:
 
 ```bash
 rsync -av /mnt/fac/<share>/<data> \
-      /scratch/user/$USER/
+      /mnt/scratch/user/$USER/
 ```
 
 Then copy results back when the job finishes.
@@ -429,33 +384,10 @@ Home is only 20 GB, so point conda's environments and package cache at scratch:
 ```bash
 module load miniforge3
 conda init bash          # then restart your shell
+
+conda config --append envs_dirs /mnt/scratch/user/$USER/envs
+conda config --append pkgs_dirs /mnt/scratch/user/$USER/pkgs
 ```
-
-:::: {.columns}
-
-::: {.column width="48%"}
-**UCSF**
-
-```bash
-conda config --append \
-  envs_dirs /scratch/user/$USER/envs
-conda config --append \
-  pkgs_dirs /scratch/user/$USER/pkgs
-```
-:::
-
-::: {.column width="48%"}
-**Gladstone**
-
-```bash
-conda config --append \
-  envs_dirs /mnt/scratch/user/$USER/envs
-conda config --append \
-  pkgs_dirs /mnt/scratch/user/$USER/pkgs
-```
-:::
-
-::::
 
 *This only needs to be done once; it edits `~/.condarc`.*
 

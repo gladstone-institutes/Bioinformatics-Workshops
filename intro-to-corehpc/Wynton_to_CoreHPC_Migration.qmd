@@ -156,8 +156,12 @@ For environments you will use long term it is recommended to use `apptainer` and
 | `/gladstone/<lab>`          | `/mnt/gladstone/<pi>/<share>`                          |
 | `/wynton/home/<lab>/<user>` | `/home/remote/<user>` (**20 GB cap**)                  |
 | `/wynton/group/<lab>`       | use your Hive mount, or scratch                        |
-| `/wynton/scratch`           | `/mnt/scratch/user/$USER`                              |
-| local `/scratch`            | local per-node scratch                                 |
+| `/wynton/scratch`           | `/mnt/scratch/user/$USER` (shared)                     |
+| node-local `/scratch`       | `/tmp` (per-job `/mnt/lscratch/<job id>`)              |
+
+::: {.bottom-message}
+A `/scratch` symlink exists for now, but it may be removed: write `/mnt/scratch`.
+:::
 
 **Hive share path translation:**   
 
@@ -217,7 +221,7 @@ The image runs identically. **Only the submission script changes.**
 | `-l mem_free=4G` *(per core)* | `--mem=16G` *(per node)* or `--mem-per-cpu=4G`   |
 | `-q <queue>`                  | `--partition=<partition>`                        |
 | `-q gpu.q`                    | `--gres=gpu:nvidia_l40s:1`                       |
-| `-l scratch=2G`               | no flag; write to local `/scratch/$USER/job_$SLURM_JOB_ID` |
+| `-l scratch=2G`               | no flag; write to local `/tmp`                   |
 | `-t 1-10`, `$SGE_TASK_ID`     | `--array=1-10`, `$SLURM_ARRAY_TASK_ID`           |
 
 ⚠️ SGE's `mem_free` is **per core**; SLURM's `--mem` is **per node total**. 

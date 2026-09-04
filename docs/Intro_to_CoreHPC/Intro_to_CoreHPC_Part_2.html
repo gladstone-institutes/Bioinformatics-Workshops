@@ -96,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Intro_to_CoreHPC_Part_2_files/libs/revealjs/dist/theme/quarto-bf4a966512e7135a0b985d2de9ef15fe.css">
+  <link rel="stylesheet" href="Intro_to_CoreHPC_Part_2_files/libs/revealjs/dist/theme/quarto-7d2643f236a092bd536dadd3b64933c2.css">
   <link href="Intro_to_CoreHPC_Part_2_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Intro_to_CoreHPC_Part_2_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Intro_to_CoreHPC_Part_2_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -300,17 +300,12 @@
 </section>
 <section id="a-note-on-paths-in-these-slides" class="slide level2 small-bullets">
 <h2>A Note on Paths in These Slides</h2>
-<p>The two halves use different scratch paths. The examples that follow use the <strong>Gladstone</strong> path:</p>
-<div class="columns">
-<div class="column" style="width:48%;">
-<p><strong>Gladstone</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/mnt/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:48%;">
-<p><strong>UCSF</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
+<p>Home and scratch are at the <strong>same paths on both halves</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/home/remote/</span><span class="va">$USER</span>          <span class="co"># 20 GB</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/mnt/scratch/user/</span><span class="va">$USER</span>     <span class="co"># volatile, 30-day purge</span></span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/tmp</span>                        <span class="co"># per-job local NVMe, /mnt/lscratch/&lt;job id&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Everywhere you see <code>/mnt/scratch/user/$USER</code>, substitute your own half’s path</li>
+<li>Only <strong>persistent storage</strong> differs: a <strong>FAC</strong> share (UCSF) or <strong>HIVE</strong> at <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code> (Gladstone)</li>
 <li>Everything else (SLURM flags, modules, Apptainer) is <strong>identical</strong> on both halves</li>
 </ul>
 </section>
@@ -366,23 +361,23 @@
 </section>
 <section id="minimal-job-script" class="slide level2 smaller">
 <h2>Minimal Job Script</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=hello</span></span>
-<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
-<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
-<span id="cb3-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb3-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1G</span></span>
-<span id="cb3-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello_%j.out   # %j = job ID</span></span>
-<span id="cb3-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=hello_%j.err</span></span>
-<span id="cb3-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> echo <span class="st">"Hello from </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=hello</span></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb2-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1G</span></span>
+<span id="cb2-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello_%j.out   # %j = job ID</span></span>
+<span id="cb2-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=hello_%j.err</span></span>
+<span id="cb2-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> echo <span class="st">"Hello from </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>⚠️ CoreHPC sets <strong>no default</strong> resources. Set <code>--time</code>, <code>--mem</code>, and <code>--partition</code> explicitly.</p>
 </section>
 <section id="submitting" class="slide level2">
 <h2>Submitting</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello.sh</span>
-<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello.sh</span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[alice@chpc-gs-login-vm1 ~]$ sbatch hello.sh
@@ -415,20 +410,20 @@ Submitted batch job 152334
 <div class="columns">
 <div class="column" style="width:48%;">
 <p><strong>Gladstone</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
-<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:48%;">
 <p><strong>UCSF</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=gpu</span></span>
-<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:1</span></span>
-<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=gpu</span></span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:1</span></span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <ul>
 <li><code>--gres=gpu:&lt;model&gt;:&lt;count&gt;</code> requests a <strong>specific</strong> model; <code>--gres=gpu:1</code> requests <strong>any</strong> GPU on the partition</li>
 <li>⚠️ <strong>Partition names and GPU model strings differ between the halves.</strong> Check yours with:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sinfo</span> <span class="at">-o</span> <span class="st">"%P %G"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sinfo</span> <span class="at">-o</span> <span class="st">"%P %G"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>For GPU containers, add <code>--nv</code> to <code>apptainer exec</code></li>
 </ul>
@@ -462,16 +457,16 @@ Submitted batch job 152334
 </section>
 <section id="example-array-job" class="slide level2 smaller">
 <h2>Example Array Job</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=align</span></span>
-<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --array=1-100</span></span>
-<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
-<span id="cb9-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=4G</span></span>
-<span id="cb9-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4</span></span>
-<span id="cb9-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=align_%A_%a.out   # %A = array job ID, %a = task ID</span></span>
-<span id="cb9-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> python process.py sample_<span class="va">${SLURM_ARRAY_TASK_ID}</span>.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=align</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --array=1-100</span></span>
+<span id="cb8-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb8-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=4G</span></span>
+<span id="cb8-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4</span></span>
+<span id="cb8-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=align_%A_%a.out   # %A = array job ID, %a = task ID</span></span>
+<span id="cb8-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> python process.py sample_<span class="va">${SLURM_ARRAY_TASK_ID}</span>.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>$SLURM_ARRAY_TASK_ID</code> is 1, 2, … 100 for each task in turn</li>
 </ul>
@@ -484,7 +479,7 @@ Submitted batch job 152334
 <section id="salloc" class="slide level2 small-bullets">
 <h2>salloc</h2>
 <p>Get an interactive shell on a compute node:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">--partition</span><span class="op">=</span>cpu <span class="at">--cpus-per-task</span><span class="op">=</span>4 <span class="at">--mem</span><span class="op">=</span>8G <span class="at">--time</span><span class="op">=</span>01:00:00</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">--partition</span><span class="op">=</span>cpu <span class="at">--cpus-per-task</span><span class="op">=</span>4 <span class="at">--mem</span><span class="op">=</span>8G <span class="at">--time</span><span class="op">=</span>01:00:00</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Use it to prototype, test scripts, or run R / Python interactively</li>
 <li>CoreHPC has <strong>no dedicated dev nodes</strong>, so this is how you get an interactive shell</li>
@@ -495,8 +490,8 @@ Submitted batch job 152334
 <section id="attaching-to-a-running-job" class="slide level2">
 <h2>Attaching to a Running Job</h2>
 <p>Inspect a job that is already running on a node:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--jobid</span><span class="op">=&lt;</span>JOBID<span class="op">&gt;</span> --pty /bin/bash</span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># then, e.g. nvidia-smi, top, ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--jobid</span><span class="op">=&lt;</span>JOBID<span class="op">&gt;</span> --pty /bin/bash</span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># then, e.g. nvidia-smi, top, ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="monitoring-canceling" class="title-slide slide level1 center">
@@ -505,10 +500,10 @@ Submitted batch job 152334
 </section>
 <section id="checking-status" class="slide level2 small-bullets">
 <h2>Checking Status</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span>             <span class="co"># your jobs and their state</span></span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="op">&lt;</span>jobid<span class="op">&gt;</span>   <span class="co"># full detail on one job</span></span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span> <span class="at">-j</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>            <span class="co"># accounting after it finishes</span></span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">seff</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>                <span class="co"># efficiency: did you use what you asked for?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span>             <span class="co"># your jobs and their state</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="op">&lt;</span>jobid<span class="op">&gt;</span>   <span class="co"># full detail on one job</span></span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span> <span class="at">-j</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>            <span class="co"># accounting after it finishes</span></span>
+<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">seff</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>                <span class="co"># efficiency: did you use what you asked for?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="job-node-status-codes" class="slide level2 smaller">
 <h2>Job / Node Status Codes</h2>
@@ -581,8 +576,8 @@ Submitted batch job 152334
 </section>
 <section id="canceling" class="slide level2">
 <h2>Canceling</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>     <span class="co"># cancel one job</span></span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="va">$USER</span>    <span class="co"># cancel all your jobs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>     <span class="co"># cancel one job</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="va">$USER</span>    <span class="co"># cancel all your jobs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="containers-in-slurm-jobs" class="title-slide slide level1 center">
@@ -591,19 +586,19 @@ Submitted batch job 152334
 </section>
 <section id="running-apptainer-in-a-job" class="slide level2">
 <h2>Running Apptainer in a Job</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer</span>
-<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec myenv.sif python script.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer</span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec myenv.sif python script.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Build / pull the <code>.sif</code> on the login node first (compute nodes have no internet)</li>
 </ul>
 </section>
 <section id="gpu-enabled-containers" class="slide level2 smaller">
 <h2>GPU-Enabled Containers</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
-<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer cuda</span>
-<span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--nv</span> myenv.sif python train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer cuda</span>
+<span id="cb14-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--nv</span> myenv.sif python train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>--nv</code> exposes the GPU drivers inside the container</li>
 <li>Building images: see the <a href="Containers_on_CoreHPC.html">container guide</a></li>
@@ -612,12 +607,12 @@ Submitted batch job 152334
 <section id="hybrid-host-container-workflow" class="slide level2 smaller">
 <h2>Hybrid Host + Container Workflow</h2>
 <p>Mix host tools and a container in one job script:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess with a module-provided tool</span></span>
-<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load samtools</span>
-<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort in.bam <span class="at">-o</span> sorted.bam</span>
-<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># analyze inside the container</span></span>
-<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> /mnt/scratch/user/<span class="va">$USER</span> analysis.sif python run.py sorted.bam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess with a module-provided tool</span></span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load samtools</span>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort in.bam <span class="at">-o</span> sorted.bam</span>
+<span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># analyze inside the container</span></span>
+<span id="cb15-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> /mnt/scratch/user/<span class="va">$USER</span> analysis.sif python run.py sorted.bam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="mpi-multi-node-jobs" class="title-slide slide level1 center">
@@ -626,18 +621,18 @@ Submitted batch job 152334
 </section>
 <section id="mpi-job-script" class="slide level2 smaller">
 <h2>MPI Job Script</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=mpi_example</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=2</span></span>
-<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=8        # 16 MPI ranks total</span></span>
-<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=16G</span></span>
-<span id="cb17-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
-<span id="cb17-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=mpi_%j.out</span></span>
-<span id="cb17-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load openmpi5/5.0.8         <span class="co"># or the MPI bundled with nvidia/nvhpc</span></span>
-<span id="cb17-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> ./my_mpi_program</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=mpi_example</span></span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=2</span></span>
+<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=8        # 16 MPI ranks total</span></span>
+<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb16-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=16G</span></span>
+<span id="cb16-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb16-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=mpi_%j.out</span></span>
+<span id="cb16-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load openmpi5/5.0.8         <span class="co"># or the MPI bundled with nvidia/nvhpc</span></span>
+<span id="cb16-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> ./my_mpi_program</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>srun</code> launches one rank per task and wires up MPI across the nodes</li>
 </ul>

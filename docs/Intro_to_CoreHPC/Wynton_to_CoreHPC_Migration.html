@@ -96,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Wynton_to_CoreHPC_Migration_files/libs/revealjs/dist/theme/quarto-bf4a966512e7135a0b985d2de9ef15fe.css">
+  <link rel="stylesheet" href="Wynton_to_CoreHPC_Migration_files/libs/revealjs/dist/theme/quarto-7d2643f236a092bd536dadd3b64933c2.css">
   <link href="Wynton_to_CoreHPC_Migration_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Wynton_to_CoreHPC_Migration_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Wynton_to_CoreHPC_Migration_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -405,14 +405,17 @@ Natalie Gill
 </tr>
 <tr class="even">
 <td><code>/wynton/scratch</code></td>
-<td><code>/mnt/scratch/user/$USER</code></td>
+<td><code>/mnt/scratch/user/$USER</code> (shared)</td>
 </tr>
 <tr class="odd">
-<td>local <code>/scratch</code></td>
-<td>local per-node scratch</td>
+<td>node-local <code>/scratch</code></td>
+<td><code>/tmp</code> (per-job <code>/mnt/lscratch/&lt;job id&gt;</code>)</td>
 </tr>
 </tbody>
 </table>
+<div class="bottom-message">
+<p>A <code>/scratch</code> symlink exists for now, but it may be removed: write <code>/mnt/scratch</code>.</p>
+</div>
 <p><strong>Hive share path translation:</strong></p>
 <ul>
 <li><code>\\hive.gladstone.internal\&lt;PI&gt;-&lt;Share&gt;</code> becomes <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></li>
@@ -521,7 +524,7 @@ Natalie Gill
 </tr>
 <tr class="even">
 <td><code>-l scratch=2G</code></td>
-<td>no flag; write to local <code>/scratch/$USER/job_$SLURM_JOB_ID</code></td>
+<td>no flag; write to local <code>/tmp</code></td>
 </tr>
 <tr class="odd">
 <td><code>-t 1-10</code>, <code>$SGE_TASK_ID</code></td>

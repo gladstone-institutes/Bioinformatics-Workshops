@@ -96,7 +96,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="Intro_to_CoreHPC_Part_1_files/libs/revealjs/dist/theme/quarto-bf4a966512e7135a0b985d2de9ef15fe.css">
+  <link rel="stylesheet" href="Intro_to_CoreHPC_Part_1_files/libs/revealjs/dist/theme/quarto-7d2643f236a092bd536dadd3b64933c2.css">
   <link href="Intro_to_CoreHPC_Part_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Intro_to_CoreHPC_Part_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Intro_to_CoreHPC_Part_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -350,7 +350,7 @@
 <ul>
 <li><strong>Not intended for active compute</strong></li>
 <li>Do <strong>not</strong> point SLURM jobs at it</li>
-<li>Stage datasets onto <strong>scratch</strong> (<code>/scratch/user/$USER</code>) first</li>
+<li>Stage datasets onto <strong>scratch</strong> (<code>/mnt/scratch/user/$USER</code>) first</li>
 </ul></li>
 <li><strong>Gladstone half:</strong> connected <strong>directly to HIVE</strong>
 <ul>
@@ -362,21 +362,6 @@
 <li>No FAC on the Gladstone half</li>
 <li>No HIVE on the UCSF half</li>
 </ul></li>
-</ul>
-</section>
-<section id="scheduling-and-priority" class="slide level2 small-bullets">
-<h2>Scheduling and Priority</h2>
-<ul>
-<li><strong>Both halves</strong> schedule with <strong>fair-share</strong>, favoring users who have <strong>not recently used</strong> the cluster
-<ul>
-<li>The goal is to spread resources evenly, not first-come-first-served</li>
-</ul></li>
-<li><strong>UCSF half:</strong> no allocation of core hours, and no hard usage caps today
-<ul>
-<li>Labs can <strong>buy condo nodes</strong> for priority on hardware they purchased</li>
-<li>Extra priority or wall-time for time-critical work goes to a governance committee</li>
-</ul></li>
-<li><strong>Gladstone half:</strong> per-user limits on running jobs and GPUs keep the queue moving</li>
 </ul>
 </section></section>
 <section>
@@ -401,9 +386,6 @@
 <li>You reach these through SLURM, not by SSH</li>
 </ul></li>
 </ul>
-<center>
-<em>Each half of CoreHPC has its own bastion, login, and compute nodes.</em>
-</center>
 </section>
 <section id="prerequisites" class="slide level2 small-bullets">
 <h2>Prerequisites</h2>
@@ -421,7 +403,9 @@
 </section>
 <section id="step-1-ssh-to-a-bastion-node" class="slide level2 smaller">
 <h2>Step 1: SSH to a Bastion Node</h2>
-<p><em>A <strong>bastion</strong> is a hardened gateway: it authenticates you and lets you SSH onward. It has no storage or compute of its own.</em></p>
+<ul>
+<li>You must be connected to either the Gladstone or UCSF networks or VPN for these steps to work</li>
+</ul>
 <p><strong>UCSF</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@chpc-ucsf-bastion-vm1.corehpc.ucsf.edu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Gladstone</strong></p>
@@ -462,20 +446,13 @@ Success. Logging you in...
 <section id="the-login-node" class="slide level2 small-bullets">
 <h2>The Login Node</h2>
 <ul>
-<li>Your launch pad: <strong>submit jobs</strong> and <strong>stage data</strong>, not for heavy compute</li>
+<li><strong>Submit jobs</strong> and <strong>stage data</strong>, not for heavy compute</li>
 <li>The <strong>only</strong> node with internet (via a proxy): GitHub, PyPI, conda, Hugging Face, Container registries</li>
-<li>Do <strong>not</strong> run analyses here</li>
-<li>Use <code>salloc</code> (interactive) or <code>sbatch</code> (batch) instead</li>
-<li>Shares your home directory and scratch with the compute nodes <strong>on that half</strong></li>
-</ul>
-</section>
-<section id="the-bastion-nodes" class="slide level2 small-bullets">
-<h2>The Bastion Nodes</h2>
+<li>Do <strong>not</strong> run analyses here
 <ul>
-<li>A <strong>gateway only</strong>: authentication and SSH forwarding, no storage or compute</li>
-<li>Bastions have their <strong>own home directories</strong>, separate from the cluster</li>
-<li><code>scp</code> / <code>rsync</code> through the bastion are <strong>blocked</strong> by security policy</li>
-<li>Move data with <strong>Globus</strong> or via a mounted <strong>FAC / HIVE share</strong> instead</li>
+<li>Use <code>salloc</code> (interactive) or <code>sbatch</code> (batch) instead</li>
+</ul></li>
+<li>Shares your home directory and scratch with the compute nodes</li>
 </ul>
 </section>
 <section id="compute-nodes" class="slide level2 small-bullets">
@@ -491,11 +468,11 @@ Success. Logging you in...
 <li>Download data, containers, and packages on the login node first</li>
 </ul></li>
 <li>Share your home directory and scratch with the login node</li>
-<li>Also have fast <strong>local NVMe scratch</strong> that lasts only for the job</li>
+<li>Also have fast <strong>local NVMe</strong> at <code>/tmp</code> that lasts only for the job
+<ul>
+<li>This is a per-job <code>/mnt/lscratch/&lt;job id&gt;</code> mounted as <code>/tmp</code></li>
+</ul></li>
 </ul>
-<center>
-<em>Requesting and running jobs is covered in Part 2.</em>
-</center>
 </section></section>
 <section>
 <section id="storage" class="title-slide slide level1 center">
@@ -504,38 +481,12 @@ Success. Logging you in...
 </section>
 <section id="storage-layout" class="slide level2 smaller">
 <h2>Storage Layout</h2>
-<div class="columns">
-<div class="column" style="width:48%;">
-<p><strong>UCSF</strong></p>
+<p>The paths are the <strong>same on both halves</strong>, except for persistent storage:</p>
 <table class="caption-top">
-<thead>
-<tr class="header">
-<th>Location</th>
-<th>Path</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Home</td>
-<td><code>/home/remote/$USER</code></td>
-</tr>
-<tr class="even">
-<td>Scratch</td>
-<td><code>/scratch/user/$USER</code></td>
-</tr>
-<tr class="odd">
-<td>Group scratch</td>
-<td><code>/scratch/group/&lt;group&gt;</code></td>
-</tr>
-<tr class="even">
-<td>Persistent</td>
-<td>FAC share</td>
-</tr>
-</tbody>
-</table>
-</div><div class="column" style="width:48%;">
-<p><strong>Gladstone</strong></p>
-<table class="caption-top">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 75%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Location</th>
@@ -556,12 +507,15 @@ Success. Logging you in...
 <td><code>/mnt/scratch/group/&lt;group&gt;</code></td>
 </tr>
 <tr class="even">
+<td>Local scratch</td>
+<td><code>/tmp</code> (inside a job only)</td>
+</tr>
+<tr class="odd">
 <td>Persistent</td>
-<td><code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></td>
+<td>FAC share (UCSF) or <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code> (Gladstone)</td>
 </tr>
 </tbody>
 </table>
-</div></div>
 <p><em>Home is <strong>20 GB</strong> on both halves. Scratch is <strong>volatile</strong> on both halves.</em></p>
 </section>
 <section id="home-directory" class="slide level2 small-bullets">
@@ -580,17 +534,15 @@ Success. Logging you in...
 <li><strong>Anything older than 30 days may be automatically deleted</strong></li>
 <li>Treat it as <strong>volatile</strong>: never your only copy</li>
 </ul>
-<div class="columns">
-<div class="column" style="width:48%;">
-<p><strong>UCSF</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:48%;">
-<p><strong>Gladstone</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/mnt/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/mnt/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Shared scratch is the <strong>VAST</strong> file system, deployed specifically for high-performance compute</li>
-<li>Compute nodes also have even faster <strong>local NVMe</strong> at <code>/tmp</code>, which lasts only for the job</li>
+<li>Compute nodes also have even faster <strong>local NVMe</strong> scratch
+<ul>
+<li>Inside a job, write to <strong><code>/tmp</code></strong></li>
+<li>SLURM gives each job its own <code>/mnt/lscratch/&lt;job id&gt;</code>, mounted as <code>/tmp</code></li>
+<li>It is deleted when the job ends, so copy anything you need out</li>
+</ul></li>
 <li>Speed order: local <code>/tmp</code>, then shared scratch, then persistent storage</li>
 </ul>
 </section>
@@ -660,13 +612,13 @@ Success. Logging you in...
 <div class="column" style="width:48%;">
 <p><strong>UCSF: copy FAC to scratch</strong></p>
 <p>FAC is not for active compute, so stage first:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-av</span> /mnt/fac/<span class="op">&lt;</span>share<span class="op">&gt;</span>/<span class="op">&lt;</span>data<span class="op">&gt;</span> <span class="dt">\</span></span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>      /scratch/user/<span class="va">$USER</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-av</span> /mnt/fac/<span class="op">&lt;</span>share<span class="op">&gt;</span>/<span class="op">&lt;</span>data<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a>      /mnt/scratch/user/<span class="va">$USER</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Then copy results back when the job finishes.</p>
 </div><div class="column" style="width:48%;">
 <p><strong>Gladstone: nothing to stage</strong></p>
 <p>HIVE is mounted directly, so jobs can read and write it in place:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /mnt/gladstone/<span class="op">&lt;</span>pi<span class="op">&gt;</span>/<span class="op">&lt;</span>share<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /mnt/gladstone/<span class="op">&lt;</span>pi<span class="op">&gt;</span>/<span class="op">&lt;</span>share<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Use scratch only for <strong>hot</strong> data needing heavy read/write.</p>
 </div></div>
 </section>
@@ -693,11 +645,11 @@ Success. Logging you in...
 </section>
 <section id="common-commands" class="slide level2">
 <h2>Common Commands</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail              <span class="co"># list available modules</span></span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3    <span class="co"># load a module</span></span>
-<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> list               <span class="co"># show loaded modules</span></span>
-<span id="cb10-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> unload miniforge3  <span class="co"># unload it</span></span>
-<span id="cb10-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail              <span class="co"># list available modules</span></span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3    <span class="co"># load a module</span></span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> list               <span class="co"># show loaded modules</span></span>
+<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> unload miniforge3  <span class="co"># unload it</span></span>
+<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="example-available-modules" class="slide level2 small-bullets">
 <h2>Example Available Modules</h2>
@@ -730,35 +682,24 @@ Success. Logging you in...
 <section id="setup-once" class="slide level2 smaller">
 <h2>Setup (Once)</h2>
 <p>Home is only 20 GB, so point conda’s environments and package cache at scratch:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init bash          <span class="co"># then restart your shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="columns">
-<div class="column" style="width:48%;">
-<p><strong>UCSF</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>  envs_dirs /scratch/user/<span class="va">$USER</span>/envs</span>
-<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
-<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a>  pkgs_dirs /scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:48%;">
-<p><strong>Gladstone</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
-<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>  envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
-<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
-<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a>  pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init bash          <span class="co"># then restart your shell</span></span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
+<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><em>This only needs to be done once; it edits <code>~/.condarc</code>.</em></p>
 </section>
 <section id="creating-an-environment" class="slide level2">
 <h2>Creating an Environment</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project1 python=3.11</span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate project1</span>
-<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy pandas scikit-learn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project1 python=3.11</span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate project1</span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy pandas scikit-learn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="exporting-an-environment" class="slide level2 small-bullets">
 <h2>Exporting an Environment</h2>
 <p>Scratch is volatile, so capture a recipe you can rebuild from:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--no-builds</span> <span class="op">&gt;</span> environment.yml   <span class="co"># save to home or persistent storage</span></span>
-<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml              <span class="co"># rebuild anytime</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--no-builds</span> <span class="op">&gt;</span> environment.yml   <span class="co"># save to home or persistent storage</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml              <span class="co"># rebuild anytime</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>For long-lived environments, build an <strong>Apptainer image</strong> instead
 <ul>
@@ -786,18 +727,18 @@ Success. Logging you in...
 <li>Load the module: <code>module load apptainer</code></li>
 <li>Pull and run images:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://<span class="op">&lt;</span>user<span class="op">&gt;</span>/<span class="op">&lt;</span>image<span class="op">&gt;</span>:<span class="op">&lt;</span>tag<span class="op">&gt;</span>   <span class="co"># creates image_tag.sif</span></span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec image.sif <span class="op">&lt;</span>command<span class="op">&gt;</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> shell image.sif                       <span class="co"># interactive shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://<span class="op">&lt;</span>user<span class="op">&gt;</span>/<span class="op">&lt;</span>image<span class="op">&gt;</span>:<span class="op">&lt;</span>tag<span class="op">&gt;</span>   <span class="co"># creates image_tag.sif</span></span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec image.sif <span class="op">&lt;</span>command<span class="op">&gt;</span></span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> shell image.sif                       <span class="co"># interactive shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Pull / build on the login node</strong> (the only node with internet)</li>
 </ul>
 </section>
 <section id="example-pull-a-container" class="slide level2">
 <h2>Example: Pull a Container</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># On the login node:</span></span>
-<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
-<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># On the login node:</span></span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Building your own image</strong> (from a conda env or Dockerfile): see the <a href="Containers_on_CoreHPC.html">container guide</a></li>
 </ul>
