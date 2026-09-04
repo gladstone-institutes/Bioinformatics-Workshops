@@ -66,16 +66,23 @@ render_slide "Intro_to_CoreHPC_Part_1.qmd"
 render_slide "Intro_to_CoreHPC_Part_2.qmd"
 render_slide "Wynton_to_CoreHPC_Migration.qmd"
 
-# Render the standalone containers guide (HTML format, not revealjs)
-echo "🔧 Rendering Containers_on_CoreHPC guide..."
-quarto render "Containers_on_CoreHPC.qmd" --to html
-if [ -f "Containers_on_CoreHPC.html" ]; then
-    mv "Containers_on_CoreHPC.html" "$DOCS_DIR/"
-    echo "📁 Moved Containers_on_CoreHPC.html to $DOCS_DIR"
-fi
-if [ -d "Containers_on_CoreHPC_files" ]; then
-    rm -rf "Containers_on_CoreHPC_files"
-fi
+# Render the standalone guides (HTML format, not revealjs)
+render_guide() {
+    local guide_name="$1"
+    echo "🔧 Rendering $guide_name guide..."
+    quarto render "${guide_name}.qmd" --to html
+    if [ -f "${guide_name}.html" ]; then
+        mv "${guide_name}.html" "$DOCS_DIR/"
+        echo "📁 Moved ${guide_name}.html to $DOCS_DIR"
+    fi
+    # Self-contained, so the supporting files dir is not needed.
+    if [ -d "${guide_name}_files" ]; then
+        rm -rf "${guide_name}_files"
+    fi
+}
+
+render_guide "Containers_on_CoreHPC"
+render_guide "Nextflow_on_CoreHPC"
 
 
 echo ""
@@ -90,3 +97,4 @@ echo "   - ${DOCS_DIR}/Intro_to_CoreHPC_Part_1.html"
 echo "   - ${DOCS_DIR}/Intro_to_CoreHPC_Part_2.html"
 echo "   - ${DOCS_DIR}/Wynton_to_CoreHPC_Migration.html"
 echo "   - ${DOCS_DIR}/Containers_on_CoreHPC.html"
+echo "   - ${DOCS_DIR}/Nextflow_on_CoreHPC.html"

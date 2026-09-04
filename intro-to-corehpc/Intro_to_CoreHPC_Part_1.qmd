@@ -3,7 +3,7 @@ title: "Intro to CoreHPC"
 subtitle: "Part 1"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "TBD"
+date: "September 10, 2026"
 date-format: MMMM DD, YYYY
 format:
   revealjs:
@@ -18,116 +18,152 @@ format:
 knitr::opts_chunk$set(comment = "")
 ```
 
-##
-
-<center>*Press the ? key for tips on navigating these slides*</center>
-
 ## Introductions
 
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**Natalie Gill**    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Bioinformatician II*     
+
+##
+
+<center>*Press the ? key for tips on navigating these slides*</center>
 
 ## Target Audience
 
 -   Prior experience with UNIX command-line
 -   No prior experience on computing clusters
+-   **UCSF and Gladstone researchers**: this workshop covers both halves of CoreHPC
 
-## Part 1:
+## Part 1: {.small-list}
 
 1.  What is CoreHPC?
-2.  Accessing CoreHPC
-3.  Storage
-4.  Data Transfer
-5.  Software with OpenHPC Modules
-6.  Python Environments with Miniforge3
-7.  Containers
+2.  The Two Halves of CoreHPC
+3.  Accessing CoreHPC
+4.  Storage
+5.  Data Transfer
+6.  Software with OpenHPC Modules
+7.  Python Environments with Miniforge3
+8.  Containers
 
 
 # What is CoreHPC?
 
 ## Overview {.small-bullets}
 
--   An institutional HPC cluster for **UCSF researchers**
--   Built and maintained by **UCSF IT Academic Research Services**, in partnership with **Gladstone IT**
+-   An institutional HPC cluster **hosted by UCSF**
+-   Designed and built by **UCSF IT Academic Research Services** in collaboration with **Gladstone**
+-   Split into **two halves**: a UCSF half and a Gladstone half (more on this next)
 -   Originally focused on **AI / Data Science**, now expanding to general-purpose HPC
--   Set to **replace Wynton** (Wynton is scheduled to sunset by Feb 2027)
+-   Becoming the **primary HPC resource** for UCSF and Gladstone researchers
 
 ## Architecture
 
-![](slide_materials/CoreHPC_diagram.svg){fig-alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints" .nostretch fig-align="center" width=80%}
+![](slide_materials/CoreHPC_diagram.svg){fig-alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints" .nostretch fig-align="center" width=50%}
 
-<center>*Connect through a **bastion**, submit jobs from the **login node**, and SLURM runs them on **compute nodes**. **Globus** moves data in and out.*</center>
 
-## A Two-Tenant System {.small-bullets}
 
--   CoreHPC is **one HPC platform** serving **two separate tenants**: **UCSF campus** and **Gladstone**
--   Each tenant has its **own** bastion, login nodes, **storage**, and **compute nodes**
--   Both run the **same setup** (Linux, OpenHPC modules, Apptainer, SLURM), so this workshop applies to either
--   This is why some hostnames and paths differ by institution: **use the ones for your tenant**
+# The Two Halves of CoreHPC
 
-## Partitions {.small-bullets}
+## One Platform, Two Halves {.small-bullets}
 
--   **`cpu`** : high-core-count CPU nodes for general compute
--   **`small_gpu`** : single-GPU jobs (NVIDIA L40s / H100NVL)
--   **`large_gpu`** : large single-node GPU jobs (NVIDIA H200)
--   **`pod`** : multi-GPU SuperPod (8x H200 with InfiniBand), **by request only**
--   **`community cpu`** : high-throughput CPU, no InfiniBand (Wynton-like)
+-   CoreHPC is **one platform** split into a **UCSF half** and a **Gladstone half**
+-   Each half has its own **bastion, login nodes, storage, and compute nodes**
+-   Both run the **same software stack** (Linux, OpenHPC modules, Apptainer, SLURM), so everything in this workshop applies to either
+-   Either half is accessed with a **UCSF MyAccess account**
+-   **Gladstone researchers have access to both halves**
 
-*Partition names and availability change as the cluster grows. Confirm with `sinfo`.*
+## The Login Node Selects the Half {.small-bullets}
 
-## Hardware Highlights {.small-bullets}
+-   **Which resources you get depends on which login node you connect through**
+-   Log into the **Gladstone** login node, and you are using Gladstone compute and storage
+-   Log into the **UCSF** login node, and you are using UCSF compute and storage
 
--   **CPU nodes:** dual AMD EPYC (84+ cores), 1.5 TB RAM
--   **small_gpu:** dual **L40s (48 GB)** or **H100NVL**, 384 GB RAM, 32 cores
--   **large_gpu:** **H200** GPUs on high-memory nodes
--   **pod:** 8x **H200 SXM** per node, 2 TB RAM, InfiniBand across GPUs
--   Every compute node also has fast **local NVMe scratch** (2 to 12 TB)
+<center>*This is why hostnames and paths differ throughout these slides.*</center>
 
-*Specs as of mid-2026; see the current CoreHPC docs for the latest.*
 
+
+## What Differs Between the Halves {.smaller}
+
+| | UCSF half | Gladstone half |
+|-------------------|---------------------------|--------------------------|
+| Per-user fee | **$155/user/yr** | none |
+| Condo buy-in | supported | not supported |
+| Persistent storage | FAC (~$52/TB/yr) | HIVE (included) |
+| Computing on it | copy to scratch first | HIVE mounted directly |
+| Data sensitivity | P1 to P4, incl. patient records | anonymized only, **no PHI** currently |
+| Scheduling | fair-share, condo priority on purchased nodes | fair-share |
+
+## Storage Is the Big Difference {.small-bullets}
+
+-   **UCSF half:** persistent data lives on **FAC** capacity storage
+    -   **Not intended for active compute**
+    -   Do **not** point SLURM jobs at it
+    -   Stage datasets onto **scratch** (`/scratch/user/$USER`) first
+-   **Gladstone half:** connected **directly to HIVE**
+    -   Your lab share is already mounted, nothing to move
+    -   **No copying large datasets** just to compute on them
+-   The halves do **not** cross over
+    -   No FAC on the Gladstone half
+    -   No HIVE on the UCSF half
+
+## Scheduling and Priority {.small-bullets}
+
+-   **Both halves** schedule with **fair-share**, favoring users who have **not recently used** the cluster
+    -   The goal is to spread resources evenly, not first-come-first-served
+-   **UCSF half:** no allocation of core hours, and no hard usage caps today
+    -   Labs can **buy condo nodes** for priority on hardware they purchased
+    -   Extra priority or wall-time for time-critical work goes to a governance committee
+-   **Gladstone half:** per-user limits on running jobs and GPUs keep the queue moving
 
 # Accessing CoreHPC
 
+## Node Types {.small-bullets}
+
+A cluster is made of different kinds of machines, each with its own job:
+
+-   **Bastion:** the gateway you authenticate through
+    -   No storage, no compute, no internet
+-   **Login:** your launch pad
+    -   Submit jobs, stage data, manage files
+-   **Compute:** where your jobs actually run
+    -   You reach these through SLURM, not by SSH
+
+<center>*Each half of CoreHPC has its own bastion, login, and compute nodes.*</center>
+
 ## Prerequisites {.small-bullets}
 
--   A **UCSF campus account** 
+-   A **UCSF MyAccess account**, for either half
 -   A **CoreHPC-provisioned account** (requested via your PI / lab)
--   On the right network:
-    -   **UCSF:** UCSF network or VPN
-    -   **Gladstone:** Gladstone network (wired, Gladstone-MB, or Ivanti VPN)
--   **MFA / DUO** enrolled on your phone
+-   **UCSF half only:** your lab must already have an **FAC share**, or a submitted request for one, before onboarding
+-   **MyAccess MFA / DUO** enrolled on your phone
+-   On the right network for the half you want:
+    -   **UCSF:** UCSF network (UCSFwpa) or VPN
+    -   **Gladstone:** Gladstone network (wired, Gladstone-MB, or Ivanti VPN), Gladstone device
 
 ## Step 1: SSH to a Bastion Node {.smaller}
 
 *A **bastion** is a hardened gateway: it authenticates you and lets you SSH onward. It has no storage or compute of its own.*
 
-:::: {.columns}
-
-::: {.column width="48%"}
 **UCSF**
 
 ```bash
 ssh <user>@chpc-ucsf-bastion-vm1.corehpc.ucsf.edu
-# alternate: chpc-ucsf-bastion-vm2.corehpc.ucsf.edu
 ```
-:::
 
-::: {.column width="48%"}
 **Gladstone**
 
 ```bash
 ssh <user>@chpc-gs-bastion-vm1.corehpc.ucsf.edu
 ```
-:::
 
-::::
-
--   Enter your **UCSF MyAccess password**, then approve the **DUO** push
+-   Enter your **UCSF MyAccess password**
+-   At the **Duo** prompt, type **`1`** and press enter
+    -   Push is currently the only option, so `(1-1)` always means push
+-   Approve the push on your phone
 
 ## Step 2: Hop to the Login Node {.smaller}
 
-From the bastion, SSH to the login node:
+From the bastion, SSH to the login node **for the half you want to use**:
 
 :::: {.columns}
 
@@ -149,6 +185,8 @@ ssh chpc-gs-login-vm1
 
 ::::
 
+Example, logging in to the **Gladstone** half:
+
 ```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
 echo '[alice@laptop ~]$ ssh alice@chpc-gs-bastion-vm1.corehpc.ucsf.edu
 Password:
@@ -162,81 +200,179 @@ Success. Logging you in...
 ## The Login Node {.small-bullets}
 
 -   Your launch pad: **submit jobs** and **stage data**, not for heavy compute
--   The **only** node with internet (via a proxy): GitHub, PyPI, conda, Hugging Face, Apptainer registries
--   Do **not** run analyses here. Use `salloc` (interactive) or `sbatch` (batch) instead
--   Shares your home directory and scratch with the compute nodes
+-   The **only** node with internet (via a proxy): GitHub, PyPI, conda, Hugging Face, Container registries
+-   Do **not** run analyses here
+-   Use `salloc` (interactive) or `sbatch` (batch) instead
+-   Shares your home directory and scratch with the compute nodes **on that half**
 
 ## The Bastion Nodes {.small-bullets}
 
 -   A **gateway only**: authentication and SSH forwarding, no storage or compute
+-   Bastions have their **own home directories**, separate from the cluster
 -   `scp` / `rsync` through the bastion are **blocked** by security policy
 -   Move data with **Globus** or via a mounted **FAC / HIVE share** instead
+
+## Compute Nodes {.small-bullets}
+
+-   Where your analyses actually run
+-   You can **not** SSH into them directly
+    -   You reach them by submitting a job with `sbatch`, or starting an interactive session with `salloc`
+-   **No internet access**
+    -   Download data, containers, and packages on the login node first
+-   Share your home directory and scratch with the login node
+-   Also have fast **local NVMe scratch** that lasts only for the job
+
+<center>*Requesting and running jobs is covered in Part 2.*</center>
 
 
 # Storage
 
 ## Storage Layout {.smaller}
 
-| Location | Path | Size / policy |
-|----------|------|---------------|
-| Home | `/home/remote/$USER` (shared) | 20 GB |
-| Scratch | `/scratch/user/$USER` *(Gladstone: `/mnt/scratch/...`)* | 50 TB cap, purged after 30 days |
-| Group scratch | `/scratch/group/<group>` | shared, volatile |
-| Persistent | FAC capacity storage *(Gladstone: HIVE `/mnt/gladstone/<pi>/<share>`)* | persistent, backed up |
-| Local | per-node NVMe scratch | fast, lasts only for the job |
+:::: {.columns}
+
+::: {.column width="48%"}
+**UCSF**
+
+| Location | Path |
+|----------|------|
+| Home | `/home/remote/$USER` |
+| Scratch | `/scratch/user/$USER` |
+| Group scratch | `/scratch/group/<group>` |
+| Persistent | FAC share |
+:::
+
+::: {.column width="48%"}
+**Gladstone**
+
+| Location | Path |
+|----------|------|
+| Home | `/home/remote/$USER` |
+| Scratch | `/mnt/scratch/user/$USER` |
+| Group scratch | `/mnt/scratch/group/<group>` |
+| Persistent | `/mnt/gladstone/<pi>/<share>` |
+:::
+
+::::
+
+*Home is **20 GB** on both halves. Scratch is **volatile** on both halves.*
 
 ## Home Directory {.small-bullets}
 
 -   **20 GB** quota, shared across login and compute nodes (not the bastion)
 -   Good for scripts, configs, small files, and `environment.yml` recipes
--   Too small for conda envs, data, or container images (push those to scratch / HIVE)
+-   Too small for conda envs, data, or container images (push those to scratch / persistent storage)
 
-## Scratch {.small-bullets}
+## Scratch {.smaller}
 
 -   Large, fast shared space for **active job data**
--   Path: `/scratch/user/$USER` *(Gladstone: `/mnt/scratch/user/$USER`)*
--   **50 TB** per-user cap; **anything older than 30 days is automatically deleted**
+-   **50 TB** per-user cap
+-   **Anything older than 30 days may be automatically deleted**
 -   Treat it as **volatile**: never your only copy
 
-## FAC Capacity Storage {.small-bullets}
+:::: {.columns}
 
--   Persistent project storage for data you keep beyond 30 days
+::: {.column width="48%"}
+**UCSF**
+
+```bash
+/scratch/user/$USER
+```
+:::
+
+::: {.column width="48%"}
+**Gladstone**
+
+```bash
+/mnt/scratch/user/$USER
+```
+:::
+
+::::
+
+-   Shared scratch is the **VAST** file system, deployed specifically for high-performance compute
+-   Compute nodes also have even faster **local NVMe** at `/tmp`, which lasts only for the job
+-   Speed order: local `/tmp`, then shared scratch, then persistent storage
+
+## Persistent Storage {.smaller}
+
+:::: {.columns}
+
+::: {.column width="48%"}
+**UCSF: FAC capacity storage**
+
+-   **Required** for every CoreHPC account
+-   The repository for all project data
+-   **Recharge** at roughly **$52/TB/yr**, plus a setup cost
+-   ⚠️ **Not for active compute.** Never point a SLURM job at it: it degrades performance for everyone and can cause runtime errors
 -   Request a share: <https://tiny.ucsf.edu/getfac>
--   **Gladstone:** your **HIVE** lab share (`/mnt/gladstone/<pi>/<share>`) is already mounted and **backed up**, use it for persistence
+:::
+
+::: {.column width="48%"}
+**Gladstone: HIVE**
+
+-   Your lab share is **already mounted** at `/mnt/gladstone/<pi>/<share>`
+-   **No recharge**, and it is **backed up**
+-   Connected directly, so you can **compute against it without copying**
+-   **Every** share you have access to is mounted, not just your own lab's
+:::
+
+::::
 
 ## Storage Advice {.small-bullets}
 
--   Scratch is volatile: keep `environment.yml`, scripts, and small inputs on home / HIVE
--   Use **FAC / HIVE** for anything you cannot afford to lose
--   Avoid huge directories of tiny files on shared storage (it slows the filesystem for everyone). Prefer a single container image (see the [container guide](Containers_on_CoreHPC.html))
+-   Scratch is volatile: keep `environment.yml`, scripts, and small inputs on home or persistent storage
+-   Use **FAC** (UCSF) or **HIVE** (Gladstone) for anything you cannot afford to lose
+-   **UCSF:** CoreHPC provides **no long-term storage** of its own
+    -   FAC is where your data lives
+    -   Stage it onto scratch for a job, then copy results back afterward
+-   **Gladstone:** only **HIVE** is backed up
+-   Avoid huge directories of tiny files on shared storage
+    -   It slows the filesystem for **everyone**, not just you
+    -   Prefer a single container image ([container guide](Containers_on_CoreHPC.html))
 
 
 # Data Transfer
 
 ## Transfer Options {.small-bullets}
 
--   **Globus** (recommended) for moving data in and out of CoreHPC
--   **`cp` / `rsync` from the login node** if your data is on a mounted FAC / HIVE share
--   `scp` / `rsync` **through the bastion are blocked**
+-   **Globus** is the supported way to move data in or out from outside CoreHPC
+    -   `scp` / `rsync` through the bastion are **blocked** by security policy
+    -   This covers your laptop and other institutions (UCSF <-> Gladstone)
+-   **`cp` / `rsync` from the login node** if the data is already on a mounted share
+    -   **UCSF:** your **FAC** share
+    -   **Gladstone:** your **HIVE** lab share, so most data needs no transfer at all
 
-## Globus {.small-bullets}
+## Staging Data for a Job {.smaller}
 
--   Log in at <https://globus.org> with your **UCSF CILogon** identity
--   Endpoints: **"UCSF CoreHPC - User Home"** and **"UCSF CoreHPC - User Scratch"**
--   For your laptop, install **Globus Connect Personal** (use your UCSF ORG / CILogon identity)
--   Best for large files (> 1 GB) and cross-institution transfers
+:::: {.columns}
 
-## FAC Share Copy
+::: {.column width="48%"}
+**UCSF: copy FAC to scratch**
 
-If your data is on a mounted share, just copy it on the login node:
+FAC is not for active compute, so stage first:
 
 ```bash
-cp -R /mnt/fac/<share>/<file> /mnt/scratch/group/<share>/
-# or
-rsync -av /mnt/fac/<share>/<file> /mnt/scratch/group/<share>/
+rsync -av /mnt/fac/<share>/<data> \
+      /scratch/user/$USER/
 ```
 
--   **Gladstone:** data already on **HIVE** (`/mnt/gladstone/...`) needs no move, it is mounted on CoreHPC
+Then copy results back when the job finishes.
+:::
+
+::: {.column width="48%"}
+**Gladstone: nothing to stage**
+
+HIVE is mounted directly, so jobs can read and write it in place:
+
+```bash
+ls /mnt/gladstone/<pi>/<share>
+```
+
+Use scratch only for **hot** data needing heavy read/write.
+:::
+
+::::
 
 ## Hands-on
 
@@ -251,7 +387,7 @@ rsync -av /mnt/fac/<share>/<file> /mnt/scratch/group/<share>/
 -   Cluster software is provided as **OpenHPC modules**
 -   A module sets up your `PATH` and environment for a given tool and version
 -   Available consistently on the **login and compute nodes**
--   Wynton's **CBI modules are ported over** (e.g. `module load CBI r`)
+-   **CBI modules** are available too (e.g. `module load CBI r`)
 
 ## Common Commands
 
@@ -293,11 +429,35 @@ Home is only 20 GB, so point conda's environments and package cache at scratch:
 ```bash
 module load miniforge3
 conda init bash          # then restart your shell
-conda config --append envs_dirs /mnt/scratch/user/$USER/envs
-conda config --append pkgs_dirs /mnt/scratch/user/$USER/pkgs
 ```
 
-*UCSF (non-Gladstone): use `/scratch/user/$USER/...` instead.*
+:::: {.columns}
+
+::: {.column width="48%"}
+**UCSF**
+
+```bash
+conda config --append \
+  envs_dirs /scratch/user/$USER/envs
+conda config --append \
+  pkgs_dirs /scratch/user/$USER/pkgs
+```
+:::
+
+::: {.column width="48%"}
+**Gladstone**
+
+```bash
+conda config --append \
+  envs_dirs /mnt/scratch/user/$USER/envs
+conda config --append \
+  pkgs_dirs /mnt/scratch/user/$USER/pkgs
+```
+:::
+
+::::
+
+*This only needs to be done once; it edits `~/.condarc`.*
 
 ## Creating an Environment
 
@@ -312,11 +472,13 @@ conda install numpy pandas scikit-learn
 Scratch is volatile, so capture a recipe you can rebuild from:
 
 ```bash
-conda env export --no-builds > environment.yml   # save to home or HIVE
+conda env export --no-builds > environment.yml   # save to home or persistent storage
 conda env create -f environment.yml              # rebuild anytime
 ```
 
--   For long-lived environments, build an **Apptainer image** and store the `.sif` on HIVE instead. See the [container guide](Containers_on_CoreHPC.html).
+-   For long-lived environments, build an **Apptainer image** instead
+    -   Store the `.sif` on persistent storage
+    -   See the [container guide](Containers_on_CoreHPC.html)
 
 
 # Containers
@@ -351,31 +513,27 @@ apptainer exec hello-world_1.0.sif hi
 -   **Building your own image** (from a conda env or Dockerfile): see the [container guide](Containers_on_CoreHPC.html)
 
 
-# Polls
-
-## Poll 1
-
-Which node should you run heavy compute on?
-
-1.  A bastion node
-2.  The login node
-3.  A compute node (via `sbatch` / `salloc`)
-4.  Any of the above
-
-## Poll 2
-
-Files in your home directory are kept forever, so it is safe to store your only copy there.
-
-1.  True
-2.  False
-
-
 # End of Part 1
 
 ## Workshop survey
 
-- If you are not attending part 2, please fill out our [workshop survey](TBD) so we can continue to improve these workshops
+- If you are not attending part 2, please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
 
 ## Upcoming Data Science Training Program Workshops {.smaller}
 
-*To be filled in closer to the workshop date.*
+**Introduction to Machine Learning**  
+September 24, 2026 1:00-5:00pm PDT  
+
+**Introduction to RNA-Seq Analysis**  
+September 28-September 29, 2026 9:00am-3:00pm PDT  
+
+**AI Fluency for Biologists**  
+October 5-October 6, 2026 1:00-4:00pm PDT  
+
+**Single Cell RNA-Seq Analysis Using R**  
+October 12-October 13, 2026 9:30am-3:30pm PDT  
+
+**Introduction to Pathway Analysis**  
+October 15, 2026 1:00-4:00pm PDT  
+
+*Register at <https://gladstone.org/events?series=189>*

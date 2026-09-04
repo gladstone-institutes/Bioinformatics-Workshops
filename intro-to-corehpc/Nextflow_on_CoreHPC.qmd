@@ -1,0 +1,424 @@
+---
+title: "Running Nextflow on CoreHPC"
+subtitle: "nf-core pipelines with the SLURM executor, offline"
+author: "Gladstone Bioinformatics Core"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 2
+    embed-resources: true
+---
+
+## Start here
+
+
+| File | Purpose |
+|---|---|
+| [`corehpc_nextflow_template.config`](https://github.com/gladstone-institutes/Bioinformatics-Workshops/blob/master/intro-to-corehpc/materials/nextflow/corehpc_nextflow_template.config) | SLURM executor, resource caps, containers, reports |
+| [`launch_corehpc_template.sh`](https://github.com/gladstone-institutes/Bioinformatics-Workshops/blob/master/intro-to-corehpc/materials/nextflow/launch_corehpc_template.sh) | Submits Nextflow as a driver job; has a built-in smoke test |
+
+Copy both, set `COREHPC_PROJECT`, and only edit when you need to adjust the resource requests or add rule specific behavior.
+
+```bash
+export COREHPC_PROJECT=/mnt/gladstone/<pi>/<share>/<project>
+./launch_corehpc_template.sh smoke
+```
+
+::: {.callout-note}
+Paths use the Gladstone conventions (`/mnt/scratch`,
+`/mnt/gladstone`); on the UCSF half substitute `/scratch` and your FAC share.
+:::
+
+
+## Step 1: Install Nextflow
+
+Do this once **on the login node**, which is the only node with internet.
+Nextflow needs Java, so install that first.
+
+```bash
+# Java, via SDKMAN
+curl -s "https://get.sdkman.io" | bash
+source ~/.sdkman/bin/sdkman-init.sh
+sdk install java 17.0.6-tem
+
+# Nextflow itself
+mkdir -p ~/bin && cd ~/bin
+wget -qO- https://get.nextflow.io | bash
+export PATH=$HOME/bin:$PATH        # add this line to ~/.bashrc
+nextflow -v
+```
+
+
+## Step 2: Install the nf-core tools
+
+`nf-core` is a **Python package**, separate from the Nextflow engine. You need it
+to download a pipeline for offline use, so install it into a conda environment:
+
+```bash
+module load miniforge3
+conda create -n nf-core -c bioconda -c conda-forge nf-core
+conda activate nf-core
+nf-core --version
+```
+
+::: {.callout-tip}
+Keep this environment small and only for the nf-core CLI. The pipeline's own
+software comes from containers, not from this environment.
+:::
+
+## Step 3: Pre-fetch everything (login node only)
+
+Compute nodes have **no internet**. Three separate things try to phone home, and
+each needs its own fix.
+
+```bash
+export COREHPC_PROJECT=/mnt/gladstone/<pi>/<share>/<project>
+export NXF_SINGULARITY_CACHEDIR=$COREHPC_PROJECT/singularity-cache
+
+# 1 + 2. Pipeline code and its container images
+nf-core pipelines download rnaseq \
+  --revision 3.26.0 \
+  --container-system singularity \
+  --container-cache-utilisation amend \
+  --compress none \
+  --outdir $COREHPC_PROJECT/assets/nf-core-rnaseq-3.26.0
+
+# 3. Plugins the pipeline pins, into the shared home
+nextflow plugin install nf-schema@2.5.1
+ls ~/.nextflow/plugins | grep nf-schema
+```
+
+**a) The pipeline itself.** `nextflow run nf-core/rnaseq -r 3.26.0` treats that as
+a remote project and tries to pull it, giving
+`Cannot read project manifest -- Cause: No route to host`. Run the **local** copy
+produced by the download, with no `-r`.
+
+**b) Self-update and remote configs.** Set `export NXF_OFFLINE=true` in the job
+body. This disables the version check and the remote `nf-core/configs` fetch, and
+forces cached plugins and images only.
+
+**c) Plugins.** `NXF_OFFLINE=true` also means Nextflow will not download the
+plugins the pipeline pins, so it fails with `Plugin with id nf-schema not found in
+any repository`. Pre-fetch them as above.
+
+::: {.callout-important}
+The non-obvious flag is `--container-cache-utilisation amend`. It puts images into
+`$NXF_SINGULARITY_CACHEDIR`, which **must equal** `singularity.cacheDir` in your
+config so the offline run finds them. Confirm with `ls $NXF_SINGULARITY_CACHEDIR`
+and expect `.img` or `.sif` files.
+:::
+
+Plugin versions change per release. Check the pipeline's own `nextflow.config`
+`plugins { }` block for what your revision pins, rather than copying the version
+above.
+
+## Step 4: The config file
+
+Copy `corehpc_nextflow_template.config` rather than writing this from scratch. It
+reads every path from the environment, so the only thing you must set is
+`COREHPC_PROJECT`. Optional overrides: `COREHPC_ACCOUNT`, `COREHPC_PARTITION`,
+`COREHPC_SCRATCH`, `COREHPC_WORKDIR`, `COREHPC_CACHEDIR`, `COREHPC_REPORTS`.
+
+The parts that matter on CoreHPC:
+
+```groovy
+process {
+    executor       = 'slurm'
+    queue          = partition                    // COREHPC_PARTITION, default 'cpu'
+    clusterOptions = "--account=${account}"       // COREHPC_ACCOUNT, default 'hpc_core'
+
+    // Replaces the removed --max_cpus/--max_memory/--max_time params.
+    resourceLimits = [ cpus: 4, memory: 60.GB, time: 50.h ]
+
+    // Drop -C (noclobber) from nf-core's default shell. See below.
+    shell = ['bash', '-e', '-u', '-o', 'pipefail']
+
+    // 137 = OOM, 140 = walltime, 143 = SIGTERM from the scheduler.
+    errorStrategy = { task.exitStatus in [104,134,137,139,140,143,247] ? 'retry' : 'finish' }
+    maxRetries    = 2
+}
+
+singularity {
+    enabled    = true
+    autoMounts = true
+    cacheDir   = cachePath
+    runOptions = "--bind ${scratch} --bind ${projRoot}"
+}
+
+executor {
+    queueSize       = 20        // cap concurrent child jobs
+    submitRateLimit = '10 sec'
+    exitReadTimeout = '15 min'  // tolerate slow shared-FS exit-file visibility
+}
+
+report   { enabled = true; overwrite = true; file = 'reports/execution_report.html' }
+timeline { enabled = true; overwrite = true; file = 'reports/execution_timeline.html' }
+trace    { enabled = true; overwrite = true; file = 'reports/execution_trace.txt' }
+```
+
+### `resourceLimits`, not `--max_cpus`
+
+Recent nf-core pipelines removed `--max_cpus` / `--max_memory` / `--max_time`. Any
+request above `resourceLimits` is clamped down instead. A launch command still
+carrying `--max_*` flags will error.
+
+### noclobber breaks `-resume`
+
+nf-core's default process shell includes `-C` (noclobber). On `-resume` after an
+interrupted or requeued run, a task reruns in its **old** work directory where its
+output file still exists, and `-C` makes the `>` redirect fail with
+`cannot overwrite existing file`. Drop `-C`, keep `-euo pipefail`.
+
+### `overwrite = true` on reports
+
+Without it, a relaunch aborts immediately with
+`Trace file already exists ... enable the 'trace.overwrite' option`. Each relaunch
+then replaces the previous run's report files, so copy them aside to keep them.
+
+### Bind mounts
+
+Set both the config `runOptions --bind` and `APPTAINER_BINDPATH` in the job body,
+covering scratch and the project root. Containers cannot see paths that are not
+bound, and the resulting error usually reads as a missing input file.
+
+### Per-process overrides
+
+Start from the defaults and override only what actually failed:
+
+```groovy
+withName: 'STAR_GENOMEGENERATE' { cpus = 4; memory = '60.GB'; time = '8.h' }
+withName: 'STAR_ALIGN'          { cpus = 4; memory = '40.GB'; time = '8.h' }
+
+// Loads the decoy-aware index; 16 GB OOM'd (exit 137). Scale on retry.
+withName: 'SALMON_QUANT'        { cpus = 4; memory = { 24.GB * task.attempt }; time = '4.h' }
+
+// Fails on upstream fastq md5 mismatches that do not affect alignment.
+withName: 'FQ_LINT'             { errorStrategy = 'ignore' }
+```
+
+Exit status 137 is always OOM. Prefer `{ N.GB * task.attempt }` over a single large
+fixed request, so the first attempt stays schedulable.
+
+## Step 5: Run it as a driver job
+
+Because the login node reaps processes on disconnect, you cannot just run
+`nextflow run ...` in your SSH session. **Submit Nextflow itself as a SLURM job.**
+That driver job sits on a compute node orchestrating, and submits one child SLURM
+job per pipeline task via the `slurm` executor.
+
+The driver is cheap: 1 CPU, 8 GB, it only polls. Give it a long walltime
+(`sinfo -o "%P %l"` shows the partition cap).
+
+::: {.callout-warning}
+## The walltime cap differs by half
+
+The 5-day `--time` below is a **Gladstone-half** value. On the **UCSF half** jobs
+are capped at **48 hours**, so that request is rejected outright and a long
+pipeline will not fit in a single driver job.
+
+On the UCSF half, treat [Step 6](#step-6-surviving-the-driver-walltime) as
+mandatory rather than a nicety: set `--time=48:00:00`, keep the requeue trap, and
+expect the driver to checkpoint and restart at least once on a large run. Confirm
+your own cap with `sinfo -o "%P %l"` before setting `DRIVER_TIME`.
+:::
+
+```bash
+sbatch --parsable \
+  --job-name="rnaseq_driver" \
+  --account=hpc_core --partition=cpu \
+  --time=5-00:00:00 --mem=8G --cpus-per-task=1 \
+  --requeue --signal=B:TERM@300 --open-mode=append \
+  --chdir="$SCRIPT_DIR" --output="$LOG" \
+  "$JOBSCRIPT"
+```
+
+Inside the job script:
+
+```bash
+export NXF_OFFLINE=true
+export NXF_SINGULARITY_CACHEDIR=$COREHPC_PROJECT/singularity-cache
+export APPTAINER_BINDPATH="/mnt/scratch,$COREHPC_PROJECT"
+
+nextflow run $COREHPC_PROJECT/assets/nf-core-rnaseq-3.26.0/3_26_0 \
+  -profile singularity -c corehpc.config -resume \
+  --input samplesheet.csv \
+  --outdir $COREHPC_PROJECT/results
+```
+
+Write the job body to an inspectable `.sbatch` file rather than piping to `sbatch`
+on stdin. `launch_corehpc_template.sh check` writes and prints it without
+submitting, which is the fastest way to catch a bad path or an empty argument
+before burning a queue slot. Printing the Nextflow argv from inside the job turns
+"mysterious Nextflow arg error" into "there is an empty string in position 7":
+
+```bash
+echo "nextflow argv:"; printf '  <%s>\n' "${NF[@]}"
+```
+
+### Driver memory and the JVM heap
+
+The launcher sets `NXF_OPTS` in the job body:
+
+```bash
+export NXF_OPTS='-Xms1g -Xmx6g'      # derived from DRIVER_MEM
+```
+
+This is not optional tuning. The JVM sizes its default maximum heap from the RAM
+it believes the machine has, and under SLURM it generally sees the **whole
+node**, not your cgroup limit. On a large compute node that default ceiling is
+tens of GB, so the driver's heap can grow past `--mem`, SLURM's cgroup kills it,
+and you get **exit 137 on the driver itself**. That reads as a mysterious mid-run
+crash rather than a memory setting.
+
+`-Xmx` must therefore stay below `--mem`, with room for the JVM's non-heap
+footprint (metaspace, thread stacks, GC structures, code cache). The launcher
+derives it as 75% of `DRIVER_MEM` so the two cannot drift apart:
+
+| `DRIVER_MEM` | JVM heap |
+|---|---|
+| `4G` | `3g` |
+| `8G` (default) | `6g` |
+| `16G` | `12g` |
+
+Override it directly with `NXF_HEAP` if you need to. `-Xms` only avoids GC churn
+while the first few hundred tasks are submitted, and is not load-bearing.
+
+### If the cluster ever permits lingering
+
+If `loginctl enable-linger $USER` is ever allowed, running the orchestrator in
+`tmux` on the login node is simpler, and then only the short-lived child jobs have
+walltimes. It was not permitted for us.
+
+## Step 6: Surviving the driver walltime
+
+The driver is a job, so it has a walltime, and a big run can outlast it. The
+launcher checkpoints and requeues itself:
+
+- `--signal=B:TERM@300` makes SLURM send `SIGTERM` to the driver 300 s before the
+  walltime.
+- A trap stops Nextflow gracefully. Nextflow flushes the `-resume` cache and
+  cancels its running child jobs.
+- `scontrol requeue $SLURM_JOB_ID` restarts the same job, `--requeue` and
+  `--open-mode=append` let it resume into the same log, and `-resume` picks up from
+  the cache.
+
+```bash
+NF_PID=""
+on_term() {
+  echo "[driver] TERM near walltime -- graceful stop + requeue $(date)"
+  kill -TERM "$NF_PID" 2>/dev/null || true
+  wait "$NF_PID" 2>/dev/null
+  scontrol requeue "$SLURM_JOB_ID" || echo "[driver] requeue failed"
+  exit 0
+}
+trap on_term TERM
+
+"${NF[@]}" &          # background so the trap can fire
+NF_PID=$!
+wait "$NF_PID"
+```
+
+**What survives:** every task that completed and was cached.
+**What does not:** tasks mid-flight at the cutoff get recomputed. Nextflow cannot
+pause a running task or re-attach to an orphaned child job.
+
+Set `DRIVER_TIME` as high as the partition allows to minimize restarts. On the
+UCSF half that ceiling is 48 hours, so restarts are expected on a large run and
+this section is the difference between a pipeline that finishes and one that
+silently loses two days of work.
+`SIGNAL_GRACE` only needs to cover Nextflow's own shutdown (seconds), not the
+running tasks. If the cluster disallows requeue or in-job `scontrol`, the trap logs
+a failure and the job ends; just relaunch manually, `-resume` still works.
+
+::: {.callout-tip}
+Always run with `-resume`. It costs nothing on a fresh run and saves days on a
+restart.
+:::
+
+## Verifying the setup
+
+Do not debug your cluster setup and your pipeline at the same time. Run the smoke
+test first:
+
+```bash
+export COREHPC_PROJECT=/mnt/gladstone/<pi>/<share>/<project>
+./launch_corehpc_template.sh smoke check   # inspect the sbatch, submit nothing
+./launch_corehpc_template.sh smoke         # submit it
+```
+
+It writes a three-task pipeline into `$COREHPC_PROJECT/corehpc_smoke_test/` and runs
+it through the same driver job, config and SLURM executor a real run uses. It takes
+a couple of minutes. Then:
+
+```bash
+cat $COREHPC_PROJECT/corehpc_smoke_test/results/smoke_report.txt
+```
+
+Every task should report a real SLURM job id, the cpus and memory your config
+granted it, and a work directory under `$COREHPC_PROJECT`. That confirms the
+scheduler, account, partition, config and work directory are all wired up. If the
+container cache already holds an image, the report also confirms Singularity runs
+and that the project bind mount is visible from inside the container.
+
+Now run it a **second** time. Every task should say `CACHED`, which is what proves
+`-resume` works. Without that, a requeue after the driver walltime will recompute
+everything. Delete `$COREHPC_PROJECT/corehpc_smoke_test/` when you are done.
+
+### Pre-flight checklist
+
+Once the smoke test passes, run this before each new pipeline:
+
+```bash
+which nextflow; nextflow -version                   # engine present
+which singularity || which apptainer                # if only apptainer, use -profile apptainer
+ls ~/.nextflow/plugins                              # pinned plugins pre-fetched
+ls $NXF_SINGULARITY_CACHEDIR                        # images present (.img/.sif)
+ls $PIPELINE/main.nf                                # local pipeline copy exists
+ls $SAMPLESHEET                                     # and every path inside it
+sinfo -o "%P %l"                                    # partition walltime cap vs DRIVER_TIME
+sacctmgr show assoc user=$USER format=account,partition   # account is valid
+```
+
+Then run `./launch_corehpc_template.sh check`, read the printed sbatch, and submit.
+Watch it with `squeue -u $USER` (driver first, then child `nf-*` jobs) and
+`tail -f <driver log>`.
+
+## Samplesheet gotcha: sample IDs must not be bare numbers
+
+Sample IDs like `4107` are parsed by nf-schema as integers and fail the
+samplesheet's `type: string` check. Prefix them (`TH_4107`). This also keeps R from
+mangling counts-matrix column names later.
+
+## Getting results back
+
+Transfer through **`gsdt02.gladstone.internal`**, not a CoreHPC login node, and
+remember the mount point changes to `/gladstone/...` there.
+
+Pull only the small outputs. Alignments, fastqs, bigwigs and the on-the-fly
+STAR/RSEM/salmon index are tens to hundreds of GB and belong on the cluster.
+
+Note that the Nextflow `report` / `timeline` / `trace` files land next to the
+launcher (per the `file =` paths in the config), **not** in `--outdir`, so they need
+a second transfer.
+
+## Error quick reference
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `Cannot read project manifest -- No route to host` | Compute node pulling the pipeline from GitHub | Run the local downloaded copy, no `-r`; `NXF_OFFLINE=true` |
+| `Plugin with id nf-schema not found in any repository` | Offline mode cannot download plugins | `nextflow plugin install nf-schema@<version>` on the login node |
+| Run dies when SSH disconnects | Login node reaps user processes | Submit Nextflow as a driver job |
+| `cannot overwrite existing file` on `-resume` | nf-core default shell includes `-C` (noclobber) | `shell = ['bash','-e','-u','-o','pipefail']` |
+| `Trace file already exists` | Report files from the previous run | `overwrite = true` in `report` / `timeline` / `trace` |
+| Exit status 137 | OOM | Raise memory, ideally `{ N.GB * task.attempt }` |
+| `--max_cpus` unrecognized | Params removed from recent nf-core | `resourceLimits = [...]` in the config |
+| Samplesheet schema error on a sample ID | Bare-numeric ID read as an integer | Prefix the ID (`TH_4107`) |
+| Input file "not found" inside a container | Path not bound | Add to `runOptions --bind` and `APPTAINER_BINDPATH` |
+| Job dies at driver walltime | Run outlasted `DRIVER_TIME` | Requeue trap above, and relaunch with `-resume` |
+
+## See also
+
+- [Building Containers on CoreHPC](Containers_on_CoreHPC.html)
+- [nf-core pipelines](https://nf-co.re)
+- [Nextflow documentation](https://www.nextflow.io/docs/latest/)

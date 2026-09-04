@@ -10,6 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="Natalie Gill">
+  <meta name="dcterms.date" content="2026-09-10">
   <title>Intro to CoreHPC</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -208,9 +209,14 @@
   </div>
   <div class="quarto-title-meta">
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">September 10, 2026</p>
     </div>
   </div>
+</section>
+<section id="introductions" class="slide level2">
+<h2>Introductions</h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Natalie Gill</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>Bioinformatician II</em></p>
 </section>
 <section id="section" class="slide level2">
 <h2></h2>
@@ -218,21 +224,19 @@
 <em>Press the ? key for tips on navigating these slides</em>
 </center>
 </section>
-<section id="introductions" class="slide level2">
-<h2>Introductions</h2>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Natalie Gill</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>Bioinformatician II</em></p>
-</section>
 <section id="target-audience" class="slide level2">
 <h2>Target Audience</h2>
 <ul>
 <li>Prior experience with UNIX command-line</li>
 <li>No prior experience on computing clusters</li>
+<li><strong>UCSF and Gladstone researchers</strong>: this workshop covers both halves of CoreHPC</li>
 </ul>
 </section>
-<section id="part-1" class="slide level2">
+<section id="part-1" class="slide level2 small-list">
 <h2>Part 1:</h2>
 <ol type="1">
 <li>What is CoreHPC?</li>
+<li>The Two Halves of CoreHPC</li>
 <li>Accessing CoreHPC</li>
 <li>Storage</li>
 <li>Data Transfer</li>
@@ -249,91 +253,191 @@
 <section id="overview" class="slide level2 small-bullets">
 <h2>Overview</h2>
 <ul>
-<li>An institutional HPC cluster for <strong>UCSF researchers</strong></li>
-<li>Built and maintained by <strong>UCSF IT Academic Research Services</strong>, in partnership with <strong>Gladstone IT</strong></li>
+<li>An institutional HPC cluster <strong>hosted by UCSF</strong></li>
+<li>Designed and built by <strong>UCSF IT Academic Research Services</strong> in collaboration with <strong>Gladstone</strong></li>
+<li>Split into <strong>two halves</strong>: a UCSF half and a Gladstone half (more on this next)</li>
 <li>Originally focused on <strong>AI / Data Science</strong>, now expanding to general-purpose HPC</li>
-<li>Set to <strong>replace Wynton</strong> (Wynton is scheduled to sunset by Feb 2027)</li>
+<li>Becoming the <strong>primary HPC resource</strong> for UCSF and Gladstone researchers</li>
 </ul>
 </section>
 <section id="architecture" class="slide level2">
 <h2>Architecture</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="slide_materials/CoreHPC_diagram.svg" class="quarto-figure quarto-figure-center" style="width:80.0%" alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints"></p>
+<p><img data-src="slide_materials/CoreHPC_diagram.svg" class="quarto-figure quarto-figure-center" style="width:50.0%" alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints"></p>
 </figure>
 </div>
+</section></section>
+<section>
+<section id="the-two-halves-of-corehpc" class="title-slide slide level1 center">
+<h1>The Two Halves of CoreHPC</h1>
+
+</section>
+<section id="one-platform-two-halves" class="slide level2 small-bullets">
+<h2>One Platform, Two Halves</h2>
+<ul>
+<li>CoreHPC is <strong>one platform</strong> split into a <strong>UCSF half</strong> and a <strong>Gladstone half</strong></li>
+<li>Each half has its own <strong>bastion, login nodes, storage, and compute nodes</strong></li>
+<li>Both run the <strong>same software stack</strong> (Linux, OpenHPC modules, Apptainer, SLURM), so everything in this workshop applies to either</li>
+<li>Either half is accessed with a <strong>UCSF MyAccess account</strong></li>
+<li><strong>Gladstone researchers have access to both halves</strong></li>
+</ul>
+</section>
+<section id="the-login-node-selects-the-half" class="slide level2 small-bullets">
+<h2>The Login Node Selects the Half</h2>
+<ul>
+<li><strong>Which resources you get depends on which login node you connect through</strong></li>
+<li>Log into the <strong>Gladstone</strong> login node, and you are using Gladstone compute and storage</li>
+<li>Log into the <strong>UCSF</strong> login node, and you are using UCSF compute and storage</li>
+</ul>
 <center>
-<em>Connect through a <strong>bastion</strong>, submit jobs from the <strong>login node</strong>, and SLURM runs them on <strong>compute nodes</strong>. <strong>Globus</strong> moves data in and out.</em>
+<em>This is why hostnames and paths differ throughout these slides.</em>
 </center>
 </section>
-<section id="a-two-tenant-system" class="slide level2 small-bullets">
-<h2>A Two-Tenant System</h2>
+<section id="what-differs-between-the-halves" class="slide level2 smaller">
+<h2>What Differs Between the Halves</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 37%">
+<col style="width: 36%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>UCSF half</th>
+<th>Gladstone half</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Per-user fee</td>
+<td><strong>$155/user/yr</strong></td>
+<td>none</td>
+</tr>
+<tr class="even">
+<td>Condo buy-in</td>
+<td>supported</td>
+<td>not supported</td>
+</tr>
+<tr class="odd">
+<td>Persistent storage</td>
+<td>FAC (~$52/TB/yr)</td>
+<td>HIVE (included)</td>
+</tr>
+<tr class="even">
+<td>Computing on it</td>
+<td>copy to scratch first</td>
+<td>HIVE mounted directly</td>
+</tr>
+<tr class="odd">
+<td>Data sensitivity</td>
+<td>P1 to P4, incl.&nbsp;patient records</td>
+<td>anonymized only, <strong>no PHI</strong> currently</td>
+</tr>
+<tr class="even">
+<td>Scheduling</td>
+<td>fair-share, condo priority on purchased nodes</td>
+<td>fair-share</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="storage-is-the-big-difference" class="slide level2 small-bullets">
+<h2>Storage Is the Big Difference</h2>
 <ul>
-<li>CoreHPC is <strong>one HPC platform</strong> serving <strong>two separate tenants</strong>: <strong>UCSF campus</strong> and <strong>Gladstone</strong></li>
-<li>Each tenant has its <strong>own</strong> bastion, login nodes, <strong>storage</strong>, and <strong>compute nodes</strong></li>
-<li>Both run the <strong>same setup</strong> (Linux, OpenHPC modules, Apptainer, SLURM), so this workshop applies to either</li>
-<li>This is why some hostnames and paths differ by institution: <strong>use the ones for your tenant</strong></li>
+<li><strong>UCSF half:</strong> persistent data lives on <strong>FAC</strong> capacity storage
+<ul>
+<li><strong>Not intended for active compute</strong></li>
+<li>Do <strong>not</strong> point SLURM jobs at it</li>
+<li>Stage datasets onto <strong>scratch</strong> (<code>/scratch/user/$USER</code>) first</li>
+</ul></li>
+<li><strong>Gladstone half:</strong> connected <strong>directly to HIVE</strong>
+<ul>
+<li>Your lab share is already mounted, nothing to move</li>
+<li><strong>No copying large datasets</strong> just to compute on them</li>
+</ul></li>
+<li>The halves do <strong>not</strong> cross over
+<ul>
+<li>No FAC on the Gladstone half</li>
+<li>No HIVE on the UCSF half</li>
+</ul></li>
 </ul>
 </section>
-<section id="partitions" class="slide level2 small-bullets">
-<h2>Partitions</h2>
+<section id="scheduling-and-priority" class="slide level2 small-bullets">
+<h2>Scheduling and Priority</h2>
 <ul>
-<li><strong><code>cpu</code></strong> : high-core-count CPU nodes for general compute</li>
-<li><strong><code>small_gpu</code></strong> : single-GPU jobs (NVIDIA L40s / H100NVL)</li>
-<li><strong><code>large_gpu</code></strong> : large single-node GPU jobs (NVIDIA H200)</li>
-<li><strong><code>pod</code></strong> : multi-GPU SuperPod (8x H200 with InfiniBand), <strong>by request only</strong></li>
-<li><strong><code>community cpu</code></strong> : high-throughput CPU, no InfiniBand (Wynton-like)</li>
-</ul>
-<p><em>Partition names and availability change as the cluster grows. Confirm with <code>sinfo</code>.</em></p>
-</section>
-<section id="hardware-highlights" class="slide level2 small-bullets">
-<h2>Hardware Highlights</h2>
+<li><strong>Both halves</strong> schedule with <strong>fair-share</strong>, favoring users who have <strong>not recently used</strong> the cluster
 <ul>
-<li><strong>CPU nodes:</strong> dual AMD EPYC (84+ cores), 1.5 TB RAM</li>
-<li><strong>small_gpu:</strong> dual <strong>L40s (48 GB)</strong> or <strong>H100NVL</strong>, 384 GB RAM, 32 cores</li>
-<li><strong>large_gpu:</strong> <strong>H200</strong> GPUs on high-memory nodes</li>
-<li><strong>pod:</strong> 8x <strong>H200 SXM</strong> per node, 2 TB RAM, InfiniBand across GPUs</li>
-<li>Every compute node also has fast <strong>local NVMe scratch</strong> (2 to 12 TB)</li>
+<li>The goal is to spread resources evenly, not first-come-first-served</li>
+</ul></li>
+<li><strong>UCSF half:</strong> no allocation of core hours, and no hard usage caps today
+<ul>
+<li>Labs can <strong>buy condo nodes</strong> for priority on hardware they purchased</li>
+<li>Extra priority or wall-time for time-critical work goes to a governance committee</li>
+</ul></li>
+<li><strong>Gladstone half:</strong> per-user limits on running jobs and GPUs keep the queue moving</li>
 </ul>
-<p><em>Specs as of mid-2026; see the current CoreHPC docs for the latest.</em></p>
 </section></section>
 <section>
 <section id="accessing-corehpc" class="title-slide slide level1 center">
 <h1>Accessing CoreHPC</h1>
 
 </section>
+<section id="node-types" class="slide level2 small-bullets">
+<h2>Node Types</h2>
+<p>A cluster is made of different kinds of machines, each with its own job:</p>
+<ul>
+<li><strong>Bastion:</strong> the gateway you authenticate through
+<ul>
+<li>No storage, no compute, no internet</li>
+</ul></li>
+<li><strong>Login:</strong> your launch pad
+<ul>
+<li>Submit jobs, stage data, manage files</li>
+</ul></li>
+<li><strong>Compute:</strong> where your jobs actually run
+<ul>
+<li>You reach these through SLURM, not by SSH</li>
+</ul></li>
+</ul>
+<center>
+<em>Each half of CoreHPC has its own bastion, login, and compute nodes.</em>
+</center>
+</section>
 <section id="prerequisites" class="slide level2 small-bullets">
 <h2>Prerequisites</h2>
 <ul>
-<li>A <strong>UCSF campus account</strong></li>
+<li>A <strong>UCSF MyAccess account</strong>, for either half</li>
 <li>A <strong>CoreHPC-provisioned account</strong> (requested via your PI / lab)</li>
-<li>On the right network:
+<li><strong>UCSF half only:</strong> your lab must already have an <strong>FAC share</strong>, or a submitted request for one, before onboarding</li>
+<li><strong>MyAccess MFA / DUO</strong> enrolled on your phone</li>
+<li>On the right network for the half you want:
 <ul>
-<li><strong>UCSF:</strong> UCSF network or VPN</li>
-<li><strong>Gladstone:</strong> Gladstone network (wired, Gladstone-MB, or Ivanti VPN)</li>
+<li><strong>UCSF:</strong> UCSF network (UCSFwpa) or VPN</li>
+<li><strong>Gladstone:</strong> Gladstone network (wired, Gladstone-MB, or Ivanti VPN), Gladstone device</li>
 </ul></li>
-<li><strong>MFA / DUO</strong> enrolled on your phone</li>
 </ul>
 </section>
 <section id="step-1-ssh-to-a-bastion-node" class="slide level2 smaller">
 <h2>Step 1: SSH to a Bastion Node</h2>
 <p><em>A <strong>bastion</strong> is a hardened gateway: it authenticates you and lets you SSH onward. It has no storage or compute of its own.</em></p>
-<div class="columns">
-<div class="column" style="width:48%;">
 <p><strong>UCSF</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@chpc-ucsf-bastion-vm1.corehpc.ucsf.edu</span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># alternate: chpc-ucsf-bastion-vm2.corehpc.ucsf.edu</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:48%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@chpc-ucsf-bastion-vm1.corehpc.ucsf.edu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Gladstone</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> <span class="op">&lt;</span>user<span class="op">&gt;</span>@chpc-gs-bastion-vm1.corehpc.ucsf.edu</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
 <ul>
-<li>Enter your <strong>UCSF MyAccess password</strong>, then approve the <strong>DUO</strong> push</li>
+<li>Enter your <strong>UCSF MyAccess password</strong></li>
+<li>At the <strong>Duo</strong> prompt, type <strong><code>1</code></strong> and press enter
+<ul>
+<li>Push is currently the only option, so <code>(1-1)</code> always means push</li>
+</ul></li>
+<li>Approve the push on your phone</li>
 </ul>
 </section>
 <section id="step-2-hop-to-the-login-node" class="slide level2 smaller">
 <h2>Step 2: Hop to the Login Node</h2>
-<p>From the bastion, SSH to the login node:</p>
+<p>From the bastion, SSH to the login node <strong>for the half you want to use</strong>:</p>
 <div class="columns">
 <div class="column" style="width:48%;">
 <p><strong>UCSF</strong></p>
@@ -342,6 +446,7 @@
 <p><strong>Gladstone</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ssh</span> chpc-gs-login-vm1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
+<p>Example, logging in to the <strong>Gladstone</strong> half:</p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[alice@laptop ~]$ ssh alice@chpc-gs-bastion-vm1.corehpc.ucsf.edu
@@ -358,18 +463,39 @@ Success. Logging you in...
 <h2>The Login Node</h2>
 <ul>
 <li>Your launch pad: <strong>submit jobs</strong> and <strong>stage data</strong>, not for heavy compute</li>
-<li>The <strong>only</strong> node with internet (via a proxy): GitHub, PyPI, conda, Hugging Face, Apptainer registries</li>
-<li>Do <strong>not</strong> run analyses here. Use <code>salloc</code> (interactive) or <code>sbatch</code> (batch) instead</li>
-<li>Shares your home directory and scratch with the compute nodes</li>
+<li>The <strong>only</strong> node with internet (via a proxy): GitHub, PyPI, conda, Hugging Face, Container registries</li>
+<li>Do <strong>not</strong> run analyses here</li>
+<li>Use <code>salloc</code> (interactive) or <code>sbatch</code> (batch) instead</li>
+<li>Shares your home directory and scratch with the compute nodes <strong>on that half</strong></li>
 </ul>
 </section>
 <section id="the-bastion-nodes" class="slide level2 small-bullets">
 <h2>The Bastion Nodes</h2>
 <ul>
 <li>A <strong>gateway only</strong>: authentication and SSH forwarding, no storage or compute</li>
+<li>Bastions have their <strong>own home directories</strong>, separate from the cluster</li>
 <li><code>scp</code> / <code>rsync</code> through the bastion are <strong>blocked</strong> by security policy</li>
 <li>Move data with <strong>Globus</strong> or via a mounted <strong>FAC / HIVE share</strong> instead</li>
 </ul>
+</section>
+<section id="compute-nodes" class="slide level2 small-bullets">
+<h2>Compute Nodes</h2>
+<ul>
+<li>Where your analyses actually run</li>
+<li>You can <strong>not</strong> SSH into them directly
+<ul>
+<li>You reach them by submitting a job with <code>sbatch</code>, or starting an interactive session with <code>salloc</code></li>
+</ul></li>
+<li><strong>No internet access</strong>
+<ul>
+<li>Download data, containers, and packages on the login node first</li>
+</ul></li>
+<li>Share your home directory and scratch with the login node</li>
+<li>Also have fast <strong>local NVMe scratch</strong> that lasts only for the job</li>
+</ul>
+<center>
+<em>Requesting and running jobs is covered in Part 2.</em>
+</center>
 </section></section>
 <section>
 <section id="storage" class="title-slide slide level1 center">
@@ -378,79 +504,134 @@ Success. Logging you in...
 </section>
 <section id="storage-layout" class="slide level2 smaller">
 <h2>Storage Layout</h2>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>UCSF</strong></p>
 <table class="caption-top">
-<colgroup>
-<col style="width: 32%">
-<col style="width: 19%">
-<col style="width: 48%">
-</colgroup>
 <thead>
 <tr class="header">
 <th>Location</th>
 <th>Path</th>
-<th>Size / policy</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>Home</td>
-<td><code>/home/remote/$USER</code> (shared)</td>
-<td>20 GB</td>
+<td><code>/home/remote/$USER</code></td>
 </tr>
 <tr class="even">
 <td>Scratch</td>
-<td><code>/scratch/user/$USER</code> <em>(Gladstone: <code>/mnt/scratch/...</code>)</em></td>
-<td>50 TB cap, purged after 30 days</td>
+<td><code>/scratch/user/$USER</code></td>
 </tr>
 <tr class="odd">
 <td>Group scratch</td>
 <td><code>/scratch/group/&lt;group&gt;</code></td>
-<td>shared, volatile</td>
 </tr>
 <tr class="even">
 <td>Persistent</td>
-<td>FAC capacity storage <em>(Gladstone: HIVE <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code>)</em></td>
-<td>persistent, backed up</td>
-</tr>
-<tr class="odd">
-<td>Local</td>
-<td>per-node NVMe scratch</td>
-<td>fast, lasts only for the job</td>
+<td>FAC share</td>
 </tr>
 </tbody>
 </table>
+</div><div class="column" style="width:48%;">
+<p><strong>Gladstone</strong></p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Location</th>
+<th>Path</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Home</td>
+<td><code>/home/remote/$USER</code></td>
+</tr>
+<tr class="even">
+<td>Scratch</td>
+<td><code>/mnt/scratch/user/$USER</code></td>
+</tr>
+<tr class="odd">
+<td>Group scratch</td>
+<td><code>/mnt/scratch/group/&lt;group&gt;</code></td>
+</tr>
+<tr class="even">
+<td>Persistent</td>
+<td><code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<p><em>Home is <strong>20 GB</strong> on both halves. Scratch is <strong>volatile</strong> on both halves.</em></p>
 </section>
 <section id="home-directory" class="slide level2 small-bullets">
 <h2>Home Directory</h2>
 <ul>
 <li><strong>20 GB</strong> quota, shared across login and compute nodes (not the bastion)</li>
 <li>Good for scripts, configs, small files, and <code>environment.yml</code> recipes</li>
-<li>Too small for conda envs, data, or container images (push those to scratch / HIVE)</li>
+<li>Too small for conda envs, data, or container images (push those to scratch / persistent storage)</li>
 </ul>
 </section>
-<section id="scratch" class="slide level2 small-bullets">
+<section id="scratch" class="slide level2 smaller">
 <h2>Scratch</h2>
 <ul>
 <li>Large, fast shared space for <strong>active job data</strong></li>
-<li>Path: <code>/scratch/user/$USER</code> <em>(Gladstone: <code>/mnt/scratch/user/$USER</code>)</em></li>
-<li><strong>50 TB</strong> per-user cap; <strong>anything older than 30 days is automatically deleted</strong></li>
+<li><strong>50 TB</strong> per-user cap</li>
+<li><strong>Anything older than 30 days may be automatically deleted</strong></li>
 <li>Treat it as <strong>volatile</strong>: never your only copy</li>
 </ul>
-</section>
-<section id="fac-capacity-storage" class="slide level2 small-bullets">
-<h2>FAC Capacity Storage</h2>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>UCSF</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:48%;">
+<p><strong>Gladstone</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/mnt/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
 <ul>
-<li>Persistent project storage for data you keep beyond 30 days</li>
-<li>Request a share: <a href="https://tiny.ucsf.edu/getfac" class="uri">https://tiny.ucsf.edu/getfac</a></li>
-<li><strong>Gladstone:</strong> your <strong>HIVE</strong> lab share (<code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code>) is already mounted and <strong>backed up</strong>, use it for persistence</li>
+<li>Shared scratch is the <strong>VAST</strong> file system, deployed specifically for high-performance compute</li>
+<li>Compute nodes also have even faster <strong>local NVMe</strong> at <code>/tmp</code>, which lasts only for the job</li>
+<li>Speed order: local <code>/tmp</code>, then shared scratch, then persistent storage</li>
 </ul>
+</section>
+<section id="persistent-storage" class="slide level2 smaller">
+<h2>Persistent Storage</h2>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>UCSF: FAC capacity storage</strong></p>
+<ul>
+<li><strong>Required</strong> for every CoreHPC account</li>
+<li>The repository for all project data</li>
+<li><strong>Recharge</strong> at roughly <strong>$52/TB/yr</strong>, plus a setup cost</li>
+<li>⚠️ <strong>Not for active compute.</strong> Never point a SLURM job at it: it degrades performance for everyone and can cause runtime errors</li>
+<li>Request a share: <a href="https://tiny.ucsf.edu/getfac" class="uri">https://tiny.ucsf.edu/getfac</a></li>
+</ul>
+</div><div class="column" style="width:48%;">
+<p><strong>Gladstone: HIVE</strong></p>
+<ul>
+<li>Your lab share is <strong>already mounted</strong> at <code>/mnt/gladstone/&lt;pi&gt;/&lt;share&gt;</code></li>
+<li><strong>No recharge</strong>, and it is <strong>backed up</strong></li>
+<li>Connected directly, so you can <strong>compute against it without copying</strong></li>
+<li><strong>Every</strong> share you have access to is mounted, not just your own lab’s</li>
+</ul>
+</div></div>
 </section>
 <section id="storage-advice" class="slide level2 small-bullets">
 <h2>Storage Advice</h2>
 <ul>
-<li>Scratch is volatile: keep <code>environment.yml</code>, scripts, and small inputs on home / HIVE</li>
-<li>Use <strong>FAC / HIVE</strong> for anything you cannot afford to lose</li>
-<li>Avoid huge directories of tiny files on shared storage (it slows the filesystem for everyone). Prefer a single container image (see the <a href="Containers_on_CoreHPC.html">container guide</a>)</li>
+<li>Scratch is volatile: keep <code>environment.yml</code>, scripts, and small inputs on home or persistent storage</li>
+<li>Use <strong>FAC</strong> (UCSF) or <strong>HIVE</strong> (Gladstone) for anything you cannot afford to lose</li>
+<li><strong>UCSF:</strong> CoreHPC provides <strong>no long-term storage</strong> of its own
+<ul>
+<li>FAC is where your data lives</li>
+<li>Stage it onto scratch for a job, then copy results back afterward</li>
+</ul></li>
+<li><strong>Gladstone:</strong> only <strong>HIVE</strong> is backed up</li>
+<li>Avoid huge directories of tiny files on shared storage
+<ul>
+<li>It slows the filesystem for <strong>everyone</strong>, not just you</li>
+<li>Prefer a single container image (<a href="Containers_on_CoreHPC.html">container guide</a>)</li>
+</ul></li>
 </ul>
 </section></section>
 <section>
@@ -461,29 +642,33 @@ Success. Logging you in...
 <section id="transfer-options" class="slide level2 small-bullets">
 <h2>Transfer Options</h2>
 <ul>
-<li><strong>Globus</strong> (recommended) for moving data in and out of CoreHPC</li>
-<li><strong><code>cp</code> / <code>rsync</code> from the login node</strong> if your data is on a mounted FAC / HIVE share</li>
-<li><code>scp</code> / <code>rsync</code> <strong>through the bastion are blocked</strong></li>
+<li><strong>Globus</strong> is the supported way to move data in or out from outside CoreHPC
+<ul>
+<li><code>scp</code> / <code>rsync</code> through the bastion are <strong>blocked</strong> by security policy</li>
+<li>This covers your laptop and other institutions (UCSF &lt;-&gt; Gladstone)</li>
+</ul></li>
+<li><strong><code>cp</code> / <code>rsync</code> from the login node</strong> if the data is already on a mounted share
+<ul>
+<li><strong>UCSF:</strong> your <strong>FAC</strong> share</li>
+<li><strong>Gladstone:</strong> your <strong>HIVE</strong> lab share, so most data needs no transfer at all</li>
+</ul></li>
 </ul>
 </section>
-<section id="globus" class="slide level2 small-bullets">
-<h2>Globus</h2>
-<ul>
-<li>Log in at <a href="https://globus.org" class="uri">https://globus.org</a> with your <strong>UCSF CILogon</strong> identity</li>
-<li>Endpoints: <strong>“UCSF CoreHPC - User Home”</strong> and <strong>“UCSF CoreHPC - User Scratch”</strong></li>
-<li>For your laptop, install <strong>Globus Connect Personal</strong> (use your UCSF ORG / CILogon identity)</li>
-<li>Best for large files (&gt; 1 GB) and cross-institution transfers</li>
-</ul>
-</section>
-<section id="fac-share-copy" class="slide level2">
-<h2>FAC Share Copy</h2>
-<p>If your data is on a mounted share, just copy it on the login node:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-R</span> /mnt/fac/<span class="op">&lt;</span>share<span class="op">&gt;</span>/<span class="op">&lt;</span>file<span class="op">&gt;</span> /mnt/scratch/group/<span class="op">&lt;</span>share<span class="op">&gt;</span>/</span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># or</span></span>
-<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-av</span> /mnt/fac/<span class="op">&lt;</span>share<span class="op">&gt;</span>/<span class="op">&lt;</span>file<span class="op">&gt;</span> /mnt/scratch/group/<span class="op">&lt;</span>share<span class="op">&gt;</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li><strong>Gladstone:</strong> data already on <strong>HIVE</strong> (<code>/mnt/gladstone/...</code>) needs no move, it is mounted on CoreHPC</li>
-</ul>
+<section id="staging-data-for-a-job" class="slide level2 smaller">
+<h2>Staging Data for a Job</h2>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>UCSF: copy FAC to scratch</strong></p>
+<p>FAC is not for active compute, so stage first:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rsync</span> <span class="at">-av</span> /mnt/fac/<span class="op">&lt;</span>share<span class="op">&gt;</span>/<span class="op">&lt;</span>data<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>      /scratch/user/<span class="va">$USER</span>/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Then copy results back when the job finishes.</p>
+</div><div class="column" style="width:48%;">
+<p><strong>Gladstone: nothing to stage</strong></p>
+<p>HIVE is mounted directly, so jobs can read and write it in place:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> /mnt/gladstone/<span class="op">&lt;</span>pi<span class="op">&gt;</span>/<span class="op">&lt;</span>share<span class="op">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use scratch only for <strong>hot</strong> data needing heavy read/write.</p>
+</div></div>
 </section>
 <section id="hands-on" class="slide level2">
 <h2>Hands-on</h2>
@@ -503,16 +688,16 @@ Success. Logging you in...
 <li>Cluster software is provided as <strong>OpenHPC modules</strong></li>
 <li>A module sets up your <code>PATH</code> and environment for a given tool and version</li>
 <li>Available consistently on the <strong>login and compute nodes</strong></li>
-<li>Wynton’s <strong>CBI modules are ported over</strong> (e.g.&nbsp;<code>module load CBI r</code>)</li>
+<li><strong>CBI modules</strong> are available too (e.g.&nbsp;<code>module load CBI r</code>)</li>
 </ul>
 </section>
 <section id="common-commands" class="slide level2">
 <h2>Common Commands</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail              <span class="co"># list available modules</span></span>
-<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3    <span class="co"># load a module</span></span>
-<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> list               <span class="co"># show loaded modules</span></span>
-<span id="cb7-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> unload miniforge3  <span class="co"># unload it</span></span>
-<span id="cb7-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail              <span class="co"># list available modules</span></span>
+<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3    <span class="co"># load a module</span></span>
+<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> list               <span class="co"># show loaded modules</span></span>
+<span id="cb10-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> unload miniforge3  <span class="co"># unload it</span></span>
+<span id="cb10-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="example-available-modules" class="slide level2 small-bullets">
 <h2>Example Available Modules</h2>
@@ -545,25 +730,41 @@ Success. Logging you in...
 <section id="setup-once" class="slide level2 smaller">
 <h2>Setup (Once)</h2>
 <p>Home is only 20 GB, so point conda’s environments and package cache at scratch:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init bash          <span class="co"># then restart your shell</span></span>
-<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
-<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><em>UCSF (non-Gladstone): use <code>/scratch/user/$USER/...</code> instead.</em></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init bash          <span class="co"># then restart your shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>UCSF</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>  envs_dirs /scratch/user/<span class="va">$USER</span>/envs</span>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
+<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a>  pkgs_dirs /scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:48%;">
+<p><strong>Gladstone</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a>  envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> <span class="dt">\</span></span>
+<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a>  pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<p><em>This only needs to be done once; it edits <code>~/.condarc</code>.</em></p>
 </section>
 <section id="creating-an-environment" class="slide level2">
 <h2>Creating an Environment</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project1 python=3.11</span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate project1</span>
-<span id="cb10-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy pandas scikit-learn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project1 python=3.11</span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate project1</span>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy pandas scikit-learn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="exporting-an-environment" class="slide level2 small-bullets">
 <h2>Exporting an Environment</h2>
 <p>Scratch is volatile, so capture a recipe you can rebuild from:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--no-builds</span> <span class="op">&gt;</span> environment.yml   <span class="co"># save to home or HIVE</span></span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml              <span class="co"># rebuild anytime</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--no-builds</span> <span class="op">&gt;</span> environment.yml   <span class="co"># save to home or persistent storage</span></span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml              <span class="co"># rebuild anytime</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>For long-lived environments, build an <strong>Apptainer image</strong> and store the <code>.sif</code> on HIVE instead. See the <a href="Containers_on_CoreHPC.html">container guide</a>.</li>
+<li>For long-lived environments, build an <strong>Apptainer image</strong> instead
+<ul>
+<li>Store the <code>.sif</code> on persistent storage</li>
+<li>See the <a href="Containers_on_CoreHPC.html">container guide</a></li>
+</ul></li>
 </ul>
 </section></section>
 <section>
@@ -585,44 +786,21 @@ Success. Logging you in...
 <li>Load the module: <code>module load apptainer</code></li>
 <li>Pull and run images:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://<span class="op">&lt;</span>user<span class="op">&gt;</span>/<span class="op">&lt;</span>image<span class="op">&gt;</span>:<span class="op">&lt;</span>tag<span class="op">&gt;</span>   <span class="co"># creates image_tag.sif</span></span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec image.sif <span class="op">&lt;</span>command<span class="op">&gt;</span></span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> shell image.sif                       <span class="co"># interactive shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://<span class="op">&lt;</span>user<span class="op">&gt;</span>/<span class="op">&lt;</span>image<span class="op">&gt;</span>:<span class="op">&lt;</span>tag<span class="op">&gt;</span>   <span class="co"># creates image_tag.sif</span></span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec image.sif <span class="op">&lt;</span>command<span class="op">&gt;</span></span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> shell image.sif                       <span class="co"># interactive shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Pull / build on the login node</strong> (the only node with internet)</li>
 </ul>
 </section>
 <section id="example-pull-a-container" class="slide level2">
 <h2>Example: Pull a Container</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># On the login node:</span></span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
-<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># On the login node:</span></span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
+<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Building your own image</strong> (from a conda env or Dockerfile): see the <a href="Containers_on_CoreHPC.html">container guide</a></li>
 </ul>
-</section></section>
-<section>
-<section id="polls" class="title-slide slide level1 center">
-<h1>Polls</h1>
-
-</section>
-<section id="poll-1" class="slide level2">
-<h2>Poll 1</h2>
-<p>Which node should you run heavy compute on?</p>
-<ol type="1">
-<li>A bastion node</li>
-<li>The login node</li>
-<li>A compute node (via <code>sbatch</code> / <code>salloc</code>)</li>
-<li>Any of the above</li>
-</ol>
-</section>
-<section id="poll-2" class="slide level2">
-<h2>Poll 2</h2>
-<p>Files in your home directory are kept forever, so it is safe to store your only copy there.</p>
-<ol type="1">
-<li>True</li>
-<li>False</li>
-</ol>
 </section></section>
 <section>
 <section id="end-of-part-1" class="title-slide slide level1 center">
@@ -632,12 +810,22 @@ Success. Logging you in...
 <section id="workshop-survey" class="slide level2">
 <h2>Workshop survey</h2>
 <ul>
-<li>If you are not attending part 2, please fill out our <a href="TBD">workshop survey</a> so we can continue to improve these workshops</li>
+<li>If you are not attending part 2, please fill out our <a href="https://www.surveymonkey.com/r/bioinfo-training26">workshop survey</a> so we can continue to improve these workshops</li>
 </ul>
 </section>
 <section id="upcoming-data-science-training-program-workshops" class="slide level2 smaller">
 <h2>Upcoming Data Science Training Program Workshops</h2>
-<p><em>To be filled in closer to the workshop date.</em></p>
+<p><strong>Introduction to Machine Learning</strong><br>
+September 24, 2026 1:00-5:00pm PDT</p>
+<p><strong>Introduction to RNA-Seq Analysis</strong><br>
+September 28-September 29, 2026 9:00am-3:00pm PDT</p>
+<p><strong>AI Fluency for Biologists</strong><br>
+October 5-October 6, 2026 1:00-4:00pm PDT</p>
+<p><strong>Single Cell RNA-Seq Analysis Using R</strong><br>
+October 12-October 13, 2026 9:30am-3:30pm PDT</p>
+<p><strong>Introduction to Pathway Analysis</strong><br>
+October 15, 2026 1:00-4:00pm PDT</p>
+<p><em>Register at <a href="https://gladstone.org/events?series=189" class="uri">https://gladstone.org/events?series=189</a></em></p>
 
 </section></section>
     </div>

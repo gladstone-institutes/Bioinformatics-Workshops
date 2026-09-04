@@ -74,7 +74,7 @@ knitr::opts_chunk$set(comment = "")
 # 1. SSH to the Gladstone bastion
 ssh <user>@chpc-gs-bastion-vm1.corehpc.ucsf.edu
 # -> prompts for your UCSF MyAccess password
-# -> approve the DUO MFA push on your phone
+# -> at the Duo prompt type 1 (push is the only option), then approve on your phone
 
 # 2. From the bastion, hop to the login node
 ssh chpc-gs-login-vm1

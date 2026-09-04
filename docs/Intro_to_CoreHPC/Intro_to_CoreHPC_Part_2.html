@@ -10,6 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="Natalie Gill">
+  <meta name="dcterms.date" content="2026-09-11">
   <title>Intro to CoreHPC</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -208,9 +209,14 @@
   </div>
   <div class="quarto-title-meta">
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">September 11, 2026</p>
     </div>
   </div>
+</section>
+<section id="introductions" class="slide level2">
+<h2>Introductions</h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Natalie Gill</strong><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>Bioinformatician II</em></p>
 </section>
 <section id="section" class="slide level2">
 <h2></h2>
@@ -218,18 +224,15 @@
 <em>Press the ? key for tips on navigating these slides</em>
 </center>
 </section>
-<section id="introductions" class="slide level2">
-<h2>Introductions</h2>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Natalie Gill</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<em>Bioinformatician II</em></p>
-</section>
 <section id="target-audience" class="slide level2">
 <h2>Target Audience</h2>
 <ul>
 <li>Prior experience with UNIX command-line</li>
 <li>No prior experience on computing clusters</li>
+<li><strong>UCSF and Gladstone researchers</strong>: this workshop covers both halves of CoreHPC</li>
 </ul>
 </section>
-<section id="part-2" class="slide level2">
+<section id="part-2" class="slide level2 small-list smaller">
 <h2>Part 2:</h2>
 <ol type="1">
 <li>SLURM Basics</li>
@@ -256,7 +259,7 @@
 <ul>
 <li>SLURM is CoreHPC’s <strong>workload manager</strong> (job scheduler)</li>
 <li>It decides <strong>what runs where and when</strong> across the compute nodes</li>
-<li>Replaces Wynton’s <strong>SGE</strong>; supports <strong>GPUs</strong> and <strong>interactive</strong> jobs natively</li>
+<li>Supports <strong>GPUs</strong> and <strong>interactive</strong> jobs natively</li>
 <li>You describe the resources you need, and SLURM finds a node and runs your job</li>
 </ul>
 </section>
@@ -268,6 +271,47 @@
 <li><strong>Partition:</strong> a named set of nodes (e.g.&nbsp;<code>cpu</code>, <code>small_gpu</code>)</li>
 <li><strong>Job:</strong> your resource request plus a script; a <strong>job step</strong> is a command run with <code>srun</code> inside it</li>
 <li>You rarely SSH to compute nodes, you reach them through SLURM</li>
+<li>Your jobs run on the <strong>half whose login node you connected through</strong>, so partition names and paths follow from that</li>
+</ul>
+</section>
+<section id="partitions" class="slide level2 smaller">
+<h2>Partitions</h2>
+<p>Each half groups its nodes into partitions you request by name:</p>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>Gladstone</strong></p>
+<ul>
+<li><strong><code>cpu</code></strong> : general CPU compute</li>
+<li><strong><code>small_gpu</code></strong> : L40s, single-GPU jobs</li>
+<li><strong><code>large_gpu</code></strong> : H200, single node</li>
+<li><strong><code>pod</code></strong> : multi-GPU H200, <strong>by request only</strong></li>
+</ul>
+</div><div class="column" style="width:48%;">
+<p><strong>UCSF</strong></p>
+<ul>
+<li><strong><code>cpu</code></strong> : general CPU compute</li>
+<li><strong><code>gpu</code></strong> : L40s / H100NVL / RTX6000, 1-2 GPUs</li>
+<li><strong><code>large_gpu</code></strong> : H200, 4-8 GPUs, <strong>condo only</strong> for now</li>
+<li><strong><code>pod</code></strong> : 8+ GPUs, <strong>by request only</strong></li>
+<li><strong><code>community</code></strong> : high-throughput, no InfiniBand, 2-week limit</li>
+</ul>
+</div></div>
+<p>⚠️ <strong>Partition names differ between the halves</strong> and change as the cluster grows. Always confirm with <code>sinfo</code> on the login node you are using.</p>
+</section>
+<section id="a-note-on-paths-in-these-slides" class="slide level2 small-bullets">
+<h2>A Note on Paths in These Slides</h2>
+<p>The two halves use different scratch paths. The examples that follow use the <strong>Gladstone</strong> path:</p>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>Gladstone</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/mnt/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:48%;">
+<p><strong>UCSF</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">/scratch/user/</span><span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<ul>
+<li>Everywhere you see <code>/mnt/scratch/user/$USER</code>, substitute your own half’s path</li>
+<li>Everything else (SLURM flags, modules, Apptainer) is <strong>identical</strong> on both halves</li>
 </ul>
 </section>
 <section id="common-commands" class="slide level2 smaller">
@@ -322,23 +366,23 @@
 </section>
 <section id="minimal-job-script" class="slide level2 smaller">
 <h2>Minimal Job Script</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=hello</span></span>
-<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
-<span id="cb1-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
-<span id="cb1-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb1-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1G</span></span>
-<span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello_%j.out   # %j = job ID</span></span>
-<span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=hello_%j.err</span></span>
-<span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> echo <span class="st">"Hello from </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=hello</span></span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
+<span id="cb3-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb3-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb3-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1G</span></span>
+<span id="cb3-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello_%j.out   # %j = job ID</span></span>
+<span id="cb3-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=hello_%j.err</span></span>
+<span id="cb3-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> echo <span class="st">"Hello from </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>⚠️ CoreHPC sets <strong>no default</strong> resources. Set <code>--time</code>, <code>--mem</code>, and <code>--partition</code> explicitly.</p>
 </section>
 <section id="submitting" class="slide level2">
 <h2>Submitting</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello.sh</span>
-<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello.sh</span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>[alice@chpc-gs-login-vm1 ~]$ sbatch hello.sh
@@ -363,26 +407,45 @@ Submitted batch job 152334
 <li><code>--ntasks</code> : number of tasks (processes); <code>--cpus-per-task</code> : cores per task</li>
 <li><code>--mem=16G</code> : total memory <strong>per node</strong> (or <code>--mem-per-cpu=4G</code>)</li>
 <li><code>--time=HH:MM:SS</code> : wall-time limit; <code>--partition=cpu</code> : which nodes</li>
-<li>⚠️ SLURM’s <code>--mem</code> is <strong>per node total</strong>; SGE’s <code>mem_free</code> was per core</li>
+<li>⚠️ <code>--mem</code> is the <strong>total for the whole node</strong>, not an amount per core</li>
 </ul>
 </section>
-<section id="gpu-jobs" class="slide level2 small-bullets">
+<section id="gpu-jobs" class="slide level2 smaller">
 <h2>GPU Jobs</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
-<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1     # model:count (per node)</span></span>
-<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="columns">
+<div class="column" style="width:48%;">
+<p><strong>Gladstone</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:48%;">
+<p><strong>UCSF</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=gpu</span></span>
+<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:1</span></span>
+<span id="cb7-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
 <ul>
-<li>Generic form <code>--gres=gpu:1</code> requests any GPU on the partition</li>
-<li>GPU types: <strong>L40s</strong> / <strong>H100NVL</strong> (<code>small_gpu</code>), <strong>H200</strong> (<code>large_gpu</code>, <code>pod</code>)</li>
+<li><code>--gres=gpu:&lt;model&gt;:&lt;count&gt;</code> requests a <strong>specific</strong> model; <code>--gres=gpu:1</code> requests <strong>any</strong> GPU on the partition</li>
+<li>⚠️ <strong>Partition names and GPU model strings differ between the halves.</strong> Check yours with:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sinfo</span> <span class="at">-o</span> <span class="st">"%P %G"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
 <li>For GPU containers, add <code>--nv</code> to <code>apptainer exec</code></li>
 </ul>
 </section>
 <section id="pod-partition-note" class="slide level2 small-bullets">
 <h2>Pod Partition Note</h2>
 <ul>
-<li><code>pod</code> is <strong>by request only</strong> (a brief consult confirms your code uses multiple GPUs)</li>
-<li>8x <strong>H200 SXM</strong> per node with <strong>InfiniBand</strong> shared memory across GPUs</li>
-<li>Comes with a larger GPU allocation and a longer wall-time limit (see current docs)</li>
+<li>Both halves have an <strong>H200 pod</strong> on an <strong>InfiniBand NDR</strong> fabric
+<ul>
+<li>GPUs share one memory space, so several can work as a single unit</li>
+</ul></li>
+<li>Reserved for <strong>large multi-GPU jobs</strong>; the UCSF half documents a floor of <strong>8 GPUs</strong></li>
+<li><strong>By request only:</strong> a brief consult with an HPC engineer confirms your code can use the architecture
+<ul>
+<li>On the UCSF half, access is then granted through a SLURM <strong>account</strong> you specify when submitting</li>
+</ul></li>
+<li>Only worth requesting if your code is written for multi-GPU (e.g.&nbsp;DDP), otherwise you are reserving GPUs that sit idle</li>
 </ul>
 </section></section>
 <section>
@@ -399,16 +462,16 @@ Submitted batch job 152334
 </section>
 <section id="example-array-job" class="slide level2 smaller">
 <h2>Example Array Job</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=align</span></span>
-<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --array=1-100</span></span>
-<span id="cb5-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
-<span id="cb5-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=4G</span></span>
-<span id="cb5-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4</span></span>
-<span id="cb5-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=align_%A_%a.out   # %A = array job ID, %a = task ID</span></span>
-<span id="cb5-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> python process.py sample_<span class="va">${SLURM_ARRAY_TASK_ID}</span>.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=align</span></span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --array=1-100</span></span>
+<span id="cb9-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb9-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=4G</span></span>
+<span id="cb9-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=4</span></span>
+<span id="cb9-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=align_%A_%a.out   # %A = array job ID, %a = task ID</span></span>
+<span id="cb9-9"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> python process.py sample_<span class="va">${SLURM_ARRAY_TASK_ID}</span>.fastq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>$SLURM_ARRAY_TASK_ID</code> is 1, 2, … 100 for each task in turn</li>
 </ul>
@@ -421,18 +484,19 @@ Submitted batch job 152334
 <section id="salloc" class="slide level2 small-bullets">
 <h2>salloc</h2>
 <p>Get an interactive shell on a compute node:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">--partition</span><span class="op">=</span>cpu <span class="at">--cpus-per-task</span><span class="op">=</span>4 <span class="at">--mem</span><span class="op">=</span>8G <span class="at">--time</span><span class="op">=</span>01:00:00</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">salloc</span> <span class="at">--partition</span><span class="op">=</span>cpu <span class="at">--cpus-per-task</span><span class="op">=</span>4 <span class="at">--mem</span><span class="op">=</span>8G <span class="at">--time</span><span class="op">=</span>01:00:00</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Use it to prototype, test scripts, or run R / Python interactively</li>
-<li>Replaces Wynton <strong>dev nodes</strong>; for GPU dev add <code>--partition=small_gpu --gres=gpu:nvidia_l40s:1</code></li>
-<li>Browser-based RStudio / Jupyter via <strong>Open OnDemand</strong> is coming to CoreHPC</li>
+<li>CoreHPC has <strong>no dedicated dev nodes</strong>, so this is how you get an interactive shell</li>
+<li>For GPU dev work, add your half’s GPU partition and <code>--gres</code> (see the GPU Jobs slide)</li>
+<li>Browser-based RStudio / Jupyter is also available via <strong>Open OnDemand</strong></li>
 </ul>
 </section>
 <section id="attaching-to-a-running-job" class="slide level2">
 <h2>Attaching to a Running Job</h2>
 <p>Inspect a job that is already running on a node:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--jobid</span><span class="op">=&lt;</span>JOBID<span class="op">&gt;</span> --pty /bin/bash</span>
-<span id="cb7-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># then, e.g. nvidia-smi, top, ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> <span class="at">--jobid</span><span class="op">=&lt;</span>JOBID<span class="op">&gt;</span> --pty /bin/bash</span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># then, e.g. nvidia-smi, top, ls</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="monitoring-canceling" class="title-slide slide level1 center">
@@ -441,10 +505,10 @@ Submitted batch job 152334
 </section>
 <section id="checking-status" class="slide level2 small-bullets">
 <h2>Checking Status</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span>             <span class="co"># your jobs and their state</span></span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="op">&lt;</span>jobid<span class="op">&gt;</span>   <span class="co"># full detail on one job</span></span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span> <span class="at">-j</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>            <span class="co"># accounting after it finishes</span></span>
-<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">seff</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>                <span class="co"># efficiency: did you use what you asked for?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">squeue</span> <span class="at">-u</span> <span class="va">$USER</span>             <span class="co"># your jobs and their state</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="op">&lt;</span>jobid<span class="op">&gt;</span>   <span class="co"># full detail on one job</span></span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span> <span class="at">-j</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>            <span class="co"># accounting after it finishes</span></span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">seff</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>                <span class="co"># efficiency: did you use what you asked for?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="job-node-status-codes" class="slide level2 smaller">
 <h2>Job / Node Status Codes</h2>
@@ -517,8 +581,8 @@ Submitted batch job 152334
 </section>
 <section id="canceling" class="slide level2">
 <h2>Canceling</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>     <span class="co"># cancel one job</span></span>
-<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="va">$USER</span>    <span class="co"># cancel all your jobs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>     <span class="co"># cancel one job</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="va">$USER</span>    <span class="co"># cancel all your jobs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="containers-in-slurm-jobs" class="title-slide slide level1 center">
@@ -527,19 +591,19 @@ Submitted batch job 152334
 </section>
 <section id="running-apptainer-in-a-job" class="slide level2">
 <h2>Running Apptainer in a Job</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer</span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec myenv.sif python script.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer</span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec myenv.sif python script.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Build / pull the <code>.sif</code> on the login node first (compute nodes have no internet)</li>
 </ul>
 </section>
 <section id="gpu-enabled-containers" class="slide level2 smaller">
 <h2>GPU-Enabled Containers</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
-<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer cuda</span>
-<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--nv</span> myenv.sif python train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load apptainer cuda</span>
+<span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--nv</span> myenv.sif python train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>--nv</code> exposes the GPU drivers inside the container</li>
 <li>Building images: see the <a href="Containers_on_CoreHPC.html">container guide</a></li>
@@ -548,12 +612,12 @@ Submitted batch job 152334
 <section id="hybrid-host-container-workflow" class="slide level2 smaller">
 <h2>Hybrid Host + Container Workflow</h2>
 <p>Mix host tools and a container in one job script:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess with a module-provided tool</span></span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load samtools</span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort in.bam <span class="at">-o</span> sorted.bam</span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># analyze inside the container</span></span>
-<span id="cb12-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> /mnt/scratch/user/<span class="va">$USER</span> analysis.sif python run.py sorted.bam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess with a module-provided tool</span></span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load samtools</span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort in.bam <span class="at">-o</span> sorted.bam</span>
+<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># analyze inside the container</span></span>
+<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> /mnt/scratch/user/<span class="va">$USER</span> analysis.sif python run.py sorted.bam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="mpi-multi-node-jobs" class="title-slide slide level1 center">
@@ -562,29 +626,33 @@ Submitted batch job 152334
 </section>
 <section id="mpi-job-script" class="slide level2 smaller">
 <h2>MPI Job Script</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=mpi_example</span></span>
-<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=2</span></span>
-<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=8        # 16 MPI ranks total</span></span>
-<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb13-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=16G</span></span>
-<span id="cb13-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
-<span id="cb13-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=mpi_%j.out</span></span>
-<span id="cb13-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load openmpi5/5.0.8         <span class="co"># or the MPI bundled with nvidia/nvhpc</span></span>
-<span id="cb13-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> ./my_mpi_program</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=mpi_example</span></span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=2</span></span>
+<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=8        # 16 MPI ranks total</span></span>
+<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=16G</span></span>
+<span id="cb17-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=01:00:00</span></span>
+<span id="cb17-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=mpi_%j.out</span></span>
+<span id="cb17-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load openmpi5/5.0.8         <span class="co"># or the MPI bundled with nvidia/nvhpc</span></span>
+<span id="cb17-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> ./my_mpi_program</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>srun</code> launches one rank per task and wires up MPI across the nodes</li>
 </ul>
 </section>
-<section id="important-community-cpu-partition" class="slide level2 small-bullets">
-<h2>Important: Community CPU Partition</h2>
+<section id="not-all-partitions-have-infiniband" class="slide level2 small-bullets">
+<h2>Not All Partitions Have InfiniBand</h2>
 <ul>
-<li>The <strong><code>community cpu</code></strong> partition has <strong>no InfiniBand</strong></li>
-<li>Not for tightly-coupled MPI; it suits <strong>high-throughput</strong> (independent) jobs, Wynton-style</li>
-<li>For real MPI use <code>cpu</code>, <code>small_gpu</code> / <code>large_gpu</code>, or <code>pod</code> (which have the fast interconnect)</li>
-<li><em>Confirm partition names and MPI module versions with <code>sinfo</code> / <code>module avail</code>.</em></li>
+<li>MPI needs the fast <strong>InfiniBand</strong> interconnect, which every partition has except one</li>
+<li>The <strong>UCSF half</strong> has a <strong><code>community</code></strong> partition for <strong>high-throughput</strong> (independent) jobs
+<ul>
+<li><strong>No InfiniBand</strong>, so it is <strong>not</strong> for tightly-coupled MPI</li>
+<li>Wall-time limit is <strong>2 weeks</strong>, far longer than the other partitions</li>
+</ul></li>
+<li>That makes it the right home for long jobs that do not need MPI</li>
+<li><em>Academic access is planned for fall 2026, so confirm it exists with <code>sinfo</code> before relying on it.</em></li>
 </ul>
 </section></section>
 <section>
@@ -596,9 +664,12 @@ Submitted batch job 152334
 <h2>Nextflow on CoreHPC</h2>
 <ul>
 <li><strong>Nextflow</strong> runs portable, reproducible workflows; <strong>nf-core</strong> is a community library of pipelines (<a href="https://nf-co.re" class="uri">https://nf-co.re</a>)</li>
-<li>The <strong>head process</strong> submits <strong>each step as its own SLURM job</strong></li>
-<li>On CoreHPC the head runs as its <strong>own small SLURM job</strong>, not on the login node (which is submission-only and can drop your session)</li>
-<li>Compute nodes are <strong>offline</strong>, so stage everything first</li>
+<li>A <strong>driver process</strong> submits <strong>each pipeline step as its own SLURM job</strong></li>
+<li>On CoreHPC that driver must be <strong>its own SLURM job</strong>, not a login-node session
+<ul>
+<li>The login node kills your processes when the SSH session drops</li>
+</ul></li>
+<li>Compute nodes have <strong>no internet</strong>, so everything is staged in advance</li>
 <li>Example here: the <strong>nf-core/rnaseq</strong> pipeline</li>
 </ul>
 </section>
@@ -613,69 +684,31 @@ Submitted batch job 152334
 </figure>
 </div>
 </section>
-<section id="installing-nextflow" class="slide level2 smaller">
-<h2>Installing Nextflow</h2>
-<p>There is no Nextflow module, so install it once via conda <strong>on the login node</strong> (it has internet):</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
-<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> nextflow <span class="at">-c</span> bioconda nf-core nextflow   <span class="co"># nextflow + nf-core tools (+ a JRE)</span></span>
-<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate nextflow</span>
-<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> <span class="at">-v</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="stage-everything-on-the-login-node" class="slide level2 smaller">
-<h2>Stage Everything on the Login Node</h2>
-<p>Compute nodes have <strong>no internet</strong>, so pre-fetch the pipeline and all its containers while you are connected:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_SINGULARITY_CACHEDIR</span><span class="op">=</span>/mnt/scratch/user/<span class="va">$USER</span>/containers</span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">nf-core</span> download rnaseq <span class="at">-r</span> 3.14.0 <span class="at">--container-system</span> singularity</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="what-makes-corehpc-different" class="slide level2 small-bullets">
+<h2>What Makes CoreHPC Different</h2>
 <ul>
-<li>Downloads the pipeline code, configs, and images so the run needs <strong>no internet</strong></li>
-<li>Apptainer runs the Singularity-format images (CoreHPC’s runtime is <code>module load apptainer</code>)</li>
-<li><em>UCSF (non-Gladstone): use <code>/scratch/user/$USER/...</code></em></li>
+<li><strong>Submit Nextflow itself as a job</strong>, which then submits one child job per task</li>
+<li><strong>Pre-fetch three things</strong> on the login node, because compute nodes are offline
+<ul>
+<li>The pipeline code, its container images, and the plugins it pins</li>
+</ul></li>
+<li><strong>Run with <code>NXF_OFFLINE=true</code></strong> so it does not try to phone home</li>
+<li><strong>Give the driver a long walltime</strong>, and always use <code>-resume</code></li>
+<li>A few nf-core defaults also need overriding, or <code>-resume</code> breaks</li>
 </ul>
 </section>
-<section id="configure-the-slurm-executor" class="slide level2 smaller">
-<h2>Configure the SLURM Executor</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">// corehpc.config</span></span>
-<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>process <span class="op">{</span></span>
-<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a>  executor <span class="op">=</span> <span class="st">'slurm'</span></span>
-<span id="cb16-4"><a href="" aria-hidden="true" tabindex="-1"></a>  queue    <span class="op">=</span> <span class="st">'cpu'</span>                 <span class="co">// default partition</span></span>
-<span id="cb16-5"><a href="" aria-hidden="true" tabindex="-1"></a>  cpus     <span class="op">=</span> <span class="dv">4</span></span>
-<span id="cb16-6"><a href="" aria-hidden="true" tabindex="-1"></a>  memory   <span class="op">=</span> <span class="st">'8 GB'</span></span>
-<span id="cb16-7"><a href="" aria-hidden="true" tabindex="-1"></a>  time     <span class="op">=</span> <span class="st">'2h'</span></span>
-<span id="cb16-8"><a href="" aria-hidden="true" tabindex="-1"></a>  withLabel<span class="op">:</span> gpu <span class="op">{</span> queue <span class="op">=</span> <span class="st">'small_gpu'</span><span class="op">;</span> clusterOptions <span class="op">=</span> <span class="st">'--gres=gpu:nvidia_l40s:1'</span> <span class="op">}</span></span>
-<span id="cb16-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
-<span id="cb16-10"><a href="" aria-hidden="true" tabindex="-1"></a>executor  <span class="op">{</span> queueSize <span class="op">=</span> <span class="dv">50</span> <span class="op">}</span>       <span class="co">// cap concurrent SLURM jobs</span></span>
-<span id="cb16-11"><a href="" aria-hidden="true" tabindex="-1"></a>apptainer <span class="op">{</span> enabled <span class="op">=</span> <span class="kw">true</span><span class="op">;</span> autoMounts <span class="op">=</span> <span class="kw">true</span> <span class="op">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><em>No SLURM defaults, so set resources explicitly. Pass the work dir on the command line (next slide) so <code>$USER</code> expands.</em></p>
-</section>
-<section id="run-it-as-a-head-job" class="slide level2 smaller">
-<h2>Run It as a Head Job</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=nf-rnaseq</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
-<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
-<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=4G</span></span>
-<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=24:00:00              # must cover the whole pipeline</span></span>
-<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=nf_%j.out</span></span>
-<span id="cb17-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3 apptainer</span>
-<span id="cb17-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate nextflow</span>
-<span id="cb17-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_OFFLINE</span><span class="op">=</span>true</span>
-<span id="cb17-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">export</span> <span class="va">NXF_SINGULARITY_CACHEDIR</span><span class="op">=</span>/mnt/scratch/user/<span class="va">$USER</span>/containers</span>
-<span id="cb17-13"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run ./nf-core-rnaseq_3.14.0/workflow <span class="dt">\</span></span>
-<span id="cb17-15"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">-profile</span> test <span class="at">-c</span> corehpc.config <span class="dt">\</span></span>
-<span id="cb17-16"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="at">-w</span> /mnt/scratch/user/<span class="va">$USER</span>/work <span class="at">-resume</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Submit with <code>sbatch run_rnaseq.sh</code>; the head job orchestrates and submits each step as its own job.</p>
-</section>
-<section id="why-a-head-job-not-the-login-node" class="slide level2 small-bullets">
-<h2>Why a Head Job (Not the Login Node)</h2>
+<section id="full-setup-guide" class="slide level2 smaller">
+<h2>Full Setup Guide</h2>
+<p>Rather than work through all of that on slides, there is a standalone guide with copy-paste templates:</p>
+<h3 id="running-nextflow-on-corehpc"><a href="Nextflow_on_CoreHPC.html">Running Nextflow on CoreHPC</a></h3>
 <ul>
-<li>The login node is <strong>submission only</strong>; long sessions there are discouraged and may be revoked</li>
-<li>A head job runs <strong>within the scheduler</strong>: it survives disconnects and is policy-compliant</li>
-<li>Pre-stage everything (pipeline, containers, references) and run with <code>NXF_OFFLINE=true</code></li>
-<li>Size <code>--time</code> to the whole pipeline; <code>-resume</code> continues a timed-out run; move results off scratch</li>
-<li><em>Constructed example: confirm nested <code>sbatch</code> is allowed and validate the offline / container settings on the cluster</em></li>
+<li>Installing Nextflow, Java, and the <strong>nf-core</strong> Python package</li>
+<li>Pre-fetching the pipeline, containers, and plugins for offline runs</li>
+<li>A ready-made config and driver-job launcher</li>
+<li>A <strong>smoke test</strong> that proves your setup works before you touch real data</li>
+<li>An error quick reference for the failures everyone hits</li>
 </ul>
+<p><em>Templates: <a href="https://github.com/gladstone-institutes/Bioinformatics-Workshops/tree/master/intro-to-corehpc/materials/nextflow"><code>materials/nextflow/</code></a> in the workshop repo</em></p>
 </section></section>
 <section>
 <section id="jupyter-openondemand" class="title-slide slide level1 center">
@@ -686,8 +719,9 @@ Submitted batch job 152334
 <h2>OpenOnDemand Portal</h2>
 <ul>
 <li>A <strong>web portal</strong> for launching Jupyter, RStudio, and shells in the browser</li>
-<li>Replaces the SSH port-forwarding dance from Wynton</li>
-<li><em>Coming to CoreHPC; check the current docs for availability</em></li>
+<li>No SSH port-forwarding needed</li>
+<li>One of the approved ways data leaves CoreHPC, alongside <strong>Globus</strong> and mounted shares</li>
+<li><em>Check the current docs for the portal URL and which apps are published.</em></li>
 </ul>
 </section></section>
 <section>
@@ -695,15 +729,38 @@ Submitted batch job 152334
 <h1>Best Practices and Troubleshooting</h1>
 
 </section>
-<section id="best-practices" class="slide level2 small-bullets">
+<section id="best-practices" class="slide level2 less-small-bullets">
 <h2>Best Practices</h2>
 <ul>
 <li><strong>Test interactively</strong> in <code>salloc</code> before submitting big batch jobs</li>
 <li>Request <strong>only what you need</strong>, and always set <code>--time</code></li>
 <li><strong>No heavy compute</strong> on the login or bastion nodes</li>
 <li>Compute nodes have <strong>no internet</strong>, so stage data and containers first</li>
-<li>Keep anything you cannot lose on <strong>FAC / HIVE</strong>, not scratch</li>
+<li>Keep anything you cannot lose on <strong>FAC</strong> (UCSF) or <strong>HIVE</strong> (Gladstone), not scratch</li>
+<li>Staging differs by half
+<ul>
+<li><strong>UCSF:</strong> FAC is <strong>not for active compute</strong>, so stage data onto scratch first, then copy results back</li>
+<li><strong>Gladstone:</strong> HIVE is mounted directly, so no staging copy is needed</li>
+</ul></li>
 <li>For GPU jobs, track utilization with <code>seff</code> / <code>nvidia-smi</code> (low use = wasted reservation)</li>
+</ul>
+</section>
+<section id="how-your-jobs-get-prioritized" class="slide level2 small-bullets">
+<h2>How Your Jobs Get Prioritized</h2>
+<ul>
+<li>Both halves use <strong>fair-share</strong> scheduling, not first-come-first-served
+<ul>
+<li><strong>Higher priority</strong> goes to users who have <strong>not recently used</strong> the cluster</li>
+</ul></li>
+<li><strong>UCSF half:</strong> no allocation of core hours and no hard usage caps today
+<ul>
+<li>Labs that bought <strong>condo</strong> nodes get priority on them, others run there at lower priority</li>
+</ul></li>
+<li><strong>Gladstone half:</strong> per-user caps on running jobs and GPUs, so check them before planning a big sweep</li>
+<li><strong>Asking for less runs sooner</strong>
+<ul>
+<li>Oversized requests wait longer, and lower your fair-share standing</li>
+</ul></li>
 </ul>
 </section>
 <section id="common-errors" class="slide level2 small-bullets">
@@ -720,11 +777,18 @@ Submitted batch job 152334
 <h1>How to Get Help</h1>
 
 </section>
-<section id="corehpc-support" class="slide level2">
+<section id="corehpc-support" class="slide level2 small-bullets">
 <h2>CoreHPC Support</h2>
 <ul>
 <li>Support request form: <a href="https://tiny.ucsf.edu/Gethpc" class="uri">https://tiny.ucsf.edu/Gethpc</a></li>
 <li>CoreHPC Slack channel (request access via the form above)</li>
+<li><strong>Gladstone users:</strong> Gladstone IT can also help with access, HIVE shares, and networking</li>
+<li>UCSF documentation (the wiki requires a <strong>UCSF email</strong>, and Gladstone network to view):
+<ul>
+<li><a href="https://wiki.library.ucsf.edu/x/m2LwKg">CoreHPC Access Primer</a></li>
+<li><a href="https://wiki.library.ucsf.edu/spaces/CHPC/pages/720396966/CoreHPC+Frequently+Asked+Questions+FAQ+">CoreHPC FAQ</a></li>
+</ul></li>
+<li><em>The wiki is written for the UCSF half; translate hostnames, partitions, and paths if you are on the Gladstone half</em></li>
 </ul>
 </section>
 <section id="bioinformatics-questions" class="slide level2">
@@ -758,12 +822,22 @@ Submitted batch job 152334
 <section id="workshop-survey" class="slide level2">
 <h2>Workshop survey</h2>
 <ul>
-<li>Please fill out our <a href="TBD">workshop survey</a> so we can continue to improve these workshops</li>
+<li>Please fill out our <a href="https://www.surveymonkey.com/r/bioinfo-training26">workshop survey</a> so we can continue to improve these workshops</li>
 </ul>
 </section>
 <section id="upcoming-data-science-training-program-workshops" class="slide level2 smaller">
 <h2>Upcoming Data Science Training Program Workshops</h2>
-<p><em>To be filled in closer to the workshop date.</em></p>
+<p><strong>Introduction to Machine Learning</strong><br>
+September 24, 2026 1:00-5:00pm PDT</p>
+<p><strong>Introduction to RNA-Seq Analysis</strong><br>
+September 28-September 29, 2026 9:00am-3:00pm PDT</p>
+<p><strong>AI Fluency for Biologists</strong><br>
+October 5-October 6, 2026 1:00-4:00pm PDT</p>
+<p><strong>Single Cell RNA-Seq Analysis Using R</strong><br>
+October 12-October 13, 2026 9:30am-3:30pm PDT</p>
+<p><strong>Introduction to Pathway Analysis</strong><br>
+October 15, 2026 1:00-4:00pm PDT</p>
+<p><em>Register at <a href="https://gladstone.org/events?series=189" class="uri">https://gladstone.org/events?series=189</a></em></p>
 
 </section></section>
     </div>
