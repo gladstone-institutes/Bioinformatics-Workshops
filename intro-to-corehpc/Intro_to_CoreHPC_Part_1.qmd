@@ -45,6 +45,16 @@ knitr::opts_chunk$set(comment = "")
 7.  Python Environments with Miniforge3
 8.  Containers
 
+## Poll 0
+
+Which of these are you already comfortable with? Select all that apply.
+
+1.  The Unix command line (`cd`, `ls`, editing a file)
+2.  Writing scripts or code (any language)
+3.  Working on an HPC cluster
+4.  Containers (Docker, Apptainer)
+5.  None of these yet
+
 
 # What is CoreHPC?
 
