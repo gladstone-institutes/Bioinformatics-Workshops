@@ -57,7 +57,7 @@ nextflow -v
 to download a pipeline for offline use, so install it into a conda environment:
 
 ```bash
-module load miniforge3
+module load CBI miniforge3
 conda create -n nf-core -c bioconda -c conda-forge nf-core
 conda activate nf-core
 nf-core --version

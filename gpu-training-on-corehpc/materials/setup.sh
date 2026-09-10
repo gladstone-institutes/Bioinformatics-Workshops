@@ -41,7 +41,7 @@ if ! command -v module &>/dev/null; then
 fi
 
 echo "Loading miniforge3 module."
-module load miniforge3
+module load CBI miniforge3
 
 # Redirect conda envs/pkgs onto scratch (home is only 20 GB on CoreHPC)
 conda config --append envs_dirs  "/mnt/scratch/user/${USER}/conda/envs" 2>/dev/null || true

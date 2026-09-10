@@ -31,7 +31,7 @@ If you don't have pod access, you can still read the script and submit `01`, `02
 -   On the CoreHPC login node, after `setup.sh` has built the conda env:
 
 ```bash
-module load miniforge3
+module load CBI miniforge3
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate gpu-training-corehpc
 wandb login    # paste your API key

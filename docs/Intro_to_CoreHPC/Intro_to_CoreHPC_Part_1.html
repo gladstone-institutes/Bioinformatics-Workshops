@@ -717,25 +717,11 @@ chpc-gs-cpu-01</code></pre>
 </section>
 <section id="common-commands" class="slide level2">
 <h2>Common Commands</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> avail              <span class="co"># list available modules</span></span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3    <span class="co"># load a module</span></span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> list               <span class="co"># show loaded modules</span></span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> unload miniforge3  <span class="co"># unload it</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> spider               <span class="co"># list available modules</span></span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load CBI miniforge3  <span class="co"># load a module</span></span>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> list                 <span class="co"># show loaded modules</span></span>
+<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> unload miniforge3    <span class="co"># unload it</span></span>
 <span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> <span class="at">--help</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="example-available-modules" class="slide level2 small-bullets">
-<h2>Example Available Modules</h2>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>[alice@chpc-gs-login-vm1 ~]$ module avail
-
-  apptainer/1.4.1      gnu13/13.2.0          nvidia/cuda/12.9.1
-  cmake/4.0.0          hwloc/2.12.0          nvidia/cudnn/9.10_cuda_12.9
-  cuda/25.1            libfabric/1.18.0      nvidia/nvhpc/25.5
-  autotools            miniforge3/25.11.0    ucx/1.18.0
-  papi/6.0.0           spack/0.23.1          prun/2.2</code></pre>
-</div>
-</div>
 </section></section>
 <section>
 <section id="python-environments-with-miniforge3" class="title-slide slide level1 center">
@@ -747,30 +733,30 @@ chpc-gs-cpu-01</code></pre>
 <ul>
 <li>A minimal <strong>conda</strong> distribution that defaults to the <strong>conda-forge</strong> channel</li>
 <li>Lets you create isolated <strong>environments</strong>, each with its own Python and packages</li>
-<li>Available as a module: <code>module load miniforge3</code></li>
+<li>Available as a module: <code>module load CBI miniforge3</code></li>
 </ul>
 </section>
 <section id="setup-conda" class="slide level2">
 <h2>Setup Conda</h2>
 <p>Home is only 20 GB, so point conda’s environments and package cache at scratch:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
-<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init bash          <span class="co"># then restart your shell</span></span>
-<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
-<span id="cb14-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load CBI miniforge3</span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> init bash          <span class="co"># then restart your shell</span></span>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
+<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><em>This only needs to be done once; it edits <code>~/.condarc</code>.</em></p>
 </section>
 <section id="creating-an-environment" class="slide level2">
 <h2>Creating an Environment</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project1 python=3.11</span>
-<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate project1</span>
-<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy pandas scikit-learn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> project1 python=3.11</span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate project1</span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> install numpy pandas scikit-learn</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="exporting-an-environment" class="slide level2 small-bullets">
 <h2>Exporting an Environment</h2>
 <p>Scratch is volatile, so capture a recipe you can rebuild from:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--no-builds</span> <span class="op">&gt;</span> environment.yml   <span class="co"># save to home or persistent storage</span></span>
-<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml              <span class="co"># rebuild anytime</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="at">--no-builds</span> <span class="op">&gt;</span> environment.yml   <span class="co"># save to home or persistent storage</span></span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml              <span class="co"># rebuild anytime</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>For long-lived environments, build an <strong>Apptainer image</strong> instead
 <ul>
@@ -805,12 +791,11 @@ chpc-gs-cpu-01</code></pre>
 <section id="apptainer-on-corehpc" class="slide level2 small-bullets">
 <h2>Apptainer on CoreHPC</h2>
 <ul>
-<li>Load the module: <code>module load apptainer</code></li>
 <li>Pull and run images:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://<span class="op">&lt;</span>user<span class="op">&gt;</span>/<span class="op">&lt;</span>image<span class="op">&gt;</span>:<span class="op">&lt;</span>tag<span class="op">&gt;</span>   <span class="co"># creates image_tag.sif</span></span>
-<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec image.sif <span class="op">&lt;</span>command<span class="op">&gt;</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> shell image.sif                       <span class="co"># interactive shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://<span class="op">&lt;</span>user<span class="op">&gt;</span>/<span class="op">&lt;</span>image<span class="op">&gt;</span>:<span class="op">&lt;</span>tag<span class="op">&gt;</span>   <span class="co"># creates image_tag.sif</span></span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec image.sif <span class="op">&lt;</span>command<span class="op">&gt;</span></span>
+<span id="cb16-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> shell image.sif                       <span class="co"># interactive shell</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Pull / build on the login node</strong> (the only node with internet)</li>
 <li>Full command reference: the <a href="https://apptainer.org/docs/user/main/">Apptainer user guide</a></li>
@@ -818,9 +803,9 @@ chpc-gs-cpu-01</code></pre>
 </section>
 <section id="example-pull-a-container" class="slide level2">
 <h2>Example: Pull a Container</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># On the login node:</span></span>
-<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
-<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># On the login node:</span></span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> exec hello-world_1.0.sif hi</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><strong>Building your own image</strong> (from a conda env or Dockerfile): see the <a href="Containers_on_CoreHPC.html">container guide</a></li>
 </ul>

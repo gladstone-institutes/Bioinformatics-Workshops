@@ -125,7 +125,7 @@ salloc --partition=cpu \
 Home is only 20 GB. Push conda envs/pkgs onto scratch:
 
 ```bash
-module load miniforge3
+module load CBI miniforge3
 conda config --append envs_dirs /mnt/scratch/user/$USER/envs
 conda config --append pkgs_dirs /mnt/scratch/user/$USER/pkgs
 ```
@@ -140,7 +140,7 @@ conda env export > environment.yml
 
 ```bash
 # rebuild_env.sh
-module load miniforge3
+module load CBI miniforge3
 conda env create -f environment.yml -p /mnt/scratch/user/$USER/envs/myenv
 ```
 

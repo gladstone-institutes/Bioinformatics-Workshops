@@ -39,7 +39,7 @@ mkdir -p "${OUT_DIR}"
 # The checkpoint is already on disk from the last eval interval.
 trap 'echo "[$(date)] received SIGTERM, exiting cleanly. ckpt is at ${OUT_DIR}/ckpt.pt"; exit 0' SIGTERM
 
-module load miniforge3
+module load CBI miniforge3
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate gpu-training-corehpc
 

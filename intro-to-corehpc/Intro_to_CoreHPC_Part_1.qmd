@@ -412,25 +412,12 @@ Use scratch only for **hot** data needing heavy read/write.
 ## Common Commands
 
 ```bash
-module avail              # list available modules
-module load miniforge3    # load a module
-module list               # show loaded modules
-module unload miniforge3  # unload it
+module spider               # list available modules
+module load CBI miniforge3  # load a module
+module list                 # show loaded modules
+module unload miniforge3    # unload it
 module --help
 ```
-
-## Example Available Modules {.small-bullets}
-
-```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
-echo '[alice@chpc-gs-login-vm1 ~]$ module avail
-
-  apptainer/1.4.1      gnu13/13.2.0          nvidia/cuda/12.9.1
-  cmake/4.0.0          hwloc/2.12.0          nvidia/cudnn/9.10_cuda_12.9
-  cuda/25.1            libfabric/1.18.0      nvidia/nvhpc/25.5
-  autotools            miniforge3/25.11.0    ucx/1.18.0
-  papi/6.0.0           spack/0.23.1          prun/2.2'
-```
-
 
 
 
@@ -440,14 +427,14 @@ echo '[alice@chpc-gs-login-vm1 ~]$ module avail
 
 -   A minimal **conda** distribution that defaults to the **conda-forge** channel
 -   Lets you create isolated **environments**, each with its own Python and packages
--   Available as a module: `module load miniforge3`
+-   Available as a module: `module load CBI miniforge3`
 
 ## Setup Conda
 
 Home is only 20 GB, so point conda's environments and package cache at scratch:
 
 ```bash
-module load miniforge3
+module load CBI miniforge3
 conda init bash          # then restart your shell
 
 conda config --append envs_dirs /mnt/scratch/user/$USER/envs
@@ -497,7 +484,6 @@ Your conda env lives in `/mnt/scratch/user/$USER/envs`. What do you keep elsewhe
 
 ## Apptainer on CoreHPC {.small-bullets}
 
--   Load the module: `module load apptainer`
 -   Pull and run images:
 
 ```bash

@@ -360,7 +360,7 @@ Natalie Gill
 <section id="one-time-setup-for-conda-users" class="slide level2 smaller">
 <h2>One-time setup for conda users</h2>
 <p>Home is only 20 GB. Push conda envs/pkgs onto scratch:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load CBI miniforge3</span>
 <span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> envs_dirs /mnt/scratch/user/<span class="va">$USER</span>/envs</span>
 <span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> config <span class="at">--append</span> pkgs_dirs /mnt/scratch/user/<span class="va">$USER</span>/pkgs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>⚠️ <strong>Scratch is automatically purged periodically.</strong> Keep an <code>environment.yml</code> and a <strong>bootstrap script</strong> in your home directory (or HIVE) so you can rebuild quickly if files are purged:</p>
@@ -368,7 +368,7 @@ Natalie Gill
 <span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate myenv</span>
 <span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="op">&gt;</span> environment.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># rebuild_env.sh</span></span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load miniforge3</span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load CBI miniforge3</span>
 <span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env create <span class="at">-f</span> environment.yml <span class="at">-p</span> /mnt/scratch/user/<span class="va">$USER</span>/envs/myenv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>For environments you will use long term it is recommended to use <code>apptainer</code> and store the .sif files on the HIVE. See the <a href="Containers_on_CoreHPC.html">container guide</a>.</p>
 </section></section>

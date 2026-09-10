@@ -32,7 +32,7 @@ OUT_DIR="${WORKSHOP_ROOT}/runs/${SLURM_JOB_ID}"
 mkdir -p "${OUT_DIR}"
 
 # Activate the conda env created by setup.sh
-module load miniforge3
+module load CBI miniforge3
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate gpu-training-corehpc
 

@@ -22,7 +22,7 @@ if [ ! -d "${WANDB_DIR}" ]; then
     exit 1
 fi
 
-module load miniforge3
+module load CBI miniforge3
 source "$(conda info --base)/etc/profile.d/conda.sh"
 conda activate gpu-training-corehpc
 

@@ -57,7 +57,7 @@ From the login node, load Miniforge, activate the environment you want to
 capture, and export it to a recipe:
 
 ```bash
-module load miniforge3
+module load CBI miniforge3
 conda activate myenv
 
 # --no-builds drops platform-specific build strings, which keeps the
