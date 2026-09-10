@@ -220,6 +220,11 @@ small {
   font-size: 80%;
 }
 
+// Figure-only slides: drop the trailing figure margin so .center sits even
+.reveal .slides section.center .quarto-figure {
+  margin-bottom: 0 !important;
+}
+
 // Image size classes
 .big-picture img {
   max-width: 95%;

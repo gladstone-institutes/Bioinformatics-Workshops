@@ -56,9 +56,9 @@ knitr::opts_chunk$set(comment = "")
 -   Originally focused on **AI / Data Science**, now expanding to general-purpose HPC
 -   Becoming the **primary HPC resource** for UCSF and Gladstone researchers
 
-## Architecture
+## Architecture {.center}
 
-![](slide_materials/CoreHPC_diagram.svg){fig-alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints" .nostretch fig-align="center" width=50%}
+![](slide_materials/CoreHPC_diagram.svg){fig-alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints" .nostretch fig-align="center" width=60%}
 
 
 
@@ -68,7 +68,7 @@ knitr::opts_chunk$set(comment = "")
 
 -   CoreHPC is **one platform** split into a **UCSF half** and a **Gladstone half**
 -   Each half has its own **bastion, login nodes, storage, and compute nodes**
--   Both run the **same software stack** (Linux, OpenHPC modules, Apptainer, SLURM), so everything in this workshop applies to either
+-   Both run the **same software stack** (Linux, OpenHPC modules, Apptainer, SLURM)
 -   Either half is accessed with a **UCSF MyAccess account**
 -   **Gladstone researchers have access to both halves**
 
@@ -86,14 +86,13 @@ knitr::opts_chunk$set(comment = "")
 
 | | UCSF half | Gladstone half |
 |-------------------|---------------------------|--------------------------|
-| Per-user fee | **$155/user/yr** | none |
 | Condo buy-in | supported | not supported |
-| Persistent storage | FAC (~$52/TB/yr) | HIVE (included) |
+| Persistent storage | FAC Storage | HIVE |
 | Computing on it | copy to scratch first | HIVE mounted directly |
 | Data sensitivity | P1 to P4, incl. patient records | anonymized only, **no PHI** currently |
 | Scheduling | fair-share, condo priority on purchased nodes | fair-share |
 
-## Storage Is the Big Difference {.small-bullets}
+## Storage Differences {.small-bullets}
 
 -   **UCSF half:** persistent data lives on **FAC** capacity storage
     -   **Not intended for active compute**
@@ -121,12 +120,15 @@ A cluster is made of different kinds of machines, each with its own job:
     -   You reach these through SLURM, not by SSH
 
 
+## How the Nodes Connect {.center}
+
+![](slide_materials/CoreHPC_diagram.svg){fig-alt="CoreHPC architecture diagram showing bastion nodes, login node, compute nodes, and Globus endpoints" .nostretch fig-align="center" width=60%}
+
 
 ## Prerequisites {.small-bullets}
 
 -   A **UCSF MyAccess account**, for either half
 -   A **CoreHPC-provisioned account** (requested via your PI / lab)
--   **UCSF half only:** your lab must already have an **FAC share**, or a submitted request for one, before onboarding
 -   **MyAccess MFA / DUO** enrolled on your phone
 -   On the right network for the half you want:
     -   **UCSF:** UCSF network (UCSFwpa) or VPN
@@ -150,8 +152,6 @@ ssh <user>@chpc-gs-bastion-vm1.corehpc.ucsf.edu
 ```
 
 -   Enter your **UCSF MyAccess password**
--   At the **Duo** prompt, type **`1`** and press enter
-    -   Push is currently the only option, so `(1-1)` always means push
 -   Approve the push on your phone
 
 ## Step 2: Hop to the Login Node {.smaller}
@@ -183,8 +183,7 @@ Example, logging in to the **Gladstone** half:
 ```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
 echo '[alice@laptop ~]$ ssh alice@chpc-gs-bastion-vm1.corehpc.ucsf.edu
 Password:
-Duo two-factor login for alice
-Passcode or option (1-1): 1
+Autopushing login request to phone...
 Success. Logging you in...
 [alice@chpc-gs-bastion-vm1 ~]$ ssh chpc-gs-login-vm1
 [alice@chpc-gs-login-vm1 ~]$'
@@ -208,6 +207,61 @@ Success. Logging you in...
 -   Share your home directory and scratch with the login node
 -   Also have fast **local NVMe** at `/tmp` that lasts only for the job
     -   This is a per-job `/mnt/lscratch/<job id>` mounted as `/tmp`
+
+
+## Hands-on: Log In and Look Around {.smaller}
+
+1.  SSH to the **bastion** for your half, then hop to its **login node**
+2.  Run `hostname`, `whoami`, and `pwd`
+
+```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@chpc-gs-login-vm1 ~]$ hostname
+chpc-gs-login-vm1
+[alice@chpc-gs-login-vm1 ~]$ whoami
+alice
+[alice@chpc-gs-login-vm1 ~]$ pwd
+/home/remote/alice'
+```
+
+3.  To close the connection run the `exit` command **twice**
+
+
+## Getting an Interactive Session {.smaller}
+
+CoreHPC has **no dev nodes**, so you ask SLURM for a compute node instead:
+
+```bash
+salloc --partition=cpu --cpus-per-task=1 --mem=4G --time=01:00:00
+```
+
+-   `--partition=cpu` picks the pool of general CPU nodes
+-   The rest is **how much** and **how long**, covered in Part 2
+-   You get a shell on the node once the request is granted
+-   Type `exit` to **release** the node as soon as you are done
+    -   Otherwise it stays reserved for you until `--time` runs out
+
+## Why Use an Interactive Session {.smaller}
+
+-   **Test before you submit**, so a typo costs you seconds instead of a queued job
+-   **Work interactively** in R or Python against real data
+-   **Build software** you downloaded on the login node
+    -   Compute nodes have no internet, so download first, compile second
+-   **Explore big files**, since sorting a 50 GB BAM on the login node slows it for everyone
+-   **Debug a job that failed**, using the same resources it asked for
+
+## Hands-on: Get a Compute Node {.smaller}
+
+1.  From the login node, request a small interactive session
+2.  Run `hostname` again and note that you are on a **different machine**
+
+```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@chpc-gs-login-vm1 ~]$ salloc --partition=cpu --cpus-per-task=1 --mem=4G --time=00:30:00
+salloc: Granted job allocation 152334
+[alice@chpc-gs-cpu-01 ~]$ hostname
+chpc-gs-cpu-01'
+```
+
+3.  Type `exit` to release the node before we move on
 
 
 # Storage
@@ -258,7 +312,6 @@ The paths are the **same on both halves**, except for persistent storage:
 
 -   **Required** for every CoreHPC account
 -   The repository for all project data
--   **Recharge** at roughly **$52/TB/yr**, plus a setup cost
 -   ⚠️ **Not for active compute.** Never point a SLURM job at it: it degrades performance for everyone and can cause runtime errors
 -   Request a share: <https://tiny.ucsf.edu/getfac>
 :::
@@ -267,7 +320,6 @@ The paths are the **same on both halves**, except for persistent storage:
 **Gladstone: HIVE**
 
 -   Your lab share is **already mounted** at `/mnt/gladstone/<pi>/<share>`
--   **No recharge**, and it is **backed up**
 -   Connected directly, so you can **compute against it without copying**
 -   **Every** share you have access to is mounted, not just your own lab's
 :::
@@ -282,9 +334,17 @@ The paths are the **same on both halves**, except for persistent storage:
     -   FAC is where your data lives
     -   Stage it onto scratch for a job, then copy results back afterward
 -   **Gladstone:** only **HIVE** is backed up
--   Avoid huge directories of tiny files on shared storage
+-   Avoid reading/writing large directories of tiny files on shared storage when possible
     -   It slows the filesystem for **everyone**, not just you
-    -   Prefer a single container image ([container guide](Containers_on_CoreHPC.html))
+
+## Poll 1
+
+Your job results have sat in `/mnt/scratch/user/$USER` for three weeks. Which is true?
+
+1.  Safe, scratch is backed up nightly
+2.  Safe, support can restore them after the purge
+3.  Possibly gone, and unrecoverable
+4.  Already copied to your home directory
 
 
 # Data Transfer
@@ -293,7 +353,7 @@ The paths are the **same on both halves**, except for persistent storage:
 
 -   **Globus** is the supported way to move data in or out from outside CoreHPC
     -   `scp` / `rsync` through the bastion are **blocked** by security policy
-    -   This covers your laptop and other institutions (UCSF <-> Gladstone)
+    -   This covers your laptop and other institutions (UCSF FAC <-> Gladstone HIVE)
 -   **`cp` / `rsync` from the login node** if the data is already on a mounted share
     -   **UCSF:** your **FAC** share
     -   **Gladstone:** your **HIVE** lab share, so most data needs no transfer at all
@@ -329,11 +389,6 @@ Use scratch only for **hot** data needing heavy read/write.
 
 ::::
 
-## Hands-on
-
--   Transfer a small file into your scratch space using Globus
--   We will walk through a Globus transfer together
-
 
 # Software with OpenHPC Modules
 
@@ -366,7 +421,7 @@ echo '[alice@chpc-gs-login-vm1 ~]$ module avail
   papi/6.0.0           spack/0.23.1          prun/2.2'
 ```
 
-*Module versions shown are current as of mid-2026.*
+
 
 
 # Python Environments with Miniforge3
@@ -377,7 +432,7 @@ echo '[alice@chpc-gs-login-vm1 ~]$ module avail
 -   Lets you create isolated **environments**, each with its own Python and packages
 -   Available as a module: `module load miniforge3`
 
-## Setup (Once) {.smaller}
+## Setup Conda
 
 Home is only 20 GB, so point conda's environments and package cache at scratch:
 
@@ -412,6 +467,15 @@ conda env create -f environment.yml              # rebuild anytime
     -   Store the `.sif` on persistent storage
     -   See the [container guide](Containers_on_CoreHPC.html)
 
+## Poll 2
+
+Your conda env lives in `/mnt/scratch/user/$USER/envs`. What do you keep elsewhere?
+
+1.  A copy of the env directory
+2.  The `environment.yml` recipe
+3.  Nothing, conda envs are rebuilt automatically
+4.  The conda package cache
+
 
 # Containers
 
@@ -419,7 +483,7 @@ conda env create -f environment.yml              # rebuild anytime
 
 -   Package your code with the **exact versions** of every tool, so it runs the same anywhere
 -   **Reproducible**, isolated from the host OS, and great for hard-to-install software
--   One `.sif` file is far friendlier to shared storage than a conda env's **millions of tiny files**
+-   One `.sif` file is more efficient on shared storage than a conda env's **millions of tiny files**
 
 ## Apptainer on CoreHPC {.small-bullets}
 
@@ -433,6 +497,7 @@ apptainer shell image.sif                       # interactive shell
 ```
 
 -   **Pull / build on the login node** (the only node with internet)
+-   Full command reference: the [Apptainer user guide](https://apptainer.org/docs/user/main/)
 
 ## Example: Pull a Container
 
@@ -443,6 +508,15 @@ apptainer exec hello-world_1.0.sif hi
 ```
 
 -   **Building your own image** (from a conda env or Dockerfile): see the [container guide](Containers_on_CoreHPC.html)
+
+## Poll 3
+
+You need to download a container image. Which node do you do it on?
+
+1.  The bastion
+2.  The login node
+3.  A compute node
+4.  Any of them, they share a filesystem
 
 
 # End of Part 1
