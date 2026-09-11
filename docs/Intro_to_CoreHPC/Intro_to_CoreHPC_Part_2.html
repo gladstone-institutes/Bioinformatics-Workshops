@@ -360,8 +360,7 @@
 <span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> echo <span class="st">"Hello from </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>srun</code> runs the command as a tracked <strong>job step</strong>, which <code>sacct</code> reports on its own line</li>
-<li>It is also what launches your command on <strong>every node</strong> you asked for, if you request more than one</li>
+<li><code>srun</code> runs the command as a <strong>job step</strong>, which SLURM times and measures separately for resource usage</li>
 </ul>
 <p>⚠️ CoreHPC sets <strong>no default</strong> resources. Set <code>--time</code>, <code>--mem</code>, and <code>--partition</code> explicitly.</p>
 </section>
@@ -494,6 +493,18 @@ Submitted batch job 152334
 <span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scontrol</span> show job <span class="op">&lt;</span>jobid<span class="op">&gt;</span>   <span class="co"># full detail on one job</span></span>
 <span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sacct</span> <span class="at">-j</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>            <span class="co"># accounting after it finishes</span></span>
 <span id="cb9-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">seff</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>                <span class="co"># did you use what you asked for?</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each <code>srun</code> gets its own numbered row:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[alice@chpc-gs-login-vm1 ~]$ sacct -j 152334 \
+&gt; -o JobID,JobName,Elapsed,MaxRSS
+       JobID    JobName    Elapsed     MaxRSS
+------------ ---------- ---------- ----------
+152334            hello   00:00:04
+152334.batch      batch   00:00:04      1256K
+152334.0           echo   00:00:01       512K</code></pre>
+</div>
+</div>
 </section>
 <section id="job-node-status-codes" class="slide level2 smaller">
 <h2>Job / Node Status Codes</h2>
@@ -566,8 +577,8 @@ Submitted batch job 152334
 </section>
 <section id="canceling" class="slide level2">
 <h2>Canceling</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>     <span class="co"># cancel one job</span></span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="va">$USER</span>    <span class="co"># cancel all your jobs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="op">&lt;</span>jobid<span class="op">&gt;</span>     <span class="co"># cancel one job</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">scancel</span> <span class="at">-u</span> <span class="va">$USER</span>    <span class="co"># cancel all your jobs</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="containers-in-slurm-jobs" class="title-slide slide level1 center">
@@ -576,19 +587,69 @@ Submitted batch job 152334
 </section>
 <section id="running-apptainer-in-a-job" class="slide level2">
 <h2>Running Apptainer in a Job</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec myenv.sif python script.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec myenv.sif python script.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Build / pull the <code>.sif</code> on the login node first (compute nodes have no internet)</li>
 </ul>
 </section>
+<section id="mounting-directories-into-a-container" class="slide level2 smaller">
+<h2>Mounting Directories into a Container</h2>
+<p>A container sees your <strong>home</strong> and the <strong>current directory</strong>, and nothing else on the cluster:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># --bind &lt;path on the cluster&gt;:&lt;path inside the container&gt;</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> /mnt/scratch/user/<span class="va">$USER</span>:/data myenv.sif <span class="dt">\</span></span>
+<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a>     python /data/run.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Anything written to <code>/data</code> inside the container lands on <strong>scratch</strong> outside it</li>
+<li>Drop the <code>:/data</code> to mount a path at the <strong>same</strong> location inside the container</li>
+<li>Bind several paths by separating them with commas</li>
+</ul>
+</section>
+<section id="container-job-script" class="slide level2 smaller">
+<h2>Container Job Script</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=hello_container</span></span>
+<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=cpu</span></span>
+<span id="cb14-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=00:05:00</span></span>
+<span id="cb14-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1</span></span>
+<span id="cb14-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=1</span></span>
+<span id="cb14-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=1G</span></span>
+<span id="cb14-8"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=hello_container_%j.out</span></span>
+<span id="cb14-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=hello_container_%j.err</span></span>
+<span id="cb14-10"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="" aria-hidden="true" tabindex="-1"></a><span class="va">SIF</span><span class="op">=</span>hello-world_1.0.sif</span>
+<span id="cb14-12"><a href="" aria-hidden="true" tabindex="-1"></a><span class="va">WORKDIR</span><span class="op">=</span>/mnt/scratch/user/<span class="va">$USER</span>/container_demo</span>
+<span id="cb14-13"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="st">"</span><span class="va">$WORKDIR</span><span class="st">"</span></span>
+<span id="cb14-15"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># --bind &lt;path on the cluster&gt;:&lt;path inside the container&gt;</span></span>
+<span id="cb14-17"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> <span class="st">"</span><span class="va">$WORKDIR</span><span class="st">"</span>:/data <span class="st">"</span><span class="va">$SIF</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb14-18"><a href="" aria-hidden="true" tabindex="-1"></a>    bash <span class="at">-c</span> <span class="st">'hi &gt; /data/greeting.txt'</span></span>
+<span id="cb14-19"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"--- wrote </span><span class="va">$WORKDIR</span><span class="st">/greeting.txt:"</span></span>
+<span id="cb14-21"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> <span class="st">"</span><span class="va">$WORKDIR</span><span class="st">/greeting.txt"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="hands-on-run-a-container-job" class="slide level2 smaller">
+<h2>Hands-on: Run a Container Job</h2>
+<ol type="1">
+<li>On the <strong>login node</strong>, pull the image if you did not in Part 1:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">apptainer</span> pull docker://natalie23gill/hello-world:1.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="2" type="1">
+<li>From that same directory, grab the job script and submit it:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode bash wrap-code code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-O</span> https://raw.githubusercontent.com/gladstone-institutes/Bioinformatics-Workshops/master/intro-to-corehpc/materials/hello_container.sh</span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> hello_container.sh</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li>It binds <code>/mnt/scratch/user/$USER/container_demo</code> to <code>/data</code> and writes <code>greeting.txt</code> there</li>
+</ol>
+</section>
 <section id="gpu-enabled-containers" class="slide level2 smaller">
 <h2>GPU-Enabled Containers</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
-<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span>
-<span id="cb12-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--nv</span> myenv.sif python train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=small_gpu</span></span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --gres=gpu:nvidia_l40s:1</span></span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load cuda</span>
+<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--nv</span> myenv.sif python train.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>--nv</code> exposes the GPU drivers inside the container</li>
 <li>Building images: see the <a href="Containers_on_CoreHPC.html">container guide</a></li>
@@ -597,12 +658,12 @@ Submitted batch job 152334
 <section id="hybrid-host-container-workflow" class="slide level2 smaller">
 <h2>Hybrid Host + Container Workflow</h2>
 <p>Mix host tools and a container in one job script:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess with a module-provided tool</span></span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load samtools</span>
-<span id="cb13-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort in.bam <span class="at">-o</span> sorted.bam</span>
-<span id="cb13-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># analyze inside the container</span></span>
-<span id="cb13-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> /mnt/scratch/user/<span class="va">$USER</span> analysis.sif python run.py sorted.bam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># preprocess with a module-provided tool</span></span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load CBI samtools</span>
+<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">samtools</span> sort /mnt/scratch/user/<span class="va">$USER</span>/in.bam <span class="at">-o</span> /mnt/scratch/user/<span class="va">$USER</span>/sorted.bam</span>
+<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># analyze inside the container</span></span>
+<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">srun</span> apptainer exec <span class="at">--bind</span> /mnt/scratch/user/<span class="va">$USER</span> analysis.sif python run.py sorted.bam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section></section>
 <section>
 <section id="pipelines-on-corehpc" class="title-slide slide level1 center">
@@ -648,8 +709,8 @@ Submitted batch job 152334
 </section>
 <section id="full-setup-guide" class="slide level2 smaller">
 <h2>Full Setup Guide</h2>
-<p>Rather than work through all of that on slides, there is a standalone guide with copy-paste templates:</p>
-<h3 id="running-nextflow-on-corehpc"><a href="Nextflow_on_CoreHPC.html">Running Nextflow on CoreHPC</a></h3>
+<p>Here is a guide with copy-paste templates that have been tested to work on CoreHPC:</p>
+<p><a href="Nextflow_on_CoreHPC.html">Running Nextflow on CoreHPC</a></p>
 <ul>
 <li>Installing Nextflow, Java, and the <strong>nf-core</strong> Python package</li>
 <li>Pre-fetching the pipeline, containers, and plugins for offline runs</li>
@@ -657,7 +718,7 @@ Submitted batch job 152334
 <li>A <strong>smoke test</strong> that proves your setup works before you touch real data</li>
 <li>An error quick reference for the failures everyone hits</li>
 </ul>
-<p><em>Templates: <a href="https://github.com/gladstone-institutes/Bioinformatics-Workshops/tree/master/intro-to-corehpc/materials/nextflow"><code>materials/nextflow/</code></a> in the workshop repo</em></p>
+<p><em>Templates: <a href="https://github.com/gladstone-institutes/Bioinformatics-Workshops/tree/master/intro-to-corehpc/materials/nextflow"><code>materials/nextflow/</code></a></em></p>
 </section></section>
 <section>
 <section id="best-practices-and-troubleshooting" class="title-slide slide level1 center">
@@ -700,7 +761,7 @@ Submitted batch job 152334
 <section id="common-errors" class="slide level2 small-bullets">
 <h2>Common Errors</h2>
 <ul>
-<li>Job stuck <strong>PD (pending):</strong> waiting on resources, or the request is too big for the partition</li>
+<li>Job stuck <strong>PD (pending):</strong> waiting on resources, or the request is too big/too long for the partition</li>
 <li><strong>OOM / killed:</strong> raise <code>--mem</code> or reduce memory use</li>
 <li><strong>module not found:</strong> check the exact name with <code>module spider</code></li>
 <li><strong>container cannot see the GPU:</strong> add <code>--nv</code> to <code>apptainer exec</code> (and request <code>--gres</code>)</li>

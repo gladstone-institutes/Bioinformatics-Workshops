@@ -131,8 +131,7 @@ Each half groups its nodes into partitions you request by name:
 srun echo "Hello from $(hostname)"
 ```
 
--   `srun` runs the command as a tracked **job step**, which `sacct` reports on its own line
--   It is also what launches your command on **every node** you asked for, if you request more than one
+-   `srun` runs the command as a **job step**, which SLURM times and measures separately for resource usage
 
 ⚠️ CoreHPC sets **no default** resources. Set `--time`, `--mem`, and `--partition` explicitly.
 
@@ -269,6 +268,18 @@ sacct -j <jobid>            # accounting after it finishes
 seff <jobid>                # did you use what you asked for?
 ```
 
+Each `srun` gets its own numbered row:
+
+```{r, engine='bash', eval=TRUE, results='markup', comment=NA, highlight=TRUE, echo=FALSE}
+echo '[alice@chpc-gs-login-vm1 ~]$ sacct -j 152334 \
+> -o JobID,JobName,Elapsed,MaxRSS
+       JobID    JobName    Elapsed     MaxRSS
+------------ ---------- ---------- ----------
+152334            hello   00:00:04
+152334.batch      batch   00:00:04      1256K
+152334.0           echo   00:00:01       512K'
+```
+
 ## Job / Node Status Codes {.smaller}
 
 :::: {.columns}
@@ -312,11 +323,67 @@ scancel -u $USER    # cancel all your jobs
 ## Running Apptainer in a Job
 
 ```bash
-
 srun apptainer exec myenv.sif python script.py
 ```
 
 -   Build / pull the `.sif` on the login node first (compute nodes have no internet)
+
+## Mounting Directories into a Container {.smaller}
+
+A container sees your **home** and the **current directory**, and nothing else on the cluster:
+
+```bash
+# --bind <path on the cluster>:<path inside the container>
+srun apptainer exec --bind /mnt/scratch/user/$USER:/data myenv.sif \
+     python /data/run.py
+```
+
+-   Anything written to `/data` inside the container lands on **scratch** outside it
+-   Drop the `:/data` to mount a path at the **same** location inside the container
+-   Bind several paths by separating them with commas
+
+## Container Job Script {.smaller}
+
+```bash
+#!/bin/bash
+#SBATCH --job-name=hello_container
+#SBATCH --partition=cpu
+#SBATCH --time=00:05:00
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --output=hello_container_%j.out
+#SBATCH --error=hello_container_%j.err
+
+SIF=hello-world_1.0.sif
+WORKDIR=/mnt/scratch/user/$USER/container_demo
+
+mkdir -p "$WORKDIR"
+
+# --bind <path on the cluster>:<path inside the container>
+srun apptainer exec --bind "$WORKDIR":/data "$SIF" \
+    bash -c 'hi > /data/greeting.txt'
+
+echo "--- wrote $WORKDIR/greeting.txt:"
+cat "$WORKDIR/greeting.txt"
+```
+
+## Hands-on: Run a Container Job {.smaller}
+
+1.  On the **login node**, pull the image if you did not in Part 1:
+
+```bash
+apptainer pull docker://natalie23gill/hello-world:1.0
+```
+
+2.  From that same directory, grab the job script and submit it:
+
+```{.bash .wrap-code}
+curl -O https://raw.githubusercontent.com/gladstone-institutes/Bioinformatics-Workshops/master/intro-to-corehpc/materials/hello_container.sh
+sbatch hello_container.sh
+```
+
+3.  It binds `/mnt/scratch/user/$USER/container_demo` to `/data` and writes `greeting.txt` there
 
 ## GPU-Enabled Containers {.smaller}
 
@@ -337,8 +404,8 @@ Mix host tools and a container in one job script:
 
 ```bash
 # preprocess with a module-provided tool
-module load samtools
-samtools sort in.bam -o sorted.bam
+module load CBI samtools
+samtools sort /mnt/scratch/user/$USER/in.bam -o /mnt/scratch/user/$USER/sorted.bam
 
 # analyze inside the container
 srun apptainer exec --bind /mnt/scratch/user/$USER analysis.sif python run.py sorted.bam
@@ -373,9 +440,9 @@ srun apptainer exec --bind /mnt/scratch/user/$USER analysis.sif python run.py so
 
 ## Full Setup Guide {.smaller}
 
-Rather than work through all of that on slides, there is a standalone guide with copy-paste templates:
+Here is a guide with copy-paste templates that have been tested to work on CoreHPC:
 
-### [Running Nextflow on CoreHPC](Nextflow_on_CoreHPC.html)
+[Running Nextflow on CoreHPC](Nextflow_on_CoreHPC.html)
 
 -   Installing Nextflow, Java, and the **nf-core** Python package
 -   Pre-fetching the pipeline, containers, and plugins for offline runs
@@ -383,7 +450,7 @@ Rather than work through all of that on slides, there is a standalone guide with
 -   A **smoke test** that proves your setup works before you touch real data
 -   An error quick reference for the failures everyone hits
 
-*Templates: [`materials/nextflow/`](https://github.com/gladstone-institutes/Bioinformatics-Workshops/tree/master/intro-to-corehpc/materials/nextflow) in the workshop repo*
+*Templates: [`materials/nextflow/`](https://github.com/gladstone-institutes/Bioinformatics-Workshops/tree/master/intro-to-corehpc/materials/nextflow)*
 
 
 
@@ -412,7 +479,7 @@ Rather than work through all of that on slides, there is a standalone guide with
 
 ## Common Errors {.small-bullets}
 
--   Job stuck **PD (pending):** waiting on resources, or the request is too big for the partition
+-   Job stuck **PD (pending):** waiting on resources, or the request is too big/too long for the partition
 -   **OOM / killed:** raise `--mem` or reduce memory use
 -   **module not found:** check the exact name with `module spider`
 -   **container cannot see the GPU:** add `--nv` to `apptainer exec` (and request `--gres`)
