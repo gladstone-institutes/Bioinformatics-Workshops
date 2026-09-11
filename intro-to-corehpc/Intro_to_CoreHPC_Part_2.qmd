@@ -39,17 +39,15 @@ knitr::opts_chunk$set(comment = "")
 ## Part 2: {.small-list .smaller}
 
 1.    SLURM Basics
-2.    Submitting Batch Jobs
+2.    Submitting Jobs
 3.    Requesting CPU, Memory, GPU Resources
 4.    Job Arrays
 5.    Interactive Jobs
 6.    Monitoring & Canceling Jobs
 7.    Running Containers in SLURM Jobs
-8.    MPI / Multi-Node Jobs
-9.    Pipelines on CoreHPC
-10.   Jupyter / OpenOnDemand
-11.   Best Practices and Troubleshooting
-12.   How to Get Help
+8.    Pipelines on CoreHPC
+9.    Best Practices and Troubleshooting
+10.   How to Get Help
 
 
 # SLURM Basics
@@ -58,17 +56,16 @@ knitr::opts_chunk$set(comment = "")
 
 -   SLURM is CoreHPC's **workload manager** (job scheduler)
 -   It decides **what runs where and when** across the compute nodes
--   Supports **GPUs** and **interactive** jobs natively
+-   Supports **GPUs** and **interactive** jobs
 -   You describe the resources you need, and SLURM finds a node and runs your job
 
 ## Key Concepts {.small-bullets}
 
--   **Login node:** where you submit jobs (no heavy compute)
+-   **Login node:** where you submit jobs
 -   **Compute nodes:** where jobs actually run
 -   **Partition:** a named set of nodes (e.g. `cpu`, `small_gpu`)
 -   **Job:** your resource request plus a script; a **job step** is a command run with `srun` inside it
--   You rarely SSH to compute nodes, you reach them through SLURM
--   Your jobs run on the **half whose login node you connected through**, so partition names and paths follow from that
+-   The partition names differ for UCSF and Gladstone
 
 ## Partitions {.smaller}
 
@@ -99,18 +96,6 @@ Each half groups its nodes into partitions you request by name:
 
 ⚠️ **Partition names differ between the halves** and change as the cluster grows. Always confirm with `sinfo` on the login node you are using.
 
-## A Note on Paths in These Slides {.small-bullets}
-
-Home and scratch are at the **same paths on both halves**:
-
-```bash
-/home/remote/$USER          # 20 GB
-/mnt/scratch/user/$USER     # volatile, 30-day purge
-/tmp                        # per-job local NVMe, /mnt/lscratch/<job id>
-```
-
--   Only **persistent storage** differs: a **FAC** share (UCSF) or **HIVE** at `/mnt/gladstone/<pi>/<share>` (Gladstone)
--   Everything else (SLURM flags, modules, Apptainer) is **identical** on both halves
 
 ## Common Commands {.smaller}
 
@@ -124,6 +109,8 @@ Home and scratch are at the **same paths on both halves**:
 | `sinfo` | show partitions and node states |
 | `scontrol show job <jobid>` | full detail on one job |
 | `sacct -j <jobid>` / `seff <jobid>` | resource usage after a job |
+
+*Every flag for every command is in the [SLURM quick start guide](https://slurm.schedmd.com/documentation.html) and the two-page [command summary](https://slurm.schedmd.com/pdfs/summary.pdf).*
 
 
 # Submitting Batch Jobs
@@ -144,11 +131,17 @@ Home and scratch are at the **same paths on both halves**:
 srun echo "Hello from $(hostname)"
 ```
 
+-   `srun` runs the command as a tracked **job step**, which `sacct` reports on its own line
+-   It is also what launches your command on **every node** you asked for, if you request more than one
+
 ⚠️ CoreHPC sets **no default** resources. Set `--time`, `--mem`, and `--partition` explicitly.
 
-## Submitting
+## Submitting {.smaller}
 
-```bash
+Download that exact script on a **login node**, then submit it:
+
+```{.bash .wrap-code}
+curl -O https://raw.githubusercontent.com/gladstone-institutes/Bioinformatics-Workshops/master/intro-to-corehpc/materials/hello.sh
 sbatch hello.sh
 squeue -u $USER
 ```
@@ -183,7 +176,6 @@ Submitted batch job 152334
 ```bash
 #SBATCH --partition=small_gpu
 #SBATCH --gres=gpu:nvidia_l40s:1
-module load cuda
 ```
 :::
 
@@ -193,29 +185,36 @@ module load cuda
 ```bash
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:1
-module load cuda
 ```
 :::
 
 ::::
 
--   `--gres=gpu:<model>:<count>` requests a **specific** model; `--gres=gpu:1` requests **any** GPU on the partition
--   ⚠️ **Partition names and GPU model strings differ between the halves.** Check yours with:
+The rest of the script is the same on both halves:
 
 ```bash
-sinfo -o "%P %G"
+module load cuda
+
+# Always track GPU utilization, log it for the life of the job
+nvidia-smi --query-gpu=timestamp,utilization.gpu,memory.used,memory.total \
+           --format=csv --loop=10 > gpu_util_${SLURM_JOB_ID}.csv &
+
+srun python train.py
 ```
 
+-   `--gres=gpu:<model>:<count>` requests a **specific** model; `--gres=gpu:1` requests **any** GPU on the partition
+-   ⚠️ **Partition names and GPU model strings differ between the halves**, so confirm yours with `sinfo -o "%P %G"`
 -   For GPU containers, add `--nv` to `apptainer exec`
 
-## Pod Partition Note {.small-bullets}
+## Pod Partition {.small-bullets}
 
--   Both halves have an **H200 pod** on an **InfiniBand NDR** fabric
+-   Both halves have an **H200 pod**
     -   GPUs share one memory space, so several can work as a single unit
--   Reserved for **large multi-GPU jobs**; the UCSF half documents a floor of **8 GPUs**
--   **By request only:** a brief consult with an HPC engineer confirms your code can use the architecture
-    -   On the UCSF half, access is then granted through a SLURM **account** you specify when submitting
--   Only worth requesting if your code is written for multi-GPU (e.g. DDP), otherwise you are reserving GPUs that sit idle
+-   Reserved for **large multi-GPU jobs**
+-   **By request only on both halves**, but you ask in different ways
+    -   **UCSF:** an HPC engineer consults with you, then a SLURM **account** you name at submission grants access
+    -   **Gladstone:** your **PI** submits the request on your behalf
+-   Only worth requesting if your code is written for multi-GPU (e.g. DDP)
 
 
 # Job Arrays
@@ -255,17 +254,8 @@ salloc --partition=cpu --cpus-per-task=4 --mem=8G --time=01:00:00
 
 -   Use it to prototype, test scripts, or run R / Python interactively
 -   CoreHPC has **no dedicated dev nodes**, so this is how you get an interactive shell
--   For GPU dev work, add your half's GPU partition and `--gres` (see the GPU Jobs slide)
--   Browser-based RStudio / Jupyter is also available via **Open OnDemand**
+-   For GPU dev work, add the GPU partition and `--gres` (see the GPU Jobs slide)
 
-## Attaching to a Running Job
-
-Inspect a job that is already running on a node:
-
-```bash
-srun --jobid=<JOBID> --pty /bin/bash
-# then, e.g. nvidia-smi, top, ls
-```
 
 
 # Monitoring & Canceling
@@ -276,7 +266,7 @@ srun --jobid=<JOBID> --pty /bin/bash
 squeue -u $USER             # your jobs and their state
 scontrol show job <jobid>   # full detail on one job
 sacct -j <jobid>            # accounting after it finishes
-seff <jobid>                # efficiency: did you use what you asked for?
+seff <jobid>                # did you use what you asked for?
 ```
 
 ## Job / Node Status Codes {.smaller}
@@ -322,7 +312,7 @@ scancel -u $USER    # cancel all your jobs
 ## Running Apptainer in a Job
 
 ```bash
-module load apptainer
+
 srun apptainer exec myenv.sif python script.py
 ```
 
@@ -334,7 +324,7 @@ srun apptainer exec myenv.sif python script.py
 #SBATCH --partition=small_gpu
 #SBATCH --gres=gpu:nvidia_l40s:1
 
-module load apptainer cuda
+module load cuda
 srun apptainer exec --nv myenv.sif python train.py
 ```
 
@@ -353,37 +343,6 @@ samtools sort in.bam -o sorted.bam
 # analyze inside the container
 srun apptainer exec --bind /mnt/scratch/user/$USER analysis.sif python run.py sorted.bam
 ```
-
-
-# MPI / Multi-Node Jobs
-
-## MPI Job Script {.smaller}
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=mpi_example
-#SBATCH --partition=cpu
-#SBATCH --nodes=2
-#SBATCH --ntasks-per-node=8        # 16 MPI ranks total
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=16G
-#SBATCH --time=01:00:00
-#SBATCH --output=mpi_%j.out
-
-module load openmpi5/5.0.8         # or the MPI bundled with nvidia/nvhpc
-srun ./my_mpi_program
-```
-
--   `srun` launches one rank per task and wires up MPI across the nodes
-
-## Not All Partitions Have InfiniBand {.small-bullets}
-
--   MPI needs the fast **InfiniBand** interconnect, which every partition has except one
--   The **UCSF half** has a **`community`** partition for **high-throughput** (independent) jobs
-    -   **No InfiniBand**, so it is **not** for tightly-coupled MPI
-    -   Wall-time limit is **2 weeks**, far longer than the other partitions
--   That makes it the right home for long jobs that do not need MPI
--   *Academic access is planned for fall 2026, so confirm it exists with `sinfo` before relying on it.*
 
 
 # Pipelines on CoreHPC
@@ -427,15 +386,6 @@ Rather than work through all of that on slides, there is a standalone guide with
 *Templates: [`materials/nextflow/`](https://github.com/gladstone-institutes/Bioinformatics-Workshops/tree/master/intro-to-corehpc/materials/nextflow) in the workshop repo*
 
 
-# Jupyter / OpenOnDemand
-
-## OpenOnDemand Portal {.small-bullets}
-
--   A **web portal** for launching Jupyter, RStudio, and shells in the browser
--   No SSH port-forwarding needed
--   One of the approved ways data leaves CoreHPC, alongside **Globus** and mounted shares
--   *Check the current docs for the portal URL and which apps are published.*
-
 
 # Best Practices and Troubleshooting
 
@@ -443,7 +393,6 @@ Rather than work through all of that on slides, there is a standalone guide with
 
 -   **Test interactively** in `salloc` before submitting big batch jobs
 -   Request **only what you need**, and always set `--time`
--   **No heavy compute** on the login or bastion nodes
 -   Compute nodes have **no internet**, so stage data and containers first
 -   Keep anything you cannot lose on **FAC** (UCSF) or **HIVE** (Gladstone), not scratch
 -   Staging differs by half
@@ -465,7 +414,7 @@ Rather than work through all of that on slides, there is a standalone guide with
 
 -   Job stuck **PD (pending):** waiting on resources, or the request is too big for the partition
 -   **OOM / killed:** raise `--mem` or reduce memory use
--   **module not found:** check the exact name with `module avail`
+-   **module not found:** check the exact name with `module spider`
 -   **container cannot see the GPU:** add `--nv` to `apptainer exec` (and request `--gres`)
 
 
@@ -481,6 +430,7 @@ Rather than work through all of that on slides, there is a standalone guide with
 -   UCSF documentation (the wiki requires a **UCSF email**, and Gladstone network to view):
     -   [CoreHPC Access Primer](https://wiki.library.ucsf.edu/x/m2LwKg)
     -   [CoreHPC FAQ](https://wiki.library.ucsf.edu/spaces/CHPC/pages/720396966/CoreHPC+Frequently+Asked+Questions+FAQ+)
+-   Official SLURM documentation: <https://slurm.schedmd.com/documentation.html>
 -   *The wiki is written for the UCSF half; translate hostnames, partitions, and paths if you are on the Gladstone half*
 
 ## Bioinformatics Questions
@@ -495,12 +445,6 @@ For any bioinformatics specific questions feel free to reach out to the Gladston
 
 # End of Part 2
 
-## Notes on Using AI on CoreHPC {.smaller}
-
--   AI assistants (Claude, ChatGPT, Gemini) are great for **writing and debugging SLURM scripts**
--   But CoreHPC scratch is **volatile** (30-day purge), so **understand any AI-generated script before you run it**
--   Double-check resource flags and file paths so a generated job does not delete or overwrite data
--   See the Bioinformatics Core's guidance on using AI responsibly in research
 
 ## Workshop survey
 

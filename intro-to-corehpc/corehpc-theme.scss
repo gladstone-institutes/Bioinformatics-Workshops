@@ -225,6 +225,26 @@ small {
   margin-bottom: 0 !important;
 }
 
+// Tables in columns: Quarto zeroes the auto margins that would center them
+.reveal .slides .column > table {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+// Keep a table's label centered over it
+.reveal .slides .column > p:has(+ table) {
+  text-align: center;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+// Long commands: wrap instead of running off the right edge of the slide
+.reveal .slides pre.wrap-code code,
+.reveal .slides pre code.wrap-code {
+  white-space: pre-wrap !important;
+  overflow-wrap: anywhere;
+}
+
 // Image size classes
 .big-picture img {
   max-width: 95%;
