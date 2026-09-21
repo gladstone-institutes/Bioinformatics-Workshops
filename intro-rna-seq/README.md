@@ -3,4 +3,4 @@
 
 ### Description of files
 1. Library_preparation_slides.pptx (Background slides about library preparation)
-2. [Spring 2026] Introduction to RNA-seq analysis Workshop.pptx (Workshop slides)
+2. [Fall 2026] Introduction to RNA-seq analysis Workshop.pptx (Workshop slides)
