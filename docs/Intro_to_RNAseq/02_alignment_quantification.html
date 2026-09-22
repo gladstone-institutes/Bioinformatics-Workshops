@@ -207,14 +207,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Use the same folder path as Part 1, but with a new container name.</p>
 <p><strong>Mac (Apple Silicon, M1/M2/M3/M4):</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--platform</span> linux/amd64 <span class="at">--name</span> rnaseq_day2 <span class="dt">\</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> ~/Downloads/Intro_to_RNA-seq_data_analysis:/data <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> ~/Downloads/Fall_2026_IntroRNAseq_handson_Session_I-II:/data <span class="dt">\</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-it</span> nfcore/rnaseq bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Mac (Intel) / Linux:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">--name</span> rnaseq_day2 <span class="dt">\</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> ~/Downloads/Intro_to_RNA-seq_data_analysis:/data <span class="dt">\</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-v</span> ~/Downloads/Fall_2026_IntroRNAseq_handson_Session_I-II:/data <span class="dt">\</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-it</span> nfcore/rnaseq bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Windows (Command Prompt):</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bat code-with-copy"><code class="sourceCode dosbat"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>docker run -<span class="at">-name</span> rnaseq_day2 <span class="at">-v</span> C:\Users\YourName\Downloads\Intro_to_RNA-seq_data_analysis:<span class="at">/data</span> <span class="at">-it</span> nfcore<span class="at">/rnaseq</span> bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bat code-with-copy"><code class="sourceCode dosbat"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>docker run -<span class="at">-name</span> rnaseq_day2 <span class="at">-v</span> C:\Users\YourName\Downloads\Fall_2026_IntroRNAseq_handson_Session_I-II:<span class="at">/data</span> <span class="at">-it</span> nfcore<span class="at">/rnaseq</span> bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="step-2-verify-part-1-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-verify-part-1-outputs">Step 2: Verify Part 1 outputs</h2>
@@ -520,7 +520,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="session-2-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="session-2-outputs">Session 2 outputs</h2>
 <p><strong>Mac / Linux (STAR):</strong></p>
-<pre><code>Intro_to_RNA-seq_data_analysis/
+<pre><code>Fall_2026_IntroRNAseq_handson_Session_I-II/
 ├── ... (Session 1 outputs)
 ├── star_index/                        STAR genome index
 ├── aligned_reads/
@@ -535,7 +535,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     ├── gene_counts.txt.summary
     └── count_matrix.txt</code></pre>
 <p><strong>Windows (HISAT2):</strong></p>
-<pre><code>Intro_to_RNA-seq_data_analysis/
+<pre><code>Fall_2026_IntroRNAseq_handson_Session_I-II/
 ├── ... (Session 1 outputs)
 ├── hisat2_index/                   HISAT2 genome index
 ├── aligned_reads/

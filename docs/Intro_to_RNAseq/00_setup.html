@@ -84,12 +84,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#workshop-overview" id="toc-workshop-overview" class="nav-link active" data-scroll-target="#workshop-overview">Workshop overview</a></li>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a>
+  <li><a href="#pre-workshop-instructions" id="toc-pre-workshop-instructions" class="nav-link" data-scroll-target="#pre-workshop-instructions">Pre-Workshop Instructions</a>
   <ul class="collapse">
   <li><a href="#install-docker-desktop" id="toc-install-docker-desktop" class="nav-link" data-scroll-target="#install-docker-desktop">1. Install Docker Desktop</a></li>
   <li><a href="#verify-docker-installation" id="toc-verify-docker-installation" class="nav-link" data-scroll-target="#verify-docker-installation">2. Verify Docker installation</a></li>
   <li><a href="#download-the-docker-image" id="toc-download-the-docker-image" class="nav-link" data-scroll-target="#download-the-docker-image">3. Download the Docker image</a></li>
-  <li><a href="#place-the-workshop-folder" id="toc-place-the-workshop-folder" class="nav-link" data-scroll-target="#place-the-workshop-folder">4. Place the workshop folder</a></li>
+  <li><a href="#download-the-workshop-materials" id="toc-download-the-workshop-materials" class="nav-link" data-scroll-target="#download-the-workshop-materials">4. Download the workshop materials</a></li>
+  <li><a href="#place-the-workshop-folder" id="toc-place-the-workshop-folder" class="nav-link" data-scroll-target="#place-the-workshop-folder">5. Place the workshop folder</a></li>
   </ul></li>
   <li><a href="#terminal-basics" id="toc-terminal-basics" class="nav-link" data-scroll-target="#terminal-basics">Terminal basics</a>
   <ul class="collapse">
@@ -199,19 +200,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-<p><strong>Folder contents:</strong></p>
-<pre><code>Intro_to_RNA-seq_data_analysis/
-├── fastq/                          Raw sequencing data
-│    ├── N61311_dex_R1.fastq.gz
-│    ├── N61311_dex_R2.fastq.gz
-│    ├── N61311_untrt_R1.fastq.gz
-│    └── N61311_untrt_R2.fastq.gz
-└── reference_genome/                Human chr16 reference
-     ├── chr16.fa                    Genome sequence (FASTA)
-     └── chr16.gtf                   Gene annotations (GTF)</code></pre>
 </section>
-<section id="prerequisites" class="level2">
-<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<section id="pre-workshop-instructions" class="level2">
+<h2 class="anchored" data-anchor-id="pre-workshop-instructions">Pre-Workshop Instructions</h2>
 <section id="install-docker-desktop" class="level3">
 <h3 class="anchored" data-anchor-id="install-docker-desktop">1. Install Docker Desktop</h3>
 <p>Docker lets you run all bioinformatics tools without installing them individually. Everything runs inside a pre-built container.</p>
@@ -267,7 +258,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="callout-body-container callout-body">
 <ul>
 <li><p>If you see “WSL 2 is not installed”, open PowerShell as Administrator and run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>wsl <span class="op">--</span>install</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>wsl <span class="op">--</span>install</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>then restart.</p></li>
 <li><p>If you see “Hardware assisted virtualization is not enabled”, you need to enable it in your BIOS settings. Search “[your computer brand] enable virtualization” for instructions.</p></li>
 <li><p>Windows paths use backslashes: <code>C:\Users\YourName\Downloads\...</code></p></li>
@@ -289,23 +280,37 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Linux:</strong> Press <code>Ctrl + Alt + T</code></li>
 </ul>
 <p>Run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> <span class="at">--version</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You should see the Docker version printed. Then verify it can run containers:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run hello-world</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run hello-world</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you see “Hello from Docker!”, you are ready.</p>
 </section>
 <section id="download-the-docker-image" class="level3">
 <h3 class="anchored" data-anchor-id="download-the-docker-image">3. Download the Docker image</h3>
 <p>In the same terminal, run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull nfcore/rnaseq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> pull nfcore/rnaseq</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This downloads about 3 GB and may take several minutes. You only need to do this once.</p>
 <p>Verify the image was downloaded:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> images</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> images</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You should see <code>nfcore/rnaseq</code> in the list. This confirms the image was downloaded successfully.</p>
 </section>
+<section id="download-the-workshop-materials" class="level3">
+<h3 class="anchored" data-anchor-id="download-the-workshop-materials">4. Download the workshop materials</h3>
+<p>Download the hands-on materials folder from <a href="https://www.dropbox.com/scl/fi/t6hpshe59tkc933essal3/Fall_2026_IntroRNAseq_handson_Session_I-II.zip?rlkey=42fsy0e8l3dn38wa89azrtkyv&amp;dl=0">Dropbox</a> and unzip it. After unzipping, you should see:</p>
+<pre><code>Fall_2026_IntroRNAseq_handson_Session_I-II/
+├── fastq/                          Raw sequencing data
+│    ├── N61311_dex_R1.fastq.gz
+│    ├── N61311_dex_R2.fastq.gz
+│    ├── N61311_untrt_R1.fastq.gz
+│    └── N61311_untrt_R2.fastq.gz
+├── reference_genome/                Human chr16 reference
+│    ├── chr16.fa                    Genome sequence (FASTA)
+│    └── chr16.gtf                   Gene annotations (GTF)
+└── README.txt                       Pointers to this guide</code></pre>
+</section>
 <section id="place-the-workshop-folder" class="level3">
-<h3 class="anchored" data-anchor-id="place-the-workshop-folder">4. Place the workshop folder</h3>
-<p>Put the workshop folder in an easy-to-find location. Note the full path. You will need it when launching Docker.</p>
+<h3 class="anchored" data-anchor-id="place-the-workshop-folder">5. Place the workshop folder</h3>
+<p>Put the unzipped workshop folder in an easy-to-find location. Note the full path. You will need it when launching Docker.</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -320,15 +325,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td>Mac</td>
-<td><code>~/Downloads/Intro_to_RNA-seq_data_analysis</code></td>
+<td><code>~/Downloads/Fall_2026_IntroRNAseq_handson_Session_I-II</code></td>
 </tr>
 <tr class="even">
 <td>Windows</td>
-<td><code>C:\Users\YourName\Downloads\Intro_to_RNA-seq_data_analysis</code></td>
+<td><code>C:\Users\YourName\Downloads\Fall_2026_IntroRNAseq_handson_Session_I-II</code></td>
 </tr>
 <tr class="odd">
 <td>Linux</td>
-<td><code>~/Downloads/Intro_to_RNA-seq_data_analysis</code></td>
+<td><code>~/Downloads/Fall_2026_IntroRNAseq_handson_Session_I-II</code></td>
 </tr>
 </tbody>
 </table>
