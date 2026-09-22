@@ -1,20 +1,87 @@
-<html>
-  <body>
-<h1>Welcome to Gladstone Bioinformatics Workshops</h1>
-<h3>Useful links</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gladstone Bioinformatics Workshops</title>
+<style>
+  :root {
+    --heading-color: #9c0366;
+    --link-color: #0c74dc;
+    --link-hover: #094f96;
+    --border: #e5e5e5;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    max-width: 720px;
+    margin: 3rem auto;
+    padding: 0 1.5rem;
+    color: #222;
+    line-height: 1.5;
+  }
+  h1 {
+    color: var(--heading-color);
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+  }
+  p.subtitle {
+    color: #666;
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+  h2 {
+    color: var(--heading-color);
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+    margin-top: 2rem;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  li {
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  li:last-child {
+    border-bottom: none;
+  }
+  a {
+    color: var(--link-color);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--link-hover);
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+
+<h1>Gladstone Bioinformatics Workshops</h1>
+<p class="subtitle">Materials and hands-on guides from the Gladstone Institutes Bioinformatics Core</p>
+
+<h2>All workshops</h2>
 <ul>
-  <li><a href="https://github.com/gladstone-institutes/Bioinformatics-Workshops/wiki">Listing of all workshops and materials</li> 
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/scRNAseq.html">scRNA-seq workshop session 1</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_Unix/Intro_to_Unix_Part_1.html">Introduction to Unix - Part 1</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_Unix/Intro_to_Unix_Part_2.html">Introduction to Unix - Part 2</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_R/Pre_Workshop_Setup.html">Introduction to R Data Analysis - Pre-Workshop Setup</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_R/Intro_to_R_data_analysis_part_1.html">Introduction to R Data Analysis - Part 1</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_R/Intro_to_R_data_analysis_part_2.html">Introduction to R Data Analysis - Part 2</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Working_on_Wynton/Working_on_Wynton_Part_1.html">Working on Wynton - Part 1</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Working_on_Wynton/Working_on_Wynton_Part_2.html">Working on Wynton - Part 2</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_CoreHPC/Wynton_to_CoreHPC_Migration.html">Wynton to CoreHPC - Migration Guide</li>
-  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/GPU_Training_on_CoreHPC/GPU_Training_on_CoreHPC.html">GPU Training on CoreHPC</li>
+  <li><a href="https://github.com/gladstone-institutes/Bioinformatics-Workshops/wiki">Listing of all workshops and materials</a></li>
+</ul>
+
+<h2>Workshop guides</h2>
+<ul>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/scRNAseq.html">scRNA-seq workshop, session 1</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_Unix/Intro_to_Unix_Part_1.html">Introduction to Unix, Part 1</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_Unix/Intro_to_Unix_Part_2.html">Introduction to Unix, Part 2</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_R/Pre_Workshop_Setup.html">Introduction to R Data Analysis, Pre-Workshop Setup</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_R/Intro_to_R_data_analysis_part_1.html">Introduction to R Data Analysis, Part 1</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_R/Intro_to_R_data_analysis_part_2.html">Introduction to R Data Analysis, Part 2</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Working_on_Wynton/Working_on_Wynton_Part_1.html">Working on Wynton, Part 1</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Working_on_Wynton/Working_on_Wynton_Part_2.html">Working on Wynton, Part 2</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_CoreHPC/Wynton_to_CoreHPC_Migration.html">Wynton to CoreHPC, Migration Guide</a></li>
+  <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/GPU_Training_on_CoreHPC/GPU_Training_on_CoreHPC.html">GPU Training on CoreHPC</a></li>
   <li><a href="https://gladstone-institutes.github.io/Bioinformatics-Workshops/Intro_to_RNAseq/index.html">Introduction to RNA-seq Data Analysis</a></li>
-  </ul>
-  </body>
+</ul>
+
+</body>
 </html>
