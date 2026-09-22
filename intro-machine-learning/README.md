@@ -1,4 +1,4 @@
-# Introduction to Machine Learning Workshop
+# Machine Learning Using R Workshop
 
 ## Workshop Description
 
@@ -14,41 +14,39 @@ Machine learning is becoming increasingly important, not only in data science, b
 
 ### Algorithms
 
-- Random Forest
+- XGBoost
 - K-means clustering
 
----
+------------------------------------------------------------------------
 
 ## Workshop Materials
 
-This repository contains organized workshop materials in the `introML_workshop_materials/` folder.
+This repository contains organized workshop materials in the `MLusingR_workshop_materials/` folder.
 
 ### Folder Structure
 
-The `introML_workshop_materials/` folder contains:
+The `MLusingR_workshop_materials/` folder contains:
 
 - **`hands-on/`** - R Markdown files and input data:
   - `01_data_exploration_preprocessing.Rmd` - Data exploration, handling missing values, encoding, scaling
   - `02_kmeans.Rmd` - K-means unsupervised clustering
-  - `03_random_forest.Rmd` - Random Forest classification (supervised learning)
+  - `03_xgboost.Rmd` - XGBoost classification (supervised learning)
   - `data/covid-symptoms.csv` - Original COVID-19 symptoms dataset
-
-- **`slides/`** - Workshop presentation:
-  - `IntroML_workshop_011526.pptx` - Workshop presentation slides
-
+- **`[Fall 2026]MLusingR_workshop.pptx`** - Workshop presentation slides (pptx format)
+- **`[Fall 2026]MLusingR_workshop.pdf`** - Workshop presentation slides (pdf format)
 - **`README.md`** - Detailed information about the workshop materials
 
 ### Quick Start
 
-1. Extract or navigate to `introML_workshop_materials/` folder
-2. Open the R Markdown files in `hands-on/` in order (01 → 02 → 03)
-3. Follow along with the exercises
+1.  Extract or navigate to `MLusingR_workshop_materials/` folder
+2.  Open the R Markdown files in `hands-on/` in order (01 → 02 → 03)
+3.  Follow along with the exercises
 
 ### Additional Resources
 
-- `introML_workshop_materials.zip` - Compressed archive of all workshop materials (hands-on exercises and slides)
+- `MLusingR_workshop_materials.zip` - Compressed archive of all workshop materials (hands-on exercises and slides)
 
----
+------------------------------------------------------------------------
 
 ## Dataset: COVID-19 Symptoms and Test Results
 
@@ -64,26 +62,26 @@ We use predictor variables (symptoms, comorbidities, vitals) to estimate the pro
 
 The dataset includes the following variables:
 
-| Variable | Description |
-|----------|-------------|
-| `covid19_test_results` | Target variable (Positive/Negative) |
-| `temperature` | Patient temperature |
-| `high_risk_exposure_occupation` | Binary indicator |
-| `high_risk_interactions` | Binary indicator |
-| `cough` | Binary indicator |
-| `cough_severity` | Categorical (Mild/Moderate/Severe) |
-| `fever` | Binary indicator |
-| `sob` | Shortness of breath |
-| `fatigue` | Binary indicator |
-| `headache` | Binary indicator |
-| `loss_of_smell` | Binary indicator |
-| `loss_of_taste` | Binary indicator |
-| `sore_throat` | Binary indicator |
-| ... | Additional symptom indicators |
+| Variable                        | Description                         |
+|---------------------------------|-------------------------------------|
+| `covid19_test_results`          | Target variable (Positive/Negative) |
+| `temperature`                   | Patient temperature                 |
+| `high_risk_exposure_occupation` | Binary indicator                    |
+| `high_risk_interactions`        | Binary indicator                    |
+| `cough`                         | Binary indicator                    |
+| `cough_severity`                | Categorical (Mild/Moderate/Severe)  |
+| `fever`                         | Binary indicator                    |
+| `sob`                           | Shortness of breath                 |
+| `fatigue`                       | Binary indicator                    |
+| `headache`                      | Binary indicator                    |
+| `loss_of_smell`                 | Binary indicator                    |
+| `loss_of_taste`                 | Binary indicator                    |
+| `sore_throat`                   | Binary indicator                    |
+| ...                             | Additional symptom indicators       |
 
 ### Data Citation
 
-```
+```         
 @dataset{2020covidclinicaldata,
   author =       {Carbon Health and Braid Health},
   title =        {Coronavirus Disease 2019 (COVID-19) Clinical Data Repository},
@@ -93,7 +91,7 @@ The dataset includes the following variables:
 }
 ```
 
----
+------------------------------------------------------------------------
 
 ## Acknowledgments
 
@@ -101,23 +99,27 @@ We thank the **UCSF Library Data Science Initiative** for sharing this dataset w
 
 Original dataset repository: [Covid-Test-Predictions](https://github.com/geoffswc/Covid-Test-Predictions)
 
----
+------------------------------------------------------------------------
 
 ## Prerequisites
 
 ### Required R Packages
 
-```r
+``` r
 install.packages(c(
   "tidyverse",
   "ggplot2", 
   "caret",
-  "randomForest",
+  "xgboost",
   "cluster",
   "factoextra",
   "skimr",
   "naniar"
 ))
+
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("SamSPECTRAL")
 ```
 
 ### Recommended Background
@@ -126,12 +128,12 @@ install.packages(c(
 - Understanding of basic statistics (mean, standard deviation)
 - No prior machine learning experience required!
 
----
+------------------------------------------------------------------------
 
 ## Contact
 
 Gladstone Bioinformatics Core
 
----
+------------------------------------------------------------------------
 
-*Last updated: January 2026*
+*Last updated: September 2026*
