@@ -1,0 +1,25 @@
+/* Gladstone Institutes brand colors, matched to the site's shared Quarto
+   reveal theme (see --r-heading-color / --r-link-color in the other
+   workshop pages' theme CSS). */
+h1, h2, h3, h4, h5, h6,
+.title, .subtitle {
+  color: #9c0366;
+}
+
+a {
+  color: #0c74dc;
+}
+
+a:hover {
+  color: #094f96;
+}
+
+/* Wrap long single-line output/error blocks (```text fences) instead of
+   showing a horizontal scrollbar. Scoped to pre.text only, so plain ASCII
+   diagrams (unclassed ```` ``` ```` fences) and real command blocks
+   (.sourceCode, which need exact spacing preserved) are unaffected. */
+pre.text,
+pre.text code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
