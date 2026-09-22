@@ -1,0 +1,26 @@
+<nav class="workshop-nav" style="margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid #dee2e6; font-size: 0.95rem;">
+  <a href="index.html" data-nav-page="index.html">Home</a>
+  &nbsp;&middot;&nbsp;
+  <a href="00_setup.html" data-nav-page="00_setup.html">Setup I-II</a>
+  &nbsp;&middot;&nbsp;
+  <a href="01_quality_control.html" data-nav-page="01_quality_control.html">Session I</a>
+  &nbsp;&middot;&nbsp;
+  <a href="02_alignment_quantification.html" data-nav-page="02_alignment_quantification.html">Session II</a>
+  &nbsp;&middot;&nbsp;
+  <a href="03_setup_session3.html" data-nav-page="03_setup_session3.html">Setup III</a>
+  &nbsp;&middot;&nbsp;
+  <a href="04_differential_expression.html" data-nav-page="04_differential_expression.html">Session III</a>
+</nav>
+<script>
+(function () {
+  var here = location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".workshop-nav a[data-nav-page]").forEach(function (a) {
+    if (a.getAttribute("data-nav-page") === here) {
+      a.style.fontWeight = "700";
+      a.style.textDecoration = "none";
+      a.style.pointerEvents = "none";
+      a.style.color = "inherit";
+    }
+  });
+})();
+</script>
