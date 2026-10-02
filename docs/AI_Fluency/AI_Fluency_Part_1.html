@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="Natalie Gill">
-  <meta name="dcterms.date" content="2026-04-20">
+  <meta name="dcterms.date" content="2026-10-05">
   <title>AI Fluency for Biologists</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -30,7 +30,7 @@
       vertical-align: middle;
     }
   </style>
-  <link rel="stylesheet" href="AI_Fluency_Part_1_files/libs/revealjs/dist/theme/quarto-081d9f038429577e2c20afe4547d21cf.css">
+  <link rel="stylesheet" href="AI_Fluency_Part_1_files/libs/revealjs/dist/theme/quarto-e048106afd864fc2c64c3a7bcd23a08c.css">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="AI_Fluency_Part_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -145,7 +145,7 @@
   </div>
   <div class="quarto-title-meta">
     <div class="quarto-title-meta-contents">
-      <p class="date">April 20, 2026</p>
+      <p class="date">October 5, 2026</p>
     </div>
   </div>
 </section>
@@ -157,38 +157,29 @@
 </section>
 <section id="introductions" class="slide level2">
 <h2>Introductions</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
 <p><strong>Natalie Gill</strong><br>
 Bioinformatician II</p>
-<p><strong>Ayushi Agrawal</strong><br>
-Senior Bioinformatician</p>
-<p><strong>Kristina Hanspers</strong><br>
-Senior Research Associate</p>
-</div><div class="column" style="width:50%;">
-<p><strong>Michela Traglia</strong><br>
-Associate Core Director</p>
-<p><strong>Reuben Thomas</strong><br>
-Core Director</p>
-</div></div>
 </section>
 <section id="target-audience" class="slide level2">
 <h2>Target Audience</h2>
 <ul>
 <li>No prior AI or programming experience required</li>
 <li>Biologists at all career stages</li>
-<li>Laptop and a free Claude account are all you need</li>
+<li>Laptop and a Claude Pro account are all you need</li>
 </ul>
 </section>
 <section id="learning-objectives" class="slide level2">
 <h2>Learning Objectives</h2>
+<div style="font-size: 0.8em;">
 <ol type="1">
+<li>Describe what current AI tools can do, including agents, connectors, and skills</li>
 <li>Identify tasks that are well-suited for AI assistance</li>
-<li>Write clear, effective prompts to get useful results</li>
+<li>Write clear, effective prompts and task descriptions</li>
 <li>Evaluate AI outputs for accuracy and appropriateness</li>
-<li>Recognize limitations and potential biases in AI responses</li>
+<li>Set up a workflow that lets you review AI-generated code</li>
 <li>Apply ethical best practices when using AI in research</li>
 </ol>
+</div>
 </section>
 <section id="part-1" class="slide level2">
 <h2>Part 1:</h2>
@@ -196,8 +187,9 @@ Core Director</p>
 <li>Introduction to AI and the 4 Ds framework</li>
 <li>Delegation: Platform Awareness</li>
 <li>Break</li>
+<li>Delegation: AI Workbenches for Science</li>
 <li>Delegation: Task Awareness</li>
-<li>Description</li>
+<li>Description: Prompting Techniques</li>
 </ol>
 </section>
 <section>
@@ -218,14 +210,14 @@ Core Director</p>
 <ul>
 <li>Not about becoming an AI expert</li>
 <li>About developing practical skills to use AI as a tool in your research</li>
-<li>Like learning to use a new instrument - you need to know its strengths and limitations</li>
+<li>Like learning to use a new instrument, you need to know its strengths and limitations</li>
 </ul>
 </section>
 <section id="poll-how-often-do-you-use-ai-tools" class="slide level2">
 <h2>Poll: How often do you use AI tools?</h2>
 <div class="v-center-container">
-<p><a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a></p>
-<p><em>Scan or click to join</em></p>
+<p><a href="https://app.sli.do/event/iVhSSEPQq7KVcXJ9EGP19k" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a></p>
+<p><em>Scan or click the image to join</em></p>
 </div>
 </section>
 <section id="the-4-ds-framework" class="slide level2">
@@ -249,6 +241,15 @@ Core Director</p>
 Platform Awareness
 </p>
 </section>
+<section id="same-features-different-names" class="slide level2">
+<h2>Same Features, Different Names</h2>
+<ul>
+<li>We use Claude for demonstrations</li>
+<li>Every major platform offers its own version of the features in this workshop</li>
+<li>Product names, features, and plan tiers change every few months</li>
+<li>The concepts transfer between platforms and stay useful when the products change</li>
+</ul>
+</section>
 <section id="model-providers" class="slide level2">
 <h2>Model Providers</h2>
 <div style="font-size: 0.8em;">
@@ -263,7 +264,7 @@ Platform Awareness
 <h2>Model Limitations</h2>
 <ul>
 <li><strong>Hallucinations</strong>: Confident incorrect answers</li>
-<li><strong>Knowledge cutoff</strong>: AI has no knowledge after its training date it won’t know about recent papers or discoveries</li>
+<li><strong>Knowledge cutoff</strong>: The model only knows about recent papers if a tool such as web search retrieves them</li>
 <li><strong>Context window</strong>: The input/output token budget; once it fills up, accuracy drops and earlier details get lost</li>
 <li><strong>Training bias</strong>: Systematic skews inherited from training data and alignment choices</li>
 </ul>
@@ -275,6 +276,25 @@ Platform Awareness
 </div>
 <div class="fragment ai-message">
 <p>Walk. 50 meters is about 30 seconds on foot so driving makes no sense.</p>
+</div>
+</section>
+<section id="common-misunderstandings-about-hallucinations" class="slide level2">
+<h2>Common Misunderstandings About Hallucinations</h2>
+<div style="font-size: 0.8em;">
+<ul>
+<li><strong>“Hallucinations are just made-up facts”</strong>
+<ul>
+<li>Also: misreading your document, or citing a real paper that does not support the claim</li>
+</ul></li>
+<li><strong>“Web search or connectors prevent them”</strong>
+<ul>
+<li>Grounding reduces made-up sources but does not stop misreading them</li>
+</ul></li>
+<li><strong>“A second model can check the first”</strong>
+<ul>
+<li>Models share training data and make similar errors, so agreement does not confirm an answer</li>
+</ul></li>
+</ul>
 </div>
 </section>
 <section id="context-rot" class="slide level2">
@@ -313,10 +333,59 @@ Platform Awareness
 <p><img data-src="assets/omar_et_al_april_2025.png" style="border: 1px solid #ccc; padding: 5px;;width:95.0%" alt="Title card for Omar et al. 2025 paper: Sociodemographic biases in medical decision making by large language models, published in Nature Medicine"></p>
 <p><img data-src="assets/bai_et_al_feb_2025.png" style="border: 1px solid #ccc; padding: 5px;;width:95.0%" alt="Title card for Bai et al. 2025 paper: Explicitly unbiased large language models still form biased associations, published in PNAS"></p>
 </section>
+<section id="poll-what-ai-tools-have-you-heard-of" class="slide level2">
+<h2>Poll: What AI tools have you heard of?</h2>
+<div class="v-center-container">
+<p><a href="https://app.sli.do/event/iVhSSEPQq7KVcXJ9EGP19k" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a></p>
+<p><em>Scan or click the image to join</em></p>
+</div>
+</section>
 <section id="current-landscape" class="slide level2">
 <h2>Current Landscape</h2>
 
 <img data-src="assets/current_landscape.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%" alt="Architecture diagram showing four layers of AI software tools: Data Sources (Slack, Drive, PubMed, Files, Databases), Orchestration Layer (Agent Loop, Tool Routing, Memory, Context), Model Layer (Claude, GPT, Gemini, Llama), and Application/Output Layer (Reports, Plots, Dashboards, Documents, Code)"></section>
+<section id="model-vs.-harness" class="slide level2">
+<h2>Model vs.&nbsp;Harness</h2>
+<!-- FIGURE: the model as a core inside a harness, with tools, files, and the user around it. -->
+<ul>
+<li>The <strong>model</strong> is the LLM: it takes text in and produces text out</li>
+<li>The <strong>harness</strong> is the software around the model
+<ul>
+<li>The chat app, Cowork, Claude Code, and science workbenches are all harnesses</li>
+<li>In the previous diagram, the harness is the orchestration layer</li>
+</ul></li>
+<li>The same model can behave very differently in different harnesses</li>
+</ul>
+</section>
+<section id="what-a-harness-does" class="slide level2">
+<h2>What a Harness Does</h2>
+<div style="font-size: 0.8em;">
+<ul>
+<li><strong>Builds the context</strong>: adds instructions, your files, and memory to each request</li>
+<li><strong>Provides tools</strong>: web search, code execution, connectors</li>
+<li><strong>Runs the loop</strong>: sends tool results back to the model until the task is done</li>
+<li><strong>Manages the context window</strong>: summarizes or drops old content as it fills up</li>
+<li><strong>Asks permission</strong>: checks with you before actions such as editing files</li>
+</ul>
+<p>Connectors, skills, and plugins are features you add to a harness.</p>
+</div>
+</section>
+<section id="from-chat-to-agent" class="slide level2">
+<h2>From Chat to Agent</h2>
+<!-- FIGURE: a sequence or ladder diagram where each step adds one capability, could replace this list. -->
+<div style="font-size: 0.75em;">
+<p>Each step adds one harness capability to a plain chat:</p>
+<ul>
+<li><strong>Chat</strong>: answers from training data only</li>
+<li><strong>Persistent context</strong>: documents and instructions that apply to every chat in a workspace</li>
+<li><strong>Research mode</strong>: searches current sources and cites them</li>
+<li><strong>Connectors</strong>: read from your files, apps, and scientific databases</li>
+<li><strong>Skills</strong>: reusable instructions for a task you repeat</li>
+<li><strong>Agents</strong>: take many steps on their own and use tools</li>
+<li><strong>Scheduled tasks</strong>: agents that run at set times without you present</li>
+</ul>
+</div>
+</section>
 <section id="what-are-ai-agents" class="slide level2">
 <h2>What Are AI Agents?</h2>
 <div style="font-size: 0.7em; text-align: center;">
@@ -324,12 +393,274 @@ Platform Awareness
 </div>
 
 <img data-src="assets/agent_diagram.svg" class="quarto-figure quarto-figure-center r-stretch" style="width:90.0%" alt="Diagram of an AI agent showing a central robot icon labeled AI Agent connected by bidirectional arrows to six capabilities: Memory (retains context across steps), Feedback (observes results and adapts), Tools (APIs, code, web), Autonomy (chooses its own next step), Delegation (spawns other agents), and Human Oversight (human stays in the loop)"></section>
-<section id="poll-what-ai-tools-have-you-heard-of" class="slide level2">
-<h2>Poll: What AI tools have you heard of?</h2>
-<div class="v-center-container">
-<p><a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a></p>
-<p><em>Scan or click to join</em></p>
+<section id="connectors-and-mcp" class="slide level2">
+<h2>Connectors and MCP</h2>
+<ul>
+<li>A <strong>connector</strong> gives the AI access to an outside data source or app
+<ul>
+<li>Examples: PubMed, UniProt, Google Drive, your email</li>
+</ul></li>
+<li>Most connectors use the <strong>Model Context Protocol (MCP)</strong>
+<ul>
+<li>MCP is an open standard supported by Anthropic, OpenAI, and Google</li>
+</ul></li>
+<li>With a connector, the AI retrieves real records instead of recalling them from training data</li>
+</ul>
+</section>
+<section id="can-it-delete-all-my-emails" class="slide level2">
+<h2>“Can It Delete All My Emails?”</h2>
+<div style="font-size: 0.9em;">
+<ul>
+<li>A connector can only take the actions its builder included
+<ul>
+<li>Examples: search, read, draft, send, delete</li>
+</ul></li>
+<li>You can set a permission for each action
+<ul>
+<li><strong>Always allow</strong>, <strong>Needs approval</strong>, or <strong>Blocked</strong></li>
+</ul></li>
+<li>Block the write and delete actions to make a connector read-only</li>
+<li>Risks that remain:
+<ul>
+<li>Approving requests without reading them</li>
+<li>Hidden instructions inside an email or document</li>
+</ul></li>
+</ul>
 </div>
+</section>
+<section id="skills" class="slide level2">
+<h2>Skills</h2>
+<ul>
+<li>A <strong>skill</strong> is a packaged set of instructions for a task you repeat
+<ul>
+<li>It can also include reference files and scripts</li>
+</ul></li>
+<li>The AI loads a skill only when a task needs it
+<ul>
+<li>This keeps unused instructions out of the context window</li>
+</ul></li>
+<li>Skills follow an open format that several platforms support</li>
+<li>Example: “Format a methods section to match our lab’s style”</li>
+</ul>
+</section>
+<section id="plugins" class="slide level2">
+<h2>Plugins</h2>
+<ul>
+<li>A <strong>plugin</strong> bundles several features into one installable package
+<ul>
+<li>Skills, connectors, commands, and specialized agents</li>
+</ul></li>
+<li>Plugins let a lab or institution share a configured setup</li>
+<li>Example: a plugin for a field that includes its databases and standard analyses</li>
+</ul>
+<!-- FIGURE: nested diagram showing a plugin that contains skills, connectors, commands, and agents. -->
+</section>
+<section id="scheduled-tasks" class="slide level2">
+<h2>Scheduled Tasks</h2>
+<ul>
+<li>A <strong>scheduled task</strong> runs a prompt or an agent at set times
+<ul>
+<li>Daily, weekly, or on demand</li>
+</ul></li>
+<li>The results are waiting for you when you return</li>
+<li>Example: a weekly summary of new papers on your topic</li>
+<li>Nobody watches a scheduled task while it runs, so Diligence matters more (Part 2)</li>
+</ul>
+</section>
+<section id="the-same-concepts-across-platforms" class="slide level2">
+<h2>The Same Concepts Across Platforms</h2>
+<div style="font-size: 0.9em;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Concept</th>
+<th>Claude</th>
+<th>ChatGPT</th>
+<th>Gemini</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Persistent context</td>
+<td>Projects</td>
+<td>Projects, custom GPTs</td>
+<td>Gems, NotebookLM</td>
+</tr>
+<tr class="even">
+<td>Research with citations</td>
+<td>Research</td>
+<td>Deep research</td>
+<td>Deep Research</td>
+</tr>
+<tr class="odd">
+<td>Connectors</td>
+<td>Connectors (MCP)</td>
+<td>Apps and connectors (MCP)</td>
+<td>Connected apps, extensions</td>
+</tr>
+<tr class="even">
+<td>Skills</td>
+<td>Skills</td>
+<td>Skills</td>
+<td>Agent skills (Gemini CLI)</td>
+</tr>
+<tr class="odd">
+<td>Agent on your computer</td>
+<td>Cowork</td>
+<td>ChatGPT agent</td>
+<td>Gemini Agent</td>
+</tr>
+<tr class="even">
+<td>Scheduled tasks</td>
+<td>Scheduled tasks</td>
+<td>Tasks</td>
+<td>Scheduled actions</td>
+</tr>
+<tr class="odd">
+<td>Coding agent</td>
+<td>Claude Code</td>
+<td>Codex</td>
+<td>Gemini CLI</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>MCP, the skills format, and AGENTS.md are open standards shared across vendors</li>
+</ul>
+</section>
+<section id="demo-an-agent-working-on-your-files" class="slide level2">
+<h2>Demo: An Agent Working on Your Files</h2>
+<div style="font-size: 0.7em;">
+<p><strong>Task:</strong> a folder of 11 downloaded papers whose filenames are publisher IDs (e.g., <code>2509.04664v1.pdf</code>)</p>
+<div class="example">
+<p>This folder has 11 research papers I downloaded. The filenames are publisher IDs, so I can’t tell what each one is.</p>
+<ol type="1">
+<li>Rename each PDF to <code>FirstAuthor_Year_ShortTitle.pdf</code> (e.g., <code>Smith_2025_Gene_Regulation.pdf</code>).</li>
+<li>Create one spreadsheet, <code>paper_summary.xlsx</code>, in this folder with one row per paper and these columns: new filename, authors, year, title, journal or preprint server, and a one-sentence summary of the main finding.</li>
+</ol>
+<p>Read only the first two pages of each paper. Do not delete or move any files. Before you change anything, show me your plan and the full list of new filenames, and wait for my approval.</p>
+</div>
+</div>
+<aside class="notes">
+<p>Demo folder: ~/Downloads/organize papers (11 arXiv, Nature, and Science PDFs). Copy a fresh set before each session, because the demo renames the files. If the run takes longer than about 4 minutes in rehearsal, remove the Co-Scientist paper (2502.18864v2.pdf, 157 pages) first, then Kosmos (2511.02824v2.pdf). Keep a screen recording of a rehearsal run as a backup.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="demo-what-to-watch-for" class="slide level2">
+<h2>Demo: What to Watch For</h2>
+<ul>
+<li><strong>The plan</strong>: what the agent proposes before it changes anything</li>
+<li><strong>Permission requests</strong>: where it stops and asks you to approve</li>
+<li><strong>The output</strong>: what it produces and where it saves it</li>
+<li><strong>Spot check</strong>: open one paper and compare it with its row in the spreadsheet</li>
+</ul>
+</section></section>
+<section id="min-break" class="title-slide slide level1 center">
+<h1>10 min break</h1>
+<center>
+<div class="cell">
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer_e7657d50" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+</div>
+</div>
+</center>
+</section>
+
+<section>
+<section id="delegation-1" class="title-slide slide level1 center">
+<h1>Delegation</h1>
+<p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">
+AI Workbenches for Science
+</p>
+</section>
+<section id="what-is-a-science-workbench" class="slide level2">
+<h2>What Is a Science Workbench?</h2>
+<ul>
+<li>A harness built for research tasks rather than general chat</li>
+<li>Typical parts:
+<ul>
+<li>A coordinating agent that plans and delegates to other agents</li>
+<li>Skills and connectors for scientific databases and analysis tools</li>
+<li>Access to compute, such as your laptop or an HPC cluster</li>
+<li>A record of the code, data, and steps behind each result</li>
+</ul></li>
+</ul>
+</section>
+<section id="examples" class="slide level2">
+<h2>Examples</h2>
+<div style="font-size: 0.8em;">
+<ul>
+<li><strong>Claude Science</strong> (Anthropic): desktop research workbench</li>
+<li><strong>Biomni</strong> (Stanford): open-source biomedical research agent</li>
+<li><strong>Kosmos</strong> (Edison Scientific): long-running literature and data analysis agent</li>
+<li><strong>AI co-scientist</strong> (Google): hypothesis generation and research planning</li>
+<li><strong>Prism</strong> (OpenAI): AI workspace for writing scientific papers</li>
+</ul>
+</div>
+</section>
+<section id="claude-science" class="slide level2">
+<h2>Claude Science</h2>
+<div style="font-size: 0.8em;">
+<ul>
+<li>A coordinating agent with 60+ skills and connectors for biology and chemistry
+<ul>
+<li>Examples: UniProt, PDB, Ensembl, GEO, ClinVar</li>
+</ul></li>
+<li>A reviewer agent flags incorrect citations and numbers that cannot be traced to a source</li>
+<li>Each figure is saved with the code and environment that produced it</li>
+<li>Runs on your laptop, or on a remote machine or HPC login node over SSH</li>
+</ul>
+</div>
+</section>
+<section id="what-a-workbench-is-not" class="slide level2">
+<h2>What a Workbench Is Not</h2>
+<ul>
+<li>It is a new harness, not a new model
+<ul>
+<li>It runs the same models as the general chat apps</li>
+<li>Anthropic: “not a new AI model and not a more capable model for biology”</li>
+</ul></li>
+<li>A reviewer agent usually runs on the same model as the agent it checks
+<ul>
+<li>Does not substitute for human verification (more on this in Part 2)</li>
+</ul></li>
+<li>It should not choose the analysis method for you</li>
+</ul>
+</section>
+<section id="demo-a-science-workbench" class="slide level2">
+<h2>Demo: A Science Workbench</h2>
+<!-- TODO: live Claude Science demo. Choose a dataset or question. Show the plan, the connectors it calls, the reviewer agent, and the provenance of one figure. -->
+<ul>
+<li>Watch for:
+<ul>
+<li>Which databases and tools it uses</li>
+<li>Where it asks you to approve a step</li>
+<li>How you can trace a figure back to its code</li>
+</ul></li>
+</ul>
+</section>
+<section id="discussion-where-would-a-workbench-fit" class="slide level2">
+<h2>Discussion: Where Would a Workbench Fit?</h2>
+<ul>
+<li>Which parts of your work could a workbench do?</li>
+<li>Which parts would you need to check most carefully?</li>
+</ul>
 </section>
 <section id="how-are-ai-models-evaluated" class="slide level2">
 <h2>How Are AI Models Evaluated?</h2>
@@ -354,43 +685,47 @@ Platform Awareness
 <li>The best approach: try your actual task on 2-3 models</li>
 </ul>
 </section>
-<section id="humanitys-last-exam" class="slide level2">
-<h2>Humanity’s Last Exam</h2>
+<section id="science-benchmarks" class="slide level2">
+<h2>Science Benchmarks</h2>
+<div style="font-size: 0.8em;">
 <ul>
-<li><strong><a href="https://agi.safe.ai/">Humanity’s Last Exam (HLE)</a></strong>: Graduate-level problems that require multi-step reasoning and whose answers are not “googleable”</li>
+<li><strong><a href="https://agi.safe.ai/">Humanity’s Last Exam (HLE)</a></strong>: Graduate-level problems that require multi-step reasoning and whose answers are not “googleable”
+<ul>
+<li>The best AI model currently scores <strong>54.6%</strong></li>
+</ul></li>
+<li><strong><a href="https://arxiv.org/abs/2608.25286">BixBench3</a></strong> (Aug 2026): agents get the research question, methods, and raw data from a published study
+<ul>
+<li>The best model reproduced about <strong>half</strong> of the published results</li>
+</ul></li>
+<li><strong><a href="https://arxiv.org/abs/2605.28065">SpatialBench-Long</a></strong> (May 2026): agents must choose their own methods to reach a biological conclusion
+<ul>
+<li>The best agents succeeded in about <strong>1 of 9</strong> runs</li>
+</ul></li>
+<li>The two benchmarks differ in data and scoring, so compare them with caution</li>
 </ul>
-<p>The best AI model currently scores <strong>45.9%</strong></p>
+</div>
 </section>
-<section id="spatialbench" class="slide level2">
-<h2>SpatialBench</h2>
-<ul>
-<li><strong><a href="https://blog.latch.bio/p/spatialbench-can-agents-analyze-real">SpatialBench</a></strong>: 146 verifiable problems from practical spatial analysis workflows spanning five technologies and seven task categories</li>
-<li>Uses real experimental data from Vizgen MERFISH, Takara Seeker, 10x Visium, 10x Xenium, and Atlasxomics DBIT-seq</li>
-</ul>
-<p>The best AI models currently score <strong>20–38%</strong></p>
+<section id="bixbench3" class="slide level2">
+<h2>BixBench3</h2>
+
+<img data-src="assets/bixbench3_overview.png" class="quarto-figure quarto-figure-center r-stretch" style="border: 1px solid #ccc; padding: 5px;;width:100.0%" alt="BixBench3 overview. Panel A: a published study is broken into a tree of analyses, each producing a data artifact such as RNA-seq reads, a read count matrix, or a list of differentially expressed genes; each artifact the agent produces is scored against the corresponding published artifact to give a task score. Panel B: pass and fail results for 13 models across 20 tasks, with overall scores from 0.48 for the best model down to 0.00"><div class="bottom-message">
+Figure 1 from Koch et al.&nbsp;2026, BixBench3 (arXiv 2608.25286)
+</div>
 </section>
 <section id="choosing-an-ai-tool" class="slide level2">
 <h2>Choosing an AI Tool</h2>
+<div style="font-size: 0.9em;">
 <ul>
 <li><strong>Pick one and learn it well</strong> rather than switching constantly</li>
 <li><strong>Check the privacy policy</strong>: What data is stored? Is it used for training?</li>
+<li><strong>Check what each connector can access</strong> before you turn it on</li>
 <li><strong>Follow your institution’s guidelines</strong> on approved tools and data sharing</li>
 <li>Never share sensitive, unpublished, or patient-derived data without checking policies</li>
 </ul>
+</div>
 </section></section>
-<section id="min-break" class="title-slide slide level1 center">
-<h1>10 min break</h1>
-<center>
-<div class="cell">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_665e880c" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
-</div>
-</div>
-</center>
-</section>
-
 <section>
-<section id="delegation-1" class="title-slide slide level1 center">
+<section id="delegation-2" class="title-slide slide level1 center">
 <h1>Delegation</h1>
 <p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">
 Task Awareness
@@ -422,9 +757,18 @@ Task Awareness
 <h2>Poor Tasks for AI</h2>
 <p>Tasks where <strong>you can’t verify the output</strong>:</p>
 <ul>
-<li><strong>Outside your expertise</strong>: If you can’t judge correctness, don’t delegate it</li>
-<li><strong>Precise calculations</strong>: Use dedicated tools for statistics and quantitative claims</li>
-<li><strong>Final versions</strong>: AI output always needs human revision</li>
+<li><strong>Outside your expertise</strong>
+<ul>
+<li>If you can’t judge correctness, don’t delegate it</li>
+</ul></li>
+<li><strong>Choosing statistical methods</strong>
+<ul>
+<li>The AI can <em>run</em> any test, but you must <em>decide</em> which test fits your data</li>
+</ul></li>
+<li><strong>Final versions</strong>
+<ul>
+<li>AI output always needs human revision</li>
+</ul></li>
 </ul>
 </section>
 <section id="image-generation-a-poor-task" class="slide level2">
@@ -465,6 +809,49 @@ Task Awareness
 <p>In practice, <strong>Augmentation</strong> is the most productive mode for research tasks</p>
 </div>
 </section>
+<section id="demo-flowchart-creation" class="slide level2">
+<h2>Demo: Flowchart creation</h2>
+<div style="font-size: 0.7em;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="bad-example">
+<p><strong>Automation:</strong> “Make a flowchart of my experiment”</p>
+<ul>
+<li>An image generator draws a picture of a flowchart</li>
+<li>Text is often misspelled and steps can be invented</li>
+<li>You cannot edit the result</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="good-example">
+<p><strong>Augmentation:</strong> you supply the steps, the AI writes the drawing as code</p>
+<ul>
+<li>You check the plan before it draws</li>
+<li>You request changes over several rounds</li>
+<li>You finish the figure yourself in a drawing program</li>
+</ul>
+</div>
+</div></div>
+<div class="example">
+<p>Create a flowchart of the workflow below as an SVG file that I can edit in Inkscape.</p>
+<p>Steps: [list each step of your workflow in order]</p>
+<p>Use editable text for every label, group each box with its label, and use colorblind-safe colors. Before you draw anything, list the boxes and arrows you plan to use so I can correct them.</p>
+</div>
+</div>
+<!-- TODO: choose the example workflow for the demo and add it to the prompt. -->
+</section>
+<section id="matching-modalities-to-tools" class="slide level2">
+<h2>Matching Modalities to Tools</h2>
+<ul>
+<li><strong>Automation</strong>: skills and scheduled tasks</li>
+<li><strong>Augmentation</strong>: chat, persistent context, and research mode</li>
+<li><strong>Agency</strong>: agents and science workbenches</li>
+<li>More agency means more steps happen before you see the result
+<ul>
+<li>So you need a way to check each step</li>
+</ul></li>
+</ul>
+</section>
 <section id="ai-as-augmentation-not-replacement" class="slide level2">
 <h2>AI as Augmentation, Not Replacement</h2>
 <p>Currently the most effective way to interact with AI is through <strong>Augmentation</strong></p>
@@ -474,17 +861,17 @@ Task Awareness
 <li>You remain responsible for the scientific validity of your work</li>
 </ul>
 </section>
-<section id="exercise-identify-your-ai-tasks" class="slide level2">
-<h2>Exercise: Identify Your AI Tasks</h2>
+<section id="exercise-delegation-plan" class="slide level2">
+<h2>Exercise: Delegation Plan</h2>
 <div style="font-size: 0.8em;">
 <p><strong>Think about your own work and identify 2-3 tasks where AI could help.</strong></p>
-<p>For each task, consider:</p>
+<p>For each task, decide:</p>
 <ol type="1">
-<li>What is the task? (e.g., literature review, writing, data wrangling)</li>
-<li>Which mode fits best: Automation, Augmentation, or Agency?</li>
-<li>Could you evaluate whether the AI’s output is correct?</li>
+<li>Which tool fits: chat, research mode, a connector, a skill, an agent, or a workbench?</li>
+<li>Which mode fits: Automation, Augmentation, or Agency?</li>
+<li>How would you check that the output is correct?</li>
 </ol>
-<p><a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="20%"></a></p>
+<p><a href="https://app.sli.do/event/iVhSSEPQq7KVcXJ9EGP19k" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="20%"></a></p>
 </div>
 </section>
 <section id="discussion" class="slide level2">
@@ -506,9 +893,10 @@ Task Awareness
 <li><strong>Show Examples</strong></li>
 <li><strong>Specify Output Constraints</strong></li>
 <li><strong>Break Complex Tasks into Steps</strong></li>
-<li><strong>Ask It to Think First</strong></li>
+<li><strong>Set the Effort Level</strong></li>
 <li><strong>Define the AI’s Role</strong></li>
 </ol>
+<p>Part 2 covers instructions you can reuse and how to describe work to an agent.</p>
 </div>
 </section>
 <section id="provide-context" class="slide level2">
@@ -583,16 +971,20 @@ Task Awareness
 <p>This is called <strong>Process Description</strong>: defining <em>how</em> the AI should approach the task</p>
 </div>
 </section>
-<section id="use-extended-thinking-mode" class="slide level2">
-<h2>5) Use Extended Thinking Mode</h2>
+<section id="set-the-effort-level" class="slide level2">
+<h2>5) Set the Effort Level</h2>
 <div style="font-size: 0.8em;">
-<p>Most AI tools now have a <strong>thinking</strong> or <strong>reasoning</strong> mode, use it for complex or multi-part questions.</p>
+<p>Most AI tools now decide on their own how much to reason before answering.</p>
 <ul>
-<li><strong>Don’t</strong> need to say “think step by step”</li>
-<li><strong>Do</strong> toggle on extended thinking for harder questions; skip it for simple tasks</li>
+<li>An <strong>effort</strong> or <strong>reasoning</strong> setting controls how thorough the model is
+<ul>
+<li>Higher effort: slower, but better for complex or multi-part questions</li>
+<li>Lower effort: faster, and enough for simple tasks</li>
+</ul></li>
+<li>You <strong>don’t</strong> need to say “think step by step”</li>
 </ul>
 <div class="example">
-<p><em>[Turn on extended thinking / reasoning mode]</em></p>
+<p><em>[Set the effort level to high]</em></p>
 <p>“Here is a paper on CRISPR-based gene therapy for sickle cell disease. What are the key methodological limitations, and how might they affect the authors’ conclusions?”</p>
 </div>
 </div>
@@ -625,17 +1017,6 @@ Task Awareness
 </ul>
 </div>
 </section>
-<section id="persistent-context-projects-and-custom-instructions" class="slide level2">
-<h2>Persistent Context: Projects and Custom Instructions</h2>
-<div style="font-size: 0.75em;">
-<p>Most tools let you attach persistent context that applies to every chat in a workspace so you can avoid pasting the same information over and over again.</p>
-<ul>
-<li><strong>Claude Projects</strong> (and equivalents in ChatGPT, Gemini): attach reference documents and custom instructions that the model sees on every turn</li>
-<li>Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions</li>
-<li>For code, a <code>CLAUDE.md</code> or <code>AGENTS.md</code> at the repo root serves the same purpose (covered in Part 2)</li>
-</ul>
-</div>
-</section>
 <section id="exercise-prompting" class="slide level2">
 <h2>Exercise: Prompting</h2>
 <div style="font-size: 0.8em;">
@@ -658,10 +1039,10 @@ Task Awareness
 <section id="schedule-for-part-2" class="slide level2">
 <h2>Schedule for Part 2</h2>
 <ol type="1">
-<li>Discernment - Evaluating AI outputs</li>
-<li>Literature Review Exercise</li>
-<li>Coding with LLMs</li>
-<li>Diligence - Responsible AI use</li>
+<li>Description: Reusable instructions and agents</li>
+<li>Discernment: Evaluating AI outputs</li>
+<li>Coding with AI agents</li>
+<li>Diligence: Responsible AI use</li>
 <li>Q&amp;A and discussion</li>
 <li>Wrap-up and resources</li>
 </ol>
@@ -674,12 +1055,13 @@ Task Awareness
 </section>
 <section id="upcoming-workshops" class="slide level2 small">
 <h2>Upcoming Workshops</h2>
-<p><strong>Linear Mixed Effects Models Using R</strong><br>
-May 4 - May 5, 2026 9:00am - 4:00pm PDT</p>
-<p><strong>scATAC-seq Analysis Using R</strong><br>
-May 11-May 12, 2026 9:30am-12:00pm PDT</p>
-<p><strong>Advanced RNA-seq Analysis Using R</strong><br>
-May 27-May 28, 2026 1:00-3:00pm PDT</p>
+<p><strong>Single Cell RNA-Seq Analysis Using R</strong><br>
+October 12, 2026 9:30am-12:00pm PDT</p>
+<p><strong>Introduction to Pathway Analysis</strong><br>
+October 15, 2026 1:00-4:00pm PDT</p>
+<p><strong>Statistics of Enrichment Analyses Methods</strong><br>
+October 22, 2026 1:00-3:00pm PDT</p>
+<p><a href="https://gladstone.org/events/?series=data-science-training-program">See all upcoming workshops</a></p>
 </section>
 <section id="thank-you" class="slide level2">
 <h2>Thank You</h2>

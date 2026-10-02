@@ -3,8 +3,8 @@ title: "AI Fluency for Biologists"
 subtitle: "Part 1"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "April, 20, 2026"
-date-format: MMMM DD, YYYY
+date: "October, 05, 2026"
+date-format: MMMM D, YYYY
 format:
   revealjs:
     theme: [default, ai-theme.scss]
@@ -24,50 +24,40 @@ library(countdown)
 
 <center>*Press the ? key for tips on navigating these slides*</center>
 
+
+
 ## Introductions
 
-:::: {.columns}
-::: {.column width="50%"}
-**Natalie Gill**     
-Bioinformatician II  
 
-**Ayushi Agrawal**    
-Senior Bioinformatician    
-
-**Kristina Hanspers**   
-Senior Research Associate   
-:::
-::: {.column width="50%"}
-**Michela Traglia**   
-Associate Core Director   
-
-**Reuben Thomas**   
-Core Director  
-:::
-::::
+**Natalie Gill**      
+Bioinformatician II
 
 
 ## Target Audience
 
 - No prior AI or programming experience required
 - Biologists at all career stages
-- Laptop and a free Claude account are all you need
+- Laptop and a Claude Pro account are all you need
 
 ## Learning Objectives
 
-1. Identify tasks that are well-suited for AI assistance
-2. Write clear, effective prompts to get useful results
-3. Evaluate AI outputs for accuracy and appropriateness
-4. Recognize limitations and potential biases in AI responses
-5. Apply ethical best practices when using AI in research
+::: {style="font-size: 0.8em;"}
+1. Describe what current AI tools can do, including agents, connectors, and skills
+2. Identify tasks that are well-suited for AI assistance
+3. Write clear, effective prompts and task descriptions
+4. Evaluate AI outputs for accuracy and appropriateness
+5. Set up a workflow that lets you review AI-generated code
+6. Apply ethical best practices when using AI in research
+:::
 
 ## Part 1:
 
 1. Introduction to AI and the 4 Ds framework
 2. Delegation: Platform Awareness
 3. Break
-4. Delegation: Task Awareness
-5. Description
+4. Delegation: AI Workbenches for Science
+5. Delegation: Task Awareness
+6. Description: Prompting Techniques
 
 
 # Introduction
@@ -86,14 +76,14 @@ The ability to work with AI systems in ways that are **effective**, **efficient*
 
 - Not about becoming an AI expert
 - About developing practical skills to use AI as a tool in your research
-- Like learning to use a new instrument - you need to know its strengths and limitations
+- Like learning to use a new instrument, you need to know its strengths and limitations
 
 ## Poll: How often do you use AI tools?
 
 :::{.v-center-container}
-<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
+<a href="https://app.sli.do/event/iVhSSEPQq7KVcXJ9EGP19k" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
 
-*Scan or click to join*
+*Scan or click the image to join*
 :::
 
 ## The 4 Ds Framework
@@ -111,14 +101,18 @@ A practical approach to working with AI effectively:
 ![](assets/four_ds_diagram.svg){fig-alt="The 4 Ds of AI Fluency: Delegation, Description, Discernment, and Diligence arranged in an interconnected diamond with bidirectional arrows between each node" fig-align="center" width=100%}
 
 
+
 # Delegation {.center}
 
 <p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">Platform Awareness</p>
 
 
+## Same Features, Different Names
 
-
-
+- We use Claude for demonstrations
+- Every major platform offers its own version of the features in this workshop
+- Product names, features, and plan tiers change every few months
+- The concepts transfer between platforms and stay useful when the products change
 
 
 ## Model Providers
@@ -136,7 +130,7 @@ Popular model providers include **Claude** (Anthropic), **ChatGPT** (OpenAI), an
 
 
 - **Hallucinations**: Confident incorrect answers
-- **Knowledge cutoff**: AI has no knowledge after its training date it won't know about recent papers or discoveries
+- **Knowledge cutoff**: The model only knows about recent papers if a tool such as web search retrieves them
 - **Context window**: The input/output token budget; once it fills up, accuracy drops and earlier details get lost
 - **Training bias**: Systematic skews inherited from training data and alignment choices
 
@@ -149,6 +143,17 @@ I want to wash my car. The car wash is 50 meters away. Should I drive or walk?
 
 :::{.fragment .ai-message}
 Walk. 50 meters is about 30 seconds on foot so driving makes no sense.
+:::
+
+## Common Misunderstandings About Hallucinations
+
+::: {style="font-size: 0.8em;"}
+- **"Hallucinations are just made-up facts"**
+    - Also: misreading your document, or citing a real paper that does not support the claim
+- **"Web search or connectors prevent them"**
+    - Grounding reduces made-up sources but does not stop misreading them
+- **"A second model can check the first"**
+    - Models share training data and make similar errors, so agreement does not confirm an answer
 :::
 
 ## Context Rot
@@ -246,9 +251,61 @@ with plt.xkcd(scale=2, length=200, randomness=2):
 ![](assets/bai_et_al_feb_2025.png){fig-alt="Title card for Bai et al. 2025 paper: Explicitly unbiased large language models still form biased associations, published in PNAS" width=95% style="border: 1px solid #ccc; padding: 5px;"}
 
 
+## Poll: What AI tools have you heard of?
+
+:::{.v-center-container}
+<a href="https://app.sli.do/event/iVhSSEPQq7KVcXJ9EGP19k" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
+
+*Scan or click the image to join*
+:::
+
+
+
 ## Current Landscape
 
 ![](assets/current_landscape.svg){fig-alt="Architecture diagram showing four layers of AI software tools: Data Sources (Slack, Drive, PubMed, Files, Databases), Orchestration Layer (Agent Loop, Tool Routing, Memory, Context), Model Layer (Claude, GPT, Gemini, Llama), and Application/Output Layer (Reports, Plots, Dashboards, Documents, Code)" fig-align="center" width=90%}
+
+
+## Model vs. Harness
+
+<!-- FIGURE: the model as a core inside a harness, with tools, files, and the user around it. -->
+
+- The **model** is the LLM: it takes text in and produces text out
+- The **harness** is the software around the model
+    - The chat app, Cowork, Claude Code, and science workbenches are all harnesses
+    - In the previous diagram, the harness is the orchestration layer
+- The same model can behave very differently in different harnesses
+
+
+## What a Harness Does
+
+::: {style="font-size: 0.8em;"}
+- **Builds the context**: adds instructions, your files, and memory to each request
+- **Provides tools**: web search, code execution, connectors
+- **Runs the loop**: sends tool results back to the model until the task is done
+- **Manages the context window**: summarizes or drops old content as it fills up
+- **Asks permission**: checks with you before actions such as editing files
+
+Connectors, skills, and plugins are features you add to a harness.
+:::
+
+
+## From Chat to Agent
+
+<!-- FIGURE: a sequence or ladder diagram where each step adds one capability, could replace this list. -->
+
+::: {style="font-size: 0.75em;"}
+Each step adds one harness capability to a plain chat:
+
+- **Chat**: answers from training data only
+- **Persistent context**: documents and instructions that apply to every chat in a workspace
+- **Research mode**: searches current sources and cites them
+- **Connectors**: read from your files, apps, and scientific databases
+- **Skills**: reusable instructions for a task you repeat
+- **Agents**: take many steps on their own and use tools
+- **Scheduled tasks**: agents that run at set times without you present
+:::
+
 
 
 ## What Are AI Agents?
@@ -260,13 +317,194 @@ A system powered by LLMs that independently directs its own processes, makes dec
 ![](assets/agent_diagram.svg){fig-alt="Diagram of an AI agent showing a central robot icon labeled AI Agent connected by bidirectional arrows to six capabilities: Memory (retains context across steps), Feedback (observes results and adapts), Tools (APIs, code, web), Autonomy (chooses its own next step), Delegation (spawns other agents), and Human Oversight (human stays in the loop)" fig-align="center" width=90%}
 
 
-## Poll: What AI tools have you heard of?
+## Connectors and MCP
 
-:::{.v-center-container}
-<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="60%"></a>
+- A **connector** gives the AI access to an outside data source or app
+    - Examples: PubMed, UniProt, Google Drive, your email
+- Most connectors use the **Model Context Protocol (MCP)**
+    - MCP is an open standard supported by Anthropic, OpenAI, and Google
+- With a connector, the AI retrieves real records instead of recalling them from training data
 
-*Scan or click to join*
+
+
+## "Can It Delete All My Emails?"
+
+
+::: {style="font-size: 0.9em;"}
+- A connector can only take the actions its builder included
+    - Examples: search, read, draft, send, delete
+- You can set a permission for each action
+    - **Always allow**, **Needs approval**, or **Blocked**
+- Block the write and delete actions to make a connector read-only
+- Risks that remain:
+    - Approving requests without reading them
+    - Hidden instructions inside an email or document
 :::
+
+## Skills
+
+- A **skill** is a packaged set of instructions for a task you repeat
+    - It can also include reference files and scripts
+- The AI loads a skill only when a task needs it
+    - This keeps unused instructions out of the context window
+- Skills follow an open format that several platforms support
+- Example: "Format a methods section to match our lab's style"
+
+
+## Plugins
+
+- A **plugin** bundles several features into one installable package
+    - Skills, connectors, commands, and specialized agents
+- Plugins let a lab or institution share a configured setup
+- Example: a plugin for a field that includes its databases and standard analyses
+
+<!-- FIGURE: nested diagram showing a plugin that contains skills, connectors, commands, and agents. -->
+
+
+## Scheduled Tasks
+
+- A **scheduled task** runs a prompt or an agent at set times
+    - Daily, weekly, or on demand
+- The results are waiting for you when you return
+- Example: a weekly summary of new papers on your topic
+- Nobody watches a scheduled task while it runs, so Diligence matters more (Part 2)
+
+
+## The Same Concepts Across Platforms
+
+
+
+
+::: {style="font-size: 0.9em;"}
+| Concept | Claude | ChatGPT | Gemini |
+|---|---|---|---|
+| Persistent context | Projects | Projects, custom GPTs | Gems, NotebookLM |
+| Research with citations | Research | Deep research | Deep Research |
+| Connectors | Connectors (MCP) | Apps and connectors (MCP) | Connected apps, extensions |
+| Skills | Skills | Skills | Agent skills (Gemini CLI) |
+| Agent on your computer | Cowork | ChatGPT agent | Gemini Agent |
+| Scheduled tasks | Scheduled tasks | Tasks | Scheduled actions |
+| Coding agent | Claude Code | Codex | Gemini CLI |
+:::
+
+
+- MCP, the skills format, and AGENTS.md are open standards shared across vendors
+
+
+## Demo: An Agent Working on Your Files
+
+::: {style="font-size: 0.7em;"}
+**Task:** a folder of 11 downloaded papers whose filenames are publisher IDs (e.g., `2509.04664v1.pdf`)
+
+:::{.example}
+This folder has 11 research papers I downloaded. The filenames are publisher IDs, so I can't tell what each one is.
+
+1. Rename each PDF to `FirstAuthor_Year_ShortTitle.pdf` (e.g., `Smith_2025_Gene_Regulation.pdf`).
+2. Create one spreadsheet, `paper_summary.xlsx`, in this folder with one row per paper and these columns: new filename, authors, year, title, journal or preprint server, and a one-sentence summary of the main finding.
+
+Read only the first two pages of each paper. Do not delete or move any files. Before you change anything, show me your plan and the full list of new filenames, and wait for my approval.
+:::
+:::
+
+::: {.notes}
+Demo folder: ~/Downloads/organize papers (11 arXiv, Nature, and Science PDFs). Copy a fresh set before each session, because the demo renames the files.
+If the run takes longer than about 4 minutes in rehearsal, remove the Co-Scientist paper (2502.18864v2.pdf, 157 pages) first, then Kosmos (2511.02824v2.pdf).
+Keep a screen recording of a rehearsal run as a backup.
+:::
+
+
+## Demo: What to Watch For
+
+- **The plan**: what the agent proposes before it changes anything
+- **Permission requests**: where it stops and asks you to approve
+- **The output**: what it produces and where it saves it
+- **Spot check**: open one paper and compare it with its row in the spreadsheet
+
+
+# 10 min break
+
+<center>
+
+```{r}
+#| echo: false
+countdown::countdown(minutes = 10,
+                     seconds = 0,
+                     color_border = "black",
+                     color_running_background = "#47d193",
+                     color_finished_background = "#a3184e",
+                     padding = "50px",
+                     margin = "5%",
+                     font_size = "4em",
+       style = "position: relative; width: min-content;")
+```
+
+</center>
+
+
+# Delegation {.center}
+
+<p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">AI Workbenches for Science</p>
+
+
+## What Is a Science Workbench?
+
+- A harness built for research tasks rather than general chat
+- Typical parts:
+    - A coordinating agent that plans and delegates to other agents
+    - Skills and connectors for scientific databases and analysis tools
+    - Access to compute, such as your laptop or an HPC cluster
+    - A record of the code, data, and steps behind each result
+
+
+## Examples
+
+
+::: {style="font-size: 0.8em;"}
+- **Claude Science** (Anthropic): desktop research workbench
+- **Biomni** (Stanford): open-source biomedical research agent
+- **Kosmos** (Edison Scientific): long-running literature and data analysis agent
+- **AI co-scientist** (Google): hypothesis generation and research planning
+- **Prism** (OpenAI): AI workspace for writing scientific papers
+:::
+
+
+## Claude Science
+
+
+::: {style="font-size: 0.8em;"}
+- A coordinating agent with 60+ skills and connectors for biology and chemistry
+    - Examples: UniProt, PDB, Ensembl, GEO, ClinVar
+- A reviewer agent flags incorrect citations and numbers that cannot be traced to a source
+- Each figure is saved with the code and environment that produced it
+- Runs on your laptop, or on a remote machine or HPC login node over SSH
+:::
+
+
+## What a Workbench Is Not
+
+- It is a new harness, not a new model
+    - It runs the same models as the general chat apps
+    - Anthropic: "not a new AI model and not a more capable model for biology"
+- A reviewer agent usually runs on the same model as the agent it checks
+    - Does not substitute for human verification (more on this in Part 2)
+- It should not choose the analysis method for you
+
+
+## Demo: A Science Workbench
+
+<!-- TODO: live Claude Science demo. Choose a dataset or question. Show the plan, the connectors it calls, the reviewer agent, and the provenance of one figure. -->
+
+- Watch for:
+    - Which databases and tools it uses
+    - Where it asks you to approve a step
+    - How you can trace a figure back to its code
+
+
+## Discussion: Where Would a Workbench Fit?
+
+
+- Which parts of your work could a workbench do?
+- Which parts would you need to check most carefully?
 
 
 ## How Are AI Models Evaluated?
@@ -290,48 +528,35 @@ Benchmarks don't tell the whole story:
 - Models may have seen benchmark questions in training data
 - The best approach: try your actual task on 2-3 models
 
-## Humanity's Last Exam
+## Science Benchmarks
 
+::: {style="font-size: 0.8em;"}
 - **[Humanity's Last Exam (HLE)](https://agi.safe.ai/)**: Graduate-level problems that require multi-step reasoning and whose answers are not "googleable"
+    - The best AI model currently scores **54.6%**
+- **[BixBench3](https://arxiv.org/abs/2608.25286)** (Aug 2026): agents get the research question, methods, and raw data from a published study
+    - The best model reproduced about **half** of the published results
+- **[SpatialBench-Long](https://arxiv.org/abs/2605.28065)** (May 2026): agents must choose their own methods to reach a biological conclusion
+    - The best agents succeeded in about **1 of 9** runs
+- The two benchmarks differ in data and scoring, so compare them with caution
+:::
 
-The best AI model currently scores **45.9%**
 
+## BixBench3
 
-## SpatialBench
+![](assets/bixbench3_overview.png){fig-alt="BixBench3 overview. Panel A: a published study is broken into a tree of analyses, each producing a data artifact such as RNA-seq reads, a read count matrix, or a list of differentially expressed genes; each artifact the agent produces is scored against the corresponding published artifact to give a task score. Panel B: pass and fail results for 13 models across 20 tasks, with overall scores from 0.48 for the best model down to 0.00" fig-align="center" width=100% style="border: 1px solid #ccc; padding: 5px;"}
 
-- **[SpatialBench](https://blog.latch.bio/p/spatialbench-can-agents-analyze-real)**: 146 verifiable problems from practical spatial analysis workflows spanning five technologies and seven task categories
-- Uses real experimental data from Vizgen MERFISH, Takara Seeker, 10x Visium, 10x Xenium, and Atlasxomics DBIT-seq
-
-
-The best AI models currently score **20–38%**
+<div class="bottom-message">Figure 1 from Koch et al. 2026, BixBench3 (arXiv 2608.25286)</div>
 
 
 ## Choosing an AI Tool
 
+::: {style="font-size: 0.9em;"}
 - **Pick one and learn it well** rather than switching constantly
 - **Check the privacy policy**: What data is stored? Is it used for training?
+- **Check what each connector can access** before you turn it on
 - **Follow your institution's guidelines** on approved tools and data sharing
 - Never share sensitive, unpublished, or patient-derived data without checking policies
-
-
-# 10 min break
-
-<center>
-
-```{r}
-#| echo: false
-countdown::countdown(minutes = 10,
-                     seconds = 0,
-                     color_border = "black",
-                     color_running_background = "#47d193",
-                     color_finished_background = "#a3184e",
-                     padding = "50px",
-                     margin = "5%",
-                     font_size = "4em",
-       style = "position: relative; width: min-content;")
-```
-
-</center>
+:::
 
 
 # Delegation {.center}
@@ -362,9 +587,12 @@ Tasks where **you can verify the output**:
 
 Tasks where **you can't verify the output**:
 
-- **Outside your expertise**: If you can't judge correctness, don't delegate it
-- **Precise calculations**: Use dedicated tools for statistics and quantitative claims
-- **Final versions**: AI output always needs human revision
+- **Outside your expertise**
+    - If you can't judge correctness, don't delegate it
+- **Choosing statistical methods**
+    - The AI can *run* any test, but you must *decide* which test fits your data
+- **Final versions**
+    - AI output always needs human revision
 
 
 ## Image Generation: A Poor Task
@@ -376,6 +604,7 @@ AI can generate photorealistic images, but they are **not grounded in real data*
 - Never use AI to create anything that could be mistaken for data
 
 Exceptions: conceptual diagrams and flowcharts that you refine for accuracy (with disclosure)
+
 
 ##  Modalities of Task Delegation {.center}
 
@@ -405,6 +634,50 @@ Giving AI your experimental goals and reagent constraints, and letting it indepe
 In practice, **Augmentation** is the most productive mode for research tasks
 :::
 
+## Demo: Flowchart creation
+
+::: {style="font-size: 0.7em;"}
+:::: {.columns}
+::: {.column width="50%"}
+:::{.bad-example}
+**Automation:** "Make a flowchart of my experiment"
+
+- An image generator draws a picture of a flowchart
+- Text is often misspelled and steps can be invented
+- You cannot edit the result
+:::
+:::
+::: {.column width="50%"}
+:::{.good-example}
+**Augmentation:** you supply the steps, the AI writes the drawing as code
+
+- You check the plan before it draws
+- You request changes over several rounds
+- You finish the figure yourself in a drawing program
+:::
+:::
+::::
+
+:::{.example}
+Create a flowchart of the workflow below as an SVG file that I can edit in Inkscape.
+
+Steps: [list each step of your workflow in order]
+
+Use editable text for every label, group each box with its label, and use colorblind-safe colors. Before you draw anything, list the boxes and arrows you plan to use so I can correct them.
+:::
+:::
+
+<!-- TODO: choose the example workflow for the demo and add it to the prompt. -->
+
+## Matching Modalities to Tools
+
+
+- **Automation**: skills and scheduled tasks
+- **Augmentation**: chat, persistent context, and research mode
+- **Agency**: agents and science workbenches
+- More agency means more steps happen before you see the result
+    - So you need a way to check each step
+
 ## AI as Augmentation, Not Replacement
 
 Currently the most effective way to interact with AI is through **Augmentation**
@@ -413,18 +686,21 @@ Currently the most effective way to interact with AI is through **Augmentation**
 - AI is useful for tasks like brainstorming, summarizing, drafting, and troubleshooting
 - You remain responsible for the scientific validity of your work
 
-## Exercise: Identify Your AI Tasks
+## Exercise: Delegation Plan
+
 
 ::: {style="font-size: 0.8em;"}
 **Think about your own work and identify 2-3 tasks where AI could help.**
 
-For each task, consider:
+For each task, decide:
 
-1. What is the task? (e.g., literature review, writing, data wrangling)
-2. Which mode fits best: Automation, Augmentation, or Agency?
-3. Could you evaluate whether the AI's output is correct?
+1. Which tool fits: chat, research mode, a connector, a skill, an agent, or a workbench?
+2. Which mode fits: Automation, Augmentation, or Agency?
+3. How would you check that the output is correct?
 
-<a href="https://app.sli.do/event/4H5aYETWhwxPJeVKWQpczf" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="20%"></a>
+
+
+<a href="https://app.sli.do/event/iVhSSEPQq7KVcXJ9EGP19k" target="_blank"><img src="assets/slido_qr_code.png" alt="QR code linking to sli.do poll" width="20%"></a>
 :::
 
 ## Discussion
@@ -441,9 +717,10 @@ For each task, consider:
 2. **Show Examples**
 3. **Specify Output Constraints**
 4. **Break Complex Tasks into Steps**
-5. **Ask It to Think First**
+5. **Set the Effort Level**
 6. **Define the AI's Role**
 
+Part 2 covers instructions you can reuse and how to describe work to an agent.
 :::
 
 ## 1) Provide Context
@@ -531,16 +808,18 @@ Step 4: Evaluate whether the conclusions are supported by the data"
 This is called **Process Description**: defining *how* the AI should approach the task
 :::
 
-## 5) Use Extended Thinking Mode
+## 5) Set the Effort Level
 
 ::: {style="font-size: 0.8em;"}
-Most AI tools now have a **thinking** or **reasoning** mode, use it for complex or multi-part questions.
+Most AI tools now decide on their own how much to reason before answering.
 
-- **Don't** need to say "think step by step"
-- **Do** toggle on extended thinking for harder questions; skip it for simple tasks
+- An **effort** or **reasoning** setting controls how thorough the model is
+    - Higher effort: slower, but better for complex or multi-part questions
+    - Lower effort: faster, and enough for simple tasks
+- You **don't** need to say "think step by step"
 
 :::{.example}
-*[Turn on extended thinking / reasoning mode]*
+*[Set the effort level to high]*
 
 "Here is a paper on CRISPR-based gene therapy for sickle cell disease. What are the key methodological limitations, and how might they affect the authors' conclusions?"
 :::
@@ -578,19 +857,6 @@ This is especially useful when:
 - Your initial prompt isn't giving you good results
 :::
 
-## Persistent Context: Projects and Custom Instructions
-
-::: {style="font-size: 0.75em;"}
-
-Most tools let you attach persistent context that applies to every chat in a workspace so you can avoid pasting the same information over and over again.
-
-- **Claude Projects** (and equivalents in ChatGPT, Gemini): attach reference documents and custom instructions that the model sees on every turn
-- Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions
-- For code, a `CLAUDE.md` or `AGENTS.md` at the repo root serves the same purpose (covered in Part 2)
-
-
-:::
-
 ## Exercise: Prompting
 
 ::: {style="font-size: 0.8em;"}
@@ -613,10 +879,10 @@ Most tools let you attach persistent context that applies to every chat in a wor
 
 ## Schedule for Part 2
 
-1. Discernment - Evaluating AI outputs
-2. Literature Review Exercise
-3. Coding with LLMs
-4. Diligence - Responsible AI use
+1. Description: Reusable instructions and agents
+2. Discernment: Evaluating AI outputs
+3. Coding with AI agents
+4. Diligence: Responsible AI use
 5. Q&A and discussion
 6. Wrap-up and resources
 
@@ -626,14 +892,16 @@ Most tools let you attach persistent context that applies to every chat in a wor
 
 ## Upcoming Workshops {.small}
 
-**Linear Mixed Effects Models Using R**    
-May 4 - May 5, 2026 9:00am - 4:00pm PDT   
+**Single Cell RNA-Seq Analysis Using R**\
+October 12, 2026 9:30am-12:00pm PDT
 
-**scATAC-seq Analysis Using R**     
-May 11-May 12, 2026 9:30am-12:00pm PDT  
+**Introduction to Pathway Analysis**\
+October 15, 2026 1:00-4:00pm PDT
 
-**Advanced RNA-seq Analysis Using R**    
-May 27-May 28, 2026 1:00-3:00pm PDT   
+**Statistics of Enrichment Analyses Methods**\
+October 22, 2026 1:00-3:00pm PDT
+
+[See all upcoming workshops](https://gladstone.org/events/?series=data-science-training-program)
 
 
 ## Thank You

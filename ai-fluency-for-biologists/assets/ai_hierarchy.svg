@@ -1,335 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="700"
-   height="710"
-   viewBox="0 0 700 710"
-   version="1.1"
-   id="svg30"
-   sodipodi:docname="ai_hierarchy.svg"
-   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs30" />
-  <sodipodi:namedview
-     id="namedview30"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.98437507"
-     inkscape:cx="421.58727"
-     inkscape:cy="316.95236"
-     inkscape:window-width="1728"
-     inkscape:window-height="907"
-     inkscape:window-x="0"
-     inkscape:window-y="38"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="svg30" />
-  <rect
-     width="700"
-     height="710"
-     fill="#ffffff"
-     id="rect1"
-     sodipodi:insensitive="true"
-     x="0"
-     y="0" />
-  <!-- ============================================================
-       Concentric rings (cascading toward the bottom, not centered)
-       All rings share center x=350. Each inner ring's center y is
-       pushed down so its top touches near the parent's label band.
-
-       AI:  cx=350, cy=335, r=320  (top at  15, bottom at 655)
-       ML:  cx=350, cy=400, r=220  (top at 180, bottom at 620)
-       NN:  cx=350, cy=475, r=130  (top at 345, bottom at 605)
-       DL:  cx=350, cy=530, r=65   (top at 465, bottom at 595)
-  ============================================================ -->
-  <!-- AI: outermost, slate-blue -->
-  <circle
-     cx="350"
-     cy="335"
-     r="320"
-     fill="#e0e7ef"
-     stroke="#3b6ea5"
-     stroke-width="2.5"
-     id="circle1"
-     sodipodi:insensitive="true" />
-  <!-- ML -->
-  <circle
-     cx="350"
-     cy="400"
-     r="220"
-     fill="#dce8e1"
-     stroke="#4a8a6f"
-     stroke-width="2.5"
-     id="circle2"
-     sodipodi:insensitive="true" />
-  <!-- NN -->
-  <circle
-     cx="350"
-     cy="475"
-     r="130"
-     fill="#e8e4ef"
-     stroke="#6b5b95"
-     stroke-width="2.5"
-     id="circle3"
-     sodipodi:insensitive="true" />
-  <!-- DL: innermost, rose -->
-  <circle
-     cx="350"
-     cy="530"
-     r="65"
-     fill="#efe0e6"
-     stroke="#a14a6b"
-     stroke-width="2.5"
-     id="circle4"
-     sodipodi:insensitive="true" />
-  <!-- ============================================================
-       Ring titles (bigger)
-  ============================================================ -->
-  <text
-     x="350"
-     y="90"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="24px"
-     font-weight="bold"
-     fill="#3b6ea5"
-     id="text4"
-     sodipodi:insensitive="true">Artificial Intelligence</text>
-  <text
-     x="350"
-     y="231"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="21px"
-     font-weight="bold"
-     fill="#4a8a6f"
-     id="text5"
-     sodipodi:insensitive="true">Machine Learning</text>
-  <text
-     x="350"
-     y="398"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="17px"
-     font-weight="bold"
-     fill="#6b5b95"
-     id="text6"
-     sodipodi:insensitive="true">Neural Networks</text>
-  <text
-     x="350"
-     y="502"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="12px"
-     font-weight="bold"
-     fill="#a14a6b"
-     id="text7"
-     sodipodi:insensitive="true">Deep Learning</text>
-  <!-- ============================================================
-       AI example labels — top band at fs=14, flanks at fs=12
-  ============================================================ -->
-  <text
-     x="235.99973"
-     y="124.99986"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="14.0008px"
-     fill="#1e293b"
-     id="text8"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Natural language</text>
-  <text
-     x="235.99973"
-     y="145"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="14.0008px"
-     fill="#1e293b"
-     id="text9"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">processing</text>
-  <text
-     x="499.99908"
-     y="130.00006"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="14.0008px"
-     fill="#1e293b"
-     id="text10"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Visual perception</text>
-  <text
-     x="171.99957"
-     y="180.99994"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="14.0008px"
-     fill="#1e293b"
-     id="text11"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005"><tspan
-       sodipodi:role="line"
-       id="tspan30"
-       x="171.99957"
-       y="180.99994">Automatic</tspan><tspan
-       sodipodi:role="line"
-       id="tspan31"
-       x="171.99957"
-       y="204.33331">programming</tspan></text>
-  <text
-     x="529.99933"
-     y="180.99998"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="14.0008px"
-     fill="#1e293b"
-     id="text12"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Intelligent robots</text>
-  <text
-     x="106.99981"
-     y="247.99985"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text13"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Knowledge</text>
-  <text
-     x="108.99981"
-     y="264"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text14"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">representation</text>
-  <text
-     x="604.99969"
-     y="273.99985"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text15"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Automatic</text>
-  <text
-     x="604.99969"
-     y="292"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text16"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">reasoning</text>
-  <!-- ============================================================
-       ML example labels — fs=13
-  ============================================================ -->
-  <text
-     x="249.99973"
-     y="281.99957"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="13.0001px"
-     fill="#1e293b"
-     id="text18"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">k-Means</text>
-  <text
-     x="423.99948"
-     y="284.99973"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="13.0001px"
-     fill="#1e293b"
-     id="text19"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Support vector machines</text>
-  <text
-     x="342.99973"
-     y="322.99918"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="13.0001px"
-     fill="#1e293b"
-     id="text22"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">k-nearest neighbor</text>
-  <text
-     x="202.99963"
-     y="365.99948"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="13.0001px"
-     fill="#1e293b"
-     id="text23"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Random forest</text>
-  <text
-     x="500.99927"
-     y="365.00012"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="13.0001px"
-     fill="#1e293b"
-     id="text24"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Decision trees</text>
-  <!-- ============================================================
-       NN example labels — fs=12 (Perceptron replaces Boltzmann)
-  ============================================================ -->
-  <text
-     x="288.99969"
-     y="442.99957"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text25"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">Autoencoder</text>
-  <text
-     x="412.99896"
-     y="444.99957"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text26"
-     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:18.6667px;font-family:Helvetica, sans-serif;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:1.00005">MLP</text>
-  <!-- ============================================================
-       DL example labels — fs=12
-  ============================================================ -->
-  <text
-     x="319.99976"
-     y="525.99908"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text27"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">CNN</text>
-  <text
-     x="384.99942"
-     y="525.99908"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text28"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">RNN</text>
-  <text
-     x="319.99976"
-     y="553.99976"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text29"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">GAN</text>
-  <text
-     x="381.99918"
-     y="552.99957"
-     text-anchor="middle"
-     font-family="Helvetica, sans-serif"
-     font-size="11.9993px"
-     fill="#1e293b"
-     id="text30"
-     style="stroke-width:1.00005;-inkscape-font-specification:'Helvetica, sans-serif, Normal';font-family:Helvetica, sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:18.66666667px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">LLM</text>
-</svg>
+<svg:svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" width="700" height="720" viewBox="0 0 700 720" version="1.1" id="svg-ai-hierarchy" sodipodi:docname="ai_hierarchy_final.svg">
+<sodipodi:namedview id="namedview" pagecolor="#ffffff" bordercolor="#000000" borderopacity="0.25" inkscape:pageopacity="0.0" inkscape:pagecheckerboard="0" inkscape:deskcolor="#d1d1d1" inkscape:current-layer="layer-labels-B" />
+<svg:defs id="defs" />
+<svg:g inkscape:groupmode="layer" id="layer-bg" inkscape:label="Background (locked)" sodipodi:insensitive="true">
+<svg:rect id="bg" x="0" y="0" width="700" height="720" style="fill:#ffffff" />
+</svg:g>
+<svg:g inkscape:groupmode="layer" id="layer-fills" inkscape:label="Ring fills">
+<svg:g inkscape:groupmode="layer" id="layer-fills-A" inkscape:label="Fills A - tonal depth (stronger inward)">
+<svg:circle id="fillA-ai" cx="350" cy="360" r="330" style="fill:#edf2f7;stroke:none" />
+<svg:circle id="fillA-ml" cx="350" cy="455" r="235" style="fill:#dcede6;stroke:none" />
+<svg:circle id="fillA-nn" cx="350" cy="540" r="150" style="fill:#e1d9ef;stroke:none" />
+<svg:circle id="fillA-dl" cx="350" cy="608" r="82" style="fill:#f1ccdb;stroke:none" />
+</svg:g>
+</svg:g>
+<svg:g inkscape:groupmode="layer" id="layer-rings" inkscape:label="Ring outlines">
+<svg:circle id="ring-ai" cx="350" cy="360" r="330" style="fill:none;stroke:#2f5f8f;stroke-width:2" />
+<svg:circle id="ring-ml" cx="350" cy="455" r="235" style="fill:none;stroke:#2c7a66;stroke-width:2" />
+<svg:circle id="ring-nn" cx="350" cy="540" r="150" style="fill:none;stroke:#66509a;stroke-width:2" />
+<svg:circle id="ring-dl" cx="350" cy="608" r="82" style="fill:none;stroke:#a63b66;stroke-width:2" />
+</svg:g>
+<svg:g inkscape:groupmode="layer" id="layer-titles" inkscape:label="Ring titles">
+<svg:g inkscape:groupmode="layer" id="layer-titles-C" inkscape:label="Titles C - tab on the ring line">
+<svg:rect id="tab-ai" x="229.41" y="12.00" width="241.17" height="36.00" rx="18.00" style="fill:#ffffff;stroke:#2f5f8f;stroke-width:2" />
+<svg:text xml:space="preserve" id="titleC-ai" x="350.00" y="37.92" style="font-size:22px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;text-anchor:middle;text-align:center;fill:#2f5f8f"><svg:tspan sodipodi:role="line" id="titleC-ai-l0" x="350.00" y="37.92">Artificial Intelligence</svg:tspan></svg:text>
+<svg:rect id="tab-ml" x="256.23" y="203.50" width="187.53" height="33.00" rx="16.50" style="fill:#ffffff;stroke:#2c7a66;stroke-width:2" />
+<svg:text xml:space="preserve" id="titleC-ml" x="350.00" y="226.84" style="font-size:19px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;text-anchor:middle;text-align:center;fill:#2c7a66"><svg:tspan sodipodi:role="line" id="titleC-ml-l0" x="350.00" y="226.84">Machine Learning</svg:tspan></svg:text>
+<svg:rect id="tab-nn" x="273.82" y="375.00" width="152.37" height="30.00" rx="15.00" style="fill:#ffffff;stroke:#66509a;stroke-width:2" />
+<svg:text xml:space="preserve" id="titleC-nn" x="350.00" y="395.76" style="font-size:16px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;text-anchor:middle;text-align:center;fill:#66509a"><svg:tspan sodipodi:role="line" id="titleC-nn-l0" x="350.00" y="395.76">Neural Networks</svg:tspan></svg:text>
+<svg:rect id="tab-dl" x="288.38" y="512.00" width="123.25" height="28.00" rx="14.00" style="fill:#ffffff;stroke:#a63b66;stroke-width:2" />
+<svg:text xml:space="preserve" id="titleC-dl" x="350.00" y="531.04" style="font-size:14px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:bold;text-anchor:middle;text-align:center;fill:#a63b66"><svg:tspan sodipodi:role="line" id="titleC-dl-l0" x="350.00" y="531.04">Deep Learning</svg:tspan></svg:text>
+</svg:g>
+</svg:g>
+<svg:g inkscape:groupmode="layer" id="layer-labels" inkscape:label="Example labels">
+<svg:g inkscape:groupmode="layer" id="layer-labels-B" inkscape:label="Labels B - soft chips">
+<svg:rect id="chip-00" x="152.87" y="139.50" width="130.27" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2f5f8f;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-00" x="218.00" y="158.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-00-l0" x="218.00" y="158.40">Natural language</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-00-l1" x="218.00" y="176.40">processing</svg:tspan></svg:text>
+<svg:rect id="chip-01" x="438.97" y="139.50" width="86.06" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2f5f8f;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-01" x="482.00" y="158.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-01-l0" x="482.00" y="158.40">Visual</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-01-l1" x="482.00" y="176.40">perception</svg:tspan></svg:text>
+<svg:rect id="chip-02" x="74.81" y="219.50" width="104.38" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2f5f8f;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-02" x="127.00" y="238.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-02-l0" x="127.00" y="238.40">Automatic</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-02-l1" x="127.00" y="256.40">programming</svg:tspan></svg:text>
+<svg:rect id="chip-03" x="532.48" y="219.50" width="81.04" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2f5f8f;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-03" x="573.00" y="238.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-03-l0" x="573.00" y="238.40">Intelligent</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-03-l1" x="573.00" y="256.40">robots</svg:tspan></svg:text>
+<svg:rect id="chip-04" x="30.05" y="295.50" width="111.91" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2f5f8f;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-04" x="86.00" y="314.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-04-l0" x="86.00" y="314.40">Knowledge</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-04-l1" x="86.00" y="332.40">representation</svg:tspan></svg:text>
+<svg:rect id="chip-05" x="572.40" y="295.50" width="83.19" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2f5f8f;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-05" x="614.00" y="314.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-05-l0" x="614.00" y="314.40">Automatic</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-05-l1" x="614.00" y="332.40">reasoning</svg:tspan></svg:text>
+<svg:rect id="chip-06" x="231.13" y="288.50" width="73.53" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2c7a66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-06" x="267.90" y="307.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-06-l0" x="267.90" y="307.40">k-Means</svg:tspan></svg:text>
+<svg:rect id="chip-07" x="328.56" y="288.50" width="141.08" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2c7a66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-07" x="399.10" y="307.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-07-l0" x="399.10" y="307.40">k-nearest neighbor</svg:tspan></svg:text>
+<svg:rect id="chip-08" x="259.04" y="326.50" width="181.92" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2c7a66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-08" x="350.00" y="345.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-08-l0" x="350.00" y="345.40">Support vector machines</svg:tspan></svg:text>
+<svg:rect id="chip-09" x="135.42" y="429.50" width="72.70" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2c7a66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-09" x="171.77" y="448.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-09-l0" x="171.77" y="448.40">Random</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-09-l1" x="171.77" y="466.40">forest</svg:tspan></svg:text>
+<svg:rect id="chip-10" x="491.46" y="429.50" width="73.53" height="45.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#2c7a66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-10" x="528.23" y="448.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-10-l0" x="528.23" y="448.40">Decision</svg:tspan><svg:tspan sodipodi:role="line" id="chiplbl-10-l1" x="528.23" y="466.40">trees</svg:tspan></svg:text>
+<svg:rect id="chip-11" x="261.79" y="454.50" width="101.08" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#66509a;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-11" x="312.33" y="473.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-11-l0" x="312.33" y="473.40">Autoencoder</svg:tspan></svg:text>
+<svg:rect id="chip-12" x="390.43" y="454.50" width="46.84" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#66509a;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-12" x="413.85" y="473.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-12-l0" x="413.85" y="473.40">MLP</svg:tspan></svg:text>
+<svg:rect id="chip-13" x="295.35" y="585.50" width="48.50" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#a63b66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-13" x="319.60" y="604.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-13-l0" x="319.60" y="604.40">CNN</svg:tspan></svg:text>
+<svg:rect id="chip-14" x="356.15" y="585.50" width="48.50" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#a63b66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-14" x="380.40" y="604.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-14-l0" x="380.40" y="604.40">RNN</svg:tspan></svg:text>
+<svg:rect id="chip-15" x="297.07" y="617.50" width="48.52" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#a63b66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-15" x="321.32" y="636.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-15-l0" x="321.32" y="636.40">GAN</svg:tspan></svg:text>
+<svg:rect id="chip-16" x="357.81" y="617.50" width="45.19" height="27.00" rx="7" style="fill:#ffffff;fill-opacity:0.92;stroke:#a63b66;stroke-opacity:0.45;stroke-width:1" />
+<svg:text xml:space="preserve" id="chiplbl-16" x="380.40" y="636.40" style="font-size:15px;line-height:1.2;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-weight:normal;text-anchor:middle;text-align:center;fill:#25303b"><svg:tspan sodipodi:role="line" id="chiplbl-16-l0" x="380.40" y="636.40">LLM</svg:tspan></svg:text>
+</svg:g>
+</svg:g>
+</svg:svg>

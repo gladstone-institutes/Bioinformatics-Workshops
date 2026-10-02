@@ -3,7 +3,8 @@ title: "AI Fluency for Biologists"
 subtitle: "Part 2"
 author: "Natalie Gill"
 institute: "Gladstone Bioinformatics Core"
-date: "April, 21, 2026"
+date: "October, 06, 2026"
+date-format: MMMM D, YYYY
 format:
   revealjs:
     theme: [default, ai-theme.scss]
@@ -19,40 +20,127 @@ format:
 library(countdown)
 ```
 
+<!-- Stub conventions: "TODO" marks content to fill in; "FIGURE" marks a slide where a figure may help. -->
+
 ##
 
 <center>*Press the ? key for tips on navigating these slides*</center>
 
 ## Introductions
 
-:::: {.columns}
-::: {.column width="50%"}
-**Natalie Gill**    
-Bioinformatician II    
 
-**Ayushi Agrawal**   
-Senior Bioinformatician    
+**Natalie Gill**     
+Bioinformatician II   
 
-**Kristina Hanspers**   
-Senior Research Associate   
-:::
-::: {.column width="50%"}
-**Michela Traglia**   
-Associate Core Director    
-
-**Reuben Thomas**   
-Core Director  
-:::
-::::
 
 
 ## Schedule
 
-1. Discernment - Evaluating AI outputs
-2. Coding with LLMs
-3. Diligence - Responsible AI use
-4. Q&A and discussion
-5. Wrap-up and resources
+1. Description: Reusable instructions and agents
+2. Discernment: Evaluating AI outputs
+3. Coding with AI agents
+4. Diligence: Responsible AI use
+5. Q&A and discussion
+6. Wrap-up and resources
+
+
+# Description {.center}
+
+<p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">Reusable Instructions and Agents</p>
+
+## From Prompts to Task Descriptions
+
+- In Part 1, each prompt produced one response that you read right away
+- An agent takes many steps before you see the result
+- So the description has to answer questions the agent would otherwise guess at
+
+## Persistent Context: Projects and Custom Instructions
+
+::: {style="font-size: 0.75em;"}
+
+Most tools let you attach persistent context that applies to every chat in a workspace so you can avoid pasting the same information over and over again.
+
+- **Projects** in Claude and ChatGPT, **Gems** in Gemini: attach reference documents and custom instructions that the model sees on every turn
+- Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions
+- For code, a `CLAUDE.md` or `AGENTS.md` file in the project folder serves the same purpose (covered later today)
+
+:::
+
+## Custom Instructions for Every Chat
+
+
+- Account-wide instructions apply to every chat, not only one project
+    - Claude: **Instructions for Claude** in Settings
+    - ChatGPT: **Custom instructions**
+    - Gemini: **Instructions for Gemini**
+- Good uses: your field, your preferred level of detail, and how you want responses written
+- Keep them short, because they take up context in every chat
+
+## Example: Ask for Plain Writing
+
+- Newer models can write in a verbose style that is harder to read and less precise
+    - This style is called **mannered prose**
+- Anthropic wrote an instruction to correct it in Claude Fable 5.1
+    - It is in Anthropic's [prompting guide for Fable 5.1](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#writing-density)
+- Short version: "Please remove all mannered prose."
+
+::: {.notes}
+Anthropic's guide recommends putting the instruction in a user message first, and the system prompt second. Custom instructions act like a system prompt, so if a chat still drifts, paste the instruction into the message itself.
+:::
+
+
+## Plain Writing Instruction
+
+::: {style="font-size: 0.85em;"}
+:::{.example}
+Mannered prose substitutes metaphor and flourish for direct statement. Instead of "a parameter worth varying," the mannered writer produces "a dial worth turning." Instead of "this point still matters," they write "this point earns its keep." The phrases exist to display the writer, not to convey the idea, and readers can tell. That is why mannered prose irritates: it makes the reader work harder so the writer can perform. It is also imprecise. Metaphors drag in connotations the writer did not choose and cannot control. The fix is to say what you mean. When a literal phrase is available, use it.
+:::
+:::
+
+<div class="bottom-message">Source: Anthropic, "Prompting Claude Fable 5.1," Claude Platform Docs</div>
+
+## Describing Work to an Agent
+
+::: {style="font-size: 0.8em;"}
+- **Goal**: what the finished result is and how you will judge it
+- **Inputs**: which files, folders, or databases to use
+- **Constraints**: what the agent must not change or access
+- **Checkpoints**: when the agent should stop and ask you
+- **Output**: what format to produce and where to save it
+:::
+
+<!-- TODO: add a bad vs. good agent task description example. -->
+
+## Skills: Descriptions You Write Once
+
+<!-- FIGURE: anatomy of a skill (name, description, instructions, optional files). -->
+
+- A skill stores a task description so you do not rewrite it each time
+- A skill has:
+    - A name and a short description that tells the AI when to use it
+    - Step-by-step instructions
+    - Optional reference files or templates
+- The same skill format works on several platforms
+
+## Exercise: Write a Skill
+
+<!-- TODO: choose timing, and confirm the current steps for adding a skill in Claude before each offering. -->
+
+::: {style="font-size: 0.7em;"}
+**Turn a task you have already done with Claude into a skill.**
+
+1. Open a past chat where you completed a task you repeat
+    - No past chat? Use your task from the Part 1 prompting exercise
+2. In that chat, ask Claude to write the skill:
+
+:::{.example}
+"Turn the workflow in this conversation into a skill I can reuse. Keep the steps that worked, leave out details specific to this one case, and write a description that says when the skill should be used."
+:::
+
+3. Review what Claude wrote: are the steps correct and general enough?
+4. Add the skill to Claude and test it on a new example in a new chat
+:::
+
 
 # Discernment {.center}
 
@@ -89,6 +177,30 @@ Watch out for these frequent mistakes:
 :::
 
 
+## Sycophancy: When AI Agrees With You
+
+::: {style="font-size: 0.8em;"}
+**Sycophancy** is the tendency to tell you what you want to hear instead of what is accurate
+
+- Models are trained on human ratings, and people tend to rate agreement highly ([Sharma et al. 2023](https://arxiv.org/abs/2310.13548))
+- Models often give up a correct answer when the user pushes back ([Hong et al. 2025](https://arxiv.org/abs/2505.23840))
+- In research, it can look like:
+    - Support for your hypothesis because you stated it first
+    - Praise for a manuscript instead of a critical review
+    - A changed answer after you ask "are you sure?"
+:::
+
+
+## Reducing Sycophancy
+
+- **Do not reveal the answer you hope for**
+    - Ask "What does this data show?", not "Does this data support my hypothesis?"
+- **Ask for criticism directly**
+    - Example: "List the three weakest points in this argument"
+- **Start a new chat** to get an assessment that the earlier conversation has not shaped
+- **Ask why it changed its answer** when it changes after you push back
+
+
 ## Process Discernment
 
 ::: {style="font-size: 0.8em;"}
@@ -123,9 +235,6 @@ Consider stopping when:
 **The goal is to save time and improve quality.** If AI isn't doing both, switch approaches
 :::
 
-<!-- ## {.center} 
-
-![](assets/verification_workflow.svg){fig-alt="Five-step verification workflow shown as a horizontal pipeline: 1. Compare to source, 2. Verify claims, 3. Check citations, 4. Validate data, 5. Assess quality, with the reminder to make this a habit for every AI output" fig-align="center" width=100%} -->
 
 ## Performance Discernment: Verification
 
@@ -151,6 +260,7 @@ Running the same query through Claude and ChatGPT can feel like a second opinion
 - Two models can confidently give the same wrong answer
 - **Disagreement** is a useful flag for deeper checking
 - **Agreement** is not confirmation
+- The same applies to reviewer agents that run on the same model as the agent they check
 
 Use cross-model/cross-session comparison to surface things worth investigating, not to validate correctness.
 
@@ -171,10 +281,19 @@ When you're learning something new, you can't rely on your own expertise to spot
 Then reach out to a subject matter expert.
 
 :::{.example}
-**If you do, disclose that it's AI-generated.** Reviewing AI output takes a different kind of attention than reviewing human work. Plausible-sounding mistakes appear in unfamiliar places, so experts need to know what they're reading before they can review it well.  
+**If you do, disclose that it's AI-generated.** Reviewing AI output takes a different kind of attention than reviewing human work. Plausible-sounding mistakes appear in unfamiliar places, so experts need to know what they're reading before they can review it well.
 :::
 
 :::
+
+
+## Discerning Agent Output
+
+- **Before it runs**: read the agent's plan and correct it
+- **While it runs**: check each permission request before you approve it
+- **After it runs**:
+    - Check that each number traces to a file, a database record, or code
+    - Check which files it created or changed
 
 
 ## Exercise: Research Mode Discernment
@@ -232,7 +351,8 @@ countdown::countdown(minutes = 10,
 :::
 
 
-# Coding with LLMs {.center}
+
+# Coding with AI Agents {.center}
 
 ## Coding with LLMs
 
@@ -254,35 +374,122 @@ Bioinformatics code that looks right but is subtly wrong silently corrupts your 
 
 :::
 
+## What This Section Covers
 
-## Agentic Coding Best Practices
+- **Covered**: a setup that lets you see and review every change an agent makes to your code
+- **Not covered**: choosing an appropriate method and judging whether results make sense
+    - The tools do not replace this judgment
+    - You still need core competencies in statistics, your analysis methods, and reading code
+- A clean code review does not make an analysis correct
 
-::: {style="font-size: 0.75em;"}
 
-Agentic coding amplifies whatever habits you already have, good and bad. The more the model does, the more these practices pay off:  
+## How Do I Know an AI Analysis Is Correct?
 
-- **Version control (git)**: Review every diff. Commit often. Revert when the model goes off the rails
-- **Unit tests**: Catch regressions the moment the model refactors something it shouldn't have
-- **System design**: Small, well-scoped modules (SOLID, layered architecture) are easier for both humans and models to reason about
-- **Human review**: You're still the author, the model's output is a draft until you've read it 
+- There are two reliable options:
+    - **Learn the analysis yourself** well enough to check the methods and the code
+    - **Ask an expert to review it**, such as a bioinformatician or statistician
+- Tell the reviewer that AI wrote the code
+- Checks you can do on your own help, but they do not replace these options
 
-These practices aren't new, but agentic coding raises the payoff for having them in place.
+<!-- TODO: add a link to Bioinformatics Core consultations and training workshops. -->
 
+
+## Coding Agents
+
+- A coding agent is a harness built for code
+    - It reads your project, edits files, and runs commands
+- Examples:
+    - Claude Code (Anthropic)
+    - Codex (OpenAI)
+    - Gemini CLI (Google)
+    - GitHub Copilot agent mode
+- They work in similar ways, so the setup in this section applies to all of them
+
+
+## Why Setup Matters
+
+- An agent can change many lines in many files in one step
+- You are responsible for every change
+- You cannot review changes you cannot see
+- The setup on the next slides makes every change visible
+
+
+## Version Control with Git
+
+- **Commit before each agent task**
+    - Every change the agent makes then appears as a difference (a "diff") from that commit
+- **Use one branch per analysis or feature**
+    - You can discard a bad branch without affecting your other work
+- **Revert** a change you do not want
+
+
+## Review Changes in an IDE
+
+<!-- FIGURE: screenshot of an IDE source control panel and an inline diff. -->
+
+- An IDE (e.g., VS Code, Positron, RStudio) shows what changed
+    - The source control panel lists every changed file
+    - Inline diffs show the changed lines in each file
+- Review the diff, not the whole file
+
+
+## One Folder per Analysis
+
+<!-- FIGURE: example folder layout with one folder per analysis and a shared code folder. -->
+
+- Keep each analysis in its own folder
+    - The agent's changes stay in that folder
+    - The diff shows only related files
+- Put code that several analyses share in one folder that they all use
+
+
+## Large Scripts Are Hard to Review
+
+- In one long script, a small change can affect code far from the change
+    - You have to read the whole script to confirm nothing else broke
+- With functions, a new feature is a new or changed function and the line that calls it
+    - You review only that function
+
+
+## Core Features of Claude Code
+
+<!-- TODO: confirm commands against the current Claude Code version before each offering. -->
+
+::: {style="font-size: 0.8em;"}
+- **Start in a project folder**: the agent works on the files in that folder
+- **Project instructions**: `/init` creates a `CLAUDE.md` file that the agent reads at the start of every session
+    - Other agents read `AGENTS.md` for the same purpose
+- **Plan mode**: the agent proposes a plan and makes no changes until you approve it
+- **Permission prompts**: the agent asks before it edits files or runs commands
+- **`/clear`**: starts a new conversation to avoid context rot
 :::
 
 
-## Tooling That Makes Agents More Reliable
+## Demo: An Agent Change, Reviewed
 
-::: {style="font-size: 0.75em;"}
+<!-- TODO: live demo. Commit, give Claude Code a task in plan mode, approve the plan, review the diff in the IDE, revert part of the change. -->
 
-Beyond coding practices, configuration that shapes how the model works with your project:
+- Watch for:
+    - The commit before the task starts
+    - The plan, and what we change in it
+    - How the diff shows each change
 
-- **Project instructions** (CLAUDE.md, AGENTS.md): A file at the repo root describing your conventions, how to run tests, where data lives. The model reads it every session
-- **Plan mode**: Create implementation plans for complex changes, iterate and refine them to improve performance
-- **MCP servers**: Let the model connect directly to data sources like PubMed, bioRxiv, UniProt, or internal databases
-- **Skills**: Packaged, reusable instructions + scripts for repeatable workflows (e.g., your lab's standard analysis pipeline)
 
-:::
+## Take-Home Repository
+
+<!-- TODO: build the take-home repository and add the link. -->
+
+- Practice the demo steps on your own with a sample project
+- Link: *TODO*
+
+
+## Learn More
+
+- **Agentic Programming for Bioinformatics** covers:
+    - Software engineering practices that make agent-written code easier to review
+    - Testing, specification-driven development, and packaging
+
+<!-- TODO: add the workshop date or link. -->
 
 
 # Diligence {.center}
@@ -299,6 +506,17 @@ Creating with AI carries risks that are easy to overlook until they bite:
 
 :::
 
+## Risks Specific to Agents
+
+::: {style="font-size: 0.75em;"}
+- **Access**: a connected agent can read everything the connector allows, such as all of your email
+- **Hidden instructions**: a PDF or web page can contain text that tells the agent to do something you did not ask for
+    - This is called prompt injection
+- **Unattended runs**: nobody reviews a scheduled task while it runs
+- **Data location**: check whether the tool processes your data on your computer or on the vendor's servers
+:::
+
+
 ## AI and Skill Atrophy
 
 ::: {style="font-size: 0.75em;"}
@@ -312,7 +530,7 @@ Using AI heavily for critical tasks can erode skills you still need, or prevent 
 - [Lee et al. (2025), *CHI '25*](https://doi.org/10.1145/3706598.3713778): survey of 319 knowledge workers: higher confidence in AI predicts less critical thinking; higher self-confidence predicts more.
 
 
-:::    
+:::
 
 
 
@@ -332,11 +550,25 @@ Using AI heavily for critical tasks can erode skills you still need, or prevent 
 If someone would want to know AI was involved, disclose it.
 
 - **Manuscripts**: Most journals require disclosure in Methods, Acknowledgments, or Author Contributions. AI cannot be an author, and many journals prohibit AI-generated figures
+- **AI-assisted analysis**: describe it in Methods with the tool, version, and prompts, in enough detail to replicate ([ICMJE](https://www.icmje.org/recommendations/browse/manuscript-preparation/preparing-for-submission.html))
 - **Grant proposals**: AI use is generally discouraged; check funder guidelines (NIH, NSF) before submitting AI-assisted text
 - **Collaborators and supervisors**: When AI shaped the analysis or writing, let your team know
 
 
 
+:::
+
+
+## Exercise: Diligence Scenarios
+
+<!-- TODO: write the scenarios and choose the group format. -->
+
+::: {style="font-size: 0.8em;"}
+**In small groups, discuss each scenario:**
+
+- What could go wrong?
+- What should the researcher have done differently?
+- What should they disclose, and to whom?
 :::
 
 
@@ -357,24 +589,37 @@ Some topics to consider:
 
 ## Key Takeaways
 
-1. **Delegate** thoughtfully: Define your task, know your platform, choose the right mode
-2. **Describe** clearly: Use prompting techniques to get the output you need
+::: {style="font-size: 0.8em;"}
+1. **Delegate** thoughtfully: Know what the tools can do, define your task, choose the right mode
+2. **Describe** clearly: Give the AI the context, constraints, and checkpoints it needs
 3. **Discern** critically: Evaluate what AI produces, how it got there, and how it works with you
 4. **Act with Diligence**: Use AI responsibly, transparently, and always verify before you share
 
+Learn the concepts: the products will change, but the concepts transfer
+
 AI is a powerful tool for research, but it cannot replace **your** judgment
+:::
 
 ## Resources
 
 - **AI Fluency Framework**: [Anthropic AI Fluency Curriculum](https://www.anthropic.com/learn) (CC BY-NC-SA 4.0)
 - **Prompt Engineering Guide**: [docs.anthropic.com](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
 - **Bioinformatics Core Position Paper**: [Responsible AI Use in Computational Biology](https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&dl=0)
+- **Model Context Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+
+<!-- TODO: add vendor-neutral links for the skills format and AGENTS.md, and the take-home repository. -->
 
 
 # End of Part 2
 
 ## Workshop survey
-- Please fill out our workshop survey so we can continue to improve these workshops
+- Please fill out our [workshop survey](https://www.surveymonkey.com/r/bioinfo-training26) so we can continue to improve these workshops
+
+## Anthropic's AI for Science Interviewer
+
+- Anthropic asked us to share their **AI for Science Interviewer** with you
+- [claude.ai/interviewer/ai_for_science](https://claude.ai/interviewer/ai_for_science)
+- Participation is optional and separate from our workshop survey
 
 ## Thank You
 
@@ -386,11 +631,13 @@ Claude (Anthropic) was used as an aid in developing and adapting materials for t
 
 ## Upcoming Workshops {.small}
 
-**Linear Mixed Effects Models Using R**    
-May 4 - May 5, 2026 9:00am - 4:00pm PDT   
+**Single Cell RNA-Seq Analysis Using R**\
+October 12, 2026 9:30am-12:00pm PDT
 
-**scATAC-seq Analysis Using R**     
-May 11-May 12, 2026 9:30am-12:00pm PDT  
+**Introduction to Pathway Analysis**\
+October 15, 2026 1:00-4:00pm PDT
 
-**Advanced RNA-seq Analysis Using R**    
-May 27-May 28, 2026 1:00-3:00pm PDT   
+**Statistics of Enrichment Analyses Methods**\
+October 22, 2026 1:00-3:00pm PDT
+
+[See all upcoming workshops](https://gladstone.org/events/?series=data-science-training-program)

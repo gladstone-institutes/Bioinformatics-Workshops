@@ -23,14 +23,14 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="1.5766485"
-     inkscape:cx="365.96617"
+     inkscape:cx="365.96616"
      inkscape:cy="177.5919"
-     inkscape:window-width="1728"
-     inkscape:window-height="961"
+     inkscape:window-width="1392"
+     inkscape:window-height="927"
      inkscape:window-x="0"
-     inkscape:window-y="38"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="node-diligence" />
+     inkscape:window-y="30"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="node-delegation" />
   <!-- =============================================
        4 Ds of AI Fluency Diagram
 
@@ -206,38 +206,35 @@
      inkscape:label="Node: Delegation"
      inkscape:groupmode="layer"
      transform="translate(-122.8,-83.923828)">
-    <g
-       id="g9"
-       transform="translate(-4.02813,6)">
-      <rect
-         id="rect-delegation"
-         x="390"
-         y="100"
-         width="180"
-         height="60"
-         rx="10"
-         ry="10"
-         fill="#0072b2"
-         filter="url(#node-shadow)" />
-      <text
-         id="label-delegation"
-         x="480"
-         y="137"
-         font-family="Helvetica, Arial, sans-serif"
-         font-size="24px"
-         font-weight="bold"
-         fill="#ffffff"
-         text-anchor="middle"
-         style="fill:#000000;fill-opacity:1">Delegation</text>
-      <text
-         id="desc-delegation"
-         x="480.15918"
-         y="94"
-         font-family="Helvetica, Arial, sans-serif"
-         font-size="14px"
-         fill="#444444"
-         text-anchor="middle">Deciding what to ask AI</text>
-    </g>
+    <rect
+       id="rect-delegation"
+       x="385.97186"
+       y="106"
+       width="180"
+       height="60"
+       rx="10"
+       ry="10"
+       fill="#0072b2"
+       filter="url(#node-shadow)"
+       style="fill:#19a2ef;fill-opacity:1" />
+    <text
+       id="label-delegation"
+       x="475.97186"
+       y="143"
+       font-family="Helvetica, Arial, sans-serif"
+       font-size="24px"
+       font-weight="bold"
+       fill="#ffffff"
+       text-anchor="middle"
+       style="fill:#000000;fill-opacity:1">Delegation</text>
+    <text
+       id="desc-delegation"
+       x="476.13104"
+       y="100"
+       font-family="Helvetica, Arial, sans-serif"
+       font-size="14px"
+       fill="#444444"
+       text-anchor="middle">Deciding what to ask AI</text>
   </g>
   <!-- ==========================================
        NODE: DESCRIPTION (left) — Orange #E69F00
