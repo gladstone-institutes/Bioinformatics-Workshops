@@ -1,0 +1,396 @@
+---
+title: "Machine Learning Using R - Part 3"
+subtitle: "XGBoost"
+author: "Gladstone Bioinformatics Core"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 3
+    code_folding: show
+    theme: flatly
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Introduction to XGBoost
+
+XGBoost (E**x**treme **G**radient **Boost**ing) is an **ensemble method** that builds decision trees (models that make predictions using if-then rules) **sequentially**, where each new tree tries to correct the errors made by the trees before it.
+
+Two ideas make this work:  
+1. **Gradient boosting**: Each new tree is fit to the residual errors of the current ensemble, gradually improving predictions  
+2. **Regularization**: Penalty terms (on tree complexity and leaf weights) keep individual trees simple and help prevent overfitting  
+
+This sequential, error-correcting process often makes XGBoost more accurate than bagging-based methods like Random Forest; though it has more hyperparameters to tune!
+
+---
+
+# Load Libraries and Data
+
+```{r libraries}
+# Core libraries
+library(tidyverse)
+library(caret)
+library(xgboost)
+library(ggplot2)
+
+# Set seed for reproducibility
+set.seed(321)
+```
+
+```{r load-data}
+# Load the cleaned dataset from Part 1
+covid_ml <- read.csv("data/covid_ml_clean.csv")
+
+# Convert target to factor
+covid_ml$covid19_test_results <- as.factor(covid_ml$covid19_test_results)
+
+# Remove cough_severity - XGBoost requires numeric input
+# We'll use the ordinal-encoded cough_severity_encoded instead
+covid_ml <- covid_ml %>% select(-cough_severity)
+```
+
+**Note:** Unlike Random Forest, XGBoost requires **numeric input** for all predictors - it can't split on a raw categorical/factor variable directly. So instead of the categorical `cough_severity`, we use the ordinal-encoded `cough_severity_encoded` (No cough=0 < Mild=1 < Moderate=2 < Severe=3) that was already prepared in Part 1.
+
+---
+
+# Prepare Data
+
+## Check Class Distribution
+
+First, let's examine the class distribution to identify any imbalance:
+
+```{r check-class-distribution}
+# Check class distribution
+class_dist <- table(covid_ml$covid19_test_results)
+print(class_dist)
+
+cat("\nClass proportions:\n")
+prop.table(class_dist)
+```
+
+**Class Imbalance Problem:**
+With only 68 positives out of 3045 rows (~2.2%), the model might learn to always predict "Negative" and still achieve high accuracy. This is problematic because we care about correctly identifying positive cases!
+
+## Balanced Train-Test Split
+
+To handle class imbalance, we'll use **balanced sampling** for training:  
+- **Training set**: Randomly select 50 positive and 50 negative cases (balanced)  
+- **Test set**: Use all remaining data (maintains original class distribution)  
+
+This approach helps the model learn from both classes equally during training.
+
+```{r train-test-split}
+# Separate data by class
+positive_indices <- which(covid_ml$covid19_test_results == "Positive")
+negative_indices <- which(covid_ml$covid19_test_results == "Negative")
+
+cat("Total positive cases:", length(positive_indices), "\n")
+cat("Total negative cases:", length(negative_indices), "\n")
+
+# Randomly sample 50 from each class for training
+set.seed(123)  # For reproducibility
+train_positive_indices <- sample(positive_indices, min(50, length(positive_indices)))
+train_negative_indices <- sample(negative_indices, 50)
+
+# Combine training indices
+train_indices <- c(train_positive_indices, train_negative_indices)
+
+# Create balanced training set
+train_data <- covid_ml[train_indices, ]
+
+# Create test set with remaining data
+test_data <- covid_ml[-train_indices, ]
+
+# Shuffle training data (optional, but good practice)
+train_data <- train_data[sample(nrow(train_data)), ]
+
+cat("\nTraining set:")
+print(table(train_data$covid19_test_results))
+
+cat("\nTest set:")
+print(table(test_data$covid19_test_results))
+
+cat("\nTraining set size:", nrow(train_data), "\n",
+    "Test set size:", nrow(test_data), "\n")
+```
+
+**Why Balanced Training?**  
+- Prevents the model from being biased toward the majority class  
+- Forces the model to learn patterns from both classes  
+- Test set maintains original distribution, giving realistic performance estimates  
+
+**Note:** We don't need to scale features for XGBoost! Tree-based methods are invariant to monotonic transformations of features and only the *order* of values matters for choosing a split, not their scale.
+
+## Convert to XGBoost's Matrix Format
+
+The `xgboost` package works directly with numeric matrices (via its `xgb.DMatrix` format) rather than data frames, and expects a numeric 0/1 label instead of a factor:
+
+```{r to-dmatrix}
+# Separate predictors (as a numeric matrix) from the target (as 0/1)
+train_x <- as.matrix(train_data %>% select(-covid19_test_results))
+train_y <- ifelse(train_data$covid19_test_results == "Positive", 1, 0)
+
+test_x <- as.matrix(test_data %>% select(-covid19_test_results))
+test_y <- ifelse(test_data$covid19_test_results == "Positive", 1, 0)
+
+# Wrap as xgb.DMatrix - xgboost's optimized internal data structure
+dtrain <- xgb.DMatrix(data = train_x, label = train_y)
+dtest <- xgb.DMatrix(data = test_x, label = test_y)
+```
+
+---
+
+# Train a Simple XGBoost Model
+
+```{r simple-xgb}
+# Train a simple XGBoost model with a single, fixed set of hyperparameters
+# (these match xgboost's own defaults) - no cross-validation yet, just a
+# quick first look at the model before we tune it
+xgb_simple <- xgb.train(
+  params = list(
+    objective = "binary:logistic",  # Binary classification
+    max_depth = 6,                  # Max depth of each tree
+    eta = 0.3,                      # Learning rate
+    eval_metric = "logloss"
+  ),
+  data = dtrain,
+  nrounds = 100,                    # Number of boosting rounds (trees)
+  verbose = 0
+)
+
+# View the model summary
+print(xgb_simple)
+```
+
+**No Out-of-Bag Error Here:** Random Forest gets a "free" validation estimate from out-of-bag samples because each tree only sees a bootstrap subset of the data. XGBoost's trees are built sequentially on the *full* training set (with reweighting), so there's no OOB analog - instead we rely on cross-validation to estimate performance, which we'll do in the tuning section below.
+
+---
+
+# Variable Importance
+
+XGBoost also provides built-in variable importance, based on **Gain** - how much each feature contributes to reducing the loss across all boosting rounds.
+
+```{r var-importance}
+# Get variable importance from our simple XGBoost model
+importance_df <- xgb.importance(model = xgb_simple)
+
+# View importance metrics
+head(importance_df)
+```
+
+```{r importance-plot}
+# Plot variable importance
+importance_df %>%
+  arrange(desc(Gain)) %>%
+  slice_head(n = 15) %>%
+  ggplot(aes(x = reorder(Feature, Gain), y = Gain)) +
+  geom_col(fill = "#3498db") +
+  coord_flip() +
+  labs(title = "Variable Importance - XGBoost",
+       x = "Feature",
+       y = "Gain") +
+  theme_minimal()
+```
+
+---
+
+# Make Predictions
+
+```{r predict-proba}
+# Get prediction probabilities first
+xgb_proba <- predict(xgb_simple, dtest)
+head(xgb_proba)
+```
+
+## Turn Probabilities into Predictions
+
+Notice that the model doesn't say "Positive" or "Negative". For each patient it outputs a **probability** of being positive (the numbers above). To get a final prediction, we pick a **threshold**: patients above it are called "Positive", the rest "Negative".
+
+The default threshold is 0.5, but it's often too low here. We trained on a balanced sample (50% positive), so the model expects positives to be common. In the test set only ~2% are positive, so 0.5 tends to flag too many patients (false positives). We'll use a **higher threshold** (0.7) to be more conservative about positive predictions:
+
+```{r custom-threshold}
+# Higher threshold = more specific (fewer false positives, but may miss some positives)
+# Lower threshold = more sensitive (catch more positives, but more false alarms)
+
+# For imbalanced data, use a higher threshold to reduce false positives
+threshold <- 0.7  # Classify as Positive only if probability > 0.7
+
+xgb_predictions <- ifelse(xgb_proba > threshold, "Positive", "Negative")
+xgb_predictions <- factor(xgb_predictions, levels = c("Negative", "Positive"))
+
+# Compare different thresholds
+xgb_predictions_default <- ifelse(xgb_proba > 0.5, "Positive", "Negative")
+xgb_predictions_default <- factor(xgb_predictions_default, levels = c("Negative", "Positive"))
+
+cat("Default (0.5) - Positive predictions:", sum(xgb_predictions_default == "Positive"), "\n",
+    "Conservative (0.7) - Positive predictions:", sum(xgb_predictions == "Positive"), "\n")
+```
+
+**Why Higher Threshold?**
+With only 18 actual positives in the test set, we want to be very confident before predicting "Positive". A threshold of 0.7 means we only predict positive when the model is 70%+ confident, reducing false positives.
+
+---
+
+# Evaluate Model Performance
+
+## Confusion Matrix
+
+A confusion matrix shows how well the model classified each class:
+
+```
+                    Predicted
+                 Negative  Positive
+Actual Negative    TN        FP
+       Positive    FN        TP
+
+TN = True Negative  (correctly predicted negative)
+TP = True Positive  (correctly predicted positive)
+FN = False Negative (missed positive case)
+FP = False Positive (false alarm)
+```
+
+```{r confusion-matrix}
+# Create confusion matrix
+cm_xgb <- confusionMatrix(xgb_predictions, test_data$covid19_test_results,
+                          positive = "Positive")
+print(cm_xgb)
+```
+
+## Understanding the Metrics
+
+```{r metrics-explanation}
+# Extract key metrics
+accuracy <- cm_xgb$overall["Accuracy"]
+sensitivity <- cm_xgb$byClass["Sensitivity"]
+specificity <- cm_xgb$byClass["Specificity"]
+precision <- cm_xgb$byClass["Precision"]  # Positive Predictive Value
+
+cat("KEY METRICS:\n",
+    "============\n",
+    "Accuracy:", round(accuracy * 100, 2), "%\n",
+    "  - Overall correct predictions\n\n",
+    "Sensitivity (Recall):", round(sensitivity * 100, 2), "%\n",
+    "  - Of all actual positives, how many did we catch?\n",
+    "  - Important when missing a positive case is costly\n\n",
+    "Specificity:", round(specificity * 100, 2), "%\n",
+    "  - Of all actual negatives, how many did we correctly identify?\n\n",
+    "Precision (Positive Predictive Value):", round(precision * 100, 2), "%\n",
+    "  - Of all predicted positives, how many were actually positive?\n",
+    "  - Important when false positives are costly\n")
+```
+
+## Visualize Confusion Matrix
+
+```{r cm-plot}
+# Convert confusion matrix to data frame for plotting
+cm_df <- as.data.frame(cm_xgb$table)
+
+ggplot(cm_df, aes(x = Reference, y = Prediction, fill = Freq)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), size = 8, color = "white") +
+  scale_fill_gradient(low = "#3498db", high = "#9b59b6") +
+  labs(title = "Confusion Matrix - XGBoost",
+       x = "Actual",
+       y = "Predicted") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 12))
+```
+
+---
+
+# Tune Hyperparameters
+
+## Key Hyperparameters
+
+XGBoost has more hyperparameters than Random Forest. We'll tune the two that matter most for a first pass, and hold the rest fixed at sensible defaults:
+
+- **max_depth**: Maximum depth of each tree
+  - Deeper trees can capture more complex patterns, but risk overfitting
+  - **We'll tune this** - testing a few depths
+- **eta** (learning rate): How much each tree corrects the previous ensemble's errors
+  - Smaller values learn more slowly but can generalize better
+  - **We'll tune this too**
+- **nrounds**: Number of boosting rounds (trees) - we'll keep this fixed at 100
+
+We'll use `xgb.cv()` - xgboost's built-in cross-validation function - to score each combination of `max_depth` and `eta`, using the **same 10 folds** for every combination so the comparison is fair.
+
+```{r tune-xgb}
+# Build 10 stratified folds once, shared across every hyperparameter combination
+set.seed(456)
+cv_folds <- createFolds(train_data$covid19_test_results, k = 10, returnTrain = FALSE)
+
+# Grid of max_depth / eta values to try
+tune_grid <- expand.grid(max_depth = c(2, 4, 6), eta = c(0.05, 0.1, 0.3))
+tune_grid$mean_auc <- NA_real_
+
+for (i in seq_len(nrow(tune_grid))) {
+  cv_result <- xgb.cv(
+    params = list(
+      objective = "binary:logistic",
+      max_depth = tune_grid$max_depth[i],
+      eta = tune_grid$eta[i],
+      eval_metric = "auc"
+    ),
+    data = dtrain,
+    nrounds = 100,
+    folds = cv_folds,
+    verbose = 0
+  )
+  # Best CV AUC reached across boosting rounds for this combination
+  tune_grid$mean_auc[i] <- max(cv_result$evaluation_log$test_auc_mean)
+}
+
+# View results, best first
+xgb_cv_results <- tune_grid %>% arrange(desc(mean_auc))
+xgb_cv_results
+```
+
+```{r plot-tune}
+# Plot max_depth/eta vs performance
+ggplot(tune_grid, aes(x = max_depth, y = mean_auc, color = factor(eta))) +
+  geom_line() +
+  geom_point(size = 3) +
+  labs(title = "XGBoost: Tuning max_depth and eta",
+       x = "max_depth",
+       y = "Mean CV AUC",
+       color = "eta") +
+  theme_minimal()
+```
+
+```{r best-params}
+best_params <- xgb_cv_results[1, ]
+cat("Best max_depth:", best_params$max_depth, "\n")
+cat("Best eta:", best_params$eta, "\n")
+cat("Best mean CV AUC:", round(best_params$mean_auc, 3), "\n")
+```
+
+---
+
+# Summary
+
+## What We Learned
+
+1. ✅ **XGBoost** builds decision trees sequentially, each one correcting the errors of the ensemble so far
+2. ✅ **Gradient boosting + regularization** balances fitting the data well against overfitting
+3. ✅ **Numeric input required** - unlike Random Forest, categorical variables need to be encoded first
+4. ✅ **No scaling required** - trees are still scale-invariant, even though boosting is sequential
+5. ✅ **Variable importance** (via `xgb.importance()`) helps understand which features matter most
+6. ✅ **No OOB error** - boosting uses the full training set each round, so we rely on cross-validation instead
+7. ✅ **Cross-validation** (via `xgb.cv()`) helps tune hyperparameters like `max_depth` and `eta`
+8. ✅ **Class imbalance handling** - balanced sampling for training prevents bias toward majority class
+
+## Workshop Complete!
+
+You've now learned preprocessing, unsupervised learning (K-means), and supervised learning (XGBoost)!
+
+---
+
+# Session Info
+```{r session-info}
+sessionInfo()
+```
