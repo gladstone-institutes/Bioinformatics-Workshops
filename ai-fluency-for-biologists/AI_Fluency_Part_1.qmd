@@ -343,12 +343,17 @@ A system powered by LLMs that independently directs its own processes, makes dec
 
 ## Skills
 
+::: {style="font-size: 0.85em;"}
 - A **skill** is a packaged set of instructions for a task you repeat
     - It can also include reference files and scripts
 - The AI loads a skill only when a task needs it
     - This keeps unused instructions out of the context window
 - Skills follow an open format that several platforms support
-- Example: "Format a methods section to match our lab's style"
+- Example: a **journal submission check**
+    - Instructions: check word limits, figure rules, and required statements
+    - Reference file: the journal's author guidelines
+    - Script: counts the words in each section
+:::
 
 
 ## Plugins
@@ -484,20 +489,48 @@ countdown::countdown(minutes = 10,
 
 - It is a new harness, not a new model
     - It runs the same models as the general chat apps
-    - Anthropic: "not a new AI model and not a more capable model for biology"
 - A reviewer agent usually runs on the same model as the agent it checks
-    - Does not substitute for human verification (more on this in Part 2)
+    - Does not substitute for human verification
 - It should not choose the analysis method for you
 
 
 ## Demo: A Science Workbench
 
-<!-- TODO: live Claude Science demo. Choose a dataset or question. Show the plan, the connectors it calls, the reviewer agent, and the provenance of one figure. -->
+::: {style="font-size: 0.6em;"}
+**Task:** differential expression in a public single-cell dataset (Kang et al. 2018, GEO: GSE96583)
 
-- Watch for:
-    - Which databases and tools it uses
-    - Where it asks you to approve a step
-    - How you can trace a figure back to its code
+:::{.example}
+**Goal:** identify genes differentially expressed between interferon-beta stimulated and control cells in CD14+ monocytes, using the Kang et al. 2018 PBMC dataset (GEO: GSE96583).
+
+**Data:** load a packaged copy of the dataset (for example the pertpy loader for Kang 2018). Before any analysis, list every metadata column and what it contains. Use the existing cell type annotations; do not recluster.
+
+**Constraints:** Python, local CPU only, no GPU or remote compute. Total run time under 10 minutes.
+
+In the plan, name the statistical test you will use for differential expression.
+
+**Outputs:**
+
+1. Table of all tested genes with log2 fold change, p-value, and adjusted p-value.
+2. Number of genes with adjusted p < 0.05.
+3. Volcano plot.
+4. A methods paragraph describing the test and the experimental design.
+:::
+:::
+
+::: {.notes}
+Turn on auto-review before the demo: it is off by default on Pro plans.
+The metadata listing should show a donor column (the cells come from multiple donors, each with a control and a stimulated sample).
+If the plan names a test that treats each cell as an independent sample, such as a per-cell Wilcoxon test, point out that the donors are the replicates, not the cells. A pseudobulk test per donor with a paired design matches the experiment.
+Anthropic's documentation says the reviewer checks claims against what ran, but does not judge whether the method was the right choice, so it will not flag this.
+:::
+
+
+## Workbench Demo: What to Watch For
+
+- **The metadata**: what is the unit of replication in this experiment?
+- **The plan**: which statistical test does it choose, and does it fit the design?
+- **The reviewer**: what does it flag, and what does it not check?
+- **The volcano plot**: can you trace it back to the code that made it?
 
 
 ## Discussion: Where Would a Workbench Fit?
@@ -636,11 +669,11 @@ In practice, **Augmentation** is the most productive mode for research tasks
 
 ## Demo: Flowchart creation
 
-::: {style="font-size: 0.7em;"}
+::: {style="font-size: 0.85em;"}
 :::: {.columns}
 ::: {.column width="50%"}
 :::{.bad-example}
-**Automation:** "Make a flowchart of my experiment"
+**Automation:** "Make a flowchart of the peer review process"
 
 - An image generator draws a picture of a flowchart
 - Text is often misspelled and steps can be invented
@@ -657,17 +690,31 @@ In practice, **Augmentation** is the most productive mode for research tasks
 :::
 :::
 ::::
+:::
 
+## Flowchart Demo: The Prompt
+
+::: {style="font-size: 0.75em;"}
 :::{.example}
 Create a flowchart of the workflow below as an SVG file that I can edit in Inkscape.
 
-Steps: [list each step of your workflow in order]
+Steps:
+
+1. Submit manuscript
+2. Editor screens it. Decision: send to review? No: "Desk reject: revise and submit elsewhere," which loops back to step 1
+3. Peer review
+4. Decision: accept, revise, or reject
+    - Accept: "Proofs and publication"
+    - Revise: "Revise and respond to reviewers," which loops back to step 3
+    - Reject: "Revise and submit elsewhere," which loops back to step 1
 
 Use editable text for every label, group each box with its label, and use colorblind-safe colors. Before you draw anything, list the boxes and arrows you plan to use so I can correct them.
 :::
 :::
 
-<!-- TODO: choose the example workflow for the demo and add it to the prompt. -->
+::: {.notes}
+The two loops return to different steps, and step 4 has three outcomes; check the planned arrows for these before approving the plan.
+:::
 
 ## Matching Modalities to Tools
 
@@ -758,6 +805,7 @@ Show the AI what you want by providing one or more examples of the desired outpu
 
 ## 3) Specify Output Constraints
 
+::: {style="font-size: 0.9em;"}
 Tell the AI exactly what the output should look like:
 
 - **Length**: "in 200 words," "in 3 bullet points"
@@ -766,6 +814,7 @@ Tell the AI exactly what the output should look like:
 - **Structure**: "organize by: (1) hypothesis, (2) methods, (3) key results"
 
 The more specific your constraints, the closer the output will match what you need
+:::
 
 ## Bad Prompt vs. Good Prompt
 

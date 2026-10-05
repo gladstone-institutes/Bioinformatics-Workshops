@@ -430,6 +430,7 @@ Platform Awareness
 </section>
 <section id="skills" class="slide level2">
 <h2>Skills</h2>
+<div style="font-size: 0.85em;">
 <ul>
 <li>A <strong>skill</strong> is a packaged set of instructions for a task you repeat
 <ul>
@@ -440,8 +441,14 @@ Platform Awareness
 <li>This keeps unused instructions out of the context window</li>
 </ul></li>
 <li>Skills follow an open format that several platforms support</li>
-<li>Example: “Format a methods section to match our lab’s style”</li>
+<li>Example: a <strong>journal submission check</strong>
+<ul>
+<li>Instructions: check word limits, figure rules, and required statements</li>
+<li>Reference file: the journal’s author guidelines</li>
+<li>Script: counts the words in each section</li>
+</ul></li>
 </ul>
+</div>
 </section>
 <section id="plugins" class="slide level2">
 <h2>Plugins</h2>
@@ -576,7 +583,7 @@ Platform Awareness
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_e7657d50" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_453ef182" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -634,25 +641,53 @@ AI Workbenches for Science
 <li>It is a new harness, not a new model
 <ul>
 <li>It runs the same models as the general chat apps</li>
-<li>Anthropic: “not a new AI model and not a more capable model for biology”</li>
 </ul></li>
 <li>A reviewer agent usually runs on the same model as the agent it checks
 <ul>
-<li>Does not substitute for human verification (more on this in Part 2)</li>
+<li>Does not substitute for human verification</li>
 </ul></li>
 <li>It should not choose the analysis method for you</li>
 </ul>
 </section>
 <section id="demo-a-science-workbench" class="slide level2">
 <h2>Demo: A Science Workbench</h2>
-<!-- TODO: live Claude Science demo. Choose a dataset or question. Show the plan, the connectors it calls, the reviewer agent, and the provenance of one figure. -->
+<div style="font-size: 0.6em;">
+<p><strong>Task:</strong> differential expression in a public single-cell dataset (Kang et al.&nbsp;2018, GEO: GSE96583)</p>
+<div class="example">
+<p><strong>Goal:</strong> identify genes differentially expressed between interferon-beta stimulated and control cells in CD14+ monocytes, using the Kang et al.&nbsp;2018 PBMC dataset (GEO: GSE96583).</p>
+<p><strong>Data:</strong> load a packaged copy of the dataset (for example the pertpy loader for Kang 2018). Before any analysis, list every metadata column and what it contains. Use the existing cell type annotations; do not recluster.</p>
+<p><strong>Constraints:</strong> Python, local CPU only, no GPU or remote compute. Total run time under 10 minutes.</p>
+<p>In the plan, name the statistical test you will use for differential expression.</p>
+<p><strong>Outputs:</strong></p>
+<ol type="1">
+<li>Table of all tested genes with log2 fold change, p-value, and adjusted p-value.</li>
+<li>Number of genes with adjusted p &lt; 0.05.</li>
+<li>Volcano plot.</li>
+<li>A methods paragraph describing the test and the experimental design.</li>
+</ol>
+</div>
+</div>
+<aside class="notes">
+<p>Turn on auto-review before the demo: it is off by default on Pro plans. The metadata listing should show a donor column (the cells come from multiple donors, each with a control and a stimulated sample). If the plan names a test that treats each cell as an independent sample, such as a per-cell Wilcoxon test, point out that the donors are the replicates, not the cells. A pseudobulk test per donor with a paired design matches the experiment. Anthropic’s documentation says the reviewer checks claims against what ran, but does not judge whether the method was the right choice, so it will not flag this.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="workbench-demo-what-to-watch-for" class="slide level2">
+<h2>Workbench Demo: What to Watch For</h2>
 <ul>
-<li>Watch for:
-<ul>
-<li>Which databases and tools it uses</li>
-<li>Where it asks you to approve a step</li>
-<li>How you can trace a figure back to its code</li>
-</ul></li>
+<li><strong>The metadata</strong>: what is the unit of replication in this experiment?</li>
+<li><strong>The plan</strong>: which statistical test does it choose, and does it fit the design?</li>
+<li><strong>The reviewer</strong>: what does it flag, and what does it not check?</li>
+<li><strong>The volcano plot</strong>: can you trace it back to the code that made it?</li>
 </ul>
 </section>
 <section id="discussion-where-would-a-workbench-fit" class="slide level2">
@@ -811,11 +846,11 @@ Task Awareness
 </section>
 <section id="demo-flowchart-creation" class="slide level2">
 <h2>Demo: Flowchart creation</h2>
-<div style="font-size: 0.7em;">
+<div style="font-size: 0.85em;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="bad-example">
-<p><strong>Automation:</strong> “Make a flowchart of my experiment”</p>
+<p><strong>Automation:</strong> “Make a flowchart of the peer review process”</p>
 <ul>
 <li>An image generator draws a picture of a flowchart</li>
 <li>Text is often misspelled and steps can be invented</li>
@@ -832,13 +867,41 @@ Task Awareness
 </ul>
 </div>
 </div></div>
+</div>
+</section>
+<section id="flowchart-demo-the-prompt" class="slide level2">
+<h2>Flowchart Demo: The Prompt</h2>
+<div style="font-size: 0.75em;">
 <div class="example">
 <p>Create a flowchart of the workflow below as an SVG file that I can edit in Inkscape.</p>
-<p>Steps: [list each step of your workflow in order]</p>
+<p>Steps:</p>
+<ol type="1">
+<li>Submit manuscript</li>
+<li>Editor screens it. Decision: send to review? No: “Desk reject: revise and submit elsewhere,” which loops back to step 1</li>
+<li>Peer review</li>
+<li>Decision: accept, revise, or reject
+<ul>
+<li>Accept: “Proofs and publication”</li>
+<li>Revise: “Revise and respond to reviewers,” which loops back to step 3</li>
+<li>Reject: “Revise and submit elsewhere,” which loops back to step 1</li>
+</ul></li>
+</ol>
 <p>Use editable text for every label, group each box with its label, and use colorblind-safe colors. Before you draw anything, list the boxes and arrows you plan to use so I can correct them.</p>
 </div>
 </div>
-<!-- TODO: choose the example workflow for the demo and add it to the prompt. -->
+<aside class="notes">
+<p>The two loops return to different steps, and step 4 has three outcomes; check the planned arrows for these before approving the plan.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="matching-modalities-to-tools" class="slide level2">
 <h2>Matching Modalities to Tools</h2>
@@ -930,6 +993,7 @@ Task Awareness
 </section>
 <section id="specify-output-constraints" class="slide level2">
 <h2>3) Specify Output Constraints</h2>
+<div style="font-size: 0.9em;">
 <p>Tell the AI exactly what the output should look like:</p>
 <ul>
 <li><strong>Length</strong>: “in 200 words,” “in 3 bullet points”</li>
@@ -938,6 +1002,7 @@ Task Awareness
 <li><strong>Structure</strong>: “organize by: (1) hypothesis, (2) methods, (3) key results”</li>
 </ul>
 <p>The more specific your constraints, the closer the output will match what you need</p>
+</div>
 </section>
 <section id="bad-prompt-vs.-good-prompt" class="slide level2">
 <h2>Bad Prompt vs.&nbsp;Good Prompt</h2>
