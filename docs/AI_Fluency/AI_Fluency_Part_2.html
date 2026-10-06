@@ -149,10 +149,6 @@
     </div>
   </div>
 </section>
-<section class="slide level2">
-
-<!-- Stub conventions: "TODO" marks content to fill in; "FIGURE" marks a slide where a figure may help. -->
-</section>
 <section id="section" class="slide level2">
 <h2></h2>
 <center>
@@ -167,7 +163,7 @@ Bioinformatician II</p>
 <section id="schedule" class="slide level2">
 <h2>Schedule</h2>
 <ol type="1">
-<li>Description: Reusable instructions and agents</li>
+<li>Description: Reusable instructions</li>
 <li>Discernment: Evaluating AI outputs</li>
 <li>Coding with AI agents</li>
 <li>Diligence: Responsible AI use</li>
@@ -179,16 +175,8 @@ Bioinformatician II</p>
 <section id="description" class="title-slide slide level1 center">
 <h1>Description</h1>
 <p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">
-Reusable Instructions and Agents
+Reusable Instructions
 </p>
-</section>
-<section id="from-prompts-to-task-descriptions" class="slide level2">
-<h2>From Prompts to Task Descriptions</h2>
-<ul>
-<li>In Part 1, each prompt produced one response that you read right away</li>
-<li>An agent takes many steps before you see the result</li>
-<li>So the description has to answer questions the agent would otherwise guess at</li>
-</ul>
 </section>
 <section id="persistent-context-projects-and-custom-instructions" class="slide level2">
 <h2>Persistent Context: Projects and Custom Instructions</h2>
@@ -197,7 +185,7 @@ Reusable Instructions and Agents
 <ul>
 <li><strong>Projects</strong> in Claude and ChatGPT, <strong>Gems</strong> in Gemini: attach reference documents and custom instructions that the model sees on every turn</li>
 <li>Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions</li>
-<li>For code, a <code>CLAUDE.md</code> or <code>AGENTS.md</code> file in the project folder serves the same purpose (covered later today)</li>
+<li>For code, a <code>CLAUDE.md</code> or <code>AGENTS.md</code> file in the project folder serves the same purpose</li>
 </ul>
 </div>
 </section>
@@ -210,7 +198,6 @@ Reusable Instructions and Agents
 <li>ChatGPT: <strong>Custom instructions</strong></li>
 <li>Gemini: <strong>Instructions for Gemini</strong></li>
 </ul></li>
-<li>Good uses: your field, your preferred level of detail, and how you want responses written</li>
 <li>Keep them short, because they take up context in every chat</li>
 </ul>
 </section>
@@ -227,19 +214,6 @@ Reusable Instructions and Agents
 </ul></li>
 <li>Short version: “Please remove all mannered prose.”</li>
 </ul>
-<aside class="notes">
-<p>Anthropic’s guide recommends putting the instruction in a user message first, and the system prompt second. Custom instructions act like a system prompt, so if a chat still drifts, paste the instruction into the message itself.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
 </section>
 <section id="plain-writing-instruction" class="slide level2">
 <h2>Plain Writing Instruction</h2>
@@ -285,19 +259,12 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <div style="font-size: 0.7em;">
 <p><strong>Turn a task you have already done with Claude into a skill.</strong></p>
 <ol type="1">
-<li>Open a past chat where you completed a task you repeat
-<ul>
-<li>No past chat? Use your task from the Part 1 prompting exercise</li>
-</ul></li>
+<li>Open a past chat where you completed a task you repeat</li>
 <li>In that chat, ask Claude to write the skill:</li>
 </ol>
 <div class="example">
 <p>“Turn the workflow in this conversation into a skill I can reuse. Keep the steps that worked, leave out details specific to this one case, and write a description that says when the skill should be used.”</p>
 </div>
-<ol start="3" type="1">
-<li>Review what Claude wrote: are the steps correct and general enough?</li>
-<li>Add the skill to Claude and test it on a new example in a new chat</li>
-</ol>
 </div>
 </section></section>
 <section>
@@ -317,12 +284,17 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <section id="product-discernment" class="slide level2">
 <h2>Product Discernment</h2>
 <div style="font-size: 0.8em;">
-<p>Evaluate every AI output against four criteria:</p>
+<p>Check every AI output against four criteria:</p>
 <ul>
-<li><strong>Accuracy</strong>: Are the facts correct? Are citations real? Are gene names and pathways right?</li>
+<li><strong>Accuracy</strong>: Are the facts, names, and numbers correct?
+<ul>
+<li>Compare the output to the source</li>
+<li>Check that cited papers exist and say what the AI claims</li>
+<li>Check numerical values, statistics, and units</li>
+</ul></li>
 <li><strong>Precision</strong>: Is the language specific enough, or vague and generic?</li>
 <li><strong>Completeness</strong>: Are key findings, methods, or caveats missing?</li>
-<li><strong>Appropriateness</strong>: Is the tone, depth, and format right for your audience and purpose?</li>
+<li><strong>Appropriateness</strong>: Are the tone, depth, and format right for your audience and purpose?</li>
 </ul>
 </div>
 </section>
@@ -333,10 +305,60 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <ul>
 <li><strong>Hallucinated citations</strong>: AI invents plausible-sounding references that don’t exist</li>
 <li><strong>Oversimplified mechanisms</strong>: Complex signaling cascades reduced to linear pathways</li>
-<li><strong>Confused methodology</strong>: Mixing up techniques (e.g., describing Western blot results as flow cytometry data)</li>
+<li><strong>Confused methodology</strong>: Mixing up techniques</li>
 <li><strong>Overstated conclusions</strong>: Presenting preliminary findings as established facts</li>
 <li><strong>Fabricated details</strong>: Inventing sample sizes, p-values, or experimental conditions that weren’t in the source</li>
 </ul>
+</div>
+</section>
+<section id="cross-model-verification" class="slide level2">
+<h2>Cross-Model Verification</h2>
+<div style="font-size: 0.8em;">
+<p>Running the same query through Claude and ChatGPT can feel like a second opinion. It isn’t.</p>
+<ul>
+<li>Frontier models share overlapping training data and correlated errors</li>
+<li>Two models can confidently give the same wrong answer</li>
+<li><strong>Disagreement</strong> is a useful flag for deeper checking</li>
+<li><strong>Agreement</strong> is not confirmation</li>
+<li>The same applies to reviewer agents that run on the same model as the agent they check</li>
+</ul>
+<p>Use cross-model/cross-session comparison to surface things worth investigating, not to validate correctness.</p>
+</div>
+</section>
+<section id="verification-without-domain-expertise" class="slide level2">
+<h2>Verification Without Domain Expertise</h2>
+<div style="font-size: 0.7em;">
+<p>When you’re learning something new, you can’t rely on your own expertise to spot errors. Do what you can first:</p>
+<ul>
+<li><strong>Ask for specific sources</strong>, then check they exist and say what’s claimed</li>
+<li><strong>Triangulate</strong> against authoritative reviews or textbooks</li>
+<li><strong>Re-ask adversarially</strong>: “what’s the strongest objection to this?”</li>
+<li><strong>Identify the claim type</strong> (mechanistic, statistical, mathematical): different claims need different verification</li>
+</ul>
+<p>Then reach out to a subject matter expert.</p>
+<div class="example">
+<p><strong>If you do, disclose that it’s AI-generated.</strong> Reviewing AI output takes a different kind of attention than reviewing human work. Plausible-sounding mistakes appear in unfamiliar places, so experts need to know what they’re reading before they can review it well.</p>
+</div>
+</div>
+</section>
+<section id="performance-discernment" class="slide level2">
+<h2>Performance Discernment</h2>
+<div style="font-size: 0.8em;">
+<p>Evaluate how the AI is working <em>with</em> you, not just what it produces.</p>
+<div class="bad-example">
+<ul>
+<li>AI consistently misunderstands technical terms in your field</li>
+<li>Outputs require more correction than writing from scratch would</li>
+<li>AI introduces errors faster than you can catch them</li>
+</ul>
+</div>
+<div class="good-example">
+<ul>
+<li>AI helps structure your thinking in useful ways</li>
+<li>Iterations genuinely improve the output</li>
+<li>AI identifies aspects you hadn’t considered</li>
+</ul>
+</div>
 </div>
 </section>
 <section id="sycophancy-when-ai-agrees-with-you" class="slide level2">
@@ -370,26 +392,6 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <li><strong>Ask why it changed its answer</strong> when it changes after you push back</li>
 </ul>
 </section>
-<section id="process-discernment" class="slide level2">
-<h2>Process Discernment</h2>
-<div style="font-size: 0.8em;">
-<p>Evaluate how the AI is working <em>with</em> you, not just what it produces.</p>
-<div class="bad-example">
-<ul>
-<li>AI consistently misunderstands technical terms in your field</li>
-<li>Outputs require more correction than writing from scratch would</li>
-<li>AI introduces errors faster than you can catch them</li>
-</ul>
-</div>
-<div class="good-example">
-<ul>
-<li>AI helps structure your thinking in useful ways</li>
-<li>Iterations genuinely improve the output</li>
-<li>AI identifies aspects you hadn’t considered</li>
-</ul>
-</div>
-</div>
-</section>
 <section id="when-to-stop-using-ai-for-a-task" class="slide level2">
 <h2>When to Stop Using AI for a Task</h2>
 <div style="font-size: 0.8em;">
@@ -402,61 +404,6 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 </ul>
 <p><strong>The goal is to save time and improve quality.</strong> If AI isn’t doing both, switch approaches</p>
 </div>
-</section>
-<section id="performance-discernment-verification" class="slide level2">
-<h2>Performance Discernment: Verification</h2>
-<div style="font-size: 0.8em;">
-<p>A systematic process for checking AI output:</p>
-<ol type="1">
-<li><strong>Compare to source</strong>: Does the AI output accurately reflect the original text?</li>
-<li><strong>Verify factual claims</strong>: Are specific statements, numbers, and names correct?</li>
-<li><strong>Check citations</strong>: Do referenced papers actually exist? Do they say what the AI claims?</li>
-<li><strong>Validate data</strong>: Are numerical values, statistics, and units accurate?</li>
-<li><strong>Assess overall quality</strong>: Is the output useful, or does it need significant revision?</li>
-</ol>
-</div>
-</section>
-<section id="cross-model-verification" class="slide level2">
-<h2>Cross-Model Verification</h2>
-<div style="font-size: 0.8em;">
-<p>Running the same query through Claude and ChatGPT can feel like a second opinion. It isn’t.</p>
-<ul>
-<li>Frontier models share overlapping training data and correlated errors</li>
-<li>Two models can confidently give the same wrong answer</li>
-<li><strong>Disagreement</strong> is a useful flag for deeper checking</li>
-<li><strong>Agreement</strong> is not confirmation</li>
-<li>The same applies to reviewer agents that run on the same model as the agent they check</li>
-</ul>
-<p>Use cross-model/cross-session comparison to surface things worth investigating, not to validate correctness.</p>
-</div>
-</section>
-<section id="verification-without-domain-expertise" class="slide level2">
-<h2>Verification Without Domain Expertise</h2>
-<div style="font-size: 0.7em;">
-<p>When you’re learning something new, you can’t rely on your own expertise to spot errors. Do what you can first:</p>
-<ul>
-<li><strong>Ask for specific sources</strong>, then check they exist and say what’s claimed</li>
-<li><strong>Triangulate</strong> against authoritative reviews or textbooks</li>
-<li><strong>Re-ask adversarially</strong>: “what’s the strongest objection to this?”</li>
-<li><strong>Identify the claim type</strong> (mechanistic, statistical, mathematical): different claims need different verification</li>
-</ul>
-<p>Then reach out to a subject matter expert.</p>
-<div class="example">
-<p><strong>If you do, disclose that it’s AI-generated.</strong> Reviewing AI output takes a different kind of attention than reviewing human work. Plausible-sounding mistakes appear in unfamiliar places, so experts need to know what they’re reading before they can review it well.</p>
-</div>
-</div>
-</section>
-<section id="discerning-agent-output" class="slide level2">
-<h2>Discerning Agent Output</h2>
-<ul>
-<li><strong>Before it runs</strong>: read the agent’s plan and correct it</li>
-<li><strong>While it runs</strong>: check each permission request before you approve it</li>
-<li><strong>After it runs</strong>:
-<ul>
-<li>Check that each number traces to a file, a database record, or code</li>
-<li>Check which files it created or changed</li>
-</ul></li>
-</ul>
 </section>
 <section id="exercise-research-mode-discernment" class="slide level2">
 <h2>Exercise: Research Mode Discernment</h2>
@@ -481,7 +428,7 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_d5c37c35" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_57039d8b" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -520,18 +467,6 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <li>Picking parameters from its training data rather than what your data actually requires</li>
 </ul>
 </div>
-</section>
-<section id="what-this-section-covers" class="slide level2">
-<h2>What This Section Covers</h2>
-<ul>
-<li><strong>Covered</strong>: a setup that lets you see and review every change an agent makes to your code</li>
-<li><strong>Not covered</strong>: choosing an appropriate method and judging whether results make sense
-<ul>
-<li>The tools do not replace this judgment</li>
-<li>You still need core competencies in statistics, your analysis methods, and reading code</li>
-</ul></li>
-<li>A clean code review does not make an analysis correct</li>
-</ul>
 </section>
 <section id="how-do-i-know-an-ai-analysis-is-correct" class="slide level2">
 <h2>How Do I Know an AI Analysis Is Correct?</h2>
@@ -584,11 +519,12 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <li>You can discard a bad branch without affecting your other work</li>
 </ul></li>
 <li><strong>Revert</strong> a change you do not want</li>
+<li>Do not allow agents to <code>commit</code> or <code>push</code> so you can review what has changed</li>
 </ul>
+<p>New to Git? Try GitHub’s <a href="https://docs.github.com/en/get-started/using-github/hello-world">Hello World tutorial</a></p>
 </section>
 <section id="review-changes-in-an-ide" class="slide level2">
 <h2>Review Changes in an IDE</h2>
-<!-- FIGURE: screenshot of an IDE source control panel and an inline diff. -->
 <ul>
 <li>An IDE (e.g., VS Code, Positron, RStudio) shows what changed
 <ul>
@@ -600,7 +536,6 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 </section>
 <section id="one-folder-per-analysis" class="slide level2">
 <h2>One Folder per Analysis</h2>
-<!-- FIGURE: example folder layout with one folder per analysis and a shared code folder. -->
 <ul>
 <li>Keep each analysis in its own folder
 <ul>
@@ -623,9 +558,23 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 </ul></li>
 </ul>
 </section>
+<section id="unit-tests" class="slide level2">
+<h2>Unit Tests</h2>
+<div style="font-size: 0.85em;">
+<ul>
+<li>A unit test runs one function on a small input and checks the output against the answer you expect
+<ul>
+<li>Example: the reverse complement of <code>ATGC</code> is <code>GCAT</code></li>
+</ul></li>
+<li>Run the tests after each agent change to find code that the change broke</li>
+<li>Ask the agent to add a test for each new function, and check that the expected answers are correct</li>
+<li>Check the diff for changed tests, because an agent may edit a test to make it pass</li>
+<li>A passing test shows that the code does what the test checks, not that the analysis is correct</li>
+</ul>
+</div>
+</section>
 <section id="core-features-of-claude-code" class="slide level2">
 <h2>Core Features of Claude Code</h2>
-<!-- TODO: confirm commands against the current Claude Code version before each offering. -->
 <div style="font-size: 0.8em;">
 <ul>
 <li><strong>Start in a project folder</strong>: the agent works on the files in that folder</li>
@@ -635,28 +584,25 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 </ul></li>
 <li><strong>Plan mode</strong>: the agent proposes a plan and makes no changes until you approve it</li>
 <li><strong>Permission prompts</strong>: the agent asks before it edits files or runs commands</li>
+<li><strong><code>/compact</code></strong>: summarizes the current context window to avoid context rot</li>
 <li><strong><code>/clear</code></strong>: starts a new conversation to avoid context rot</li>
 </ul>
 </div>
 </section>
-<section id="demo-an-agent-change-reviewed" class="slide level2">
-<h2>Demo: An Agent Change, Reviewed</h2>
-<!-- TODO: live demo. Commit, give Claude Code a task in plan mode, approve the plan, review the diff in the IDE, revert part of the change. -->
+<section id="demo-reviewing-code-changes" class="slide level2">
+<h2>Demo: Reviewing code changes</h2>
 <ul>
+<li>Example repository: <a href="https://github.com/natalie-23-gill/seqtools">seqtools</a>, a small DNA sequence script with unit tests
+<ul>
+<li>The README has the setup steps and three tasks to try on your own</li>
+</ul></li>
 <li>Watch for:
 <ul>
 <li>The commit before the task starts</li>
 <li>The plan, and what we change in it</li>
 <li>How the diff shows each change</li>
+<li>The tests we run after the change</li>
 </ul></li>
-</ul>
-</section>
-<section id="take-home-repository" class="slide level2">
-<h2>Take-Home Repository</h2>
-<!-- TODO: build the take-home repository and add the link. -->
-<ul>
-<li>Practice the demo steps on your own with a sample project</li>
-<li>Link: <em>TODO</em></li>
 </ul>
 </section>
 <section id="learn-more" class="slide level2">

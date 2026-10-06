@@ -20,7 +20,6 @@ format:
 library(countdown)
 ```
 
-<!-- Stub conventions: "TODO" marks content to fill in; "FIGURE" marks a slide where a figure may help. -->
 
 ##
 
@@ -36,7 +35,7 @@ Bioinformatician II
 
 ## Schedule
 
-1. Description: Reusable instructions and agents
+1. Description: Reusable instructions
 2. Discernment: Evaluating AI outputs
 3. Coding with AI agents
 4. Diligence: Responsible AI use
@@ -46,13 +45,8 @@ Bioinformatician II
 
 # Description {.center}
 
-<p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">Reusable Instructions and Agents</p>
+<p style="font-size: 1.5em; text-align: center !important; margin-left: 0 !important; margin-right: 0 !important;">Reusable Instructions</p>
 
-## From Prompts to Task Descriptions
-
-- In Part 1, each prompt produced one response that you read right away
-- An agent takes many steps before you see the result
-- So the description has to answer questions the agent would otherwise guess at
 
 ## Persistent Context: Projects and Custom Instructions
 
@@ -62,7 +56,7 @@ Most tools let you attach persistent context that applies to every chat in a wor
 
 - **Projects** in Claude and ChatGPT, **Gems** in Gemini: attach reference documents and custom instructions that the model sees on every turn
 - Good uses: background on your research area, your writing style, standard formatting, protocols, lab conventions
-- For code, a `CLAUDE.md` or `AGENTS.md` file in the project folder serves the same purpose (covered later today)
+- For code, a `CLAUDE.md` or `AGENTS.md` file in the project folder serves the same purpose
 
 :::
 
@@ -73,7 +67,6 @@ Most tools let you attach persistent context that applies to every chat in a wor
     - Claude: **Instructions for Claude** in Settings
     - ChatGPT: **Custom instructions**
     - Gemini: **Instructions for Gemini**
-- Good uses: your field, your preferred level of detail, and how you want responses written
 - Keep them short, because they take up context in every chat
 
 ## Example: Ask for Plain Writing
@@ -84,9 +77,7 @@ Most tools let you attach persistent context that applies to every chat in a wor
     - It is in Anthropic's [prompting guide for Fable 5.1](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#writing-density)
 - Short version: "Please remove all mannered prose."
 
-::: {.notes}
-Anthropic's guide recommends putting the instruction in a user message first, and the system prompt second. Custom instructions act like a system prompt, so if a chat still drifts, paste the instruction into the message itself.
-:::
+
 
 
 ## Plain Writing Instruction
@@ -130,15 +121,12 @@ Mannered prose substitutes metaphor and flourish for direct statement. Instead o
 **Turn a task you have already done with Claude into a skill.**
 
 1. Open a past chat where you completed a task you repeat
-    - No past chat? Use your task from the Part 1 prompting exercise
 2. In that chat, ask Claude to write the skill:
 
 :::{.example}
 "Turn the workflow in this conversation into a skill I can reuse. Keep the steps that worked, leave out details specific to this one case, and write a description that says when the skill should be used."
 :::
 
-3. Review what Claude wrote: are the steps correct and general enough?
-4. Add the skill to Claude and test it on a new example in a new chat
 :::
 
 
@@ -155,14 +143,18 @@ Think of it as: **What** did it produce? **How** did it get there? **How well** 
 ## Product Discernment
 
 ::: {style="font-size: 0.8em;"}
-Evaluate every AI output against four criteria:
+Check every AI output against four criteria:
 
-- **Accuracy**: Are the facts correct? Are citations real? Are gene names and pathways right?
+- **Accuracy**: Are the facts, names, and numbers correct?
+    - Compare the output to the source
+    - Check that cited papers exist and say what the AI claims
+    - Check numerical values, statistics, and units
 - **Precision**: Is the language specific enough, or vague and generic?
 - **Completeness**: Are key findings, methods, or caveats missing?
-- **Appropriateness**: Is the tone, depth, and format right for your audience and purpose?
+- **Appropriateness**: Are the tone, depth, and format right for your audience and purpose?
 
 :::
+
 
 ## Common AI Errors in Science
 
@@ -171,82 +163,9 @@ Watch out for these frequent mistakes:
 
 - **Hallucinated citations**: AI invents plausible-sounding references that don't exist
 - **Oversimplified mechanisms**: Complex signaling cascades reduced to linear pathways
-- **Confused methodology**: Mixing up techniques (e.g., describing Western blot results as flow cytometry data)
+- **Confused methodology**: Mixing up techniques
 - **Overstated conclusions**: Presenting preliminary findings as established facts
 - **Fabricated details**: Inventing sample sizes, p-values, or experimental conditions that weren't in the source
-:::
-
-
-## Sycophancy: When AI Agrees With You
-
-::: {style="font-size: 0.8em;"}
-**Sycophancy** is the tendency to tell you what you want to hear instead of what is accurate
-
-- Models are trained on human ratings, and people tend to rate agreement highly ([Sharma et al. 2023](https://arxiv.org/abs/2310.13548))
-- Models often give up a correct answer when the user pushes back ([Hong et al. 2025](https://arxiv.org/abs/2505.23840))
-- In research, it can look like:
-    - Support for your hypothesis because you stated it first
-    - Praise for a manuscript instead of a critical review
-    - A changed answer after you ask "are you sure?"
-:::
-
-
-## Reducing Sycophancy
-
-- **Do not reveal the answer you hope for**
-    - Ask "What does this data show?", not "Does this data support my hypothesis?"
-- **Ask for criticism directly**
-    - Example: "List the three weakest points in this argument"
-- **Start a new chat** to get an assessment that the earlier conversation has not shaped
-- **Ask why it changed its answer** when it changes after you push back
-
-
-## Process Discernment
-
-::: {style="font-size: 0.8em;"}
-Evaluate how the AI is working *with* you, not just what it produces.
-
-:::{.bad-example}
-
-- AI consistently misunderstands technical terms in your field
-- Outputs require more correction than writing from scratch would
-- AI introduces errors faster than you can catch them
-:::
-
-:::{.good-example}
-
-- AI helps structure your thinking in useful ways
-- Iterations genuinely improve the output
-- AI identifies aspects you hadn't considered
-:::
-
-:::
-
-## When to Stop Using AI for a Task
-
-::: {style="font-size: 0.8em;"}
-Consider stopping when:
-
-- You've spent more time fixing AI output than it would take to do the task yourself
-- The AI keeps making the same type of error despite reprompting
-- The task requires judgment or nuance that the AI can't provide
-- You find yourself accepting AI output without critically evaluating it
-
-**The goal is to save time and improve quality.** If AI isn't doing both, switch approaches
-:::
-
-
-## Performance Discernment: Verification
-
-::: {style="font-size: 0.8em;"}
-A systematic process for checking AI output:
-
-1. **Compare to source**: Does the AI output accurately reflect the original text?
-2. **Verify factual claims**: Are specific statements, numbers, and names correct?
-3. **Check citations**: Do referenced papers actually exist? Do they say what the AI claims?
-4. **Validate data**: Are numerical values, statistics, and units accurate?
-5. **Assess overall quality**: Is the output useful, or does it need significant revision?
-
 :::
 
 
@@ -287,13 +206,64 @@ Then reach out to a subject matter expert.
 :::
 
 
-## Discerning Agent Output
+## Performance Discernment
 
-- **Before it runs**: read the agent's plan and correct it
-- **While it runs**: check each permission request before you approve it
-- **After it runs**:
-    - Check that each number traces to a file, a database record, or code
-    - Check which files it created or changed
+::: {style="font-size: 0.8em;"}
+Evaluate how the AI is working *with* you, not just what it produces.
+
+:::{.bad-example}
+
+- AI consistently misunderstands technical terms in your field
+- Outputs require more correction than writing from scratch would
+- AI introduces errors faster than you can catch them
+:::
+
+:::{.good-example}
+
+- AI helps structure your thinking in useful ways
+- Iterations genuinely improve the output
+- AI identifies aspects you hadn't considered
+:::
+
+:::
+
+
+## Sycophancy: When AI Agrees With You
+
+::: {style="font-size: 0.8em;"}
+**Sycophancy** is the tendency to tell you what you want to hear instead of what is accurate
+
+- Models are trained on human ratings, and people tend to rate agreement highly ([Sharma et al. 2023](https://arxiv.org/abs/2310.13548))
+- Models often give up a correct answer when the user pushes back ([Hong et al. 2025](https://arxiv.org/abs/2505.23840))
+- In research, it can look like:
+    - Support for your hypothesis because you stated it first
+    - Praise for a manuscript instead of a critical review
+    - A changed answer after you ask "are you sure?"
+:::
+
+
+## Reducing Sycophancy
+
+- **Do not reveal the answer you hope for**
+    - Ask "What does this data show?", not "Does this data support my hypothesis?"
+- **Ask for criticism directly**
+    - Example: "List the three weakest points in this argument"
+- **Start a new chat** to get an assessment that the earlier conversation has not shaped
+- **Ask why it changed its answer** when it changes after you push back
+
+
+## When to Stop Using AI for a Task
+
+::: {style="font-size: 0.8em;"}
+Consider stopping when:
+
+- You've spent more time fixing AI output than it would take to do the task yourself
+- The AI keeps making the same type of error despite reprompting
+- The task requires judgment or nuance that the AI can't provide
+- You find yourself accepting AI output without critically evaluating it
+
+**The goal is to save time and improve quality.** If AI isn't doing both, switch approaches
+:::
 
 
 ## Exercise: Research Mode Discernment
@@ -374,13 +344,6 @@ Bioinformatics code that looks right but is subtly wrong silently corrupts your 
 
 :::
 
-## What This Section Covers
-
-- **Covered**: a setup that lets you see and review every change an agent makes to your code
-- **Not covered**: choosing an appropriate method and judging whether results make sense
-    - The tools do not replace this judgment
-    - You still need core competencies in statistics, your analysis methods, and reading code
-- A clean code review does not make an analysis correct
 
 
 ## How Do I Know an AI Analysis Is Correct?
@@ -421,11 +384,13 @@ Bioinformatics code that looks right but is subtly wrong silently corrupts your 
 - **Use one branch per analysis or feature**
     - You can discard a bad branch without affecting your other work
 - **Revert** a change you do not want
+- Do not allow agents to `commit` or `push` so you can review what has changed
+
+New to Git? Try GitHub's [Hello World tutorial](https://docs.github.com/en/get-started/using-github/hello-world)
 
 
 ## Review Changes in an IDE
 
-<!-- FIGURE: screenshot of an IDE source control panel and an inline diff. -->
 
 - An IDE (e.g., VS Code, Positron, RStudio) shows what changed
     - The source control panel lists every changed file
@@ -435,7 +400,6 @@ Bioinformatics code that looks right but is subtly wrong silently corrupts your 
 
 ## One Folder per Analysis
 
-<!-- FIGURE: example folder layout with one folder per analysis and a shared code folder. -->
 
 - Keep each analysis in its own folder
     - The agent's changes stay in that folder
@@ -451,9 +415,19 @@ Bioinformatics code that looks right but is subtly wrong silently corrupts your 
     - You review only that function
 
 
-## Core Features of Claude Code
+## Unit Tests
 
-<!-- TODO: confirm commands against the current Claude Code version before each offering. -->
+::: {style="font-size: 0.85em;"}
+- A unit test runs one function on a small input and checks the output against the answer you expect
+    - Example: the reverse complement of `ATGC` is `GCAT`
+- Run the tests after each agent change to find code that the change broke
+- Ask the agent to add a test for each new function, and check that the expected answers are correct
+- Check the diff for changed tests, because an agent may edit a test to make it pass
+- A passing test shows that the code does what the test checks, not that the analysis is correct
+:::
+
+
+## Core Features of Claude Code
 
 ::: {style="font-size: 0.8em;"}
 - **Start in a project folder**: the agent works on the files in that folder
@@ -461,26 +435,21 @@ Bioinformatics code that looks right but is subtly wrong silently corrupts your 
     - Other agents read `AGENTS.md` for the same purpose
 - **Plan mode**: the agent proposes a plan and makes no changes until you approve it
 - **Permission prompts**: the agent asks before it edits files or runs commands
+- **`/compact`**: summarizes the current context window to avoid context rot
 - **`/clear`**: starts a new conversation to avoid context rot
 :::
 
 
-## Demo: An Agent Change, Reviewed
+## Demo: Reviewing code changes
 
-<!-- TODO: live demo. Commit, give Claude Code a task in plan mode, approve the plan, review the diff in the IDE, revert part of the change. -->
-
+- Example repository: [seqtools](https://github.com/natalie-23-gill/seqtools), a small DNA sequence script with unit tests
+    - The README has the setup steps and three tasks to try on your own
 - Watch for:
     - The commit before the task starts
     - The plan, and what we change in it
     - How the diff shows each change
+    - The tests we run after the change
 
-
-## Take-Home Repository
-
-<!-- TODO: build the take-home repository and add the link. -->
-
-- Practice the demo steps on your own with a sample project
-- Link: *TODO*
 
 
 ## Learn More
