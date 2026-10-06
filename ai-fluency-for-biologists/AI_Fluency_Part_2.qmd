@@ -452,15 +452,6 @@ New to Git? Try GitHub's [Hello World tutorial](https://docs.github.com/en/get-s
 
 
 
-## Learn More
-
-- **Agentic Programming for Bioinformatics** covers:
-    - Software engineering practices that make agent-written code easier to review
-    - Testing, specification-driven development, and packaging
-
-<!-- TODO: add the workshop date or link. -->
-
-
 # Diligence {.center}
 
 ## Risks to Consider
@@ -528,18 +519,6 @@ If someone would want to know AI was involved, disclose it.
 :::
 
 
-## Exercise: Diligence Scenarios
-
-<!-- TODO: write the scenarios and choose the group format. -->
-
-::: {style="font-size: 0.8em;"}
-**In small groups, discuss each scenario:**
-
-- What could go wrong?
-- What should the researcher have done differently?
-- What should they disclose, and to whom?
-:::
-
 
 ## Open Discussion
 
@@ -564,19 +543,62 @@ Some topics to consider:
 3. **Discern** critically: Evaluate what AI produces, how it got there, and how it works with you
 4. **Act with Diligence**: Use AI responsibly, transparently, and always verify before you share
 
-Learn the concepts: the products will change, but the concepts transfer
 
 AI is a powerful tool for research, but it cannot replace **your** judgment
 :::
 
 ## Resources
 
-- **AI Fluency Framework**: [Anthropic AI Fluency Curriculum](https://www.anthropic.com/learn) (CC BY-NC-SA 4.0)
-- **Prompt Engineering Guide**: [docs.anthropic.com](https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview)
-- **Bioinformatics Core Position Paper**: [Responsible AI Use in Computational Biology](https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&dl=0)
-- **Model Context Protocol**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+::: {style="font-size: 0.8em;"}
+**Guides**
 
-<!-- TODO: add vendor-neutral links for the skills format and AGENTS.md, and the take-home repository. -->
+- [Anthropic AI Fluency curriculum](https://www.anthropic.com/learn): the framework this workshop adapts (CC BY-NC-SA 4.0)
+- [Prompt engineering overview](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview) and the [Fable 5.1 prompting guide](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#writing-density)
+- [Agent Skills](https://agentskills.io): the shared skill format
+- [AGENTS.md](https://agents.md): the shared project instructions file for coding agents
+
+**Research use**
+
+- [Responsible AI Use in Computational Biology](https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&dl=0): the Bioinformatics Core position paper
+- [ICMJE recommendations](https://www.icmje.org/recommendations/browse/manuscript-preparation/preparing-for-submission.html): how to disclose AI use in a manuscript
+
+:::
+
+
+## Coding Resources
+
+- [seqtools](https://github.com/natalie-23-gill/seqtools): the example repository from the demo, with tasks to try
+- [GitHub Hello World tutorial](https://docs.github.com/en/get-started/using-github/hello-world): an introduction to Git and GitHub
+- [uv](https://docs.astral.sh/uv/): the Python env management tool that seqtools uses
+
+
+## References
+
+::: {style="font-size: 0.6em;"}
+**Benchmarks (Part 1)**
+
+- [Humanity's Last Exam](https://agi.safe.ai/)
+- [Koch et al. 2026, BixBench3](https://arxiv.org/abs/2608.25286)
+- [SpatialBench-Long](https://arxiv.org/abs/2605.28065)
+
+**Bias (Part 1)**
+
+- [Omar et al. 2025, *Nature Medicine*](https://doi.org/10.1038/s41591-025-03626-6): sociodemographic biases in medical decision making by LLMs
+- [Bai et al. 2025, *PNAS*](https://doi.org/10.1073/pnas.2416228122): explicitly unbiased LLMs still form biased associations
+
+**Workbench demo data (Part 1)**
+
+- [Kang et al. 2018, *Nature Biotechnology*](https://doi.org/10.1038/nbt.4042), GEO: [GSE96583](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583)
+
+**Sycophancy (Part 2)**
+
+- [Sharma et al. 2023](https://arxiv.org/abs/2310.13548) and [Hong et al. 2025](https://arxiv.org/abs/2505.23840)
+
+**Skill atrophy (Part 2)**
+
+- [Budzyń et al. 2025, *Lancet Gastroenterol Hepatol*](https://doi.org/10.1016/S2468-1253(25)00133-5), [Turney et al. 2026, *Adv Med Educ Pract*](https://doi.org/10.2147/AMEP.S583763), and [Lee et al. 2025, *CHI '25*](https://doi.org/10.1145/3706598.3713778)
+:::
+
 
 
 # End of Part 2

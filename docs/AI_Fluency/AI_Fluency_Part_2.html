@@ -428,7 +428,7 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <center>
 <div class="cell">
 <div class="cell-output-display">
-<countdown-timer class="countdown" id="timer_57039d8b" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
+<countdown-timer class="countdown" id="timer_2fa5d99e" minutes="10" seconds="0" style="right:0;bottom:0;--countdown-margin:5%;--countdown-padding:50px;--countdown-font-size:4em;--countdown-color-border:black;--countdown-color-running-background:#47d193;--countdown-color-finished-background:#a3184e;--countdown-color-running-text:#023621FF;--countdown-color-finished-text:#FFC2CFFF; position: relative; width: min-content;" tabindex="0" update-every="1"></countdown-timer>
 </div>
 </div>
 </center>
@@ -604,17 +604,6 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <li>The tests we run after the change</li>
 </ul></li>
 </ul>
-</section>
-<section id="learn-more" class="slide level2">
-<h2>Learn More</h2>
-<ul>
-<li><strong>Agentic Programming for Bioinformatics</strong> covers:
-<ul>
-<li>Software engineering practices that make agent-written code easier to review</li>
-<li>Testing, specification-driven development, and packaging</li>
-</ul></li>
-</ul>
-<!-- TODO: add the workshop date or link. -->
 </section></section>
 <section>
 <section id="diligence" class="title-slide slide level1 center">
@@ -675,18 +664,6 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 </ul>
 </div>
 </section>
-<section id="exercise-diligence-scenarios" class="slide level2">
-<h2>Exercise: Diligence Scenarios</h2>
-<!-- TODO: write the scenarios and choose the group format. -->
-<div style="font-size: 0.8em;">
-<p><strong>In small groups, discuss each scenario:</strong></p>
-<ul>
-<li>What could go wrong?</li>
-<li>What should the researcher have done differently?</li>
-<li>What should they disclose, and to whom?</li>
-</ul>
-</div>
-</section>
 <section id="open-discussion" class="slide level2">
 <h2>Open Discussion</h2>
 <div style="font-size: 0.75em;">
@@ -713,19 +690,61 @@ Source: Anthropic, “Prompting Claude Fable 5.1,” Claude Platform Docs
 <li><strong>Discern</strong> critically: Evaluate what AI produces, how it got there, and how it works with you</li>
 <li><strong>Act with Diligence</strong>: Use AI responsibly, transparently, and always verify before you share</li>
 </ol>
-<p>Learn the concepts: the products will change, but the concepts transfer</p>
 <p>AI is a powerful tool for research, but it cannot replace <strong>your</strong> judgment</p>
 </div>
 </section>
 <section id="resources" class="slide level2">
 <h2>Resources</h2>
+<div style="font-size: 0.8em;">
+<p><strong>Guides</strong></p>
 <ul>
-<li><strong>AI Fluency Framework</strong>: <a href="https://www.anthropic.com/learn">Anthropic AI Fluency Curriculum</a> (CC BY-NC-SA 4.0)</li>
-<li><strong>Prompt Engineering Guide</strong>: <a href="https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview">docs.anthropic.com</a></li>
-<li><strong>Bioinformatics Core Position Paper</strong>: <a href="https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&amp;dl=0">Responsible AI Use in Computational Biology</a></li>
-<li><strong>Model Context Protocol</strong>: <a href="https://modelcontextprotocol.io">modelcontextprotocol.io</a></li>
+<li><a href="https://www.anthropic.com/learn">Anthropic AI Fluency curriculum</a>: the framework this workshop adapts (CC BY-NC-SA 4.0)</li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview">Prompt engineering overview</a> and the <a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1#writing-density">Fable 5.1 prompting guide</a></li>
+<li><a href="https://agentskills.io">Agent Skills</a>: the shared skill format</li>
+<li><a href="https://agents.md">AGENTS.md</a>: the shared project instructions file for coding agents</li>
 </ul>
-<!-- TODO: add vendor-neutral links for the skills format and AGENTS.md, and the take-home repository. -->
+<p><strong>Research use</strong></p>
+<ul>
+<li><a href="https://www.dropbox.com/scl/fi/hyk0n0egz3rlxonuai6t7/Bioinformatics-Core-AI-Position-Paper-v1.0.pdf?rlkey=1gq3icconjym6jejm6aayrvup&amp;dl=0">Responsible AI Use in Computational Biology</a>: the Bioinformatics Core position paper</li>
+<li><a href="https://www.icmje.org/recommendations/browse/manuscript-preparation/preparing-for-submission.html">ICMJE recommendations</a>: how to disclose AI use in a manuscript</li>
+</ul>
+</div>
+</section>
+<section id="coding-resources" class="slide level2">
+<h2>Coding Resources</h2>
+<ul>
+<li><a href="https://github.com/natalie-23-gill/seqtools">seqtools</a>: the example repository from the demo, with tasks to try</li>
+<li><a href="https://docs.github.com/en/get-started/using-github/hello-world">GitHub Hello World tutorial</a>: an introduction to Git and GitHub</li>
+<li><a href="https://docs.astral.sh/uv/">uv</a>: the Python env management tool that seqtools uses</li>
+</ul>
+</section>
+<section id="references" class="slide level2">
+<h2>References</h2>
+<div style="font-size: 0.6em;">
+<p><strong>Benchmarks (Part 1)</strong></p>
+<ul>
+<li><a href="https://agi.safe.ai/">Humanity’s Last Exam</a></li>
+<li><a href="https://arxiv.org/abs/2608.25286">Koch et al.&nbsp;2026, BixBench3</a></li>
+<li><a href="https://arxiv.org/abs/2605.28065">SpatialBench-Long</a></li>
+</ul>
+<p><strong>Bias (Part 1)</strong></p>
+<ul>
+<li><a href="https://doi.org/10.1038/s41591-025-03626-6">Omar et al.&nbsp;2025, <em>Nature Medicine</em></a>: sociodemographic biases in medical decision making by LLMs</li>
+<li><a href="https://doi.org/10.1073/pnas.2416228122">Bai et al.&nbsp;2025, <em>PNAS</em></a>: explicitly unbiased LLMs still form biased associations</li>
+</ul>
+<p><strong>Workbench demo data (Part 1)</strong></p>
+<ul>
+<li><a href="https://doi.org/10.1038/nbt.4042">Kang et al.&nbsp;2018, <em>Nature Biotechnology</em></a>, GEO: <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE96583">GSE96583</a></li>
+</ul>
+<p><strong>Sycophancy (Part 2)</strong></p>
+<ul>
+<li><a href="https://arxiv.org/abs/2310.13548">Sharma et al.&nbsp;2023</a> and <a href="https://arxiv.org/abs/2505.23840">Hong et al.&nbsp;2025</a></li>
+</ul>
+<p><strong>Skill atrophy (Part 2)</strong></p>
+<ul>
+<li><a href="https://doi.org/10.1016/S2468-1253(25)00133-5">Budzyń et al.&nbsp;2025, <em>Lancet Gastroenterol Hepatol</em></a>, <a href="https://doi.org/10.2147/AMEP.S583763">Turney et al.&nbsp;2026, <em>Adv Med Educ Pract</em></a>, and <a href="https://doi.org/10.1145/3706598.3713778">Lee et al.&nbsp;2025, <em>CHI ’25</em></a></li>
+</ul>
+</div>
 </section></section>
 <section>
 <section id="end-of-part-2" class="title-slide slide level1 center">
